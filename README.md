@@ -174,8 +174,16 @@ Parent View
             * child controls/settigs view
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+![](https://i.imgur.com/yFHTyvl.jpg)
+
+![](https://i.imgur.com/B6HDBMZ.jpg)
+
+![](https://i.imgur.com/p0oqxVr.jpg)
+
+![](https://i.imgur.com/XWgb74M.jpg)
+
+![](https://i.imgur.com/gpmPxOq.jpg)
 
 ### [BONUS] Digital Wireframes & Mockups
 
