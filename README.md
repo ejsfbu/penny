@@ -190,11 +190,84 @@ Parent View
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+Model: User
+ Property | Type | Description |
+ ------| ----| -----|
+ name | String | name of the user |
+ email| String | email address of user / login |
+ birthday | Date | to determine age of user for certain features |
+ password | String | password of account
+ BankAccounts | Array<BankAccount>| List of linked bank accounts |
+ isParent | Boolean | whether a user is a parent or not 
+ parents | Array<User> | list of user's parent users
+ children | Array<User> | list of children of user |
+ goals | Array<Goal> | list of goals made
+ inviter | Pointer: User | User who invited this user
+ allowance | Number: double | amount parents transfer to user
+ allowanceFrequency| String | how frequent allowance is given
+ badges | Array<Reward> | list of badges/rewards user has completed |
+ requireAprroval | Boolean | Whether user needs parent approval for transactions |
+ estimatedIncome | Number: double | how much user estimates a month |
+ 
+ Model: Bank Account
+ Property | Type | Description |
+ ------| ----| -----|
+ accountNumber | Long/String* | Bank account number |
+ routingNumber | Long/String* | Routing number of bank |
+ BankName | String | Official name of Bank |
+ legalName | String | Legal name on Bank account
+ 
+ Model: Goal
+ Property | Type | Description |
+ ------| ----| -----|
+ name | String | Title of Goal/object |
+ endDate| Date | set end date of goal |
+ amountSaved | Number: Double | Amount saved for this goal |
+ totalCost | Number: Double | total cost of goal/item |
+ completed | Boolean | Whether goal has been completed or not |
+ image | File | image of item/goal | 
+ autoWithdraw | Boolean | Whether autowithdraw is enabled |
+ autoWithdrawAmount | Number: Double | amount to auto withdraw |
+ shared | Boolean | whether is shared with other users |
+ SharedUsers | Array<User> | list of users who share this goal |
+ 
+ Model: Reward
+ Property | Type | Description |
+ ------| ----| -----|
+ name | String | title of goal |
+ dateCompleted | Date | when goal was completed |
+ completed | Boolean | Whether goal is completed |
+ discount | String | Discount code
+ discountCompany | String | Where discount is valid
+ 
 ### Networking
-- [Add list of network requests by screen ]
+- Log in screen
+    - (Read/GET) User authentication for log in
+- Sign up screen 
+    - (Create/Post) new user to server and authenticate
+- Home Goals List
+    - (Read/GET) List of goals and display
+- Add Goal activity
+    - (Create/POST) new goal to server
+- edit goal
+    - (Update/PUT) Update information about goals
+    - (Remove/DELETE) remove a goal from the server
+- Goal Details
+    - (Read/GET) retrieve more details about individual goal and display
+- Badges View
+    - (Read/GET) display list of rewards
+- Profile view
+    - (Read/GET) user information and display
+- Edit profile
+    - (Update/PUT) update user information 
+- Parent Home view
+    - (Read/GET) List of child users and display
+- Edit Child/Details View
+    - (Read/GET) more details about individual child
+    - (Update/PUT) change child settings
+    
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
 
