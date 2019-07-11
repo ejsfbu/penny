@@ -193,23 +193,23 @@ Parent View
 
 ### Models
 Model: User
- Property | Type | Description |
- ------| ----| -----|
- name | String | name of the user |
- email| String | email address of user / login |
- birthday | Date | to determine age of user for certain features |
- password | String | password of account
- BankAccounts | Array<BankAccount>| List of linked bank accounts |
- isParent | Boolean | whether a user is a parent or not 
- parents | Array<User> | list of user's parent users
- children | Array<User> | list of children of user |
- goals | Array<Goal> | list of goals made
- inviter | Pointer: User | User who invited this user
- allowance | Number: double | amount parents transfer to user
- allowanceFrequency| String | how frequent allowance is given
- badges | Array<Reward> | list of badges/rewards user has completed |
- requireAprroval | Boolean | Whether user needs parent approval for transactions |
- estimatedIncome | Number: double | how much user estimates a month |
+ | Property | Type | Description |
+ |------| ----| -----|
+ | name | String | name of the user |
+ | email| String | email address of user / login |
+ | birthday | Date | to determine age of user for certain features |
+ | password | String | password of account| 
+ | BankAccounts | Array<BankAccount>| List of linked bank accounts |
+ | isParent | Boolean | whether a user is a parent or not | 
+ | parents | Array<User> | list of user's parent users| 
+ | children | Array<User> | list of children of user |
+ | goals | Array<Goal> | list of goals made| 
+ | inviter | Pointer: User | User who invited this user| 
+ | allowance | Number: double | amount parents transfer to user| 
+ | allowanceFrequency| String | how frequent allowance is given| 
+ | badges | Array<Reward> | list of badges/rewards user has completed |
+ | requireAprroval | Boolean | Whether user needs parent approval for transactions |
+ | estimatedIncome | Number: double | how much user estimates a month |
  
  Model: Bank Account
  Property | Type | Description |
