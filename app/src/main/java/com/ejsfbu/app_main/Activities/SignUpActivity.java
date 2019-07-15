@@ -9,7 +9,9 @@ import com.ejsfbu.app_main.R;
 // new user can navigate to this screen from login activity
 // upon signup app will navigate to create a goal activity/fragment
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
