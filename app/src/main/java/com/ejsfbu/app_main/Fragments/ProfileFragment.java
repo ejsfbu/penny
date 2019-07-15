@@ -13,8 +13,13 @@ import android.view.ViewGroup;
 
 import com.ejsfbu.app_main.R;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class ProfileFragment extends Fragment {
 
+    // Butterknife for fragment
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +30,13 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, view);
+    }
+
+    // When change fragment unbind view
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }
