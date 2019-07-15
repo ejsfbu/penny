@@ -25,10 +25,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivities";
 
-    @BindView(R.id.etUsername) EditText etUsername;
-    @BindView(R.id.etPassword) EditText etPassword;
-    @BindView(R.id.bLogin) Button bLogin;
-    @BindView(R.id.bSignUp) Button bSignup;
+    @BindView(R.id.etUsername)
+    EditText etUsername;
+    @BindView(R.id.etPassword)
+    EditText etPassword;
+    @BindView(R.id.bLogin)
+    Button bLogin;
+    @BindView(R.id.bSignUp)
+    Button bSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

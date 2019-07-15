@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,15 +11,23 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseUser;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
+
+    @BindView(R.id.bLogOut)
+    Button bLogOut;
 
     // Butterknife for fragment
     private Unbinder unbinder;
@@ -40,5 +49,14 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.bLogOut)
+    public void onClickLogOut() {
+        ParseUser.logOut();
+
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 }
