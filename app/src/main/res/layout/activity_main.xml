@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_bottom_navigation"
+        tools:layout_editor_absoluteX="43dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
