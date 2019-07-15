@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 @ParseClassName("Goal")
 public class Goal extends ParseObject {
@@ -20,13 +21,37 @@ public class Goal extends ParseObject {
         return getString(KEY_NAME);
     }
 
+    public void setName(String name) {
+        put(KEY_NAME, name);
+    }
+
     public ParseFile getImage() {
         return getParseFile(KEY_IMAGE);
     }
 
+    public void setImage(ParseFile image) {
+        put(KEY_IMAGE, image);
+    }
+
     public Double getSaved() { return  getDouble(KEY_SAVED); }
 
+    public void setSaved(Double saved) {
+        put(KEY_SAVED, saved);
+    }
+
     public Double getCost() { return  getDouble(KEY_COST); }
+
+    public void setCost(Double cost) {
+        put(KEY_COST, cost);
+    }
+
+    public ParseUser getUser() {
+        return getParseUser(KEY_USER);
+    }
+
+    public void setUser(ParseUser user) {
+        put(KEY_USER, user);
+    }
 
     public static class Query extends ParseQuery<Goal> {
         public Query() {

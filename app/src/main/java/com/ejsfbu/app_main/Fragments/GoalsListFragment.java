@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.GoalAdapter;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
@@ -25,13 +28,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class GoalsListFragment extends Fragment {
 
     public static final String TAG = "GoalsListFragment";
 
-    @BindView(R.id.rvGoals) RecyclerView rvGoals;
+    @BindView(R.id.rvGoals)
+    RecyclerView rvGoals;
+    @BindView(R.id.fabAdd)
+    FloatingActionButton fabAdd;
 
     // Butterknife for fragment
     private Unbinder unbinder;
@@ -84,5 +91,12 @@ public class GoalsListFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @OnClick(R.id.fabAdd)
+    public void onClickAdd() {
+        Intent intent = new Intent(getContext(), AddGoalActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 }
