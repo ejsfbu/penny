@@ -55,7 +55,9 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
-
+                    final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Login Failure", Toast.LENGTH_LONG).show();
                     e.printStackTrace();

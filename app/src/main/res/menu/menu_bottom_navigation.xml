@@ -3,6 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Item"
+        android:id="@+id/miRewards"
+        android:title="Rewards"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miGoals"
+        android:title="Goals"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miProfile"
+        android:title="Profile"
+        android:visible="true"
         app:showAsAction="always" />
 </menu>
