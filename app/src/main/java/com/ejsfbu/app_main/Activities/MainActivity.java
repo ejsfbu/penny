@@ -1,7 +1,12 @@
-package com.ejsfbu.app_main;
+package com.ejsfbu.app_main.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
+import com.ejsfbu.app_main.R;
+
+// holder for tabs (goals list, badges, profile fragments)
 
 public class MainActivity extends AppCompatActivity {
 
