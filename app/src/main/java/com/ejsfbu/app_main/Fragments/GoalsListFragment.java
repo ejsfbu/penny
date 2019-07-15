@@ -14,6 +14,8 @@ import com.ejsfbu.app_main.R;
 
 public class GoalsListFragment extends Fragment {
 
+    public static final String TAG = "GoalsListFragment";
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

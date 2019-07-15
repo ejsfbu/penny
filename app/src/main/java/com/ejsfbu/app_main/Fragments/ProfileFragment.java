@@ -15,6 +15,7 @@ import com.ejsfbu.app_main.R;
 
 public class ProfileFragment extends Fragment {
 
+    public static final String TAG = "ProfileFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

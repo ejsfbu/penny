@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import butterknife.OnClick;
 // upon login app will navigate to goals list fragment in main activity
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static final String TAG = "LoginActivities";
 
     @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
@@ -55,9 +58,11 @@ public class LoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
                     Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "Login Success");
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Login Failure", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "Login Failure");
                     e.printStackTrace();
                 }
             }
