@@ -13,33 +13,32 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 // app will automatically load to this screen, unless user already logged in
 // upon login app will navigate to goals list fragment in main activity
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etUsername;
-    private EditText etPassword;
-    private Button bLogin;
+    @BindView(R.id.etUsername) EditText etUsername;
+    @BindView(R.id.etPassword) EditText etPassword;
+    @BindView(R.id.bLogin) Button bLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+    }
 
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        bLogin = findViewById(R.id.bLogin);
+    @OnClick(R.id.bLogin)
+    public void clickLogin() {
+        final String username = etUsername.getText().toString();
+        final String password = etPassword.getText().toString();
 
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String username = etUsername.getText().toString();
-                final String password = etPassword.getText().toString();
-
-                login(username, password);
-            }
-        });
+        login(username, password);
     }
 
     private void login(String username, String password) {
