@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
-    @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
 
     @Override
@@ -36,24 +37,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNavigationClick() {
-            bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-                Fragment fragment;
-                switch (item.getItemId()) {
-                    case R.id.miRewards:
-                        fragment = new BadgesFragment();
-                        break;
-                    case R.id.miGoals:
-                        fragment = new GoalsListFragment();
-                        break;
-                    case R.id.miProfile:
-                    default:
-                        fragment = new ProfileFragment();
-                        break;
-                }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                return true;
-            });
-            // Set default selection
-            bottomNavigationView.setSelectedItemId(R.id.miProfile);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            Fragment fragment;
+            switch (item.getItemId()) {
+                case R.id.miRewards:
+                    fragment = new BadgesFragment();
+                    break;
+                case R.id.miGoals:
+                    fragment = new GoalsListFragment();
+                    break;
+                case R.id.miProfile:
+                default:
+                    fragment = new ProfileFragment();
+                    break;
+            }
+            fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            return true;
+        });
+        // Set default selection
+        bottomNavigationView.setSelectedItemId(R.id.miGoals);
     }
 }

@@ -26,12 +26,18 @@ public class SignUpActivity extends AppCompatActivity {
 
     public static final String TAG = "SignUpActivity";
 
-    @BindView(R.id.etName) EditText etName;
-    @BindView(R.id.etEmail) EditText etEmail;
-    @BindView(R.id.etUsername) EditText etUsername;
-    @BindView(R.id.etPassword) EditText etPassword;
-    @BindView(R.id.etConfirmPassword) EditText etConfirmPassword;
-    @BindView(R.id.bSignUp) Button bSignUp;
+    @BindView(R.id.etName)
+    EditText etName;
+    @BindView(R.id.etEmail)
+    EditText etEmail;
+    @BindView(R.id.etUsername)
+    EditText etUsername;
+    @BindView(R.id.etPassword)
+    EditText etPassword;
+    @BindView(R.id.etConfirmPassword)
+    EditText etConfirmPassword;
+    @BindView(R.id.bSignUp)
+    Button bSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
