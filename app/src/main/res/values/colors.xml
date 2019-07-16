@@ -7,4 +7,6 @@
     <color name="Black">#000000</color>
     <color name="LightPink">#FFB6C1</color>
     <color name="LightGoldenrodYellow">#FAFAD2</color>
+    <color name="LightGreen">#9ACD32</color>
+    <color name="grey_2_70_transparent">#b3dbdbdb</color>
 </resources>
