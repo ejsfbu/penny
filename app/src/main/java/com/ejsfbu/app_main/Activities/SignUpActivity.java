@@ -130,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this, "Sign Up Success",
                             Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Sign Up Success");
-                    
+
                     Intent intent = new Intent(SignUpActivity.this,
                             MainActivity.class);
                     startActivity(intent);
