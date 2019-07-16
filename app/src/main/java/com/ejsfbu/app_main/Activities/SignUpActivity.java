@@ -15,6 +15,9 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,6 +41,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etConfirmPassword;
     @BindView(R.id.bSignUp)
     Button bSignUp;
+    @BindView(R.id.etBirthday)
+    EditText etBirthday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +58,24 @@ public class SignUpActivity extends AppCompatActivity {
         final String username = etUsername.getText().toString();
         final String password = etPassword.getText().toString();
         final String confirmPassword = etConfirmPassword.getText().toString();
+        final String birthdayString = etBirthday.getText().toString();
 
-        if (confirmPasswordsMatch(password, confirmPassword)) {
-            signUp(name, email, username, password);
+        if (confirmCorrectDateFormat(birthdayString)) {
+            final Date birthday = parseDate(birthdayString);
+            if (birthday == null) {
+                Toast.makeText(this, "Enter birthday as dd/mm/yyyy",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                if (confirmPasswordsMatch(password, confirmPassword)) {
+                    signUp(name, email, username, password, birthday);
+                } else {
+                    Toast.makeText(this, "Passwords do not match",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
         } else {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Enter birthday as dd/mm/yyyy",
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -69,12 +87,41 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void signUp(String name, String email, String username, String password) {
+    private boolean confirmCorrectDateFormat(String date) {
+        String[] pieces = date.split("/");
+        if (pieces.length != 3) {
+            return false;
+        }
+        if (pieces[0].length() != 2) {
+            return false;
+        }
+        if (pieces[1].length() != 2) {
+            return false;
+        }
+        if (pieces[2].length() != 4) {
+            return false;
+        }
+        return true;
+    }
+
+    private Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (java.text.ParseException e) {
+            Log.e(TAG, "Error parsing date");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void signUp(String name, String email, String username,
+                        String password, Date birthday) {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);
+        user.setBirthday(birthday);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
@@ -84,7 +131,8 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Sign Up Success");
 
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this,
+                            MainActivity.class);
                     startActivity(intent);
                     finish();
 
