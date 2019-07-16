@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.AddGoalActivity">
+    tools:context=".Activities.AddGoalActivity"
+    tools:visibility="visible">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/goal_name_layout"
@@ -51,11 +52,67 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="@string/add_goal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivGoalImage" />
+
+    <View
+        android:id="@+id/verticalborder"
+        android:layout_width="1dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="#CCCCCCCC"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goal_cost_layout" />
+
+    <ImageButton
+        android:id="@+id/ibCamera"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/white_button_background"
+        app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
+        app:layout_constraintEnd_toStartOf="@+id/verticalborder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/verticalborder"
+        app:srcCompat="@drawable/camera_icon" />
+
+    <ImageButton
+        android:id="@+id/ibPhotos"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/white_button_background"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toEndOf="@+id/verticalborder"
+        app:layout_constraintTop_toTopOf="@+id/verticalborder"
+        app:srcCompat="@drawable/photo_icon" />
+
+    <ImageView
+        android:id="@+id/ivGoalImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verticalborder"
+        app:srcCompat="@color/grey_7_75_transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
