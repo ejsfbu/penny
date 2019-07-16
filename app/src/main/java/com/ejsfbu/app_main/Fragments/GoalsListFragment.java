@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
-import com.ejsfbu.app_main.Activities.CreateNewGoalActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
@@ -70,7 +69,7 @@ public class GoalsListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), CreateNewGoalActivity.class);
+                Intent i = new Intent(getContext(), AddGoalActivity.class);
                 startActivity(i);
             }
         });
