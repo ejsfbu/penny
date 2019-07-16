@@ -15,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,6 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etConfirmPassword;
     @BindView(R.id.bSignUp)
     Button bSignUp;
+    @BindView(R.id.etBirthday)
+    EditText etBirthday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +57,11 @@ public class SignUpActivity extends AppCompatActivity {
         final String username = etUsername.getText().toString();
         final String password = etPassword.getText().toString();
         final String confirmPassword = etConfirmPassword.getText().toString();
+        final String birthday = etBirthday.getText().toString();
+        final Date = 
 
         if (confirmPasswordsMatch(password, confirmPassword)) {
-            signUp(name, email, username, password);
+            signUp(name, email, username, password, birthday);
         } else {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_LONG).show();
         }
@@ -69,12 +75,13 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void signUp(String name, String email, String username, String password) {
+    private void signUp(String name, String email, String username, String password, String birthday) {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
         user.setUsername(username);
         user.setPassword(password);
+        user.setBirthday(birthday);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override

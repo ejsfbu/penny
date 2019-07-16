@@ -11,4 +11,5 @@
     <string name="log_out">Log Out</string>
     <string name="goal_cost">Cost</string>
     <string name="add_goal">Add Goal</string>
+    <string name="birthday">Birthday</string>
 </resources>
