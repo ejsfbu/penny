@@ -16,7 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
-import com.ejsfbu.app_main.GoalAdapter;
+import com.ejsfbu.app_main.Activities.CreateNewGoalActivity;
+import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,7 +66,7 @@ public class GoalsListFragment extends Fragment {
         rvGoals.setLayoutManager(linearLayoutManager);
         loadGoals();
 
-        FloatingActionButton fab = view.findViewById(R.id.fab_addGoal);
+        FloatingActionButton fab = view.findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
