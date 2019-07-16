@@ -3,6 +3,8 @@ package com.ejsfbu.app_main.models;
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("User")
 public class User extends ParseUser {
 
@@ -48,7 +50,7 @@ public class User extends ParseUser {
         return getDate(KEY_BIRTHDAY).toString();
     }
 
-    public void setBirthday(String date) {
+    public void setBirthday(Date date) {
         put(KEY_BIRTHDAY, date);
     }
 
