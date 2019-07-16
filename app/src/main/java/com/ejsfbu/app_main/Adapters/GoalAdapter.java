@@ -20,6 +20,8 @@ import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseFile;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
@@ -71,8 +73,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         public void bind(Goal goal) {
             tvGoalName.setText(goal.getName());
             // format numbers with commas
-            tvSaved.setText(String.format("%,f", goal.getSaved()));
-            tvCost.setText(String.format("%,f", goal.getCost()));
+            tvSaved.setText("$" + formatDecimal(String.format("%,f", goal.getSaved())));
+            tvCost.setText("$" + formatDecimal(String.format("%,f", goal.getCost())));
             ParseFile image = goal.getImage();
             if (image != null) {
                 String imageUrl = image.getUrl();
@@ -102,11 +104,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public Double formatDouble(Double d) {
-        d = (d * 100.0);
-        //d = DecimalFormat.s
-        d /= 100.0;
-        return d;
+    // limit double to 2 decimal places
+    public static String formatDecimal(String number) {
+        //if (places < 0) throw new IllegalArgumentException();
+        int place = number.indexOf('.');
+
+        return number.substring(0, place + 3);
     }
 }
 
