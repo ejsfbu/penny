@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ejsfbu.app_main.GoalAdapter;
+import com.ejsfbu.app_main.Activities.CreateNewGoalActivity;
+import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
@@ -39,6 +42,7 @@ public class GoalsListFragment extends Fragment {
     protected GoalAdapter adapter;
     protected List<Goal> goalList;
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -56,6 +60,18 @@ public class GoalsListFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvGoals.setLayoutManager(linearLayoutManager);
         loadGoals();
+
+        FloatingActionButton fab = view.findViewById(R.id.fab_addGoal);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), CreateNewGoalActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+
     }
 
     // When change fragment unbind view
