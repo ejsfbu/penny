@@ -108,8 +108,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     }
 
     public Double formatDouble(Double d) {
-        d *= 100.0;
-        //d = (Double) Math.round(d);
+        d = (d * 100.0);
+        //d = DecimalFormat.s
         d /= 100.0;
         return d;
     }
