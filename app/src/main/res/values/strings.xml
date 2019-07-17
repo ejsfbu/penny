@@ -13,4 +13,6 @@
     <string name="add_goal">Add Goal</string>
     <string name="birthday">Birthday (dd/mm/yyyy)</string>
     <string name="end_date">End Date (dd/mm/yyyy)</string>
+    <string name="welcome_text">Welcome to *app_main*!</string>
+    <string name="welcome_detail_text">Fill out the information below to create a *app_main* account.</string>
 </resources>
