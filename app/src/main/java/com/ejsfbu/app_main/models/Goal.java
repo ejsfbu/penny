@@ -6,6 +6,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 @ParseClassName("Goal")
 public class Goal extends ParseObject {
     // Parse column names
@@ -16,6 +18,8 @@ public class Goal extends ParseObject {
     public static final String KEY_NAME = "goalName";
     public static final String KEY_SAVED = "amountSaved";
     public static final String KEY_COST = "totalCost";
+    public static final String KEY_END_DATE = "endDate";
+    public static final String KEY_COMPLETED = "completed";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -33,13 +37,17 @@ public class Goal extends ParseObject {
         put(KEY_IMAGE, image);
     }
 
-    public Double getSaved() { return  getDouble(KEY_SAVED); }
+    public Double getSaved() {
+        return getDouble(KEY_SAVED);
+    }
 
     public void setSaved(Double saved) {
         put(KEY_SAVED, saved);
     }
 
-    public Double getCost() { return  getDouble(KEY_COST); }
+    public Double getCost() {
+        return getDouble(KEY_COST);
+    }
 
     public void setCost(Double cost) {
         put(KEY_COST, cost);
@@ -51,6 +59,22 @@ public class Goal extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public String getEndDate() {
+        return getDate(KEY_END_DATE).toString();
+    }
+
+    public void setEndDate(Date endDate) {
+        put(KEY_END_DATE, endDate);
+    }
+
+    public boolean getCompleted() {
+        return getBoolean(KEY_COMPLETED);
+    }
+
+    public void setCompleted(boolean completed) {
+        put(KEY_COMPLETED, completed);
     }
 
     public static class Query extends ParseQuery<Goal> {

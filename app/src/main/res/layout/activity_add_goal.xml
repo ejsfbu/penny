@@ -47,6 +47,26 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/end_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goal_cost_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/end_date"
+            android:inputType="date" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/bAddGoal"
         android:layout_width="0dp"
@@ -68,7 +88,7 @@
         android:background="#CCCCCCCC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goal_cost_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/end_date_layout" />
 
     <ImageButton
         android:id="@+id/ibCamera"
@@ -94,7 +114,6 @@
         android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toEndOf="@+id/verticalborder"
         app:layout_constraintTop_toTopOf="@+id/verticalborder"
         app:srcCompat="@drawable/photo_icon" />

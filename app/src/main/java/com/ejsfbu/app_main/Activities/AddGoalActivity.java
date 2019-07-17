@@ -39,6 +39,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,12 +50,21 @@ public class AddGoalActivity extends AppCompatActivity {
 
     public static final String TAG = "AddGoalActivity";
 
-    @BindView(R.id.etGoalName) EditText etGoalName;
-    @BindView(R.id.etGoalCost) EditText etGoalCost;
-    @BindView(R.id.bAddGoal) Button bAddGoal;
-    @BindView(R.id.ibCamera) ImageButton ibCamera;
-    @BindView(R.id.ibPhotos) ImageButton ibPhotos;
-    @BindView(R.id.ivGoalImage) ImageView ivGoalImage;
+    @BindView(R.id.etGoalName)
+    EditText etGoalName;
+    @BindView(R.id.etGoalCost)
+    EditText etGoalCost;
+    @BindView(R.id.bAddGoal)
+    Button bAddGoal;
+    @BindView(R.id.ibCamera)
+    ImageButton ibCamera;
+    @BindView(R.id.ibPhotos)
+    ImageButton ibPhotos;
+    @BindView(R.id.ivGoalImage)
+    ImageView ivGoalImage;
+    @BindView(R.id.etEndDate)
+    EditText etEndDate;
+
     // Request codes
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -77,10 +88,50 @@ public class AddGoalActivity extends AppCompatActivity {
         }
         final String goalName = etGoalName.getText().toString();
         final Double goalPrice = Double.parseDouble(etGoalCost.getText().toString());
+        final String endDateString = etEndDate.getText().toString();
+
         final ParseFile image = new ParseFile(photoFile);
-        // save first
         image.saveInBackground();
-        addGoal(goalName, goalPrice, image);
+
+        if (confirmCorrectDateFormat(endDateString)) {
+            final Date endDate = parseDate(endDateString);
+            if (endDate == null) {
+                Toast.makeText(this, "Enter end date as dd/mm/yyyy",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                addGoal(goalName, goalPrice, endDate, image);
+            }
+        } else {
+            Toast.makeText(this, "Enter end date as dd/mm/yyyy",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private boolean confirmCorrectDateFormat(String date) {
+        String[] pieces = date.split("/");
+        if (pieces.length != 3) {
+            return false;
+        }
+        if (pieces[0].length() != 2) {
+            return false;
+        }
+        if (pieces[1].length() != 2) {
+            return false;
+        }
+        if (pieces[2].length() != 4) {
+            return false;
+        }
+        return true;
+    }
+
+    private Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+        } catch (java.text.ParseException e) {
+            Log.e(TAG, "Error parsing date");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @OnClick(R.id.ibPhotos)
@@ -119,12 +170,15 @@ public class AddGoalActivity extends AppCompatActivity {
     }
 
     // save goal in parse server
-    private void addGoal(String goalName, Double goalPrice, ParseFile image) {
+    private void addGoal(String goalName, Double goalPrice, Date endDate, ParseFile image) {
         Goal goal = new Goal();
         goal.setName(goalName);
         goal.setCost(goalPrice);
+        goal.setEndDate(endDate);
         goal.setImage(image);
         goal.setUser(ParseUser.getCurrentUser());
+        goal.setSaved(0.0);
+        goal.setCompleted(false);
 
         goal.saveInBackground(new SaveCallback() {
             @Override
@@ -258,7 +312,7 @@ public class AddGoalActivity extends AppCompatActivity {
         File mediaStorageDir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ImageUpload");
 
         // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
         }
 
@@ -289,7 +343,7 @@ public class AddGoalActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 0) {
+        if (requestCode == 0) {
             //testPost();
         }
     }

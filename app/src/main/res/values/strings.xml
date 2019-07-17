@@ -12,4 +12,5 @@
     <string name="goal_cost">Cost</string>
     <string name="add_goal">Add Goal</string>
     <string name="birthday">Birthday (dd/mm/yyyy)</string>
+    <string name="end_date">End Date (dd/mm/yyyy)</string>
 </resources>
