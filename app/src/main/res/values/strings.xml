@@ -15,4 +15,7 @@
     <string name="end_date">End Date (dd/mm/yyyy)</string>
     <string name="welcome_text">Welcome to *app_main*!</string>
     <string name="welcome_detail_text">Fill out the information below to create a *app_main* account.</string>
+    <string name="completed_goals">Completed Goals</string>
+    <string name="completed_badges">Completed Badges</string>
+    <string name="in_progress_badges">In Progress Badges</string>
 </resources>

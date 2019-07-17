@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,17 +82,13 @@ public class GoalsListFragment extends Fragment {
         // set up query
         final Goal.Query goalsQuery = new Goal.Query();
         // Add Query specifications
-        goalsQuery.getTop().withUser().orderByDescending(Goal.KEY_CREATED_AT);
+        goalsQuery.getTopCreated();
         goalsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
                 if (e == null) {
                     goalList.addAll(objects);
                     adapter.notifyDataSetChanged();
-                    goalsLoaded = objects.size();
-                    for (int i = 0; i < objects.size(); i++) {
-                        Log.d(TAG, "Post{" + i + "}: " + objects.get(i).getName());
-                    }
                 } else {
                     e.printStackTrace();
                 }

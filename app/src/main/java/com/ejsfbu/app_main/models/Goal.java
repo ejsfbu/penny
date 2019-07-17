@@ -20,6 +20,7 @@ public class Goal extends ParseObject {
     public static final String KEY_COST = "totalCost";
     public static final String KEY_END_DATE = "endDate";
     public static final String KEY_COMPLETED = "completed";
+    public static final String KEY_DATE_COMPLETED = "dateCompleted";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -77,24 +78,38 @@ public class Goal extends ParseObject {
         put(KEY_COMPLETED, completed);
     }
 
+    public String getDateCompleted() {
+        return getDate(KEY_DATE_COMPLETED).toString();
+    }
+
+    public void setDateCompleted(Date date) {
+        put(KEY_DATE_COMPLETED, date);
+    }
+
     public static class Query extends ParseQuery<Goal> {
         public Query() {
             super(Goal.class);
         }
 
-        public Query getTop() {
+        public Query getTopCreated() {
             setLimit(20);
+            orderByDescending(KEY_CREATED_AT);
             return this;
         }
 
-        public Query setTop(int top) {
-            setLimit(top);
+        public Query getTopCompleted() {
+            setLimit(20);
+            orderByDescending(KEY_DATE_COMPLETED);
             return this;
         }
-
 
         public Query withUser() {
             include("user");
+            return this;
+        }
+
+        public Query areCompleted() {
+            whereEqualTo(KEY_COMPLETED, true);
             return this;
         }
     }
