@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
+import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,14 +35,16 @@ public class GoalsListFragment extends Fragment {
 
     public static final String TAG = "GoalsListFragment";
 
-    @BindView(R.id.rvGoals)
-    RecyclerView rvGoals;
-    @BindView(R.id.fabAdd)
-    FloatingActionButton fabAdd;
+    @BindView(R.id.rvGoals) RecyclerView rvGoals;
+    @BindView(R.id.fabAdd) FloatingActionButton fabAdd;
 
     // Butterknife for fragment
     private Unbinder unbinder;
     private Context context;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private LinearLayoutManager linearLayoutManager;
+    // keep track of how many goals have been loaded
+    private int goalsLoaded;
     protected GoalAdapter adapter;
     protected List<Goal> goalList;
 
@@ -60,21 +63,12 @@ public class GoalsListFragment extends Fragment {
         goalList = new ArrayList<>();
         adapter = new GoalAdapter(context, goalList);
         rvGoals.setAdapter(adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getContext());
         rvGoals.setLayoutManager(linearLayoutManager);
         loadGoals();
-
-        FloatingActionButton fab = view.findViewById(R.id.fabAdd);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), AddGoalActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-
+        setListeners();
+        // Adds the scroll listener to RecyclerView
+        rvGoals.addOnScrollListener(scrollListener);
     }
 
     // When change fragment unbind view
@@ -107,5 +101,47 @@ public class GoalsListFragment extends Fragment {
         Intent intent = new Intent(getContext(), AddGoalActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    private void setListeners() {
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(page);
+            }
+        };
+
+        fabAdd.setOnClickListener(view -> {
+            Intent i = new Intent(getContext(), AddGoalActivity.class);
+            startActivity(i);
+        });
+    }
+
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    public void loadNextDataFromApi(int offset) {
+        Log.d("data", String.valueOf(offset));
+        // set up query
+        final Goal.Query postsQuery = new Goal.Query();
+        // Add Query specifications
+        postsQuery.setTop(goalsLoaded + 20).withUser().orderByDescending(Goal.KEY_CREATED_AT).setSkip(goalsLoaded);
+        postsQuery.findInBackground(new FindCallback<Goal>() {
+            @Override
+            public void done(List<Goal> objects, ParseException e) {
+                if (e == null) {
+                    goalList.addAll(objects);
+                    adapter.notifyDataSetChanged();
+                    goalsLoaded += objects.size();
+                    for (int i = 0; i < objects.size(); i++) {
+                        Log.d(TAG, "Post{" + i + "}: " + objects.get(i).getName());
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
