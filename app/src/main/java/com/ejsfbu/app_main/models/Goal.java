@@ -103,6 +103,11 @@ public class Goal extends ParseObject {
             return this;
         }
 
+        public Query setTop(int top) {
+            setLimit(top);
+            return this;
+        }
+
         public Query withUser() {
             include("user");
             return this;
