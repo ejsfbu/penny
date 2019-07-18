@@ -17,10 +17,6 @@ import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
-<<<<<<< HEAD
-import java.util.ArrayList;
-=======
->>>>>>> 460436187b4200c24d7a091abddf984ebbdd57ea
 import java.util.List;
 
 import butterknife.BindView;
