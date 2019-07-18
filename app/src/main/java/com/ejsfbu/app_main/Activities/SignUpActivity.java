@@ -16,7 +16,6 @@ import com.ejsfbu.app_main.Fragments.SignupNameFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.text.SimpleDateFormat;
