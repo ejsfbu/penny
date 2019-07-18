@@ -324,7 +324,7 @@ public class AddGoalActivity extends AppCompatActivity {
         return file;
     }
 
-    private void requestPerms() {
+    public void requestPerms() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)

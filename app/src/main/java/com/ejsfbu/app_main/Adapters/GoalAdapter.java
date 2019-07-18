@@ -81,9 +81,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 imageUrl = imageUrl.substring(4);
                 imageUrl = "https" + imageUrl;
                 RequestOptions options = new RequestOptions();
-                options.placeholder(R.color.colorPrimary)
+                options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .error(R.color.colorPrimary)
+                        .error(R.drawable.ic_iconfinder_icons_user_1564534)
                         .transform(new CenterCrop())
                         .transform(new CircleCrop());
                 Glide.with(context)

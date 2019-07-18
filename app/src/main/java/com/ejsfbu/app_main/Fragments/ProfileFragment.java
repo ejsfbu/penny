@@ -28,6 +28,7 @@ import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.EditFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUserNameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
@@ -105,7 +106,7 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.ivProfileImage)
     public void onClickEditImage() {
-
+        showEditImageDialog();
     }
 
     private void showEditNameDialog() {
@@ -132,6 +133,12 @@ public class ProfileFragment extends Fragment {
         editPasswordDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_password");
     }
 
+    private void showEditImageDialog() {
+        ///FragmentManager fm = getSupportFragmentManager();
+        EditProfileImageDialogFragment editProfileImageDialogFragment = EditProfileImageDialogFragment.newInstance("Edit Password");
+        editProfileImageDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_profileimage");
+    }
+
     // Load user data
     private void loadProfileData() {
         ParseFile image = user.getParseFile("profileImage");
@@ -140,9 +147,9 @@ public class ProfileFragment extends Fragment {
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.color.colorPrimary)
+            options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.color.colorPrimary)
+                    .error(R.drawable.ic_iconfinder_icons_user_1564534)
                     .transform(new CenterCrop())
                     .transform(new CircleCrop());
             Glide.with(context)
