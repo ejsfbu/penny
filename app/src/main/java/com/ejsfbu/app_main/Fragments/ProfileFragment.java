@@ -90,7 +90,7 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.ibEditUserName)
     public void onClickEditUserName() {
-        showEditUserNameDialog();
+        showEditUsernameDialog();
     }
 
     @OnClick(R.id.ibEditEmail)
@@ -114,10 +114,10 @@ public class ProfileFragment extends Fragment {
         editNameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_name");
     }
 
-    private void showEditUserNameDialog() {
+    private void showEditUsernameDialog() {
         ///FragmentManager fm = getSupportFragmentManager();
-        EditUsernameDialogFragment editUserNameDialogFragment = EditUsernameDialogFragment.newInstance("Edit User Name");
-        editUserNameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_username");
+        EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
+        editUsernameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_username");
     }
 
     private void showEditEmailDialog() {
