@@ -1,10 +1,14 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,8 +24,7 @@ import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseFile;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Date;
 import java.util.List;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
@@ -37,7 +40,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.goal_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_goal, parent, false);
         return new ViewHolder(view);
 
     }
@@ -56,8 +59,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivGoalImage;
         private TextView tvGoalName;
-        private TextView tvSaved;
-        private TextView tvCost;
+        private TextView tvEndDate;
+        private TextView tvPercentDone;
+        private ProgressBar pbPercentDone;
         private ConstraintLayout root;
 
         // TODO put spannable for description and make username bold and clickable and share button
@@ -65,16 +69,26 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             super(itemView);
             ivGoalImage = itemView.findViewById(R.id.ivGoalImage);
             tvGoalName = itemView.findViewById(R.id.tvGoalName);
-            tvSaved = itemView.findViewById(R.id.tvSave);
-            tvCost = itemView.findViewById(R.id.tvCost);
+            tvEndDate = itemView.findViewById(R.id.tvEndDate);
+            tvPercentDone = itemView.findViewById(R.id.tvPercentDone);
+            pbPercentDone = itemView.findViewById(R.id.pbPercentDone);
             root = itemView.findViewById(R.id.root);
         }
 
         public void bind(Goal goal) {
             tvGoalName.setText(goal.getName());
-            // format numbers with commas
-            tvSaved.setText("$" + formatDecimal(String.format("%,f", goal.getSaved())));
-            tvCost.setText("$" + formatDecimal(String.format("%,f", goal.getCost())));
+
+            Date endDate = goal.getEndDate();
+            if (endDate != null) {
+                String endDateString = endDate.toString();
+                tvEndDate.setText("by " + formatDateString(endDateString));
+            }
+
+            Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
+            tvPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+            pbPercentDone.setProgress((int) percentDone.doubleValue());
+            pbPercentDone.getProgressDrawable().setTint(context.getResources().getColor(R.color.money_green));
+
             ParseFile image = goal.getImage();
             if (image != null) {
                 String imageUrl = image.getUrl();
@@ -91,6 +105,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         .apply(options) // Extra: round image corners
                         .into(ivGoalImage);
             }
+        }
+
+        public String formatDateString(String date) {
+            String[] datePieces = date.split(" ");
+            return datePieces[1] + " " + datePieces[2] + ", " + datePieces[datePieces.length - 1];
+
         }
     }
 

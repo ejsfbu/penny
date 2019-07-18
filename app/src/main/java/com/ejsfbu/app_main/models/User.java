@@ -13,6 +13,7 @@ public class User extends ParseUser {
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_BIRTHDAY = "birthday";
+    public static final String KEY_ISPARENT = "isParent";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -54,4 +55,9 @@ public class User extends ParseUser {
         put(KEY_BIRTHDAY, date);
     }
 
+    public Boolean getisParent() { return getBoolean(KEY_ISPARENT);}
+
+    public void setisParent(Boolean isParent) {
+        put(KEY_ISPARENT, isParent);
+    }
 }
