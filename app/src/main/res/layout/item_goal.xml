@@ -5,19 +5,20 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="visible">
 
     <ImageView
         android:id="@+id/ivGoalImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/black" />
+        app:srcCompat="@drawable/ic_iconfinder_target_3827997" />
 
     <TextView
         android:id="@+id/tvGoalName"
@@ -26,8 +27,10 @@
         android:layout_marginStart="8dp"
         android:text="Goal Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@+id/ivGoalImage"
         app:layout_constraintStart_toEndOf="@+id/ivGoalImage"
-        app:layout_constraintTop_toTopOf="@+id/ivGoalImage" />
+        app:layout_constraintTop_toTopOf="@+id/ivGoalImage"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/border"
@@ -40,42 +43,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivGoalImage" />
 
-    <TextView
-        android:id="@+id/tvSaveText"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/pbPercentDone"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Saved:"
-        android:textColor="@android:color/black"
-        app:layout_constraintStart_toEndOf="@+id/ivGoalImage"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivGoalImage"
+        app:layout_constraintEnd_toStartOf="@+id/tvPercentDone"
+        app:layout_constraintStart_toStartOf="@+id/tvGoalName"
         app:layout_constraintTop_toBottomOf="@+id/tvGoalName" />
 
     <TextView
-        android:id="@+id/tvSave"
+        android:id="@+id/tvPercentDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/tvSaveText"
-        app:layout_constraintTop_toTopOf="@+id/tvSaveText" />
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pbPercentDone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pbPercentDone" />
 
     <TextView
-        android:id="@+id/tvCostText"
+        android:id="@+id/tvEndDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Total Cost:"
-        android:textColor="@android:color/black"
-        app:layout_constraintStart_toEndOf="@+id/tvSave"
-        app:layout_constraintTop_toTopOf="@+id/tvSave" />
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvGoalName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvGoalName" />
 
-    <TextView
-        android:id="@+id/tvCost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/tvCostText"
-        app:layout_constraintTop_toTopOf="@+id/tvCostText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

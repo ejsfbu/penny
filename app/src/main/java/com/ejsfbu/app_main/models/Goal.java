@@ -62,8 +62,8 @@ public class Goal extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public String getEndDate() {
-        return getDate(KEY_END_DATE).toString();
+    public Date getEndDate() {
+        return getDate(KEY_END_DATE);
     }
 
     public void setEndDate(Date endDate) {
@@ -91,9 +91,9 @@ public class Goal extends ParseObject {
             super(Goal.class);
         }
 
-        public Query getTopCreated() {
+        public Query getTopByEndDate() {
             setLimit(20);
-            orderByDescending(KEY_CREATED_AT);
+            orderByDescending(KEY_END_DATE);
             return this;
         }
 
@@ -105,6 +105,7 @@ public class Goal extends ParseObject {
 
         public Query setTop(int top) {
             setLimit(top);
+            orderByDescending(KEY_END_DATE);
             return this;
         }
 
@@ -115,6 +116,16 @@ public class Goal extends ParseObject {
 
         public Query areCompleted() {
             whereEqualTo(KEY_COMPLETED, true);
+            return this;
+        }
+
+        public Query areNotCompleted() {
+            whereEqualTo(KEY_COMPLETED, false);
+            return this;
+        }
+
+        public Query fromUser() {
+            whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
             return this;
         }
     }
