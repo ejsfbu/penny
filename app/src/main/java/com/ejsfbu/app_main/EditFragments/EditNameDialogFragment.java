@@ -3,6 +3,7 @@ package com.ejsfbu.app_main.EditFragments;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -112,9 +114,26 @@ public class EditNameDialogFragment extends DialogFragment {
         });
     }
 
+    // fill name fields depending on user's name
     private void fillData() {
         String fullName = user.get("name").toString();
         String arr[] = fullName.split(" ");
+        switch (arr.length) {
+            case 1:
+                etFirstName.setText(arr[0]);
+                break;
+            case 2:
+                etFirstName.setText(arr[0]);
+                etLastName.setText(arr[1]);
+                break;
+            case 3:
+                etFirstName.setText(arr[0]);
+                etLastName.setText(arr[2]);
+                etMiddleInitial.setText(arr[1]);
+                break;
+            default:
+                Log.d("Name", fullName);
 
+        }
     }
 }

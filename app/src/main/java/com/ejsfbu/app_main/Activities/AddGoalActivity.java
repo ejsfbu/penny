@@ -8,6 +8,7 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -136,6 +137,7 @@ public class AddGoalActivity extends AppCompatActivity {
 
     @OnClick(R.id.ibPhotos)
     public void OnClickPhotos() {
+        requestPerms();
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -153,7 +155,7 @@ public class AddGoalActivity extends AppCompatActivity {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference to access to future access
-        photoFile = getPhotoFileUri(photoFileName);
+        photoFile = getPhotoFileUri(photoFileName, this);
 
         // wrap File object into a content provider
         // required for API >= 24
@@ -208,7 +210,7 @@ public class AddGoalActivity extends AppCompatActivity {
         if (requestCode == PICK_PHOTO_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri photoUri = data.getData();
-                photoFile = new File(getRealPathFromURI(photoUri));
+                photoFile = new File(getRealPathFromURI(photoUri, this));
                 // by this point we have the camera photo on disk
                 // Write the bytes of the bitmap to file
                 Bitmap selectedImage = null;
@@ -221,7 +223,7 @@ public class AddGoalActivity extends AppCompatActivity {
                     // Compress the image further
                     resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
                     // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
-                    File resizedFile = getPhotoFileUri(photoFileName + "_resized");
+                    File resizedFile = getPhotoFileUri(photoFileName + "_resized", this);
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
                     fos.write(bytes.toByteArray());
@@ -237,13 +239,13 @@ public class AddGoalActivity extends AppCompatActivity {
         }
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
+                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName, this));
                 Bitmap rotatedBitmap = rotateBitmapOrientation(takenPhotoUri.getPath());
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rotatedBitmap, 200);
                 Bitmap cropImg = Bitmap.createBitmap(resizedBitmap, 0, 0, 200, 200);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 cropImg.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                File resizedFile = getPhotoFileUri(photoFileName + "_resized");
+                File resizedFile = getPhotoFileUri(photoFileName + "_resized", this);
                 try {
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
@@ -262,7 +264,7 @@ public class AddGoalActivity extends AppCompatActivity {
         }
     }
 
-    public Bitmap rotateBitmapOrientation(String photoFilePath) {
+    public static Bitmap rotateBitmapOrientation(String photoFilePath) {
         // Create and configure BitmapFactory
         BitmapFactory.Options bounds = new BitmapFactory.Options();
         bounds.inJustDecodeBounds = true;
@@ -290,9 +292,9 @@ public class AddGoalActivity extends AppCompatActivity {
         return rotatedBitmap;
     }
 
-    private String getRealPathFromURI(Uri contentURI) {
+    public static String getRealPathFromURI(Uri contentURI, Context context) {
         String result;
-        Cursor cursor = this.getContentResolver().query(contentURI, null, null, null, null);
+        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) { // Source is Dropbox or other similar local file path
             result = contentURI.getPath();
         } else {
@@ -305,11 +307,11 @@ public class AddGoalActivity extends AppCompatActivity {
     }
 
     // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
+    public static File getPhotoFileUri(String fileName, Context context) {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
         // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ImageUpload");
+        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ImageUpload");
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
