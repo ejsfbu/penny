@@ -124,6 +124,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         super.onResume();
     }
 
+    // load user profile image
     private void fillData() {
         ParseFile image = user.getParseFile("profileImage");
         if (image != null) {
@@ -206,39 +207,6 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         });
     }
 
-    public void OnClickPhotos() {
-        requestPerms();
-        // Create intent for picking a photo from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
-        }
-    }
-
-    public void OnClickCamera() {
-        // create Intent to take a picture and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Create a File reference to access to future access
-        photoFile = AddGoalActivity.getPhotoFileUri(photoFileName, context);
-
-        // wrap File object into a content provider
-        // required for API >= 24
-        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(context, "com.codepath.fileprovider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            // Start the image capture intent to take photo
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
-    }
     // TODO try to write once
     // handle result of photo choosing
     @Override
@@ -298,6 +266,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
             }
         }
     }
+
     public void requestPerms() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(context,
