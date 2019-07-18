@@ -66,10 +66,11 @@ public class GoalsListFragment extends Fragment {
         rvGoals.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvGoals.setLayoutManager(linearLayoutManager);
-        loadGoals();
         setListeners();
         // Adds the scroll listener to RecyclerView
         rvGoals.addOnScrollListener(scrollListener);
+
+        loadGoals();
     }
 
     // When change fragment unbind view
@@ -83,12 +84,15 @@ public class GoalsListFragment extends Fragment {
         // set up query
         final Goal.Query goalsQuery = new Goal.Query();
         // Add Query specifications
-        goalsQuery.getTopCreated();
+        goalsQuery.getTopByEndDate()
+                .areNotCompleted()
+                .fromUser();
         goalsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
                 if (e == null) {
                     goalList.addAll(objects);
+                    goalsLoaded = 20;
                     adapter.notifyDataSetChanged();
                 } else {
                     e.printStackTrace();
@@ -124,21 +128,25 @@ public class GoalsListFragment extends Fragment {
     // Append the next page of data into the adapter
     // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi(int offset) {
+        if (adapter.getItemCount() < goalsLoaded) {
+            return;
+        }
         Log.d("data", String.valueOf(offset));
         // set up query
         final Goal.Query postsQuery = new Goal.Query();
         // Add Query specifications
-        postsQuery.setTop(goalsLoaded + 20).withUser().orderByDescending(Goal.KEY_CREATED_AT).setSkip(goalsLoaded);
+        postsQuery.setTop(goalsLoaded + 20)
+                .areNotCompleted()
+                .fromUser();
+                //.setSkip(goalsLoaded);
         postsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
                 if (e == null) {
+                    goalList.clear();
                     goalList.addAll(objects);
                     adapter.notifyDataSetChanged();
                     goalsLoaded += objects.size();
-                    for (int i = 0; i < objects.size(); i++) {
-                        Log.d(TAG, "Post{" + i + "}: " + objects.get(i).getName());
-                    }
                 } else {
                     e.printStackTrace();
                 }
