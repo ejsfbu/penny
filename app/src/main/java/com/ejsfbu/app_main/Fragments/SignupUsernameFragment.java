@@ -76,7 +76,7 @@ public class SignupUsernameFragment extends Fragment {
                 if (e == null) {
                     if (objects.size() == 0) {
                         etUsername.setTextColor(SignupUsernameFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_light));
+                                .getColor(android.R.color.holo_green_dark));
                         usernameUnique = true;
                     } else {
                         etUsername.setTextColor(SignupUsernameFragment.this.getResources()

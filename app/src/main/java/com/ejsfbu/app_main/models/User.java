@@ -6,7 +6,7 @@ import com.parse.ParseUser;
 
 import java.util.Date;
 
-@ParseClassName("User")
+@ParseClassName("_User")
 public class User extends ParseUser {
 
     public static final String KEY_NAME = "name";

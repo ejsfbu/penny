@@ -17,6 +17,7 @@ import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,11 +79,11 @@ public class SignupEmailFragment extends Fragment {
                 if (e == null) {
                     if (objects.size() == 0) {
                         etEmail.setTextColor(SignupEmailFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_light));
+                                .getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     } else {
                         etEmail.setTextColor(SignupEmailFragment.this.getResources()
-                        .getColor(android.R.color.holo_red_dark));
+                                .getColor(android.R.color.holo_red_dark));
                         emailUnique = false;
                     }
                 } else {
