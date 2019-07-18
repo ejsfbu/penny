@@ -17,10 +17,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.ejsfbu.app_main.Fragments.SignupEmailFragment;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
+
+import butterknife.OnTextChanged;
 
 public class EditEmailDialogFragment extends DialogFragment {
     // View objects
@@ -29,6 +36,7 @@ public class EditEmailDialogFragment extends DialogFragment {
     private Button bCancel;
     private Context context;
     private ParseUser user;
+    private boolean emailUnique;
 
     public EditEmailDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -90,6 +98,11 @@ public class EditEmailDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
+            if (!emailUnique) {
+                Toast.makeText(getContext(), "Email is already associated with an account",
+                        Toast.LENGTH_LONG);
+                return;
+            }
             user.put("email",  etEmail.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
@@ -103,6 +116,31 @@ public class EditEmailDialogFragment extends DialogFragment {
                     }
                 }
             });
+        });
+    }
+
+    @OnTextChanged(R.id.etEmail)
+    public void checkEmailUnique() {
+        String email = etEmail.getText().toString();
+        User.Query userQuery = new User.Query();
+        userQuery.testEmail(email);
+        userQuery.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.size() == 0) {
+                        etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
+                                .getColor(android.R.color.holo_green_dark));
+                        emailUnique = true;
+                    } else {
+                        etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
+                                .getColor(android.R.color.holo_red_dark));
+                        emailUnique = false;
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 }

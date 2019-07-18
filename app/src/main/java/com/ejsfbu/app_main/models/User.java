@@ -1,11 +1,12 @@
 package com.ejsfbu.app_main.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
 
-@ParseClassName("User")
+@ParseClassName("_User")
 public class User extends ParseUser {
 
     public static final String KEY_NAME = "name";
@@ -59,5 +60,21 @@ public class User extends ParseUser {
 
     public void setisParent(Boolean isParent) {
         put(KEY_ISPARENT, isParent);
+    }
+
+    public static class Query extends ParseQuery<User> {
+        public Query() {
+            super(User.class);
+        }
+
+        public Query testUsername(String username) {
+            whereEqualTo(KEY_USERNAME, username);
+            return this;
+        }
+
+        public Query testEmail(String email) {
+            whereEqualTo(KEY_EMAIL, email);
+            return this;
+        }
     }
 }

@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +28,7 @@ import com.ejsfbu.app_main.EditFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
-import com.ejsfbu.app_main.EditFragments.EditUserNameDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -91,7 +90,7 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.ibEditUserName)
     public void onClickEditUserName() {
-        showEditUserNameDialog();
+        showEditUsernameDialog();
     }
 
     @OnClick(R.id.ibEditEmail)
@@ -115,10 +114,10 @@ public class ProfileFragment extends Fragment {
         editNameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_name");
     }
 
-    private void showEditUserNameDialog() {
+    private void showEditUsernameDialog() {
         ///FragmentManager fm = getSupportFragmentManager();
-        EditUserNameDialogFragment editUserNameDialogFragment = EditUserNameDialogFragment.newInstance("Edit User Name");
-        editUserNameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_username");
+        EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
+        editUsernameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_username");
     }
 
     private void showEditEmailDialog() {

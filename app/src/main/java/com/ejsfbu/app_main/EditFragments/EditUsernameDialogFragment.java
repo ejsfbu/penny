@@ -18,26 +18,33 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class EditUserNameDialogFragment extends DialogFragment {
+import java.util.List;
+
+import butterknife.OnTextChanged;
+
+public class EditUsernameDialogFragment extends DialogFragment {
     // View objects
-    private EditText etUserName;
+    private EditText etUsername;
     private Button bConfirm;
     private Button bCancel;
     private Context context;
     private ParseUser user;
+    private boolean usernameUnique;
 
-    public EditUserNameDialogFragment() {
+    public EditUsernameDialogFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static EditUserNameDialogFragment newInstance(String title) {
-        EditUserNameDialogFragment frag = new EditUserNameDialogFragment();
+    public static EditUsernameDialogFragment newInstance(String title) {
+        EditUsernameDialogFragment frag = new EditUsernameDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -56,15 +63,15 @@ public class EditUserNameDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         // Get field from view
-        etUserName = view.findViewById(R.id.etUserName);
+        etUsername = view.findViewById(R.id.etUserName);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
-        etUserName.setText(user.getUsername());
+        etUsername.setText(user.getUsername());
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        etUserName.requestFocus();
+        etUsername.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
@@ -90,7 +97,11 @@ public class EditUserNameDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            user.put("username",  etUserName.getText().toString());
+            if (!usernameUnique) {
+                Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG);
+                return;
+            }
+            user.put("username", etUsername.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -103,6 +114,31 @@ public class EditUserNameDialogFragment extends DialogFragment {
                     }
                 }
             });
+        });
+    }
+
+    @OnTextChanged(R.id.etUsername)
+    public void checkUsernameUnique() {
+        String username = etUsername.getText().toString();
+        User.Query userQuery = new User.Query();
+        userQuery.testUsername(username);
+        userQuery.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.size() == 0) {
+                        etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
+                                .getColor(android.R.color.holo_green_dark));
+                        usernameUnique = true;
+                    } else {
+                        etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
+                                .getColor(android.R.color.holo_red_dark));
+                        usernameUnique = false;
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 }
