@@ -1,11 +1,5 @@
 package com.ejsfbu.app_main.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -26,6 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.R;
@@ -81,30 +81,50 @@ public class AddGoalActivity extends AppCompatActivity {
 
     @OnClick(R.id.bAddGoal)
     public void onClickAddGoal() {
-        if (photoFile == null || ivGoalImage.getDrawable() == null) {
-            Log.e(TAG, "no photo");
-            Toast.makeText(this, "No photo uploaded", Toast.LENGTH_SHORT).show();
+
+        final String goalName = etGoalName.getText().toString();
+        if (goalName.equals("")) {
+            Toast.makeText(this, "Please enter a goal name", Toast.LENGTH_LONG).show();
             return;
         }
-        final String goalName = etGoalName.getText().toString();
+
+        final String goalPriceString = etGoalCost.getText().toString();
+        if (goalPriceString.equals("")) {
+            Toast.makeText(this, "Please enter a goal price", Toast.LENGTH_LONG).show();
+            return;
+        }
         final Double goalPrice = Double.parseDouble(etGoalCost.getText().toString());
+
+
         final String endDateString = etEndDate.getText().toString();
+        if (endDateString.equals("")) {
+            Toast.makeText(this, "Please enter an end date", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-        final ParseFile image = new ParseFile(photoFile);
-        image.saveInBackground();
-
+        final Date endDate;
         if (confirmCorrectDateFormat(endDateString)) {
-            final Date endDate = parseDate(endDateString);
+            endDate = parseDate(endDateString);
             if (endDate == null) {
                 Toast.makeText(this, "Enter end date as dd/mm/yyyy",
                         Toast.LENGTH_LONG).show();
-            } else {
-                addGoal(goalName, goalPrice, endDate, image);
+                return;
             }
         } else {
             Toast.makeText(this, "Enter end date as dd/mm/yyyy",
                     Toast.LENGTH_LONG).show();
+            return;
         }
+
+        if (photoFile == null || ivGoalImage.getDrawable() == null) {
+            Toast.makeText(this, "Please upload or take a photo", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final ParseFile image = new ParseFile(photoFile);
+        image.saveInBackground();
+
+        addGoal(goalName, goalPrice, endDate, image);
     }
 
     private boolean confirmCorrectDateFormat(String date) {

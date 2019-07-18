@@ -93,7 +93,7 @@ public class Goal extends ParseObject {
 
         public Query getTopByEndDate() {
             setLimit(20);
-            orderByDescending(KEY_END_DATE);
+            orderByAscending(KEY_END_DATE);
             return this;
         }
 
@@ -105,7 +105,7 @@ public class Goal extends ParseObject {
 
         public Query setTop(int top) {
             setLimit(top);
-            orderByDescending(KEY_END_DATE);
+            orderByAscending(KEY_END_DATE);
             return this;
         }
 
