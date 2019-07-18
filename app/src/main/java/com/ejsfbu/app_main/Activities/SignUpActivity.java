@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.text.SimpleDateFormat;
@@ -29,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     public static final String TAG = "SignUpActivity";
 
-    @BindView(R.id.etName)
+    @BindView(R.id.etFirstName)
     EditText etName;
     @BindView(R.id.etEmail)
     EditText etEmail;

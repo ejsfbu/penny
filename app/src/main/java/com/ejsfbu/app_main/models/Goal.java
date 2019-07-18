@@ -92,7 +92,6 @@ public class Goal extends ParseObject {
             return this;
         }
 
-
         public Query withUser() {
             include("user");
             return this;
