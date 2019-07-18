@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.ProfileFragment">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/bLogOut"
         android:layout_width="0dp"
@@ -37,82 +23,80 @@
         android:id="@+id/ibEditName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_name"
+        app:layout_constraintTop_toTopOf="@+id/view2"
         app:srcCompat="@drawable/edit_icon_box" />
 
     <ImageButton
         android:id="@+id/ibEditUserName"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
         android:background="#00FFFFFF"
         android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="@+id/ibEditName"
-        app:layout_constraintTop_toBottomOf="@+id/ibEditName"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_username"
+        app:layout_constraintTop_toTopOf="@+id/tv_profile_username"
         app:srcCompat="@drawable/edit_icon" />
 
     <ImageButton
         android:id="@+id/ibEditEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ibEditUserName"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_email"
+        app:layout_constraintTop_toTopOf="@+id/tv_profile_email"
         app:srcCompat="@drawable/edit_icon_box" />
 
     <ImageButton
         android:id="@+id/ibEditPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ibEditEmail"
+        app:layout_constraintStart_toEndOf="@+id/tv_profile_password"
+        app:layout_constraintTop_toTopOf="@+id/tv_profile_password"
         app:srcCompat="@drawable/edit_icon_box" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_profile_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="Edit Name"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditName"
-        app:layout_constraintTop_toTopOf="@+id/ibEditName" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_profile_username"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="Edit username"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditUserName"
-        app:layout_constraintTop_toTopOf="@+id/ibEditUserName" />
+        app:layout_constraintStart_toStartOf="@+id/tv_profile_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_profile_email"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="Edit email"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditEmail"
-        app:layout_constraintTop_toTopOf="@+id/ibEditEmail" />
+        app:layout_constraintStart_toStartOf="@+id/tv_profile_username"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_username" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_profile_password"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="Edit password"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditPassword"
-        app:layout_constraintTop_toTopOf="@+id/ibEditPassword" />
+        app:layout_constraintStart_toStartOf="@+id/tv_profile_email"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_email" />
 
 
     <androidx.cardview.widget.CardView
