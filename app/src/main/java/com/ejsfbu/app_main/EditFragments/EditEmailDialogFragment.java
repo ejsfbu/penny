@@ -28,6 +28,7 @@ public class EditEmailDialogFragment extends DialogFragment {
     private Button bConfirm;
     private Button bCancel;
     private Context context;
+    private ParseUser user;
 
     public EditEmailDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -53,10 +54,12 @@ public class EditEmailDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        user = ParseUser.getCurrentUser();
         // Get field from view
         etEmail = view.findViewById(R.id.etEmail);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+        etEmail.setText(user.getEmail());
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Email");
         getDialog().setTitle(title);
@@ -87,7 +90,6 @@ public class EditEmailDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            ParseUser user = ParseUser.getCurrentUser();
             user.put("email",  etEmail.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override

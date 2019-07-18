@@ -30,6 +30,7 @@ public class EditPasswordDialogFragment  extends DialogFragment {
     private Button bConfirm;
     private Button bCancel;
     private Context context;
+    private ParseUser user;
 
     public EditPasswordDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -55,6 +56,7 @@ public class EditPasswordDialogFragment  extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        user = ParseUser.getCurrentUser();
         // Get field from view
         etPassword = view.findViewById(R.id.etPassword);
         etConfirmPassword = view.findViewById(R.id.etConfirmPassword);
@@ -93,8 +95,8 @@ public class EditPasswordDialogFragment  extends DialogFragment {
             if (!confirmPasswordsMatch(etPassword.getText().toString(), etConfirmPassword.getText().toString())) {
                 Toast.makeText(context, "Passwords do not match.",
                         Toast.LENGTH_LONG).show();
+                return;
             }
-            ParseUser user = ParseUser.getCurrentUser();
             user.put("password",  etPassword.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override

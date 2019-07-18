@@ -30,6 +30,7 @@ public class EditNameDialogFragment extends DialogFragment {
     private Button bConfirm;
     private Button bCancel;
     private Context context;
+    private ParseUser user;
 
     public EditNameDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -55,12 +56,14 @@ public class EditNameDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        user = ParseUser.getCurrentUser();
         // Get field from view
         etFirstName = view.findViewById(R.id.etFirstName);
         etMiddleInitial = view.findViewById(R.id.etMiddleInitial);
         etLastName = view.findViewById(R.id.etLastName);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+        fillData();
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
@@ -94,7 +97,6 @@ public class EditNameDialogFragment extends DialogFragment {
             String name = etFirstName.getText().toString() + " "
                     + etMiddleInitial.getText().toString() + " "
                     + etLastName.getText().toString();
-            ParseUser user = ParseUser.getCurrentUser();
             user.put("name",  name);
             user.saveInBackground(new SaveCallback() {
                 @Override
@@ -108,5 +110,11 @@ public class EditNameDialogFragment extends DialogFragment {
                 }
             });
         });
+    }
+
+    private void fillData() {
+        String fullName = user.get("name").toString();
+        String arr[] = fullName.split(" ");
+
     }
 }

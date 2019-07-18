@@ -28,6 +28,7 @@ public class EditUserNameDialogFragment extends DialogFragment {
     private Button bConfirm;
     private Button bCancel;
     private Context context;
+    private ParseUser user;
 
     public EditUserNameDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -53,10 +54,12 @@ public class EditUserNameDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        user = ParseUser.getCurrentUser();
         // Get field from view
         etUserName = view.findViewById(R.id.etUserName);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+        etUserName.setText(user.getUsername());
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
@@ -87,7 +90,6 @@ public class EditUserNameDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            ParseUser user = ParseUser.getCurrentUser();
             user.put("username",  etUserName.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
