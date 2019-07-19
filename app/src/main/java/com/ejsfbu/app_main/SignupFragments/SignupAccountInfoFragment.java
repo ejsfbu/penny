@@ -52,8 +52,10 @@ public class SignupAccountInfoFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_signup_account_info, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_signup_account_info,
+                container, false);
     }
 
     @Override
@@ -64,23 +66,35 @@ public class SignupAccountInfoFragment extends Fragment {
     @OnClick(R.id.bSignup)
     public void clickSignUp() {
 
+        final String email = etEmail.getText().toString();
+        if (email.equals("")) {
+            Toast.makeText(getContext(), "Please enter an email", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (!emailUnique) {
             Toast.makeText(getContext(), "Email is already associated with an account",
                     Toast.LENGTH_LONG).show();
             return;
         }
-        final String email = etEmail.getText().toString();
         user.setEmail(email);
 
+        final String username = etUsername.getText().toString();
+        if (username.equals("")) {
+            Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (!usernameUnique) {
             Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG).show();
             return;
         }
-        final String username = etUsername.getText().toString();
         user.setUsername(username);
 
         final String password = etPassword.getText().toString();
         final String confirmPassword = etConfirmPassword.getText().toString();
+        if (password.equals("") || confirmPassword.equals("")) {
+            Toast.makeText(getContext(), "Please enter a password", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (confirmPasswordsMatch(password, confirmPassword)) {
             user.setPassword(password);
             user.signUpInBackground(new SignUpCallback() {

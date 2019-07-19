@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.ejsfbu.app_main.Fragments.SignupBirthdayFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,7 +65,8 @@ public class SignupPersonalInfoFragment extends Fragment {
 
         final String firstName = etFirstName.getText().toString();
         if (firstName.equals("")) {
-            Toast.makeText(getContext(), "Please enter a first name", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please enter a first name",
+                    Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -80,21 +82,34 @@ public class SignupPersonalInfoFragment extends Fragment {
         user.setName(name);
 
         final String birthdayString = etBirthday.getText().toString();
+        if (birthdayString.equals("")) {
+            Toast.makeText(getContext(), "Please enter your birthday",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         if (confirmCorrectDateFormat(birthdayString)) {
             final Date birthday = parseDate(birthdayString);
             if (birthday == null) {
-                Toast.makeText(getContext(), "Enter birthday as mm/dd/yyyy", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Enter birthday as mm/dd/yyyy",
+                        Toast.LENGTH_LONG).show();
+                return;
             } else {
                 user.setBirthday(birthday);
                 Fragment email = new SignupAccountInfoFragment();
-                getFragmentManager().beginTransaction().replace(R.id.flSignUpContainer, email).commit();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.flSignUpContainer, email)
+                        .commit();
             }
         } else {
-            Toast.makeText(getContext(), "Enter birthday as mm/dd/yyyy", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Enter birthday as mm/dd/yyyy",
+                    Toast.LENGTH_LONG).show();
+            return;
         }
 
         Fragment accountInfoFragment = new SignupAccountInfoFragment();
-        getFragmentManager().beginTransaction().replace(R.id.flSignUpContainer, accountInfoFragment).commit();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.flSignUpContainer, accountInfoFragment)
+                .commit();
     }
 
     @OnClick(R.id.bDate)
