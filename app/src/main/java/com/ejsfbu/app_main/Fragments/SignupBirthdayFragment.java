@@ -1,13 +1,10 @@
 package com.ejsfbu.app_main.Fragments;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -17,12 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.SignUpActivity;
-import com.ejsfbu.app_main.EditFragments.DatePickerFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignupFragments.SignupAccountInfoFragment;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;

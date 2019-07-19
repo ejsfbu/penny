@@ -66,14 +66,14 @@ public class SignupAccountInfoFragment extends Fragment {
 
         if (!emailUnique) {
             Toast.makeText(getContext(), "Email is already associated with an account",
-                    Toast.LENGTH_LONG);
+                    Toast.LENGTH_LONG).show();
             return;
         }
         final String email = etEmail.getText().toString();
         user.setEmail(email);
 
         if (!usernameUnique) {
-            Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG);
+            Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG).show();
             return;
         }
         final String username = etUsername.getText().toString();

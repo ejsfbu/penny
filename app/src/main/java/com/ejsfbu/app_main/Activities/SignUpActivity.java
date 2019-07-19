@@ -13,6 +13,7 @@ import com.ejsfbu.app_main.Fragments.SignupBirthdayFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;
+
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -44,7 +45,7 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
         Log.d(TAG, String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
 
         String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth) + "/" + formatDate(year);
-        SignupBirthdayFragment.etBirthday.setText(date);
+        SignupPersonalInfoFragment.etBirthday.setText(date);
     }
 
     // adds the 0 in front of days/months below 10
