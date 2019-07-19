@@ -2,6 +2,7 @@ package com.ejsfbu.app_main.Activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,9 +29,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.BitmapScaler;
+import com.ejsfbu.app_main.Fragments.DatePickerFragment;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -41,13 +46,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddGoalActivity extends AppCompatActivity {
+public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     public static final String TAG = "AddGoalActivity";
 
@@ -65,6 +71,8 @@ public class AddGoalActivity extends AppCompatActivity {
     ImageView ivGoalImage;
     @BindView(R.id.etEndDate)
     EditText etEndDate;
+    @BindView(R.id.bDate)
+    ImageButton bDate;
 
     // Request codes
     private final static int PICK_PHOTO_CODE = 1046;
@@ -72,12 +80,19 @@ public class AddGoalActivity extends AppCompatActivity {
     // needed values
     private File photoFile;
     public String photoFileName = "photo.jpg";
+    private static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal);
         ButterKnife.bind(this);
+        fragmentManager = getSupportFragmentManager();
+    }
+
+    @OnClick(R.id.bDate)
+    public void onClickDate() {
+        showDatePickerDialog();
     }
 
     @OnClick(R.id.bAddGoal)
@@ -107,12 +122,12 @@ public class AddGoalActivity extends AppCompatActivity {
         if (confirmCorrectDateFormat(endDateString)) {
             endDate = parseDate(endDateString);
             if (endDate == null) {
-                Toast.makeText(this, "Enter end date as dd/mm/yyyy",
+                Toast.makeText(this, "Enter end date as mm/dd/yyyy",
                         Toast.LENGTH_LONG).show();
                 return;
             }
         } else {
-            Toast.makeText(this, "Enter end date as dd/mm/yyyy",
+            Toast.makeText(this, "Enter end date as mm/dd/yyyy",
                     Toast.LENGTH_LONG).show();
             return;
         }
@@ -147,7 +162,7 @@ public class AddGoalActivity extends AppCompatActivity {
 
     private Date parseDate(String date) {
         try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            return new SimpleDateFormat("MM/dd/yyyy").parse(date);
         } catch (java.text.ParseException e) {
             Log.e(TAG, "Error parsing date");
             e.printStackTrace();
@@ -368,5 +383,36 @@ public class AddGoalActivity extends AppCompatActivity {
         if (requestCode == 0) {
             //testPost();
         }
+    }
+
+    // attach to an onclick handler to show the date picker
+    public void showDatePickerDialog() {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(fragmentManager, "datePicker");
+    }
+
+    // handle the date selected
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // store the values selected into a Calendar instance
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        Log.d(TAG, String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+
+        String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth) + "/" + formatDate(year);
+        etEndDate.setText(date);
+    }
+
+    // adds the 0 in front of days/months below 10
+    public static String formatDate(int dayOrMonth) {
+        String date;
+        if (dayOrMonth < 10) {
+            date = "0" + dayOrMonth;
+        } else {
+            date = String.valueOf(dayOrMonth);
+        }
+        return date;
     }
 }
