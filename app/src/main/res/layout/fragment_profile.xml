@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/tv_profile_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_parent_name"
         app:layout_constraintTop_toTopOf="@+id/view2"
         app:srcCompat="@drawable/edit_icon_box" />
 
@@ -73,7 +73,7 @@
         app:srcCompat="@drawable/edit_icon_box" />
 
     <TextView
-        android:id="@+id/tv_profile_name"
+        android:id="@+id/tv_parent_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -88,8 +88,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Edit username"
-        app:layout_constraintStart_toStartOf="@+id/tv_profile_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_profile_name" />
+        app:layout_constraintStart_toStartOf="@+id/tv_parent_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_parent_name" />
 
     <TextView
         android:id="@+id/tv_profile_email"
@@ -105,7 +105,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Edit password"
+        android:text="************"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_email"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_email" />
 
@@ -135,21 +135,23 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="**Bank Information**"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toStartOf="@+id/lvParents"
+        app:layout_constraintTop_toBottomOf="@+id/lvParents" />
 
     <ListView
-        android:layout_width="395dp"
-        android:layout_height="186dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="134dp" />
+        android:id="@+id/lvParents"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_profile_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
