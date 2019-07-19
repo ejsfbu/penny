@@ -12,11 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;
-
 import java.util.Calendar;
-
-// new user can navigate to this screen from login activity
-// upon signup app will navigate to create a goal activity/fragment
 
 public class SignUpActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
