@@ -19,6 +19,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/bRefer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/white_button_background"
+        android:text="refer"
+        app:layout_constraintBottom_toTopOf="@+id/bLogOut"
+        app:layout_constraintEnd_toEndOf="@+id/bLogOut"
+        app:layout_constraintStart_toStartOf="@+id/bLogOut" />
+
     <ImageButton
         android:id="@+id/ibEditName"
         android:layout_width="wrap_content"
@@ -119,5 +130,26 @@
             android:scaleType="fitXY"
             app:srcCompat="@drawable/ic_iconfinder_icons_user_1564534"></ImageView>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="**Bank Information**"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+
+    <ListView
+        android:layout_width="395dp"
+        android:layout_height="186dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="134dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
