@@ -21,4 +21,7 @@
     <string name="or">OR</string>
     <string name="parent_sign_up">Parent Sign Up</string>
     <string name="parent_question">Are you a parent? Sign up here!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="next">Next</string>
 </resources>
