@@ -17,6 +17,8 @@ public class User extends ParseUser {
     public static final String KEY_BIRTHDAY = "birthday";
     public static final String KEY_ISPARENT = "isParent";
     public static final String KEY_CHILDREN = "children";
+    public static final String KEY_PARENTS = "parents";
+    public static final String KEY_NEEDS_PARENT = "needsParent";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -64,8 +66,20 @@ public class User extends ParseUser {
         put(KEY_ISPARENT, isParent);
     }
 
+    public boolean getNeedsParent() {
+        return getBoolean(KEY_NEEDS_PARENT);
+    }
+
+    public void setNeedsParent(boolean needsParent) {
+        put(KEY_NEEDS_PARENT, needsParent);
+    }
+
     public void addChild(User child) {
         addAllUnique(KEY_CHILDREN, Collections.singleton(child));
+    }
+
+    public void addParent(User parent) {
+        addAllUnique(KEY_PARENTS, Collections.singleton(parent));
     }
 
     public static class Query extends ParseQuery<User> {

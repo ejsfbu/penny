@@ -21,6 +21,7 @@ import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.util.List;
@@ -104,9 +105,7 @@ public class SignupParentFragment extends Fragment {
             return;
         }
         getChildFromCode(childCode);
-        if (child != null) {
-            user.addChild(child);
-        } else {
+        if (child == null) {
             return;
         }
 
@@ -148,6 +147,10 @@ public class SignupParentFragment extends Fragment {
                         Toast.makeText(getActivity(), "Sign Up Success",
                                 Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Sign Up Success");
+
+                        User parent = (User) ParseUser.getCurrentUser();
+                        child.addParent(parent);
+                        child.setNeedsParent(false);
 
                         Intent intent = new Intent(getActivity(),
                                 MainActivity.class);
@@ -238,6 +241,8 @@ public class SignupParentFragment extends Fragment {
                     child = null;
                 } else {
                     child = objects.get(0);
+                    user.addChild(child);
+
                 }
             }
         });
