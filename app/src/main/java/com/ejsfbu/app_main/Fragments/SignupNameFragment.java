@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,9 +24,10 @@ import static com.ejsfbu.app_main.Activities.SignUpActivity.user;
 
 public class SignupNameFragment extends Fragment {
 
-    @BindView(R.id.etName)
-    EditText etName;
-
+    @BindView(R.id.etFirstName)
+    EditText etFirstName;
+    @BindView(R.id.etLastName)
+    EditText etLastName;
     @BindView(R.id.name_next_btn)
     Button name_next_btn;
 
@@ -46,9 +48,20 @@ public class SignupNameFragment extends Fragment {
 
     @OnClick(R.id.name_next_btn)
     public void onClickNext() {
-        final String name = etName.getText().toString();
+        final String firstName = etFirstName.getText().toString();
+        if (firstName.equals("")) {
+            Toast.makeText(getContext(), "Please enter a first name", Toast.LENGTH_LONG);
+            return;
+        }
+        final String lastName = etLastName.getText().toString();
+        final String name;
+        if (lastName.equals("")) {
+            name = firstName;
+        } else {
+            name = firstName + " " + lastName;
+        }
         user.setName(name);
-        //TODO -- Note to team: Should we track the birthday of parents? Is it necessary?
+
         Fragment birthday = new SignupBirthdayFragment();
         getFragmentManager().beginTransaction().replace(R.id.flSignUpContainer, birthday).commit();
     }
