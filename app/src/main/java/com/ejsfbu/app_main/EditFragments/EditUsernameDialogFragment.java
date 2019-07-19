@@ -80,6 +80,19 @@ public class EditUsernameDialogFragment extends DialogFragment {
         etUsername.addTextChangedListener(textChanged);
     }
 
+    // Defines the listener interface
+    public interface EditUserNameDialogListener {
+        void onFinishEditDialog();
+    }
+
+    // Call this method to send the data back to the parent fragment
+    public void sendBackResult() {
+        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
+        EditUserNameDialogListener listener = (EditUserNameDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        listener.onFinishEditDialog();
+        dismiss();
+    }
+
     public void onResume() {
         // Store access variables for window and blank point
         Window window = getDialog().getWindow();
@@ -110,7 +123,7 @@ public class EditUsernameDialogFragment extends DialogFragment {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "Username changed successfully.", Toast.LENGTH_SHORT).show();
-                        dismiss();
+                        sendBackResult();
                     } else {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();

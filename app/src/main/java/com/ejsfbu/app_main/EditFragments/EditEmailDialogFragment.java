@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
@@ -80,6 +81,19 @@ public class EditEmailDialogFragment extends DialogFragment {
         etEmail.addTextChangedListener(textChanged);
     }
 
+    // Defines the listener interface
+    public interface EditEmailDialogListener {
+        void onFinishEditDialog();
+    }
+
+    // Call this method to send the data back to the parent fragment
+    public void sendBackResult() {
+        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
+        EditEmailDialogListener listener = (EditEmailDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        listener.onFinishEditDialog();
+        dismiss();
+    }
+
     public void onResume() {
         // Store access variables for window and blank point
         Window window = getDialog().getWindow();
@@ -111,7 +125,7 @@ public class EditEmailDialogFragment extends DialogFragment {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "Email changed successfully.", Toast.LENGTH_SHORT).show();
-                        dismiss();
+                        sendBackResult();
                     } else {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();

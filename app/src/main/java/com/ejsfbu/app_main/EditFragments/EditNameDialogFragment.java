@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.Activities.LoginActivity;
+import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -76,6 +77,20 @@ public class EditNameDialogFragment extends DialogFragment {
         setOnClick();
     }
 
+    // Defines the listener interface
+    public interface EditNameDialogListener {
+        void onFinishEditDialog();
+    }
+
+    // Call this method to send the data back to the parent fragment
+    public void sendBackResult() {
+        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
+        EditNameDialogListener listener = (EditNameDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        listener.onFinishEditDialog();
+        dismiss();
+    }
+
+
     public void onResume() {
         // Store access variables for window and blank point
         Window window = getDialog().getWindow();
@@ -105,7 +120,7 @@ public class EditNameDialogFragment extends DialogFragment {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "Name changed successfully.", Toast.LENGTH_SHORT).show();
-                        dismiss();
+                        sendBackResult();
                     } else {
                         e.printStackTrace();
                     }
