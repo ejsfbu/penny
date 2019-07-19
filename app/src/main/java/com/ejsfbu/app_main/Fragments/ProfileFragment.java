@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -48,7 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements EditEmailDialogFragment.EditEmailDialogListener, EditNameDialogFragment.EditNameDialogListener {
 
     public static final String TAG = "ProfileFragment";
     public List<User> parents;
@@ -200,4 +201,11 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    // This is called when the dialog is completed and the results have been passed
+    @Override
+    public void onFinishEditDialog() {
+        loadProfileData();
+    }
+
 }
