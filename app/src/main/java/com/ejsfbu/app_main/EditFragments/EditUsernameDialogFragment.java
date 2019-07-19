@@ -3,6 +3,8 @@ package com.ejsfbu.app_main.EditFragments;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -75,6 +77,7 @@ public class EditUsernameDialogFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
+        etUsername.addTextChangedListener(textChanged);
     }
 
     public void onResume() {
@@ -98,7 +101,7 @@ public class EditUsernameDialogFragment extends DialogFragment {
 
         bConfirm.setOnClickListener(view -> {
             if (!usernameUnique) {
-                Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG);
+                Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG).show();
                 return;
             }
             user.put("username", etUsername.getText().toString());
@@ -117,7 +120,6 @@ public class EditUsernameDialogFragment extends DialogFragment {
         });
     }
 
-    @OnTextChanged(R.id.etUsername)
     public void checkUsernameUnique() {
         String username = etUsername.getText().toString();
         User.Query userQuery = new User.Query();
@@ -131,9 +133,15 @@ public class EditUsernameDialogFragment extends DialogFragment {
                                 .getColor(android.R.color.holo_green_dark));
                         usernameUnique = true;
                     } else {
-                        etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
-                                .getColor(android.R.color.holo_red_dark));
-                        usernameUnique = false;
+                        if (username.equals(user.getUsername())) {
+                            etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
+                                    .getColor(android.R.color.holo_green_dark));
+                            usernameUnique = true;
+                        } else {
+                            etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
+                                    .getColor(android.R.color.holo_red_dark));
+                            usernameUnique = false;
+                        }
                     }
                 } else {
                     e.printStackTrace();
@@ -141,4 +149,16 @@ public class EditUsernameDialogFragment extends DialogFragment {
             }
         });
     }
+
+    private final TextWatcher textChanged = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            checkUsernameUnique();
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
 }

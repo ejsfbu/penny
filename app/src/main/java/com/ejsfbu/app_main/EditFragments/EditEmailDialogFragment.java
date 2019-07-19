@@ -3,6 +3,8 @@ package com.ejsfbu.app_main.EditFragments;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -75,6 +77,7 @@ public class EditEmailDialogFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
+        etEmail.addTextChangedListener(textChanged);
     }
 
     public void onResume() {
@@ -99,7 +102,7 @@ public class EditEmailDialogFragment extends DialogFragment {
         bConfirm.setOnClickListener(view -> {
             if (!emailUnique) {
                 Toast.makeText(getContext(), "Email is already associated with an account",
-                        Toast.LENGTH_LONG);
+                        Toast.LENGTH_LONG).show();
                 return;
             }
             user.put("email",  etEmail.getText().toString());
@@ -118,7 +121,6 @@ public class EditEmailDialogFragment extends DialogFragment {
         });
     }
 
-    @OnTextChanged(R.id.etEmail)
     public void checkEmailUnique() {
         String email = etEmail.getText().toString();
         User.Query userQuery = new User.Query();
@@ -132,9 +134,14 @@ public class EditEmailDialogFragment extends DialogFragment {
                                 .getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     } else {
+                        if (email.equals(user.getEmail())) {
+                            etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
+                                    .getColor(android.R.color.holo_red_dark));
+                            emailUnique = false;
+                        }
                         etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
-                                .getColor(android.R.color.holo_red_dark));
-                        emailUnique = false;
+                                .getColor(android.R.color.holo_green_dark));
+                        emailUnique = true;
                     }
                 } else {
                     e.printStackTrace();
@@ -142,4 +149,16 @@ public class EditEmailDialogFragment extends DialogFragment {
             }
         });
     }
+
+    private final TextWatcher textChanged = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            checkEmailUnique();
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
 }
