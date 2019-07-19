@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

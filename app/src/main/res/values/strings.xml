@@ -18,4 +18,12 @@
     <string name="completed_goals">Completed Goals</string>
     <string name="completed_badges">Completed Badges</string>
     <string name="in_progress_badges">In Progress Badges</string>
+    <string name="or">OR</string>
+    <string name="parent_sign_up">Parent Sign Up</string>
+    <string name="parent_question">Are you a parent? Sign up here!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="next">Next</string>
+    <string name="personal_info">Personal Information</string>
+    <string name="account_info">Account Information</string>
 </resources>
