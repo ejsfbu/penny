@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -25,14 +26,18 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Adapters.ParentDisplayAdapter;
 import com.ejsfbu.app_main.EditFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUserNameDialogFragment;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +57,7 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.tv_profile_password) TextView password;
     @BindView(R.id.tv_parent_name) TextView name;
     @BindView(R.id.tv_profile_email)TextView email;
+    @BindView(R.id.lvParents) ListView lvParents;
 
 
     // Butterknife for fragment
@@ -62,7 +68,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment98
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
@@ -169,6 +175,17 @@ public class ProfileFragment extends Fragment {
         System.out.println("start" + user.getString("password") + "end");
         password.setText(user.getString("password"));
 
+
+        // Construct the data source
+        ArrayList<User> arrayOfParents = new ArrayList<User>();
+
+
+        //TODO ADD THE PARENTS
+
+        // Create the adapter to convert the array to views
+        ParentDisplayAdapter adapter = new ParentDisplayAdapter(getContext(), arrayOfParents);
+        // Attach the adapter to a ListView
+        lvParents.setAdapter(adapter);
     }
 
     @Override
