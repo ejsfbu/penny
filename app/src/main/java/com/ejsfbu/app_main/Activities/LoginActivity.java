@@ -33,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     Button bLogin;
     @BindView(R.id.bSignUp)
     Button bSignUp;
+    @BindView(R.id.bParentSignUp)
+    Button bParentSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,14 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.bSignUp)
     public void clickSignUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.putExtra("isParent", false);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.bParentSignUp)
+    public void clickParentSignUp() {
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.putExtra("isParent", true);
         startActivity(intent);
     }
 
