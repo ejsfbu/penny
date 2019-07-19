@@ -44,7 +44,6 @@ public class SignupPersonalInfoFragment extends Fragment {
 
     private Unbinder unbinder;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class SignupPersonalInfoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         etBirthday = view.findViewById(R.id.etBirthday);
     }
-
 
     @OnClick(R.id.bNext)
     public void onClickNext() {

@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.SignupFragments.SignupParentFragment;
 import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;
 import java.util.Calendar;
 
-public class SignUpActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class SignUpActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener{
 
     public static final String TAG = "SignUpActivity";
     public static FragmentManager fragmentManager;
@@ -24,12 +26,21 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        user = new User();
 
+        user = new User();
         fragmentManager = getSupportFragmentManager();
 
-        Fragment personalInfoFragment = new SignupPersonalInfoFragment();
-        fragmentManager.beginTransaction().replace(R.id.flSignUpContainer, personalInfoFragment).commit();
+        if (getIntent().getBooleanExtra("isParent", false)) {
+            user.setIsParent(true);
+            Fragment parentSignupFragment = new SignupParentFragment();
+            fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
+                    parentSignupFragment).commit();
+        } else {
+            user.setIsParent(false);
+            Fragment personalInfoFragment = new SignupPersonalInfoFragment();
+            fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
+                    personalInfoFragment).commit();
+        }
     }
 
     // handle the date selected
@@ -42,7 +53,8 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         Log.d(TAG, String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
 
-        String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth) + "/" + formatDate(year);
+        String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth)
+                + "/" + formatDate(year);
         SignupPersonalInfoFragment.etBirthday.setText(date);
     }
 
