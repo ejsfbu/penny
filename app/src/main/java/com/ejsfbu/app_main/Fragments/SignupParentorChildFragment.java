@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,14 +44,14 @@ public class SignupParentorChildFragment extends Fragment {
     @OnClick(R.id.parent_btn)
     public void onClickParent() {
         user.setisParent(true);
-        Fragment name = new SignupNameFragment();
+        Fragment name = new SignupPersonalInfoFragment();
         getFragmentManager().beginTransaction().replace(R.id.flSignUpContainer, name).commit();
     }
 
     @OnClick(R.id.child_btn)
     public void onClickChild() {
         user.setisParent(false);
-        Fragment name = new SignupNameFragment();
+        Fragment name = new SignupPersonalInfoFragment();
         getFragmentManager().beginTransaction().replace(R.id.flSignUpContainer, name).commit();
     }
 
