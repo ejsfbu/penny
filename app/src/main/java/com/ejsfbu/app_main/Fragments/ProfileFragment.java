@@ -49,7 +49,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProfileFragment extends Fragment implements EditEmailDialogFragment.EditEmailDialogListener, EditNameDialogFragment.EditNameDialogListener {
+public class ProfileFragment extends Fragment implements EditEmailDialogFragment.EditEmailDialogListener, EditNameDialogFragment.EditNameDialogListener,
+        EditProfileImageDialogFragment.EditProfileImageDialogListener, EditUsernameDialogFragment.EditUserNameDialogListener {
 
     public static final String TAG = "ProfileFragment";
     public List<User> parents;
@@ -179,6 +180,10 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
         username.setText(user.getUsername());
         email.setText(user.getEmail());
         name.setText(user.getString("name"));
+    }
+
+    //TODO implement when we have parent list
+    private void setParentList() {
         //TODO test once we have a list of parents for a child user
         User.Query parentals = new User.Query();
         parentals.whereEqualTo("username", user.getUsername());

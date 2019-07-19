@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.Activities.LoginActivity;
+import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -84,7 +85,7 @@ public class EditNameDialogFragment extends DialogFragment {
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        EditNameDialogListener listener = (EditNameDialogListener) getTargetFragment();
+        EditNameDialogListener listener = (EditNameDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
         listener.onFinishEditDialog();
         dismiss();
     }
