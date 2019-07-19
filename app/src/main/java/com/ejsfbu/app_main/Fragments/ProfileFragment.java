@@ -36,18 +36,12 @@ import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.ParseApp;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
-<<<<<<< HEAD
 import com.parse.FindCallback;
-=======
->>>>>>> b764fb2effad1f605a08dca6da9522e18fa80a1e
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
-=======
->>>>>>> b764fb2effad1f605a08dca6da9522e18fa80a1e
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -184,8 +178,6 @@ public class ProfileFragment extends Fragment {
         username.setText(user.getUsername());
         email.setText(user.getEmail());
         name.setText(user.getString("name"));
-        System.out.println("start" + user.getString("password") + "end");
-        password.setText(user.getString("password"));
         //TODO test once we have a list of parents for a child user
         User.Query parentals = new User.Query();
         parentals.whereEqualTo("username", user.getUsername());

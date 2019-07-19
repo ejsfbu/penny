@@ -16,9 +16,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseFile;
-
-import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
 
 public class ParentDisplayAdapter extends ArrayAdapter<User> {
