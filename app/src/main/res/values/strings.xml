@@ -24,4 +24,6 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="next">Next</string>
+    <string name="personal_info">Personal Information</string>
+    <string name="account_info">Account Information</string>
 </resources>
