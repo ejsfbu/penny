@@ -8,10 +8,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.Fragments.SignupGetStarted;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;
-
-// new user can navigate to this screen from login activity
-// upon signup app will navigate to create a goal activity/fragment
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -27,8 +25,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
-        Fragment getStarted = new SignupGetStarted();
-        fragmentManager.beginTransaction().replace(R.id.flSignUpContainer, getStarted).commit();
+        Fragment personalInfoFragment = new SignupPersonalInfoFragment();
+        fragmentManager.beginTransaction().replace(R.id.flSignUpContainer, personalInfoFragment).commit();
     }
 
 
