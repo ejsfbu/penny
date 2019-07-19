@@ -31,13 +31,9 @@ import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
-import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
     @BindView(R.id.tv_profile_username) TextView username;
     @BindView(R.id.tv_profile_password) TextView password;
-    @BindView(R.id.tv_profile_name) TextView name;
+    @BindView(R.id.tv_parent_name) TextView name;
     @BindView(R.id.tv_profile_email)TextView email;
 
 
