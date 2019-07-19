@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,15 @@ import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
+import com.ejsfbu.app_main.ParseApp;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
+import com.parse.FindCallback;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +51,7 @@ import butterknife.Unbinder;
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
+    public List<User> parents;
 
     @BindView(R.id.bLogOut) Button bLogOut;
     @BindView(R.id.ibEditName) ImageButton ibName;
@@ -77,6 +82,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
         user = ParseUser.getCurrentUser();
+        parents = new ArrayList<>();
         loadProfileData();
     }
 
@@ -176,15 +182,21 @@ public class ProfileFragment extends Fragment {
         password.setText(user.getString("password"));
 
 
-        // Construct the data source
-        ArrayList<User> arrayOfParents = new ArrayList<User>();
-
-
-        //TODO ADD THE PARENTS
-
-        // Create the adapter to convert the array to views
-        ParentDisplayAdapter adapter = new ParentDisplayAdapter(getContext(), arrayOfParents);
-        // Attach the adapter to a ListView
+        //TODO test once we have a list of parents for a child user
+        User.Query parentals = new User.Query();
+        parentals.whereEqualTo("username", user.getUsername());
+        parentals.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> users, com.parse.ParseException e) {
+                if (e == null) {
+                    parents = users.get(0).getList("parents");
+                } else {
+                    Log.e("ParentQueryIssue", "Trouble finding parents!");
+                    e.printStackTrace();
+                }
+            }
+        });
+        ParentDisplayAdapter adapter = new ParentDisplayAdapter(getContext(), parents);
         lvParents.setAdapter(adapter);
     }
 

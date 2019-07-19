@@ -18,10 +18,11 @@ import com.ejsfbu.app_main.models.User;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ParentDisplayAdapter extends ArrayAdapter<User> {
 
-    public ParentDisplayAdapter(Context context, ArrayList<User> users) {
+    public ParentDisplayAdapter(Context context, List<User> users) {
         super(context, 0, users);
     }
 
