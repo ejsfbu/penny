@@ -29,7 +29,6 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.SignUpActivity.user;
 
-
 public class SignupPersonalInfoFragment extends Fragment {
 
     public static final String TAG = "SignupPersonalInfoFrag";
