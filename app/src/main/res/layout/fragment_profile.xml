@@ -34,31 +34,33 @@
         android:id="@+id/ibEditName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/tv_parent_name"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_parent_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_parent_name"
         app:srcCompat="@drawable/edit_icon_box" />
 
     <ImageButton
         android:id="@+id/ibEditUserName"
-        app:layout_constraintStart_toStartOf="@+id/ibEditName"
-        app:layout_constraintTop_toBottomOf="@+id/ibEditName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
         android:background="#00FFFFFF"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_profile_username"
+        app:layout_constraintStart_toStartOf="@+id/ibEditName"
+        app:layout_constraintTop_toTopOf="@+id/tv_profile_username"
         app:srcCompat="@drawable/edit_icon_box" />
 
     <ImageButton
         android:id="@+id/ibEditEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/tv_profile_email"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_profile_email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_profile_email"
         app:srcCompat="@drawable/edit_icon_box" />
 
@@ -66,9 +68,10 @@
         android:id="@+id/ibEditPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="#00FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/tv_profile_password"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_profile_password"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_profile_password"
         app:srcCompat="@drawable/edit_icon_box" />
 
@@ -77,8 +80,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/text_view_background"
         android:text="Edit Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toStartOf="@+id/ibEditName"
         app:layout_constraintStart_toEndOf="@+id/view2"
         app:layout_constraintTop_toTopOf="@+id/view2" />
 
@@ -87,7 +93,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/text_view_background"
         android:text="Edit username"
+        app:layout_constraintEnd_toStartOf="@+id/ibEditUserName"
         app:layout_constraintStart_toStartOf="@+id/tv_parent_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_parent_name" />
 
@@ -96,7 +105,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/text_view_background"
         android:text="Edit email"
+        app:layout_constraintEnd_toStartOf="@+id/ibEditEmail"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_username"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_username" />
 
@@ -105,7 +117,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="************"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/text_view_background"
+        android:text="Change Password"
+        app:layout_constraintEnd_toStartOf="@+id/ibEditPassword"
         app:layout_constraintStart_toStartOf="@+id/tv_profile_email"
         app:layout_constraintTop_toBottomOf="@+id/tv_profile_email" />
 
