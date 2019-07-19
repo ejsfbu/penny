@@ -56,7 +56,9 @@ public class User extends ParseUser {
         put(KEY_BIRTHDAY, date);
     }
 
-    public Boolean getisParent() { return getBoolean(KEY_ISPARENT);}
+    public Boolean getisParent() {
+        return getBoolean(KEY_ISPARENT);
+    }
 
     public void setisParent(Boolean isParent) {
         put(KEY_ISPARENT, isParent);
