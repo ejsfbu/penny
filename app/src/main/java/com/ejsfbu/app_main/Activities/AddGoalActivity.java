@@ -80,7 +80,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     // needed values
     private File photoFile;
     public String photoFileName = "photo.jpg";
-    private static FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
