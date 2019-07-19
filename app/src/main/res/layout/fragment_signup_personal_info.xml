@@ -94,4 +94,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/bDate"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:adjustViewBounds="true"
+        android:background="#00FFFFFF"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/birthday_layout"
+        app:layout_constraintBottom_toBottomOf="@id/birthday_layout"
+        app:srcCompat="@drawable/calendar_color" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

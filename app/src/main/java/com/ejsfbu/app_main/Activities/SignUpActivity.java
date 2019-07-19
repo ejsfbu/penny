@@ -3,25 +3,23 @@ package com.ejsfbu.app_main.Activities;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.ejsfbu.app_main.EditFragments.DatePickerFragment;
 import com.ejsfbu.app_main.Fragments.SignupBirthdayFragment;
-import com.ejsfbu.app_main.Fragments.SignupGetStarted;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;
+
 import java.util.Calendar;
 
 // new user can navigate to this screen from login activity
 // upon signup app will navigate to create a goal activity/fragment
 
-public class SignUpActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class SignUpActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "SignUpActivity";
     public static FragmentManager fragmentManager;
@@ -50,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements DatePickerDialo
         Log.d(TAG, String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
 
         String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth) + "/" + formatDate(year);
-        SignupBirthdayFragment.etBirthday.setText(date);
+        SignupPersonalInfoFragment.etBirthday.setText(date);
     }
 
     // adds the 0 in front of days/months below 10
