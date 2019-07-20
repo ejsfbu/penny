@@ -34,7 +34,6 @@ import androidx.fragment.app.FragmentManager;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -53,7 +52,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "AddGoalActivity";
 
@@ -74,10 +73,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     @BindView(R.id.bDate)
     ImageButton bDate;
 
-    // Request codes
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    // needed values
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private FragmentManager fragmentManager;

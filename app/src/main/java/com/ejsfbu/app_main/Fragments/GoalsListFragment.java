@@ -86,7 +86,7 @@ public class GoalsListFragment extends Fragment {
         // Add Query specifications
         goalsQuery.getTopByEndDate()
                 .areNotCompleted()
-                .fromUser();
+                .fromCurrentUser();
         goalsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
@@ -137,7 +137,7 @@ public class GoalsListFragment extends Fragment {
         // Add Query specifications
         postsQuery.setTop(goalsLoaded + 20)
                 .areNotCompleted()
-                .fromUser();
+                .fromCurrentUser();
                 //.setSkip(goalsLoaded);
         postsQuery.findInBackground(new FindCallback<Goal>() {
             @Override

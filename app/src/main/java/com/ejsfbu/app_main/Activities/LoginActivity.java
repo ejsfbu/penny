@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -17,9 +18,6 @@ import com.parse.ParseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-// app will automatically load to this screen, unless user already logged in
-// upon login app will navigate to goals list fragment in main activity
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,8 +40,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        User currentUser = (User) ParseUser.getCurrentUser();
         if (currentUser != null) {
+            if (currentUser.getIsParent()) {
+                Intent intent = new Intent(this, ParentActivity.class);
+                startActivity(intent);
+                finish();
+            }
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

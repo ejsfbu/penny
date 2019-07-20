@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -34,7 +33,6 @@ import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
-import com.ejsfbu.app_main.ParseApp;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
@@ -58,7 +56,7 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
     @BindView(R.id.bLogOut) Button bLogOut;
     @BindView(R.id.ibEditName) ImageButton ibName;
     @BindView(R.id.ibEditUserName) ImageButton ibUserName;
-    @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+    @BindView(R.id.ivChildProfilePic) ImageView ivProfileImage;
 
     @BindView(R.id.tv_profile_username) TextView username;
     @BindView(R.id.tv_profile_password) TextView password;
@@ -124,7 +122,7 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
         showEditPasswordDialog();
     }
 
-    @OnClick(R.id.ivProfileImage)
+    @OnClick(R.id.ivChildProfilePic)
     public void onClickEditImage() {
         showEditImageDialog();
     }

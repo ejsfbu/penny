@@ -19,11 +19,11 @@ public class User extends ParseUser {
     public static final String KEY_CHILDREN = "children";
     public static final String KEY_PARENTS = "parents";
     public static final String KEY_NEEDS_PARENT = "needsParent";
+    public static final String KEY_REQUIRES_APPROVAL = "requireApproval";
 
     public String getName() {
         return getString(KEY_NAME);
     }
-
     public void setName(String name) {
         put(KEY_NAME, name);
     }
@@ -31,7 +31,6 @@ public class User extends ParseUser {
     public String getEmail() {
         return getString(KEY_EMAIL);
     }
-
     public void setEmail(String email) {
         put(KEY_EMAIL, email);
     }
@@ -39,7 +38,6 @@ public class User extends ParseUser {
     public String getUsername() {
         return getString(KEY_USERNAME);
     }
-
     public void setUsername(String username) {
         put(KEY_USERNAME, username);
     }
@@ -47,7 +45,6 @@ public class User extends ParseUser {
     public String getPassword() {
         return getString(KEY_PASSWORD);
     }
-
     public void setPassword(String password) {
         put(KEY_PASSWORD, password);
     }
@@ -55,13 +52,13 @@ public class User extends ParseUser {
     public String getBirthday() {
         return getDate(KEY_BIRTHDAY).toString();
     }
-
     public void setBirthday(Date date) {
         put(KEY_BIRTHDAY, date);
     }
 
-    public Boolean getIsParent() { return getBoolean(KEY_ISPARENT);}
-
+    public Boolean getIsParent() {
+        return getBoolean(KEY_ISPARENT);
+    }
     public void setIsParent(Boolean isParent) {
         put(KEY_ISPARENT, isParent);
     }
@@ -69,9 +66,15 @@ public class User extends ParseUser {
     public boolean getNeedsParent() {
         return getBoolean(KEY_NEEDS_PARENT);
     }
-
     public void setNeedsParent(boolean needsParent) {
         put(KEY_NEEDS_PARENT, needsParent);
+    }
+
+    public boolean getRequiresApproval() {
+        return getBoolean(KEY_REQUIRES_APPROVAL);
+    }
+    public void setRequiresApproval(boolean requiresApproval) {
+        put(KEY_REQUIRES_APPROVAL, requiresApproval);
     }
 
     public void addChild(User child) {

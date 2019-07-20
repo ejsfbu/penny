@@ -4,16 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation"
-        tools:layout_editor_absoluteX="43dp" />
+    tools:context=".Activities.ParentActivity">
 
     <ImageView
         android:id="@+id/ivAppLogo"
@@ -28,26 +19,39 @@
         app:srcCompat="@drawable/piggy_bank"
         tools:ignore="ContentDescription" />
 
-    <FrameLayout
-        android:id="@+id/flContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChildren"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppLogo">
+        app:layout_constraintTop_toBottomOf="@+id/ivAppLogo" />
 
-    </FrameLayout>
-
-    <View
-        android:id="@+id/border"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#CCCCCCCC"
-        app:layout_constraintBottom_toBottomOf="@+id/flContainer"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProfilePic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="12dp"
+        app:cardCornerRadius="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivChildProfilePic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/ic_iconfinder_icons_user_1564534"/>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

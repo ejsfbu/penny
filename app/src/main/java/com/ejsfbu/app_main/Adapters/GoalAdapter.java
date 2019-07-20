@@ -64,7 +64,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         private ProgressBar pbPercentDone;
         private ConstraintLayout root;
 
-        // TODO put spannable for description and make username bold and clickable and share button
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivGoalImage = itemView.findViewById(R.id.ivGoalImage);

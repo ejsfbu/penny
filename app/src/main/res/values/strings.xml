@@ -27,4 +27,8 @@
     <string name="personal_info">Personal Information</string>
     <string name="account_info">Account Information</string>
     <string name="child_code">Child Code</string>
+    <string name="goals_in_progress">Goals in Progress</string>
+    <string name="goals_completed">Goals Completed</string>
+    <string name="pending_requests">Pending Requests</string>
+    <string name="child_name">Child Name</string>
 </resources>
