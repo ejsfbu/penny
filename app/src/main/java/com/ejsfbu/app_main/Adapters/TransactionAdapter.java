@@ -43,7 +43,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @NonNull
     @Override
     public TransactionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_goal, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false);
         return new TransactionAdapter.ViewHolder(view);
 
     }
@@ -60,29 +60,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ivGoalImage;
-        private TextView tvGoalName;
-        private TextView tvEndDate;
-        private TextView tvPercentDone;
-        private ProgressBar pbPercentDone;
-        private ConstraintLayout root;
+        private TextView tvDate;
+        private TextView tvAmount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvDate = itemView.findViewById(R.id.tvDate);
         }
 
         public void bind(Transaction transaction) {
-
+            tvDate.setText(transaction.getDate().toString());
+            tvAmount.setText(transaction.getAmount());
         }
-
     }
-
-        public String formatDateString(String date) {
-            String[] datePieces = date.split(" ");
-            return datePieces[1] + " " + datePieces[2] + ", " + datePieces[datePieces.length - 1];
-
-        }
 
     public void clear() {
         transactionsList.clear();
