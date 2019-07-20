@@ -1,9 +1,6 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,11 +69,11 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         // TODO put spannable for description and make username bold and clickable and share button
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivGoalImage = itemView.findViewById(R.id.ivGoalImage);
-            tvGoalName = itemView.findViewById(R.id.tvGoalName);
+            ivGoalImage = itemView.findViewById(R.id.ivGoalDetailsImage);
+            tvGoalName = itemView.findViewById(R.id.tvGoalDetailsName);
             tvEndDate = itemView.findViewById(R.id.tvEndDate);
-            tvPercentDone = itemView.findViewById(R.id.tvPercentDone);
-            pbPercentDone = itemView.findViewById(R.id.pbPercentDone);
+            tvPercentDone = itemView.findViewById(R.id.tvDetailsPercentDone);
+            pbPercentDone = itemView.findViewById(R.id.pbDetailsPercentDone);
             root = itemView.findViewById(R.id.root);
         }
 
