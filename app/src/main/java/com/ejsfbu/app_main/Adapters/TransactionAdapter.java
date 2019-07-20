@@ -84,7 +84,4 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         transactionsList.addAll(list);
         notifyDataSetChanged();
     }
-
-
-
 }
