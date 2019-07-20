@@ -61,7 +61,7 @@ public class AddGoalActivity extends AppCompatActivity {
     ImageButton ibCamera;
     @BindView(R.id.ibPhotos)
     ImageButton ibPhotos;
-    @BindView(R.id.ivGoalImage)
+    @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalImage;
     @BindView(R.id.etEndDate)
     EditText etEndDate;
