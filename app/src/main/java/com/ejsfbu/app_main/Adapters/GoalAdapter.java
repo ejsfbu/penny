@@ -69,11 +69,11 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         // TODO put spannable for description and make username bold and clickable and share button
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivGoalImage = itemView.findViewById(R.id.ivGoalDetailsImage);
-            tvGoalName = itemView.findViewById(R.id.tvGoalDetailsName);
+            ivGoalImage = itemView.findViewById(R.id.ivGoalImage);
+            tvGoalName = itemView.findViewById(R.id.tvGoalName);
             tvEndDate = itemView.findViewById(R.id.tvEndDate);
-            tvPercentDone = itemView.findViewById(R.id.tvDetailsPercentDone);
-            pbPercentDone = itemView.findViewById(R.id.pbDetailsPercentDone);
+            tvPercentDone = itemView.findViewById(R.id.tvPercentDone);
+            pbPercentDone = itemView.findViewById(R.id.pbPercentDone);
             root = itemView.findViewById(R.id.root);
         }
 

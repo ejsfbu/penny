@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivGoalDetailsImage" />
+        app:layout_constraintTop_toBottomOf="@+id/ivGoalImage" />
 
     <View
         android:id="@+id/verticalborder"
@@ -123,7 +123,7 @@
         app:srcCompat="@drawable/photo_icon" />
 
     <ImageView
-        android:id="@+id/ivGoalDetailsImage"
+        android:id="@+id/ivGoalImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
