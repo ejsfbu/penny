@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
@@ -106,7 +107,7 @@ public class SignupAccountInfoFragment extends Fragment {
                         Log.d(TAG, "Sign Up Success");
 
                         Intent intent = new Intent(getActivity(),
-                                MainActivity.class);
+                                AddGoalActivity.class);
                         startActivity(intent);
                         getActivity().finish();
                     } else {
