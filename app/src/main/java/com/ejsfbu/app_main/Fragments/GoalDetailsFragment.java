@@ -35,7 +35,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,7 +52,6 @@ public class GoalDetailsFragment extends Fragment {
     @BindView(R.id.tvGoalDetailsName) TextView tvGoalDetailsName;
     @BindView(R.id.pbDetailsPercentDone) ProgressBar pbDetailsPercentDone;
     @BindView(R.id.tvDetailsPercentDone) TextView tvDetailsPercentDone;
-
     //TODO adding the recycler view
     //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
     @BindView(R.id.deposit_btn) Button deposit_btn;
@@ -75,6 +73,7 @@ public class GoalDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+
         Goal goal = getArguments().getParcelable("Goal");
 
         ParseFile image = goal.getParseFile("image");
@@ -97,11 +96,25 @@ public class GoalDetailsFragment extends Fragment {
         setGoalInfo(goal);
 
 
+        tvGoalDetailsName.setText(goal.getName());
+        //TODO Format the Date
+        tvTotalCost.setText("$" + goal.getCost());
+        String endDate = goal.get("endDate").toString();
+        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
+        System.out.println(endDate.length());
+        System.out.println(endDate);
+        tvCompletionDate.setText(finalizedDate);
+
+        Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
+        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
+        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
+
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
-        rvTransactions.setAdapter(adapter);
+        //rvTransactions.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        rvTransactions.setLayoutManager(linearLayoutManager);
+        //rvTransactions.setLayoutManager(linearLayoutManager);
 
         //TODO - Ethan is working on transaction model and recycler view for transactions.
 
