@@ -2,9 +2,11 @@ package com.ejsfbu.app_main;
 
 import android.app.Application;
 
+import com.ejsfbu.app_main.models.BadgeRow;
 import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Reward;
+import com.ejsfbu.app_main.models.Transactions;
 import com.ejsfbu.app_main.models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -51,5 +53,14 @@ public class ParseApp extends Application {
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationBank);
+
+        // Transactions
+        ParseObject.registerSubclass(Transactions.class);
+        final Parse.Configuration configurationTransaction = new Parse.Configuration.Builder(this)
+                .applicationId("ejsfbu-money")
+                .clientKey("money-makes-the-world-go-around")
+                .server("https://youth-financial-planning.herokuapp.com/parse")
+                .build();
+        Parse.initialize(configurationTransaction);
     }
 }
