@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
+import com.ejsfbu.app_main.PopupFragments.VerifyChildDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
@@ -44,6 +46,7 @@ public class ParentActivity extends AppCompatActivity {
 
     private ArrayList<User> children;
     private ChildAdapter adapter;
+    public static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,11 @@ public class ParentActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         User parent = (User) ParseUser.getCurrentUser();
+        fragmentManager = getSupportFragmentManager();
+
+        if (getIntent().getBooleanExtra("isFirstLogin", false)) {
+            showVerifyChildDialog();
+        }
 
         children = new ArrayList<>();
         adapter = new ChildAdapter(this, children);
@@ -112,5 +120,10 @@ public class ParentActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void showVerifyChildDialog() {
+        VerifyChildDialogFragment verifyChildDialogFragment = VerifyChildDialogFragment.newInstance("Verify Child");
+        verifyChildDialogFragment.show(ParentActivity.fragmentManager, "fragment_verify_child");
     }
 }

@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.SignupFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.ejsfbu.app_main.Activities.ParentActivity;
+import com.ejsfbu.app_main.Activities.SignUpActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
@@ -143,6 +146,13 @@ public class SignupParentFragment extends Fragment {
                         Toast.makeText(getActivity(), "Sign Up Success",
                                 Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Sign Up Success");
+
+                        Intent intent = new Intent(SignupParentFragment.this.getContext(),
+                                ParentActivity.class);
+                        intent.putExtra("isFirstLogin", true);
+                        SignupParentFragment.this.getContext().startActivity(intent);
+                        SignupParentFragment.this.getActivity().finish();
+
                     } else {
                         Toast.makeText(getActivity(), "Sign Up Failure",
                                 Toast.LENGTH_LONG).show();
