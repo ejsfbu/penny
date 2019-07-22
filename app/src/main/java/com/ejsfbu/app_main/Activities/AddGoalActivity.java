@@ -66,7 +66,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     ImageButton ibCamera;
     @BindView(R.id.ibPhotos)
     ImageButton ibPhotos;
-    @BindView(R.id.ivGoalDetailsImage)
+    @BindView(R.id.ivGoalImage)
     ImageView ivGoalImage;
     @BindView(R.id.etEndDate)
     EditText etEndDate;
