@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.Fragments;
+package com.ejsfbu.app_main.PopupFragments;
 
 import android.content.Intent;
 import android.graphics.Point;
