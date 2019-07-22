@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -30,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ParentActivity extends AppCompatActivity {
 
@@ -99,5 +101,16 @@ public class ParentActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @OnClick(R.id.ivProfilePic)
+    public void onClickProfile() {
+        // temporarily using as logout button
+        // TODO: lauch profile screen
+        ParseUser.logOut();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

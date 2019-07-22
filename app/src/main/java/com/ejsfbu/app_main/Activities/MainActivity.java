@@ -8,9 +8,12 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.Fragments.BadgesFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
+import com.ejsfbu.app_main.Fragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 import java.io.File;
 
@@ -33,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
         setNavigationClick();
+
+        User user = (User) ParseUser.getCurrentUser();
+        if (user.getNeedsParent()) {
+            showConnectParentDialog();
+        }
     }
 
     private void setNavigationClick() {
@@ -54,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
         bottomNavigationView.setSelectedItemId(R.id.miGoals);
+    }
+
+    private void showConnectParentDialog() {
+        NeedsParentDialogFragment needsParentDialogFragment = NeedsParentDialogFragment.newInstance("Needs Parent");
+        needsParentDialogFragment.show(MainActivity.fragmentManager, "fragment_needs_parent");
     }
 
 }

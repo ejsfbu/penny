@@ -7,7 +7,6 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
@@ -19,7 +18,7 @@ public class User extends ParseUser {
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_BIRTHDAY = "birthday";
-    public static final String KEY_ISPARENT = "isParent";
+    public static final String KEY_IS_PARENT = "isParent";
     public static final String KEY_CHILDREN = "children";
     public static final String KEY_PARENTS = "parents";
     public static final String KEY_NEEDS_PARENT = "needsParent";
@@ -62,10 +61,10 @@ public class User extends ParseUser {
     }
 
     public Boolean getIsParent() {
-        return getBoolean(KEY_ISPARENT);
+        return getBoolean(KEY_IS_PARENT);
     }
     public void setIsParent(Boolean isParent) {
-        put(KEY_ISPARENT, isParent);
+        put(KEY_IS_PARENT, isParent);
     }
 
     public boolean getNeedsParent() {

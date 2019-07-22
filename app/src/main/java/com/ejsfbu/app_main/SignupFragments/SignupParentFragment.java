@@ -1,13 +1,7 @@
 package com.ejsfbu.app_main.SignupFragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.ejsfbu.app_main.Activities.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.util.List;
@@ -147,15 +143,6 @@ public class SignupParentFragment extends Fragment {
                         Toast.makeText(getActivity(), "Sign Up Success",
                                 Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Sign Up Success");
-
-                        User parent = (User) ParseUser.getCurrentUser();
-                        child.addParent(parent);
-                        child.setNeedsParent(false);
-
-                        Intent intent = new Intent(getActivity(),
-                                MainActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
                     } else {
                         Toast.makeText(getActivity(), "Sign Up Failure",
                                 Toast.LENGTH_LONG).show();
