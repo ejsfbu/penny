@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -17,9 +18,6 @@ import com.parse.ParseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-// app will automatically load to this screen, unless user already logged in
-// upon login app will navigate to goals list fragment in main activity
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     Button bLogin;
     @BindView(R.id.bSignUp)
     Button bSignUp;
+    @BindView(R.id.bParentSignUp)
+    Button bParentSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +40,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        User currentUser = (User) ParseUser.getCurrentUser();
         if (currentUser != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            if (currentUser.getIsParent()) {
+                Intent intent = new Intent(this, ParentActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
     }
@@ -60,6 +66,14 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.bSignUp)
     public void clickSignUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.putExtra("isParent", false);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.bParentSignUp)
+    public void clickParentSignUp() {
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.putExtra("isParent", true);
         startActivity(intent);
     }
 
@@ -71,9 +85,15 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Login Success");
 
-                    final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (((User) user).getIsParent()) {
+                        Intent intent = new Intent(LoginActivity.this, ParentActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Login Failure");

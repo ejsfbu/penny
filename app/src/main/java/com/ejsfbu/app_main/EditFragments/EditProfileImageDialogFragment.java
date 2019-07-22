@@ -48,8 +48,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import butterknife.OnClick;
-
 import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.rotateBitmapOrientation;
 
@@ -94,7 +92,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
         // Get field from view
-        ivProfileImage = view.findViewById(R.id.ivProfileImage);
+        ivProfileImage = view.findViewById(R.id.ivChildProfilePic);
         ibPhotos = view.findViewById(R.id.ibPhotos);
         ibCamera = view.findViewById(R.id.ibCamera);
         bConfirm = view.findViewById(R.id.bConfirm);

@@ -7,6 +7,28 @@
     tools:context=".Activities.AddGoalActivity"
     tools:visibility="visible">
 
+    <ImageView
+        android:id="@+id/ivAppLogo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/piggy_bank"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/ivAppLogo"
+        tools:layout_editor_absoluteX="8dp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/goal_name_layout"
         android:layout_width="match_parent"
@@ -16,7 +38,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tvAddGoalTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etGoalName"
@@ -77,7 +99,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/white_button_background"
+        android:background="@color/pig_pink"
         android:text="@string/add_goal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -88,11 +110,11 @@
         android:id="@+id/verticalborder"
         android:layout_width="1dp"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="#CCCCCCCC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/end_date_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/tvImageInfo" />
 
     <ImageButton
         android:id="@+id/ibCamera"
@@ -151,5 +173,32 @@
         app:layout_constraintEnd_toEndOf="@+id/end_date_layout"
         app:layout_constraintTop_toTopOf="@+id/end_date_layout"
         app:srcCompat="@drawable/calendar_color" />
+
+    <TextView
+        android:id="@+id/tvAddGoalTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/add_goal_title"
+        android:textColor="@color/pig_pink"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+
+    <TextView
+        android:id="@+id/tvImageInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/image_info"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_date_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

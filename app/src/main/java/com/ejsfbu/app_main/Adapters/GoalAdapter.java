@@ -42,7 +42,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_goal, parent, false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.item_goal, parent, false);
         return new ViewHolder(view);
 
     }
@@ -66,7 +67,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         private ProgressBar pbPercentDone;
         private ConstraintLayout root;
 
-        // TODO put spannable for description and make username bold and clickable and share button
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivGoalImage = itemView.findViewById(R.id.ivGoalImage);

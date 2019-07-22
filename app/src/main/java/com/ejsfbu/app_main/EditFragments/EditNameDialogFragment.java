@@ -21,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -33,7 +34,7 @@ public class EditNameDialogFragment extends DialogFragment {
     private Button bConfirm;
     private Button bCancel;
     private Context context;
-    private ParseUser user;
+    private User user;
 
     public EditNameDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -59,7 +60,7 @@ public class EditNameDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        user = ParseUser.getCurrentUser();
+        user = (User) ParseUser.getCurrentUser();
         // Get field from view
         etFirstName = view.findViewById(R.id.etFirstName);
         etMiddleInitial = view.findViewById(R.id.etMiddleInitial);

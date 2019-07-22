@@ -1,6 +1,6 @@
 package com.ejsfbu.app_main.SignupFragments;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
-import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
@@ -32,10 +30,14 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.SignUpActivity.user;
 
-public class SignupAccountInfoFragment extends Fragment {
+public class SignupParentFragment extends Fragment {
 
-    public static final String TAG = "SignupAccountInfoFrag";
+    public static final String TAG = "SignupParentFragment";
 
+    @BindView(R.id.etFirstName)
+    EditText etFirstName;
+    @BindView(R.id.etLastName)
+    EditText etLastName;
     @BindView(R.id.etEmail)
     EditText etEmail;
     @BindView(R.id.etUsername)
@@ -44,19 +46,20 @@ public class SignupAccountInfoFragment extends Fragment {
     EditText etPassword;
     @BindView(R.id.etConfirmPassword)
     EditText etConfirmPassword;
+    @BindView(R.id.etChildCode)
+    EditText etChildCode;
     @BindView(R.id.bSignupParent)
-    Button bSignup;
+    Button bSignupParent;
 
     private Unbinder unbinder;
     private boolean emailUnique;
     private boolean usernameUnique;
+    private User child;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_signup_account_info,
-                container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_signup_parent, container, false);
     }
 
     @Override
@@ -64,8 +67,43 @@ public class SignupAccountInfoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
     }
 
+    // When change fragment unbind view
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     @OnClick(R.id.bSignupParent)
-    public void clickSignUp() {
+    public void clickSignupParent() {
+
+        final String firstName = etFirstName.getText().toString();
+        if (firstName.equals("")) {
+            Toast.makeText(getContext(), "Please enter a first name",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final String lastName = etLastName.getText().toString();
+
+        final String name;
+        if (lastName.equals("")) {
+            name = firstName;
+        } else {
+            name = firstName + " " + lastName;
+        }
+        user.setName(name);
+
+        final String childCode = etChildCode.getText().toString();
+        if (firstName.equals("")) {
+            Toast.makeText(getContext(), "Please enter your child's code",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        getChildFromCode(childCode);
+        if (child == null) {
+            return;
+        }
 
         final String email = etEmail.getText().toString();
         if (email.equals("")) {
@@ -105,11 +143,6 @@ public class SignupAccountInfoFragment extends Fragment {
                         Toast.makeText(getActivity(), "Sign Up Success",
                                 Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Sign Up Success");
-
-                        Intent intent = new Intent(getActivity(),
-                                AddGoalActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
                     } else {
                         Toast.makeText(getActivity(), "Sign Up Failure",
                                 Toast.LENGTH_LONG).show();
@@ -132,13 +165,6 @@ public class SignupAccountInfoFragment extends Fragment {
         }
     }
 
-    // When change fragment unbind view
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     @OnTextChanged(R.id.etEmail)
     public void checkEmailUnique() {
         String email = etEmail.getText().toString();
@@ -149,11 +175,11 @@ public class SignupAccountInfoFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etEmail.setTextColor(SignupAccountInfoFragment.this.getResources()
+                        etEmail.setTextColor(SignupParentFragment.this.getResources()
                                 .getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     } else {
-                        etEmail.setTextColor(SignupAccountInfoFragment.this.getResources()
+                        etEmail.setTextColor(SignupParentFragment.this.getResources()
                                 .getColor(android.R.color.holo_red_dark));
                         emailUnique = false;
                     }
@@ -174,16 +200,36 @@ public class SignupAccountInfoFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etUsername.setTextColor(SignupAccountInfoFragment.this.getResources()
+                        etUsername.setTextColor(SignupParentFragment.this.getResources()
                                 .getColor(android.R.color.holo_green_dark));
                         usernameUnique = true;
                     } else {
-                        etUsername.setTextColor(SignupAccountInfoFragment.this.getResources()
+                        etUsername.setTextColor(SignupParentFragment.this.getResources()
                                 .getColor(android.R.color.holo_red_dark));
                         usernameUnique = false;
                     }
                 } else {
                     e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void getChildFromCode(String childCode) {
+
+        User.Query userQuery = new User.Query();
+        userQuery.whereEqualTo("objectId", childCode);
+        userQuery.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (objects.size() == 0) {
+                    Toast.makeText(SignupParentFragment.this.getContext(),
+                            "Child code is invalid", Toast.LENGTH_LONG).show();
+                    child = null;
+                } else {
+                    child = objects.get(0);
+                    user.addChild(child);
+
                 }
             }
         });

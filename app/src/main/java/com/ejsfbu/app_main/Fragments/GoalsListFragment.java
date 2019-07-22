@@ -3,17 +3,16 @@ package com.ejsfbu.app_main.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
@@ -36,8 +35,10 @@ public class GoalsListFragment extends Fragment {
 
     public static final String TAG = "GoalsListFragment";
 
-    @BindView(R.id.rvGoals) RecyclerView rvGoals;
-    @BindView(R.id.fabAdd) FloatingActionButton fabAdd;
+    @BindView(R.id.rvGoals)
+    RecyclerView rvGoals;
+    @BindView(R.id.fabAdd)
+    FloatingActionButton fabAdd;
 
     // Butterknife for fragment
     private Unbinder unbinder;
@@ -86,7 +87,7 @@ public class GoalsListFragment extends Fragment {
         // Add Query specifications
         goalsQuery.getTopByEndDate()
                 .areNotCompleted()
-                .fromUser();
+                .fromCurrentUser();
         goalsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
@@ -137,8 +138,8 @@ public class GoalsListFragment extends Fragment {
         // Add Query specifications
         postsQuery.setTop(goalsLoaded + 20)
                 .areNotCompleted()
-                .fromUser();
-                //.setSkip(goalsLoaded);
+                .fromCurrentUser();
+        //.setSkip(goalsLoaded);
         postsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
