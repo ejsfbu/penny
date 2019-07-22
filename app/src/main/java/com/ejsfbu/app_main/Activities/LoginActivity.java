@@ -46,10 +46,11 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, ParentActivity.class);
                 startActivity(intent);
                 finish();
+            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
         }
 
     }
@@ -84,9 +85,15 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Login Success");
 
-                    final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (((User) user).getIsParent()) {
+                        Intent intent = new Intent(LoginActivity.this, ParentActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Login Failure");

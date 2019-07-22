@@ -1,9 +1,13 @@
 package com.ejsfbu.app_main.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
@@ -20,6 +24,7 @@ public class User extends ParseUser {
     public static final String KEY_PARENTS = "parents";
     public static final String KEY_NEEDS_PARENT = "needsParent";
     public static final String KEY_REQUIRES_APPROVAL = "requireApproval";
+    public static final String KEY_PROFILE_PIC = "profileImage";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -77,8 +82,18 @@ public class User extends ParseUser {
         put(KEY_REQUIRES_APPROVAL, requiresApproval);
     }
 
+    public ParseFile getProfilePic() {
+        return getParseFile(KEY_PROFILE_PIC);
+    }
+    public void setProfilePic(ParseFile image) {
+        put(KEY_PROFILE_PIC, image);
+    }
+
     public void addChild(User child) {
         addAllUnique(KEY_CHILDREN, Collections.singleton(child));
+    }
+    public JSONArray getChildren() {
+        return getJSONArray(KEY_CHILDREN);
     }
 
     public void addParent(User parent) {
