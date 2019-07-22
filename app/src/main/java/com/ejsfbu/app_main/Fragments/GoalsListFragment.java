@@ -101,13 +101,6 @@ public class GoalsListFragment extends Fragment {
         });
     }
 
-    @OnClick(R.id.fabAdd)
-    public void onClickAdd() {
-        Intent intent = new Intent(getContext(), AddGoalActivity.class);
-        startActivity(intent);
-        getActivity().finish();
-    }
-
     private void setListeners() {
         // Retain an instance so that you can call `resetState()` for fresh searches
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {

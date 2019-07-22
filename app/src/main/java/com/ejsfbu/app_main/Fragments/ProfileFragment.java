@@ -129,6 +129,12 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
         showEditImageDialog();
     }
 
+    @OnClick(R.id.bBanks)
+    public void onClickBanks() {
+        Fragment bankFragment = new BankAccountsFragment();
+        MainActivity.fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commit();
+    }
+
     private void showEditNameDialog() {
         ///FragmentManager fm = getSupportFragmentManager();
         EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Edit Name");
