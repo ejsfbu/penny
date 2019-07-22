@@ -35,11 +35,15 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class GoalDetailsFragment extends Fragment {
 
@@ -49,7 +53,9 @@ public class GoalDetailsFragment extends Fragment {
     @BindView(R.id.tvGoalDetailsName) TextView tvGoalDetailsName;
     @BindView(R.id.pbDetailsPercentDone) ProgressBar pbDetailsPercentDone;
     @BindView(R.id.tvDetailsPercentDone) TextView tvDetailsPercentDone;
-    @BindView(R.id.rvTransactions) RecyclerView rvTransactions;
+
+    //TODO adding the recycler view
+    //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
     @BindView(R.id.deposit_btn) Button deposit_btn;
     @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
     @BindView(R.id.edit_goal_btn) Button edit_goal_btn;
@@ -57,6 +63,8 @@ public class GoalDetailsFragment extends Fragment {
     @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
     @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
     @BindView(R.id.tvTotalCost) TextView tvTotalCost;
+    @BindView(R.id.tvAmountTitle) TextView tvAmountTitle;
+    @BindView(R.id.tvAmount) TextView tvAmount;
 
     List<Transaction>transactionsList;
     TransactionAdapter adapter;
@@ -67,7 +75,6 @@ public class GoalDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-
         Goal goal = getArguments().getParcelable("Goal");
 
         ParseFile image = goal.getParseFile("image");
@@ -87,28 +94,16 @@ public class GoalDetailsFragment extends Fragment {
                     .into(ivGoalDetailsImage);
         }
 
-        tvGoalDetailsName.setText(goal.getName());
-        //TODO Format the Date
-        tvTotalCost.setText("$" + goal.getCost());
-        String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
-        System.out.println(endDate.length());
-        System.out.println(endDate);
-        tvCompletionDate.setText(finalizedDate);
+        setGoalInfo(goal);
 
-        Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
-        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
 
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
         rvTransactions.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvTransactions.setLayoutManager(linearLayoutManager);
-//        setListeners();
-//        // Adds the scroll listener to RecyclerView
-//        rvTransactions.addOnScrollListener(scrollListener);
+
+        //TODO - Ethan is working on transaction model and recycler view for transactions.
 
         loadTransactions();
     }
@@ -119,6 +114,29 @@ public class GoalDetailsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
 
+    public void setGoalInfo(Goal goal) {
+        //set the text for goal name and end date
+        tvGoalDetailsName.setText(goal.getName());
+        String goalEndDate = formatDate(goal);
+        tvCompletionDate.setText(goalEndDate);
+
+        //setting the total amount and saved amount in correct currency format
+        tvAmount.setText(formatCurrency(goal.getSaved()));
+        tvTotalCost.setText(formatCurrency(goal.getCost()));
+
+        //progress bar and percentage
+        Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
+        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
+        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
+    }
+
+    public String formatDate(Goal goal) {
+        String endDate = goal.get("endDate").toString();
+        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
+        return finalizedDate;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -126,57 +144,11 @@ public class GoalDetailsFragment extends Fragment {
     }
 
     public void loadTransactions() {
-        // set up query
-        final Transaction.Query transactionQuery = new Transaction.Query();
-        // Add Query specifications
-        transactionQuery.findInBackground(new FindCallback<Transaction>() {
-                @Override
-                public void done(List<Transaction> objects, ParseException e) {
-                    if (e == null) {
-                        transactionsList.addAll(objects);
-                    } else {
-                        e.printStackTrace();
-                    }
-                }
-            });
     }
 
-    private void setListeners() {
-        // Retain an instance so that you can call `resetState()` for fresh searches
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                loadNextDataFromApi(page);
-            }
-        };
+    public String formatCurrency(Double amount) {
+        NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.US);
+        String convertedAmount = currency.format(amount);
+        return convertedAmount;
     }
-
-    // Append the next page of data into the adapter
-    // This method probably sends out a network request and appends new data items to your adapter.
-    public void loadNextDataFromApi(int offset) {
-        if (adapter.getItemCount() < transactionsLoaded) {
-            return;
-        }
-        Log.d("data", String.valueOf(offset));
-        // set up query
-        final Transaction.Query transactions = new Transaction.Query();
-        // TODO Add Query specifications
-        transactions.findInBackground(new FindCallback<Transaction>() {
-            @Override
-            public void done(List<Transaction> objects, ParseException e) {
-                if (e == null) {
-                    transactionsList.clear();
-                    transactionsList.addAll(objects);
-                    adapter.notifyDataSetChanged();
-                    transactionsLoaded += objects.size();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-
 }
