@@ -29,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -47,6 +48,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.rotateBitmapOrientation;
@@ -115,8 +117,17 @@ public class EditProfileImageDialogFragment extends DialogFragment {
 
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        EditProfileImageDialogListener listener = (EditProfileImageDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
+        EditProfileImageDialogListener listener;
+        if (fragments.size() > 1) {
+            listener = (EditProfileImageDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
+        } else {
+            listener = (EditProfileImageDialogListener) getFragmentManager()
+                    .findFragmentByTag(fragmentTag).getContext();
+        }
         listener.onFinishEditDialog();
         dismiss();
     }
@@ -128,8 +139,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         // Store dimensions of the screen in `size`
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
-        // Set the width of the dialog proportional to 75% of the screen width
-        window.setLayout((int) (size.x * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         // Call super onResume after sizing
         super.onResume();
@@ -169,12 +179,13 @@ public class EditProfileImageDialogFragment extends DialogFragment {
             } else {
                 parseFile = new ParseFile(photoFile);
             }
-            user.put("profileImage",  parseFile);
+            user.put("profileImage", parseFile);
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Profile Image changed successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Profile Image changed successfully.",
+                                Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
                         e.printStackTrace();
@@ -185,12 +196,9 @@ public class EditProfileImageDialogFragment extends DialogFragment {
 
         ibPhotos.setOnClickListener(view -> {
             requestPerms();
-            // Create intent for picking a photo from the gallery
             Intent intent = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-            // So as long as the result is not null, it's safe to use the intent.
             if (intent.resolveActivity(context.getPackageManager()) != null) {
                 // Bring up gallery to select a photo
                 startActivityForResult(intent, PICK_PHOTO_CODE);
@@ -198,47 +206,37 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         });
 
         ibCamera.setOnClickListener(view -> {
-            // create Intent to take a picture and return control to the calling application
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // Create a File reference to access to future access
             photoFile = AddGoalActivity.getPhotoFileUri(photoFileName, context);
 
-            // wrap File object into a content provider
-            // required for API >= 24
-            // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-            Uri fileProvider = FileProvider.getUriForFile(context, "com.codepath.fileprovider", photoFile);
+            Uri fileProvider = FileProvider.getUriForFile(context,
+                    "com.codepath.fileprovider", photoFile);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-            // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-            // So as long as the result is not null, it's safe to use the intent.
             if (intent.resolveActivity(context.getPackageManager()) != null) {
-                // Start the image capture intent to take photo
                 startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
             }
         });
     }
 
     // TODO try to write once
-    // handle result of photo choosing
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_PHOTO_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri photoUri = data.getData();
                 photoFile = new File(AddGoalActivity.getRealPathFromURI(photoUri, context));
-                // by context point we have the camera photo on disk
-                // Write the bytes of the bitmap to file
                 Bitmap selectedImage = null;
                 try {
-                    selectedImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
-                    // Resize Image
-                    Bitmap resizedBitmap = BitmapScaler.scaleToFill(selectedImage, 200, 200);
-                    // Configure byte output stream
+                    selectedImage = MediaStore.Images.Media
+                            .getBitmap(context.getContentResolver(), photoUri);
+                    Bitmap resizedBitmap = BitmapScaler
+                            .scaleToFill(selectedImage, 200, 200);
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    // Compress the image further
-                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                    // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
-                    File resizedFile = AddGoalActivity.getPhotoFileUri(photoFileName + "_resized", context);
+                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG,
+                            40, bytes);
+                    File resizedFile = AddGoalActivity
+                            .getPhotoFileUri(photoFileName + "_resized", context);
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
                     fos.write(bytes.toByteArray());
@@ -247,19 +245,21 @@ public class EditProfileImageDialogFragment extends DialogFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                // Load the selected image into a preview
                 ivProfileImage.setImageBitmap(selectedImage);
             }
         }
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Uri takenPhotoUri = Uri.fromFile(AddGoalActivity.getPhotoFileUri(photoFileName, context));
+                Uri takenPhotoUri = Uri.fromFile(AddGoalActivity
+                        .getPhotoFileUri(photoFileName, context));
                 Bitmap rotatedBitmap = rotateBitmapOrientation(takenPhotoUri.getPath());
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rotatedBitmap, 200);
-                Bitmap cropImg = Bitmap.createBitmap(resizedBitmap, 0, 0, 200, 200);
+                Bitmap cropImg = Bitmap.createBitmap(resizedBitmap,
+                        0, 0, 200, 200);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 cropImg.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                File resizedFile = AddGoalActivity.getPhotoFileUri(photoFileName + "_resized", context);
+                File resizedFile = AddGoalActivity
+                        .getPhotoFileUri(photoFileName + "_resized", context);
                 try {
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
@@ -279,26 +279,21 @@ public class EditProfileImageDialogFragment extends DialogFragment {
     }
 
     public void requestPerms() {
-        // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // No explanation needed; request the permission
             ActivityCompat.requestPermissions((Activity) context,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     0);
-
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
         } else {
-            //testPost();
+
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == 0) {
             //testPost();
         }

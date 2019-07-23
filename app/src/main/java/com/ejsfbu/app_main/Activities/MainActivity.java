@@ -8,14 +8,12 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.Fragments.BadgesFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
-import com.ejsfbu.app_main.Fragments.NeedsParentDialogFragment;
+import com.ejsfbu.app_main.PopupFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
