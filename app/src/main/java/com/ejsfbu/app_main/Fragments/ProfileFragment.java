@@ -133,6 +133,12 @@ public class ProfileFragment extends Fragment
         showEditImageDialog();
     }
 
+    @OnClick(R.id.bBanks)
+    public void onClickBanks() {
+        Fragment bankFragment = new BankAccountsFragment();
+        MainActivity.fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commit();
+    }
+
     private void showEditNameDialog() {
         EditNameDialogFragment editNameDialogFragment
                 = EditNameDialogFragment.newInstance("Edit Name");

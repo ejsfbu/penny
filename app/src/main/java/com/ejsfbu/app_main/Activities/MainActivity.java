@@ -1,12 +1,18 @@
 package com.ejsfbu.app_main.Activities;
 
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.os.Bundle;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.Fragments.BadgesFragment;
+import com.ejsfbu.app_main.Fragments.BankAccountsFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.PopupFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
@@ -21,6 +27,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    // Request codes
+    public final static int BANK_REQUEST_CODE = 20;
 
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
@@ -62,9 +70,19 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.miGoals);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
+            Fragment bankFragment = new BankAccountsFragment();
+            fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commitAllowingStateLoss();
+        }
+
     private void showConnectParentDialog() {
         NeedsParentDialogFragment needsParentDialogFragment = NeedsParentDialogFragment.newInstance("Needs Parent");
         needsParentDialogFragment.show(MainActivity.fragmentManager, "fragment_needs_parent");
+
     }
 
 }

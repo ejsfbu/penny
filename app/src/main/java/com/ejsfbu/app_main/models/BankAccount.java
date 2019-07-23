@@ -1,6 +1,9 @@
 package com.ejsfbu.app_main.models;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 @ParseClassName("BankAccount")
@@ -9,6 +12,7 @@ public class BankAccount extends ParseObject {
     public static final String KEY_LEGAL_NAME = "legalName";
     public static final String KEY_ROUTING = "routingNumber";
     public static final String KEY_ACCOUNT = "accountNumber";
+    public static final String KEY_VERIFIED = "isVerified";
 
     // change as needed
     private boolean hasEnoughMoney = true;
@@ -31,7 +35,14 @@ public class BankAccount extends ParseObject {
     }
 
     public String getAccountNumber() {
-        return getString(KEY_ACCOUNT);
+        String account = "";
+        try {
+            account = fetchIfNeeded().getString(KEY_ACCOUNT);
+        } catch (ParseException e) {
+            Log.d("user", e.toString());
+            e.printStackTrace();
+        }
+        return account;
     }
 
     public void setAccountNumber(String number) {
@@ -44,6 +55,14 @@ public class BankAccount extends ParseObject {
 
     public void setRoutingtNumber(String number) {
         put(KEY_ROUTING, number);
+    }
+
+    public boolean getVerified() {
+        return getBoolean(KEY_VERIFIED);
+    }
+
+    public void setVerified(boolean bool) {
+        put(KEY_VERIFIED, bool);
     }
 
     // Simulate money transfer
