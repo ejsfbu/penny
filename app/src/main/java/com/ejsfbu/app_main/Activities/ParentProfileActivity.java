@@ -2,6 +2,7 @@ package com.ejsfbu.app_main.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class ParentProfileActivity extends AppCompatActivity
     TextView getTvParentPassword;
     @BindView(R.id.tvParentCode)
     TextView tvParentCode;
+    @BindView(R.id.tvEdit)
+    TextView tvEdit;
 
     @BindView(R.id.ibEditParentName)
     ImageButton ibEditParentName;
@@ -58,6 +61,9 @@ public class ParentProfileActivity extends AppCompatActivity
 
     @BindView(R.id.ivParentProfilePic)
     ImageView ivParentProfilePic;
+
+    @BindView(R.id.bParentLogout)
+    Button bParentLogout;
 
     private User user;
     private static FragmentManager fragmentManager;
@@ -155,11 +161,25 @@ public class ParentProfileActivity extends AppCompatActivity
         showEditImageDialog();
     }
 
+    @OnClick(R.id.tvEdit)
+    public void onClickEdit() {
+        showEditImageDialog();
+    }
+
     private void showEditImageDialog() {
         EditProfileImageDialogFragment editProfileImageDialogFragment
                 = EditProfileImageDialogFragment.newInstance("Edit Password");
         editProfileImageDialogFragment.show(ParentProfileActivity.fragmentManager,
                 "fragment_edit_profileimage");
+    }
+
+    @OnClick(R.id.bParentLogout)
+    public void onClickParentLogout() {
+        ParseUser.logOut();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

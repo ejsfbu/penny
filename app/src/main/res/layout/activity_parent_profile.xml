@@ -58,8 +58,7 @@
         android:id="@+id/tvParentUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/username"
         android:textColor="@android:color/black"
@@ -83,8 +82,7 @@
         android:id="@+id/tvParentEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/email"
         android:textColor="@android:color/black"
@@ -108,8 +106,7 @@
         android:id="@+id/tvParentPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/hidden_password"
         android:textColor="@android:color/black"
@@ -133,8 +130,7 @@
         android:id="@+id/tvParentCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="@string/account_code"
         android:textColor="@android:color/black"
@@ -142,5 +138,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvParentName"
         app:layout_constraintTop_toBottomOf="@+id/tvParentPassword" />
+
+    <Button
+        android:id="@+id/bParentLogout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/coin_blue"
+        android:text="@string/log_out"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/tvParentCode"
+        app:layout_constraintEnd_toEndOf="@+id/cvParentProfilePic"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cvParentProfilePic" />
+
+    <TextView
+        android:id="@+id/tvEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/edit"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/cvParentProfilePic"
+        app:layout_constraintStart_toStartOf="@+id/cvParentProfilePic"
+        app:layout_constraintTop_toBottomOf="@+id/cvParentProfilePic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
