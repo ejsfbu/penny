@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment
         implements EditEmailDialogFragment.EditEmailDialogListener,
         EditNameDialogFragment.EditNameDialogListener,
         EditProfileImageDialogFragment.EditProfileImageDialogListener,
-        EditUsernameDialogFragment.EditUserNameDialogListener {
+        EditUsernameDialogFragment.EditUsernameDialogListener {
 
     public static final String TAG = "ProfileFragment";
     public List<User> parents;

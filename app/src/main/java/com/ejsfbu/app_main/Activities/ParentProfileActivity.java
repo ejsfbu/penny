@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseFile;
@@ -25,7 +26,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ParentProfileActivity extends AppCompatActivity
-        implements EditNameDialogFragment.EditNameDialogListener {
+        implements EditNameDialogFragment.EditNameDialogListener,
+        EditUsernameDialogFragment.EditUsernameDialogListener {
 
     public static final String TAG = "ParentProfileFragment";
 
@@ -105,6 +107,24 @@ public class ParentProfileActivity extends AppCompatActivity
         editNameDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_name");
     }
 
+    @OnClick(R.id.ibEditParentUsername)
+    public void onClickEditParentUsername() {
+        showEditUsernameDialog();
+    }
+
+    private void showEditUsernameDialog() {
+        EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
+        editUsernameDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_username");
+    }
+
+    @OnClick(R.id.ivParentProfilePic)
+    public void onClickParentProfilePic() {
+        ParseUser.logOut();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -117,12 +137,5 @@ public class ParentProfileActivity extends AppCompatActivity
         loadProfileData();
     }
 
-    @OnClick(R.id.ivParentProfilePic)
-    public void onClickParentProfilePic() {
-        ParseUser.logOut();
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }
