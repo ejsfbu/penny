@@ -114,12 +114,9 @@ public class ParentActivity extends AppCompatActivity {
     @OnClick(R.id.ivProfilePic)
     public void onClickProfile() {
         // temporarily using as logout button
-        // TODO: lauch profile screen
-        ParseUser.logOut();
-
-        Intent intent = new Intent(this, LoginActivity.class);
+        // TODO: launch profile screen
+        Intent intent = new Intent(this, ParentProfileActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void showVerifyChildDialog() {

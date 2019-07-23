@@ -41,4 +41,6 @@
     <string name="verify_child_info_1">Give your child this code to enter to verify their account:</string>
     <string name="verify_child_info_2">You can also access this code at any time in your profile.</string>
     <string name="dismiss">Dismiss</string>
+    <string name="hidden_password">**********</string>
+    <string name="account_code">Account Code: </string>
 </resources>
