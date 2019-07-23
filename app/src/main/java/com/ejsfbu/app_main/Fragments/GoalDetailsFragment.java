@@ -39,10 +39,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class GoalDetailsFragment extends Fragment {
 
@@ -69,12 +72,13 @@ public class GoalDetailsFragment extends Fragment {
     private int transactionsLoaded;
     LinearLayoutManager linearLayoutManager;
     EndlessRecyclerViewScrollListener scrollListener;
+    Goal goal;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-        Goal goal = getArguments().getParcelable("Goal");
+        goal = getArguments().getParcelable("Goal");
 
         ParseFile image = goal.getParseFile("image");
         if (image != null) {
@@ -94,21 +98,6 @@ public class GoalDetailsFragment extends Fragment {
         }
 
         setGoalInfo(goal);
-
-
-        tvGoalDetailsName.setText(goal.getName());
-        //TODO Format the Date
-        tvTotalCost.setText("$" + goal.getCost());
-        String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
-        System.out.println(endDate.length());
-        System.out.println(endDate);
-        tvCompletionDate.setText(finalizedDate);
-
-        Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
-        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
 
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
@@ -164,4 +153,15 @@ public class GoalDetailsFragment extends Fragment {
         String convertedAmount = currency.format(amount);
         return convertedAmount;
     }
+
+
+    @OnClick(R.id.edit_goal_btn)
+    public void onClickEdit(){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("Goal", goal);
+        Fragment editGoal = new EditGoalFragment();
+        editGoal.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContainer, editGoal).commit();
+    }
+
 }
