@@ -17,14 +17,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Activities.LoginActivity;
-import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 
 public class EditNameDialogFragment extends DialogFragment {
     // View objects
@@ -85,8 +86,17 @@ public class EditNameDialogFragment extends DialogFragment {
 
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        EditNameDialogListener listener = (EditNameDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
+        EditNameDialogListener listener;
+        if (fragments.size() > 1) {
+            listener = (EditNameDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
+        } else {
+            listener = (EditNameDialogListener) getFragmentManager()
+                    .findFragmentByTag(fragmentTag).getContext();
+        }
         listener.onFinishEditDialog();
         dismiss();
     }
@@ -100,7 +110,7 @@ public class EditNameDialogFragment extends DialogFragment {
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
         // Set the width of the dialog proportional to 75% of the screen width
-        window.setLayout((int) (size.x * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         // Call super onResume after sizing
         super.onResume();
@@ -115,7 +125,7 @@ public class EditNameDialogFragment extends DialogFragment {
             String name = etFirstName.getText().toString() + " "
                     + etMiddleInitial.getText().toString() + " "
                     + etLastName.getText().toString();
-            user.put("name",  name);
+            user.put("name", name);
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {

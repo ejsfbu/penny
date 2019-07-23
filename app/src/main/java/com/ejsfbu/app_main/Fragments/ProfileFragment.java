@@ -44,8 +44,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ProfileFragment extends Fragment implements EditEmailDialogFragment.EditEmailDialogListener, EditNameDialogFragment.EditNameDialogListener,
-        EditProfileImageDialogFragment.EditProfileImageDialogListener, EditUsernameDialogFragment.EditUserNameDialogListener {
+public class ProfileFragment extends Fragment
+        implements EditEmailDialogFragment.EditEmailDialogListener,
+        EditNameDialogFragment.EditNameDialogListener,
+        EditProfileImageDialogFragment.EditProfileImageDialogListener,
+        EditUsernameDialogFragment.EditUserNameDialogListener {
 
     public static final String TAG = "ProfileFragment";
     public List<User> parents;
@@ -70,8 +73,6 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
     @BindView(R.id.lvParents)
     ListView lvParents;
 
-
-    // Butterknife for fragment
     private Unbinder unbinder;
     private User user;
     private Context context;
@@ -92,7 +93,6 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
         loadProfileData();
     }
 
-    // When change fragment unbind view
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -134,31 +134,26 @@ public class ProfileFragment extends Fragment implements EditEmailDialogFragment
     }
 
     private void showEditNameDialog() {
-        ///FragmentManager fm = getSupportFragmentManager();
         EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Edit Name");
         editNameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_name");
     }
 
     private void showEditUsernameDialog() {
-        ///FragmentManager fm = getSupportFragmentManager();
         EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
         editUsernameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_username");
     }
 
     private void showEditEmailDialog() {
-        ///FragmentManager fm = getSupportFragmentManager();
         EditEmailDialogFragment editEmailDialogFragment = EditEmailDialogFragment.newInstance("Edit Email");
         editEmailDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_email");
     }
 
     private void showEditPasswordDialog() {
-        ///FragmentManager fm = getSupportFragmentManager();
         EditPasswordDialogFragment editPasswordDialogFragment = EditPasswordDialogFragment.newInstance("Edit Password");
         editPasswordDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_password");
     }
 
     private void showEditImageDialog() {
-        ///FragmentManager fm = getSupportFragmentManager();
         EditProfileImageDialogFragment editProfileImageDialogFragment = EditProfileImageDialogFragment.newInstance("Edit Password");
         editProfileImageDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_profileimage");
     }
