@@ -1,15 +1,13 @@
 package com.ejsfbu.app_main.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -113,14 +111,14 @@ public class ParentActivity extends AppCompatActivity {
 
     @OnClick(R.id.ivProfilePic)
     public void onClickProfile() {
-        // temporarily using as logout button
-        // TODO: launch profile screen
         Intent intent = new Intent(this, ParentProfileActivity.class);
         startActivity(intent);
     }
 
     public void showVerifyChildDialog() {
-        VerifyChildDialogFragment verifyChildDialogFragment = VerifyChildDialogFragment.newInstance("Verify Child");
-        verifyChildDialogFragment.show(ParentActivity.fragmentManager, "fragment_verify_child");
+        VerifyChildDialogFragment verifyChildDialogFragment
+                = VerifyChildDialogFragment.newInstance("Verify Child");
+        verifyChildDialogFragment.show(ParentActivity.fragmentManager,
+                "fragment_verify_child");
     }
 }

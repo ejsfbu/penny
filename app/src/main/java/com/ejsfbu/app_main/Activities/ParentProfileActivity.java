@@ -108,8 +108,10 @@ public class ParentProfileActivity extends AppCompatActivity
     }
 
     private void showEditNameDialog() {
-        EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Edit Name");
-        editNameDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_name");
+        EditNameDialogFragment editNameDialogFragment
+                = EditNameDialogFragment.newInstance("Edit Name");
+        editNameDialogFragment.show(ParentProfileActivity.fragmentManager,
+                "fragment_edit_name");
     }
 
     @OnClick(R.id.ibEditParentUsername)
@@ -118,8 +120,10 @@ public class ParentProfileActivity extends AppCompatActivity
     }
 
     private void showEditUsernameDialog() {
-        EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
-        editUsernameDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_username");
+        EditUsernameDialogFragment editUsernameDialogFragment
+                = EditUsernameDialogFragment.newInstance("Edit Username");
+        editUsernameDialogFragment.show(ParentProfileActivity.fragmentManager,
+                "fragment_edit_username");
     }
 
     @OnClick(R.id.ibEditParentEmail)
@@ -128,8 +132,10 @@ public class ParentProfileActivity extends AppCompatActivity
     }
 
     private void showEditEmailDialog() {
-        EditEmailDialogFragment editEmailDialogFragment = EditEmailDialogFragment.newInstance("Edit Email");
-        editEmailDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_email");
+        EditEmailDialogFragment editEmailDialogFragment
+                = EditEmailDialogFragment.newInstance("Edit Email");
+        editEmailDialogFragment.show(ParentProfileActivity.fragmentManager,
+                "fragment_edit_email");
     }
 
     @OnClick(R.id.ibEditParentPassword)
@@ -138,8 +144,10 @@ public class ParentProfileActivity extends AppCompatActivity
     }
 
     private void showEditPasswordDialog() {
-        EditPasswordDialogFragment editPasswordDialogFragment = EditPasswordDialogFragment.newInstance("Edit Password");
-        editPasswordDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_password");
+        EditPasswordDialogFragment editPasswordDialogFragment
+                = EditPasswordDialogFragment.newInstance("Edit Password");
+        editPasswordDialogFragment.show(ParentProfileActivity.fragmentManager,
+                "fragment_edit_password");
     }
 
     @OnClick(R.id.ivParentProfilePic)
@@ -148,8 +156,10 @@ public class ParentProfileActivity extends AppCompatActivity
     }
 
     private void showEditImageDialog() {
-        EditProfileImageDialogFragment editProfileImageDialogFragment = EditProfileImageDialogFragment.newInstance("Edit Password");
-        editProfileImageDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_profileimage");
+        EditProfileImageDialogFragment editProfileImageDialogFragment
+                = EditProfileImageDialogFragment.newInstance("Edit Password");
+        editProfileImageDialogFragment.show(ParentProfileActivity.fragmentManager,
+                "fragment_edit_profileimage");
     }
 
     @Override
@@ -157,7 +167,6 @@ public class ParentProfileActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    // This is called when the dialog is completed and the results have been passed
     @Override
     public void onFinishEditDialog() {
         loadProfileData();

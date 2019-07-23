@@ -30,10 +30,8 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.OnTextChanged;
-
 public class EditUsernameDialogFragment extends DialogFragment {
-    // View objects
+
     private EditText etUsername;
     private Button bConfirm;
     private Button bCancel;
@@ -42,9 +40,7 @@ public class EditUsernameDialogFragment extends DialogFragment {
     private boolean usernameUnique;
 
     public EditUsernameDialogFragment() {
-        // Empty constructor is required for DialogFragment
-        // Make sure not to add arguments to the constructor
-        // Use `newInstance` instead as shown below
+
     }
 
     public static EditUsernameDialogFragment newInstance(String title) {
@@ -66,15 +62,12 @@ public class EditUsernameDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        // Get field from view
         etUsername = view.findViewById(R.id.etUserName);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
         etUsername.setText(user.getUsername());
-        // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
         etUsername.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -82,12 +75,10 @@ public class EditUsernameDialogFragment extends DialogFragment {
         etUsername.addTextChangedListener(textChanged);
     }
 
-    // Defines the listener interface
     public interface EditUsernameDialogListener {
         void onFinishEditDialog();
     }
 
-    // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
         String fragmentTag = fragments.get(0).getTag();
@@ -105,16 +96,12 @@ public class EditUsernameDialogFragment extends DialogFragment {
     }
 
     public void onResume() {
-        // Store access variables for window and blank point
         Window window = getDialog().getWindow();
         Point size = new Point();
-        // Store dimensions of the screen in `size`
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
-        // Set the width of the dialog proportional to 75% of the screen width
         window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-        // Call super onResume after sizing
         super.onResume();
     }
 
@@ -133,7 +120,8 @@ public class EditUsernameDialogFragment extends DialogFragment {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Username changed successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Username changed successfully.",
+                                Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

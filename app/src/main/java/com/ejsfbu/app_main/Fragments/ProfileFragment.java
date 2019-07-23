@@ -134,28 +134,36 @@ public class ProfileFragment extends Fragment
     }
 
     private void showEditNameDialog() {
-        EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Edit Name");
+        EditNameDialogFragment editNameDialogFragment
+                = EditNameDialogFragment.newInstance("Edit Name");
         editNameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_name");
     }
 
     private void showEditUsernameDialog() {
-        EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
-        editUsernameDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_username");
+        EditUsernameDialogFragment editUsernameDialogFragment
+                = EditUsernameDialogFragment.newInstance("Edit Username");
+        editUsernameDialogFragment.show(MainActivity.fragmentManager,
+                "fragment_edit_username");
     }
 
     private void showEditEmailDialog() {
-        EditEmailDialogFragment editEmailDialogFragment = EditEmailDialogFragment.newInstance("Edit Email");
+        EditEmailDialogFragment editEmailDialogFragment
+                = EditEmailDialogFragment.newInstance("Edit Email");
         editEmailDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_email");
     }
 
     private void showEditPasswordDialog() {
-        EditPasswordDialogFragment editPasswordDialogFragment = EditPasswordDialogFragment.newInstance("Edit Password");
-        editPasswordDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_password");
+        EditPasswordDialogFragment editPasswordDialogFragment
+                = EditPasswordDialogFragment.newInstance("Edit Password");
+        editPasswordDialogFragment.show(MainActivity.fragmentManager,
+                "fragment_edit_password");
     }
 
     private void showEditImageDialog() {
-        EditProfileImageDialogFragment editProfileImageDialogFragment = EditProfileImageDialogFragment.newInstance("Edit Password");
-        editProfileImageDialogFragment.show(MainActivity.fragmentManager, "fragment_edit_profileimage");
+        EditProfileImageDialogFragment editProfileImageDialogFragment
+                = EditProfileImageDialogFragment.newInstance("Edit Password");
+        editProfileImageDialogFragment.show(MainActivity.fragmentManager,
+                "fragment_edit_profileimage");
     }
 
     // Load user data
