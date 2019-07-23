@@ -82,7 +82,6 @@ public class BankAccountsFragment extends Fragment {
 
     private void loadBanks() {
         List<BankAccount> list = ((User) user).getBanks();
-        Log.d("banks", list.toString());
         if (list == null) {
             tvNoBanks.setVisibility(View.VISIBLE);
             return;
