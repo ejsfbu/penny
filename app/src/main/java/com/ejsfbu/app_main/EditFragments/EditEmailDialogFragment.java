@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
@@ -27,6 +28,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.OnTextChanged;
@@ -88,8 +90,17 @@ public class EditEmailDialogFragment extends DialogFragment {
 
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        EditEmailDialogListener listener = (EditEmailDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
+        EditEmailDialogListener listener;
+        if (fragments.size() > 1) {
+            listener = (EditEmailDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
+        } else {
+            listener = (EditEmailDialogListener) getFragmentManager()
+                    .findFragmentByTag(fragmentTag).getContext();
+        }
         listener.onFinishEditDialog();
         dismiss();
     }

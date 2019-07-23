@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.EditFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
@@ -27,7 +28,8 @@ import butterknife.OnClick;
 
 public class ParentProfileActivity extends AppCompatActivity
         implements EditNameDialogFragment.EditNameDialogListener,
-        EditUsernameDialogFragment.EditUsernameDialogListener {
+        EditUsernameDialogFragment.EditUsernameDialogListener,
+        EditEmailDialogFragment.EditEmailDialogListener {
 
     public static final String TAG = "ParentProfileFragment";
 
@@ -115,6 +117,16 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditUsernameDialog() {
         EditUsernameDialogFragment editUsernameDialogFragment = EditUsernameDialogFragment.newInstance("Edit Username");
         editUsernameDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_username");
+    }
+
+    @OnClick(R.id.ibEditParentEmail)
+    public void onClickEditParentEmail() {
+        showEditEmailDialog();
+    }
+
+    private void showEditEmailDialog() {
+        EditEmailDialogFragment editEmailDialogFragment = EditEmailDialogFragment.newInstance("Edit Email");
+        editEmailDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_email");
     }
 
     @OnClick(R.id.ivParentProfilePic)
