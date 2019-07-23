@@ -9,7 +9,7 @@
 
     <ImageView
         android:id="@+id/ivBankImage"
-        android:layout_width="48dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -49,7 +49,16 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:text="*****"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvVerified"
         app:layout_constraintStart_toStartOf="@+id/tvBankName"
         app:layout_constraintTop_toBottomOf="@+id/tvBankName" />
+
+    <TextView
+        android:id="@+id/tvVerified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Verified"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvAccountNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>

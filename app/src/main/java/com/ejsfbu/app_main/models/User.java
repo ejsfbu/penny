@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -68,6 +69,10 @@ public class User extends ParseUser {
 
     public List<BankAccount> getBanks() {
         return getList(KEY_BANK);
+    }
+
+    public void addBank(BankAccount bank) {
+        addAllUnique(KEY_BANK, Collections.singleton(bank));
     }
 
     public static class Query extends ParseQuery<User> {

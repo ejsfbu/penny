@@ -228,7 +228,6 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                     Intent intent = new Intent(AddGoalActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-
                 } else {
                     Toast.makeText(AddGoalActivity.this, "Error Creating Goal",
                             Toast.LENGTH_SHORT).show();

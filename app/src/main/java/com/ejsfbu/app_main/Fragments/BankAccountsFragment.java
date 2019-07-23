@@ -1,8 +1,10 @@
 package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.icu.lang.UScript;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ejsfbu.app_main.Activities.AddBankActivity;
 import com.ejsfbu.app_main.Adapters.BankAdapter;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
@@ -29,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class BankAccountsFragment extends Fragment {
@@ -62,6 +66,7 @@ public class BankAccountsFragment extends Fragment {
         user = ParseUser.getCurrentUser();
         bankList = new ArrayList<>();
         adapter = new BankAdapter(context, bankList);
+        rvBanks.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvBanks.setLayoutManager(linearLayoutManager);
         loadBanks();
@@ -76,6 +81,7 @@ public class BankAccountsFragment extends Fragment {
 
     private void loadBanks() {
         List<BankAccount> list = ((User) user).getBanks();
+        Log.d("banks", list.toString());
         if (list == null) {
             tvNoBanks.setVisibility(View.VISIBLE);
             return;
@@ -83,6 +89,12 @@ public class BankAccountsFragment extends Fragment {
         tvNoBanks.setVisibility(View.INVISIBLE);
         bankList.addAll(((User) user).getBanks());
         adapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.fabAddBank)
+    public void onClickAdd() {
+        Intent intent = new Intent(getContext(), AddBankActivity.class);
+        startActivity(intent);
     }
 
 }

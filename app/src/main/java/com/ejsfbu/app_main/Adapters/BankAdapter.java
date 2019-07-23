@@ -54,12 +54,14 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
         private ImageView ivBankImage;
         private TextView tvBankName;
         private TextView tvAccountNumber;
+        private TextView tvVerified;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivBankImage = itemView.findViewById(R.id.ivBankImage);
             tvBankName = itemView.findViewById(R.id.tvBankName);
             tvAccountNumber = itemView.findViewById(R.id.tvAccountNumber);
+            tvVerified = itemView.findViewById(R.id.tvVerified);
         }
 
         public void bind(BankAccount bank) {
@@ -67,6 +69,11 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
             String bankAccount =  bank.getAccountNumber();
             tvBankName.setText(bank.getBankName());
             tvAccountNumber.setText("****" + bankAccount.substring(bankAccount.length() - 4));
+            if (bank.getVerified()) {
+                tvVerified.setText("Verified");
+            } else {
+                tvVerified.setText("Pending");
+            }
         }
 
 
