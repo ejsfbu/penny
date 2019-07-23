@@ -1,12 +1,9 @@
 package com.ejsfbu.app_main.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,22 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
-import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
+import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Transaction;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
@@ -59,7 +52,7 @@ public class GoalDetailsFragment extends Fragment {
     //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
     @BindView(R.id.deposit_btn) Button deposit_btn;
     @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
-    @BindView(R.id.edit_goal_btn) Button edit_goal_btn;
+    @BindView(R.id.cancel_goal_btn) Button edit_goal_btn;
     @BindView(R.id.tvCompletionDateTitle) TextView tvCompletionDateTitle;
     @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
     @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
@@ -155,13 +148,15 @@ public class GoalDetailsFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.edit_goal_btn)
+    @OnClick(R.id.cancel_goal_btn)
     public void onClickEdit(){
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("Goal", goal);
-        Fragment editGoal = new EditGoalFragment();
-        editGoal.setArguments(bundle);
-        fragmentManager.beginTransaction().replace(R.id.flContainer, editGoal).commit();
+        showCancelGoalDialog();
+    }
+
+    private void showCancelGoalDialog() {
+        CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
+        cancel.show(fragmentManager, "fragment_cancel_goal");
+
     }
 
 }
