@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.ChildDetailActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Request;
@@ -23,6 +25,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.List;
+
+import butterknife.OnClick;
 
 public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> {
 
@@ -57,7 +61,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
         return children.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView ivChildProfilePic;
         private TextView tvChildName;
@@ -72,6 +76,8 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
             tvNumGoalsCompleted = itemView.findViewById(R.id.tvNumGoalsCompleted);
             tvNumGoalsInProgress = itemView.findViewById(R.id.tvNumGoalsInProgress);
             tvPendingRequests = itemView.findViewById(R.id.tvPendingRequests);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bind(User child) {
@@ -147,6 +153,18 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
                     }
                 }
             });
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                User child = children.get(position);
+                String childCode = child.getObjectId();
+                Intent intent = new Intent(context, ChildDetailActivity.class);
+                intent.putExtra("childCode", childCode);
+                context.startActivity(intent);
+            }
         }
     }
 
