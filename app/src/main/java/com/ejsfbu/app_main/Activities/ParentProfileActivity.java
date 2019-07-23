@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.EditFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
@@ -127,6 +128,16 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditEmailDialog() {
         EditEmailDialogFragment editEmailDialogFragment = EditEmailDialogFragment.newInstance("Edit Email");
         editEmailDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_email");
+    }
+
+    @OnClick(R.id.ibEditParentPassword)
+    public void onClickEditParentPassword() {
+        showEditPasswordDialog();
+    }
+
+    private void showEditPasswordDialog() {
+        EditPasswordDialogFragment editPasswordDialogFragment = EditPasswordDialogFragment.newInstance("Edit Password");
+        editPasswordDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_password");
     }
 
     @OnClick(R.id.ivParentProfilePic)
