@@ -60,12 +60,12 @@ public class AddBankActivity extends AppCompatActivity {
             return;
         }
         final String routing = etRouting.getText().toString();
-        if (routing.equals("") || !routing.matches("^[0-9]*$")) {
+        if (routing.equals("") || !routing.matches("^[0-9]*$") || routing.length() < 9) {
             Toast.makeText(this, "Please enter a valid routing number.", Toast.LENGTH_LONG).show();
             return;
         }
         final String accountNumber = etAccountNumber.getText().toString();
-        if (accountNumber.equals("") || !accountNumber.matches("^[0-9]*$")) {
+        if (accountNumber.equals("") || !accountNumber.matches("^[0-9]*$") || accountNumber.length() < 4) {
             Toast.makeText(this, "Please enter a valid account number.", Toast.LENGTH_LONG).show();
             return;
         }
