@@ -1,9 +1,7 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,12 +19,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseFile;
 
 import java.util.Date;
 import java.util.List;
+
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
@@ -40,7 +42,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_goal, parent, false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.item_goal, parent, false);
         return new ViewHolder(view);
 
     }
@@ -64,7 +67,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         private ProgressBar pbPercentDone;
         private ConstraintLayout root;
 
-        // TODO put spannable for description and make username bold and clickable and share button
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivGoalImage = itemView.findViewById(R.id.ivGoalImage);
@@ -105,6 +107,18 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         .apply(options) // Extra: round image corners
                         .into(ivGoalImage);
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //launch the details view
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("Goal", goal);
+                    Fragment fragment = new GoalDetailsFragment();
+                    fragment.setArguments(bundle);
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                }
+            });
         }
 
         public String formatDateString(String date) {

@@ -124,8 +124,13 @@ public class Goal extends ParseObject {
             return this;
         }
 
-        public Query fromUser() {
+        public Query fromCurrentUser() {
             whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+            return this;
+        }
+
+        public Query fromUser(User user) {
+            whereEqualTo(KEY_USER, user);
             return this;
         }
     }

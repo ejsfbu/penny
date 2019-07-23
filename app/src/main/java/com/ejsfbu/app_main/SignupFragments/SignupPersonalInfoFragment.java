@@ -20,6 +20,7 @@ import com.ejsfbu.app_main.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +45,6 @@ public class SignupPersonalInfoFragment extends Fragment {
 
     private Unbinder unbinder;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +56,6 @@ public class SignupPersonalInfoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         etBirthday = view.findViewById(R.id.etBirthday);
     }
-
 
     @OnClick(R.id.bNext)
     public void onClickNext() {
@@ -92,6 +91,14 @@ public class SignupPersonalInfoFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
                 return;
             } else {
+                long today = System.currentTimeMillis();
+                long diffInMillies = Math.abs(birthday.getTime() - today);
+                long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                long diffInYears = diffInDays / 365;
+                if (diffInYears < 18) {
+                    user.setNeedsParent(true);
+                    user.setRequiresApproval(true);
+                }
                 user.setBirthday(birthday);
                 Fragment email = new SignupAccountInfoFragment();
                 getFragmentManager().beginTransaction()

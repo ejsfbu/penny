@@ -26,4 +26,22 @@
     <string name="next">Next</string>
     <string name="personal_info">Personal Information</string>
     <string name="account_info">Account Information</string>
+    <string name="child_code">Child Code</string>
+    <string name="goals_in_progress">Goals in Progress</string>
+    <string name="goals_completed">Goals Completed</string>
+    <string name="pending_requests">Pending Requests</string>
+    <string name="child_name">Child Name</string>
+    <string name="needs_parent_info_1">You must link a parent account to use the app.</string>
+    <string name="needs_parent_info_2">Give your parent/guardian this code to enter when they sign up:</string>
+    <string name="needs_parent_info_3">After your parent signs up, enter their code below.</string>
+    <string name="parent_code">Parent Code</string>
+    <string name="submit">Submit</string>
+    <string name="add_goal_title">Add a New Goal!</string>
+    <string name="image_info">Take or upload an image below:</string>
+    <string name="verify_child_info_1">Give your child this code to enter to verify their account:</string>
+    <string name="verify_child_info_2">You can also access this code at any time in your profile.</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="hidden_password">**********</string>
+    <string name="account_code">Account Code: </string>
+    <string name="edit">Edit</string>
 </resources>
