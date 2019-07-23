@@ -4,6 +4,7 @@ package com.ejsfbu.app_main.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment bankFragment = new BankAccountsFragment();
             fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commitAllowingStateLoss();
         }
+    }
 
     private void showConnectParentDialog() {
         NeedsParentDialogFragment needsParentDialogFragment = NeedsParentDialogFragment.newInstance("Needs Parent");
