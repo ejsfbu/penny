@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
+import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -39,6 +42,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
     Button transfer_opt_btn;
     Unbinder unbinder;
     static Goal currentGoal;
+    List<BankAccount> bankAccounts;
 
     public CancelGoalDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -88,11 +92,12 @@ public class CancelGoalDialogFragment extends DialogFragment {
 
 
     public void setClickers(){
-
         //cancel option
         comp_cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //transfer money to your bank account
+                Double saved = currentGoal.getSaved();
 
                 //deletes the goal
                 Goal.Query query = new Goal.Query();
@@ -108,18 +113,30 @@ public class CancelGoalDialogFragment extends DialogFragment {
                         }
                     }
                 });
+
+                //return to goals page
+                GoalsListFragment goalsListFragment = new GoalsListFragment();
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalsListFragment).commit();
+                dismiss();
             }
         });
 
+        //transfer to another goal option
+        transfer_opt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoalsListFragment selectGoalFragment = new GoalsListFragment();
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalsListFragment).commit();
+                dismiss();
+            }
+        });
 
-    }
-
-    @OnClick(R.id.transfer_opt_btn)
-    public void onClickTransfer() {
-        //find the goal in Parse and delete it before that you want to add that amount saved to the goal that you selected from the screen
-
-
-        //i think it would be great to implement a search bar and you can select the goal you want out of all the options you have
-        //later can grey out that option if there is only 1 goal in your list
+        //exit the dialog fragment
+        exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
     }
 }
