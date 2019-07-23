@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.BadgesFragment;
+import com.ejsfbu.app_main.Fragments.BankAccountsFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.R;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     // Request codes
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public final static int BANK_REQUEST_CODE = 20;
     // needed values
     private File photoFile;
     public String photoFileName = "photo.jpg";
@@ -77,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
         });
         // Set default selection
         bottomNavigationView.setSelectedItemId(R.id.miGoals);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
+            Fragment bankFragment = new BankAccountsFragment();
+            fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commitAllowingStateLoss();
+        }
     }
 
 }

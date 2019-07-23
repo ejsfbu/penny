@@ -84,6 +84,7 @@ public class AddBankActivity extends AppCompatActivity {
         newBank.setLegalName(legalName);
         newBank.setRoutingtNumber(routing);
         newBank.setAccountNumber(accountNumber);
+        newBank.setVerified(false);
         newBank.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -104,9 +105,11 @@ public class AddBankActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(AddBankActivity.this, "Bank account added.", Toast.LENGTH_LONG).show();
-                    Fragment bankFragment = new BankAccountsFragment();
-                    MainActivity.fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commit();
-                    //finish();
+//                    Fragment bankFragment = new BankAccountsFragment();
+//                    MainActivity.fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commit();
+                    setResult(RESULT_OK);
+                    finish();
+                    // update
                     // fix bug
                 } else {
                     e.printStackTrace();

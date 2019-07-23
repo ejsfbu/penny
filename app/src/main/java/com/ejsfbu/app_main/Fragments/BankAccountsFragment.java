@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Activities.AddBankActivity;
+import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.BankAdapter;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
@@ -94,7 +95,7 @@ public class BankAccountsFragment extends Fragment {
     @OnClick(R.id.fabAddBank)
     public void onClickAdd() {
         Intent intent = new Intent(getContext(), AddBankActivity.class);
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, MainActivity.BANK_REQUEST_CODE);
     }
 
 }
