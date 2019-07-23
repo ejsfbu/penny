@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.EditFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditPasswordDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
@@ -30,7 +31,8 @@ import butterknife.OnClick;
 public class ParentProfileActivity extends AppCompatActivity
         implements EditNameDialogFragment.EditNameDialogListener,
         EditUsernameDialogFragment.EditUsernameDialogListener,
-        EditEmailDialogFragment.EditEmailDialogListener {
+        EditEmailDialogFragment.EditEmailDialogListener,
+        EditProfileImageDialogFragment.EditProfileImageDialogListener {
 
     public static final String TAG = "ParentProfileFragment";
 
@@ -142,11 +144,12 @@ public class ParentProfileActivity extends AppCompatActivity
 
     @OnClick(R.id.ivParentProfilePic)
     public void onClickParentProfilePic() {
-        ParseUser.logOut();
+        showEditImageDialog();
+    }
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+    private void showEditImageDialog() {
+        EditProfileImageDialogFragment editProfileImageDialogFragment = EditProfileImageDialogFragment.newInstance("Edit Password");
+        editProfileImageDialogFragment.show(ParentProfileActivity.fragmentManager, "fragment_edit_profileimage");
     }
 
     @Override

@@ -29,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -47,6 +48,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.rotateBitmapOrientation;
@@ -115,8 +117,17 @@ public class EditProfileImageDialogFragment extends DialogFragment {
 
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        EditProfileImageDialogListener listener = (EditProfileImageDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
+        EditProfileImageDialogListener listener;
+        if (fragments.size() > 1) {
+            listener = (EditProfileImageDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
+        } else {
+            listener = (EditProfileImageDialogListener) getFragmentManager()
+                    .findFragmentByTag(fragmentTag).getContext();
+        }
         listener.onFinishEditDialog();
         dismiss();
     }
@@ -129,7 +140,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
         // Set the width of the dialog proportional to 75% of the screen width
-        window.setLayout((int) (size.x * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         // Call super onResume after sizing
         super.onResume();
