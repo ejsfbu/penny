@@ -114,6 +114,8 @@ public class User extends ParseUser {
         addAllUnique(KEY_BANK, Collections.singleton(bank));
     }
 
+    public void removeBank(BankAccount bank) { removeAll(KEY_BANK, Collections.singleton(bank));}
+
     public static class Query extends ParseQuery<User> {
         public Query() {
             super(User.class);

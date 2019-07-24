@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Fragments.BankDetailsFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.Reward;
 import com.parse.ParseFile;
 
 import java.util.List;
+
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 
@@ -55,6 +61,7 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
         private TextView tvBankName;
         private TextView tvAccountNumber;
         private TextView tvVerified;
+        private ConstraintLayout root;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +69,7 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
             tvBankName = itemView.findViewById(R.id.tvBankName);
             tvAccountNumber = itemView.findViewById(R.id.tvAccountNumber);
             tvVerified = itemView.findViewById(R.id.tvVerified);
+            root = itemView.findViewById(R.id.root);
         }
 
         public void bind(BankAccount bank) {
@@ -74,7 +82,16 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
             } else {
                 tvVerified.setText("Pending");
             }
+
+            root.setOnClickListener(view -> {
+                Fragment fragment = new BankDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("bank", bank);
+                fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            });
         }
+
 
 
 // set up when we can get bank picture
