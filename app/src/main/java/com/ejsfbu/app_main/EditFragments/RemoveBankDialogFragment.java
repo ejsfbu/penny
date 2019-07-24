@@ -78,7 +78,7 @@ public class RemoveBankDialogFragment extends DialogFragment {
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        RemoveBankDialogListener listener = (RemoveBankDialogListener) getFragmentManager().findFragmentById();
+        RemoveBankDialogListener listener = (RemoveBankDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
         listener.onFinishEditDialog();
         dismiss();
     }

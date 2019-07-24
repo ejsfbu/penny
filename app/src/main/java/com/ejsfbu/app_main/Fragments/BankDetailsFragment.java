@@ -20,13 +20,19 @@ import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.EditFragments.RemoveBankDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
+import com.ejsfbu.app_main.models.User;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class BankDetailsFragment extends Fragment implements RemoveBankDialogFragment.RemoveBankDialogListener {
 
@@ -43,7 +49,7 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
 
     // Butterknife for fragment
     private Unbinder unbinder;
-    private ParseUser user;
+    private User user;
     private Context context;
     private BankAccount bank;
 
@@ -58,7 +64,7 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        user = ParseUser.getCurrentUser();
+        user = (User) ParseUser.getCurrentUser();
         Bundle bundle = this.getArguments();
         bank = bundle.getParcelable("bank");
         tvBankName.setText(bank.getBankName());
@@ -94,8 +100,36 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
     // This is called when the dialog is completed and the results have been passed
     @Override
     public void onFinishEditDialog() {
-        Toast.makeText(context, "Bank account removed.", Toast.LENGTH_LONG).show();
+        user.removeBank(bank);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    deleteBank();
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
+
+    }
+
+    private void deleteBank() {
+        bank.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(context, "Bank account removed.", Toast.LENGTH_LONG).show();
+                    Fragment fragment = new BankAccountsFragment();
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 }
