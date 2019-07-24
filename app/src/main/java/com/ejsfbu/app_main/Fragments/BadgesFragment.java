@@ -66,7 +66,7 @@ public class BadgesFragment extends Fragment {
         completedBadgeRows = new ArrayList<>();
         inProgressBadgeRows = new ArrayList<>();
 
-        goalAdapter = new GoalAdapter(context, goals);
+        goalAdapter = new GoalAdapter(context, goals,"Details");
         completedBadgeRowAdapter = new BadgeRowAdapter(context, completedBadgeRows);
         inProgressBadgeRowAdapter = new BadgeRowAdapter(context, inProgressBadgeRows);
 

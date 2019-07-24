@@ -63,7 +63,7 @@ public class GoalsListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         // Recycler view set up
         goalList = new ArrayList<>();
-        adapter = new GoalAdapter(context, goalList);
+        adapter = new GoalAdapter(context, goalList, "Details");
         rvGoals.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvGoals.setLayoutManager(linearLayoutManager);

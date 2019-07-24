@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,6 +21,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
+import com.ejsfbu.app_main.Fragments.GoalsListFragment;
+import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseFile;
@@ -33,10 +36,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
     private List<Goal> goalsList;
     private Context context;
+    private String purpose;
 
-    public GoalAdapter(Context context, List<Goal> goals) {
+    public GoalAdapter(Context context, List<Goal> goals, String purpose) {
         this.context = context;
         this.goalsList = goals;
+        this.purpose = purpose;
     }
 
     @NonNull
@@ -111,12 +116,21 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //launch the details view
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Goal", goal);
-                    Fragment fragment = new GoalDetailsFragment();
-                    fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    //launch the details view
+                    if (purpose.equals("Details")) {
+                        Fragment fragment = new GoalDetailsFragment();
+                        fragment.setArguments(bundle);
+                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    } else { //transfers money to this goal
+
+
+                        //back to the list
+                        Toast.makeText(context, "Transfer has been made & goal is now deleted!", Toast.LENGTH_LONG).show();
+                        Fragment fragment = new GoalsListFragment();
+                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    }
                 }
             });
         }
