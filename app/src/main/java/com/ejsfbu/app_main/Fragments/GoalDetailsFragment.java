@@ -156,7 +156,6 @@ public class GoalDetailsFragment extends Fragment {
     private void showCancelGoalDialog() {
         CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
         cancel.show(fragmentManager, "fragment_cancel_goal");
-
     }
 
 }

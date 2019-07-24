@@ -20,15 +20,20 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.models.Transaction;
+import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -137,7 +142,24 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     else {
                         //transfers money to this goal
                         Double saved = cancelled.getSaved();
-                        System.out.println("Send money");
+
+                        Transaction transfer = new Transaction();
+                        transfer.setAmount(saved);
+                        transfer.setGoal(goal);
+                        //TODO set up the bank that the transaction comes from
+                        transfer.setUser(ParseUser.getCurrentUser());
+                        transfer.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "Money Transferred",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "Transfer Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
                         //deletes the goal
                         Goal.Query query = new Goal.Query();

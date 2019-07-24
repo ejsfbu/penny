@@ -61,7 +61,6 @@ public class ProfileFragment extends Fragment
     ImageButton ibUserName;
     @BindView(R.id.ivChildProfilePic)
     ImageView ivProfileImage;
-
     @BindView(R.id.tv_profile_username)
     TextView username;
     @BindView(R.id.tv_profile_password)
@@ -72,7 +71,6 @@ public class ProfileFragment extends Fragment
     TextView email;
     @BindView(R.id.lvParents)
     ListView lvParents;
-
     private Unbinder unbinder;
     private User user;
     private Context context;

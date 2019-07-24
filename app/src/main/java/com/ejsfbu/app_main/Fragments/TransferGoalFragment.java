@@ -73,27 +73,8 @@ public class TransferGoalFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvTransferGoals.setLayoutManager(linearLayoutManager);
 
-        exit_pick_goal_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("Cancelled Goal", cancelledGoal);
-                Fragment goalDetail = new GoalDetailsFragment();
-                goalDetail.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalDetail).commit();
-            }
-        });
+        setListeners();
 
-        scrollListener =  new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                loadNextDataFromApi(page);
-            }
-        };
-
-        // Adds the scroll listener to RecyclerView
         rvTransferGoals.addOnScrollListener(scrollListener);
 
         loadGoals();
@@ -156,5 +137,28 @@ public class TransferGoalFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void setListeners() {
+        exit_pick_goal_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Cancelled Goal", cancelledGoal);
+                Fragment goalDetail = new GoalDetailsFragment();
+                goalDetail.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalDetail).commit();
+            }
+        });
+
+        scrollListener =  new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi(page);
+            }
+        };
+
     }
 }
