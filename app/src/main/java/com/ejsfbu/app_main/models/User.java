@@ -5,10 +5,13 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+
 import org.json.JSONArray;
+
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @ParseClassName("_User")
 public class User extends ParseUser {
@@ -18,6 +21,7 @@ public class User extends ParseUser {
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
     public static final String KEY_BIRTHDAY = "birthday";
+    public static final String KEY_BANK = "bankAccounts";
     public static final String KEY_IS_PARENT = "isParent";
     public static final String KEY_CHILDREN = "children";
     public static final String KEY_PARENTS = "parents";
@@ -97,6 +101,14 @@ public class User extends ParseUser {
 
     public void addParent(User parent) {
         addAllUnique(KEY_PARENTS, Collections.singleton(parent));
+    }
+
+    public List<BankAccount> getBanks() {
+        return getList(KEY_BANK);
+    }
+
+    public void addBank(BankAccount bank) {
+        addAllUnique(KEY_BANK, Collections.singleton(bank));
     }
 
     public static class Query extends ParseQuery<User> {

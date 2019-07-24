@@ -17,7 +17,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.ChildDetailActivity"></activity>
         <activity android:name=".Activities.ParentProfileActivity" />
+        <activity android:name=".Activities.AddBankActivity"></activity>
         <activity android:name=".Activities.ParentActivity" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
