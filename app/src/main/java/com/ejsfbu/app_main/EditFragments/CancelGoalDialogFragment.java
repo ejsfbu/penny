@@ -43,7 +43,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
     Button comp_cancel_btn;
     Button transfer_opt_btn;
     Unbinder unbinder;
-    static Goal currentGoal;
+    static Goal cancelledGoal;
     List<BankAccount> bankAccounts;
 
     public CancelGoalDialogFragment() {
@@ -57,7 +57,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
-        currentGoal = goal;
+        cancelledGoal = goal;
         return frag;
     }
 
@@ -99,11 +99,11 @@ public class CancelGoalDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 //transfer money to your bank account
-                Double saved = currentGoal.getSaved();
+                Double saved = cancelledGoal.getSaved();
 
                 //deletes the goal
                 Goal.Query query = new Goal.Query();
-                query.whereEqualTo("objectId", currentGoal.getObjectId());
+                query.whereEqualTo("objectId", cancelledGoal.getObjectId());
                 query.findInBackground(new FindCallback<Goal>() {
                     @Override
                     public void done(List<Goal> objects, ParseException e) {
@@ -127,11 +127,29 @@ public class CancelGoalDialogFragment extends DialogFragment {
         transfer_opt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //transfer money to your bank account
+                Double saved = cancelledGoal.getSaved();
+
+                //deletes the goal
+                Goal.Query query = new Goal.Query();
+                query.whereEqualTo("objectId", cancelledGoal.getObjectId());
+                query.findInBackground(new FindCallback<Goal>() {
+                    @Override
+                    public void done(List<Goal> objects, ParseException e) {
+                        if (e == null) {
+                            objects.get(0).deleteInBackground();
+                            objects.get(0).saveInBackground();
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("Goal", currentGoal);
-                Fragment fragment = new TransferGoalFragment();
-                fragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
+                bundle.putParcelable("Cancelled Goal", cancelledGoal);
+                Fragment transferGoalFragment = new TransferGoalFragment();
+                transferGoalFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, transferGoalFragment).commit();
                 dismiss();
             }
         });
@@ -143,5 +161,10 @@ public class CancelGoalDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
+    }
+
+
+    public static Goal getCancelledGoal() {
+        return cancelledGoal;
     }
 }

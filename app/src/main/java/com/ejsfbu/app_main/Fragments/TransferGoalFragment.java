@@ -43,11 +43,13 @@ public class TransferGoalFragment extends Fragment {
     Unbinder unbinder;
     Context context;
     List<Goal> goals;
-    Goal goal;
+    Goal transferredGoal;
+    Goal cancelledGoal;
     LinearLayoutManager linearLayoutManager;
     GoalAdapter adapter;
     EndlessRecyclerViewScrollListener scrollListener;
     private int goalsLoaded;
+    Double moneyTransfer;
 
     @Nullable
     @Override
@@ -60,7 +62,8 @@ public class TransferGoalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        goal = getArguments().getParcelable("Goal");
+        cancelledGoal = getArguments().getParcelable("Goal");
+
 
         unbinder = ButterKnife.bind(this, view);
         goals = new ArrayList<>();
@@ -73,14 +76,14 @@ public class TransferGoalFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("Goal", goal);
+                bundle.putParcelable("Cancelled Goal", cancelledGoal);
                 Fragment goalDetail = new GoalDetailsFragment();
                 goalDetail.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.flContainer, goalDetail).commit();
             }
         });
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener =  new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
@@ -109,7 +112,7 @@ public class TransferGoalFragment extends Fragment {
         goalsQuery.getTopByEndDate()
                 .areNotCompleted()
                 .fromCurrentUser()
-                .whereNotEqualTo("objectId", goal.getObjectId());
+                .whereNotEqualTo("objectId", cancelledGoal.getObjectId());
         goalsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
@@ -137,8 +140,8 @@ public class TransferGoalFragment extends Fragment {
         postsQuery.setTop(goalsLoaded + 20)
                 .areNotCompleted()
                 .fromCurrentUser()
-                .whereNotEqualTo("objectId", goal.getObjectId());
-        //.setSkip(goalsLoaded);
+                .whereNotEqualTo("objectId", cancelledGoal.getObjectId())
+                .setSkip(goalsLoaded);
         postsQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
