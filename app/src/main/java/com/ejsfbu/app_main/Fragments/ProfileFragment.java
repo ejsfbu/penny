@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -33,8 +33,13 @@ import com.ejsfbu.app_main.EditFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,36 +56,62 @@ public class ProfileFragment extends Fragment
         EditUsernameDialogFragment.EditUsernameDialogListener {
 
     public static final String TAG = "ProfileFragment";
-    public List<User> parents;
 
-    @BindView(R.id.bLogOut)
-    Button bLogOut;
-    @BindView(R.id.ibEditName)
-    ImageButton ibName;
-    @BindView(R.id.ibEditUserName)
-    ImageButton ibUserName;
+    @BindView(R.id.bChildLogout)
+    Button bChildLogout;
+
+    @BindView(R.id.ibEditChildName)
+    ImageButton ibEditChildName;
+    @BindView(R.id.ibEditChildUsername)
+    ImageButton ibEditChildUsername;
+
+    @BindView(R.id.cvParentProfilePic1)
+    CardView cvParentProfilePic1;
+    @BindView(R.id.cvParentProfilePic2)
+    CardView cvParentProfilePic2;
+    @BindView(R.id.cvParentProfilePic3)
+    CardView cvParentProfilePic3;
+    @BindView(R.id.cvParentProfilePic4)
+    CardView cvParentProfilePic4;
+
     @BindView(R.id.ivChildProfilePic)
-    ImageView ivProfileImage;
+    ImageView ivChildProfilePic;
+    @BindView(R.id.ivParentProfilePic1)
+    ImageView ivParentProfilePic1;
+    @BindView(R.id.ivParentProfilePic2)
+    ImageView ivParentProfilePic2;
+    @BindView(R.id.ivParentProfilePic3)
+    ImageView ivParentProfilePic3;
+    @BindView(R.id.ivParentProfilePic4)
+    ImageView ivParentProfilePic4;
 
-    @BindView(R.id.tv_profile_username)
-    TextView username;
-    @BindView(R.id.tv_profile_password)
-    TextView password;
-    @BindView(R.id.tv_parent_name)
-    TextView name;
-    @BindView(R.id.tv_profile_email)
-    TextView email;
-    @BindView(R.id.lvParents)
-    ListView lvParents;
+    @BindView(R.id.tvChildUsername)
+    TextView tvChildUsername;
+    @BindView(R.id.tvChildName)
+    TextView tvChildName;
+    @BindView(R.id.tvChildEmail)
+    TextView tvChildEmail;
+    @BindView(R.id.tvChildAccountCode)
+    TextView tvChildAccountCode;
+    @BindView(R.id.tvParentName1)
+    TextView tvParentName1;
+    @BindView(R.id.tvParentName2)
+    TextView tvParentName2;
+    @BindView(R.id.tvParentName3)
+    TextView tvParentName3;
+    @BindView(R.id.tvParentName4)
+    TextView tvParentName4;
 
     private Unbinder unbinder;
     private User user;
     private Context context;
+    private ArrayList<User> parents;
+    private int numParents;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment98
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
@@ -99,7 +130,7 @@ public class ProfileFragment extends Fragment
         unbinder.unbind();
     }
 
-    @OnClick(R.id.bLogOut)
+    @OnClick(R.id.bChildLogout)
     public void onClickLogOut() {
         ParseUser.logOut();
 
@@ -108,22 +139,22 @@ public class ProfileFragment extends Fragment
         getActivity().finish();
     }
 
-    @OnClick(R.id.ibEditName)
+    @OnClick(R.id.ibEditChildName)
     public void onClickEditName() {
         showEditNameDialog();
     }
 
-    @OnClick(R.id.ibEditUserName)
+    @OnClick(R.id.ibEditChildUsername)
     public void onClickEditUserName() {
         showEditUsernameDialog();
     }
 
-    @OnClick(R.id.ibEditEmail)
+    @OnClick(R.id.ibEditChildEmail)
     public void onClickEditEmail() {
         showEditEmailDialog();
     }
 
-    @OnClick(R.id.ibEditPassword)
+    @OnClick(R.id.ibEditChildPassword)
     public void onClickEditPassword() {
         showEditPasswordDialog();
     }
@@ -133,10 +164,16 @@ public class ProfileFragment extends Fragment
         showEditImageDialog();
     }
 
-    @OnClick(R.id.bBanks)
+    @OnClick(R.id.tvChildProfileEdit)
+    public void onClickChildProfileEdit() {
+        showEditImageDialog();
+    }
+
+    @OnClick(R.id.bChildBankInfo)
     public void onClickBanks() {
         Fragment bankFragment = new BankAccountsFragment();
-        MainActivity.fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commit();
+        MainActivity.fragmentManager.beginTransaction()
+                .replace(R.id.flContainer, bankFragment).commit();
     }
 
     private void showEditNameDialog() {
@@ -172,7 +209,6 @@ public class ProfileFragment extends Fragment
                 "fragment_edit_profileimage");
     }
 
-    // Load user data
     private void loadProfileData() {
         ParseFile image = user.getProfilePic();
         if (image != null) {
@@ -180,39 +216,92 @@ public class ProfileFragment extends Fragment
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
+            options.placeholder(R.drawable.icon_user)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.ic_iconfinder_icons_user_1564534)
+                    .error(R.drawable.icon_user)
                     .transform(new CenterCrop())
                     .transform(new CircleCrop());
             Glide.with(context)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivProfileImage);
+                    .into(ivChildProfilePic);
         }
-        username.setText(user.getUsername());
-        email.setText(user.getEmail());
-        name.setText(user.getName());
+        tvChildUsername.setText(user.getUsername());
+        tvChildEmail.setText(user.getEmail());
+        tvChildName.setText(user.getName());
+        tvChildAccountCode.setText(user.getObjectId());
+
+        JSONArray jsonParents = user.getParents();
+        numParents = jsonParents.length();
+        for (int i = 0; i < numParents; i++) {
+            try {
+                JSONObject jsonParent = (JSONObject) jsonParents.get(i);
+                String parentUserId = jsonParent.getString("objectId");
+                User.Query userQuery = new User.Query();
+                userQuery.whereEqualTo("objectId", parentUserId);
+                userQuery.findInBackground(new FindCallback<User>() {
+                    @Override
+                    public void done(List<User> objects, ParseException e) {
+                        if (e == null) {
+                            User parent = objects.get(0);
+                            parents.add(parent);
+                        }
+                        if (parents.size() == numParents) {
+                            loopParents();
+                        }
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    //TODO implement when we have parent list
-    private void setParentList() {
-        //TODO test once we have a list of parents for a child user
-        User.Query userQuery = new User.Query();
-        userQuery.whereEqualTo("username", user.getUsername());
-        userQuery.findInBackground(new FindCallback<User>() {
-            @Override
-            public void done(List<User> users, com.parse.ParseException e) {
-                if (e == null) {
-                    parents = users.get(0).getList("parents");
-                } else {
-                    Log.e("ParentQueryIssue", "Trouble finding parents!");
-                    e.printStackTrace();
-                }
-            }
-        });
-        ParentDisplayAdapter adapter = new ParentDisplayAdapter(getContext(), parents);
-        lvParents.setAdapter(adapter);
+    public void loopParents() {
+        if (parents.size() > 0) {
+            cvParentProfilePic1.setVisibility(View.VISIBLE);
+            tvParentName1.setVisibility(View.VISIBLE);
+            User parent1 = (User) parents.get(0);
+            setParent(parent1, ivParentProfilePic1, tvParentName1);
+        }
+        if (parents.size() > 1) {
+            cvParentProfilePic2.setVisibility(View.VISIBLE);
+            tvParentName2.setVisibility(View.VISIBLE);
+            User parent2 = (User) parents.get(1);
+            setParent(parent2, ivParentProfilePic2, tvParentName2);
+        }
+        if (parents.size() > 2) {
+            cvParentProfilePic3.setVisibility(View.VISIBLE);
+            tvParentName3.setVisibility(View.VISIBLE);
+            User parent3 = (User) parents.get(2);
+            setParent(parent3, ivParentProfilePic3, tvParentName3);
+        }
+        if (parents.size() > 3) {
+            cvParentProfilePic4.setVisibility(View.VISIBLE);
+            tvParentName4.setVisibility(View.VISIBLE);
+            User parent4 = (User) parents.get(3);
+            setParent(parent4, ivParentProfilePic4, tvParentName4);
+        }
+    }
+
+    public void setParent(User parent, ImageView ivParentProfilePic, TextView tvParentName) {
+        ParseFile image = parent.getProfilePic();
+        if (image != null) {
+            String imageUrl = image.getUrl();
+            imageUrl = imageUrl.substring(4);
+            imageUrl = "https" + imageUrl;
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.icon_user)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .error(R.drawable.icon_user)
+                    .transform(new CenterCrop())
+                    .transform(new CircleCrop());
+            Glide.with(context)
+                    .load(imageUrl)
+                    .apply(options) // Extra: round image corners
+                    .into(ivParentProfilePic);
+        }
+        tvParentName.setText(parent.getName());
     }
 
     @Override

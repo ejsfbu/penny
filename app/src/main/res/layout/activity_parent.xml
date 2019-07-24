@@ -30,7 +30,7 @@
         tools:layout_editor_absoluteX="403dp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvProfilePic"
+        android:id="@+id/cvChildProfilePic"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_iconfinder_icons_user_1564534"/>
+            app:srcCompat="@drawable/icon_user"/>
 
     </androidx.cardview.widget.CardView>
 

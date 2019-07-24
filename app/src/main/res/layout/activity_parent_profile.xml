@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_iconfinder_icons_user_1564534" />
+            app:srcCompat="@drawable/icon_user" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -47,12 +47,12 @@
         android:id="@+id/ibEditParentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/tvParentName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvParentName"
-        app:srcCompat="@drawable/edit_icon_box" />
+        app:srcCompat="@drawable/icon_edit" />
 
     <TextView
         android:id="@+id/tvParentUsername"
@@ -71,12 +71,12 @@
         android:id="@+id/ibEditParentUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/tvParentUsername"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvParentUsername"
-        app:srcCompat="@drawable/edit_icon_box" />
+        app:srcCompat="@drawable/icon_edit" />
 
     <TextView
         android:id="@+id/tvParentEmail"
@@ -95,12 +95,12 @@
         android:id="@+id/ibEditParentEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/tvParentEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvParentEmail"
-        app:srcCompat="@drawable/edit_icon_box" />
+        app:srcCompat="@drawable/icon_edit" />
 
     <TextView
         android:id="@+id/tvParentPassword"
@@ -119,24 +119,38 @@
         android:id="@+id/ibEditParentPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/tvParentPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvParentPassword"
-        app:srcCompat="@drawable/edit_icon_box" />
+        app:srcCompat="@drawable/icon_edit" />
 
     <TextView
-        android:id="@+id/tvParentCode"
-        android:layout_width="0dp"
+        android:id="@+id/tvParentAccountCodeTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/account_code"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvParentName"
+        app:layout_constraintTop_toBottomOf="@id/tvParentPassword"/>
+
+    <TextView
+        android:id="@+id/tvParentAccountCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/hidden_password"
+        android:textColor="@color/coin_blue"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvParentAccountCodeTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvParentPassword" />
 
     <Button
@@ -146,13 +160,12 @@
         android:background="@color/coin_blue"
         android:text="@string/log_out"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@+id/tvParentCode"
+        app:layout_constraintBottom_toBottomOf="@+id/tvParentAccountCode"
         app:layout_constraintEnd_toEndOf="@+id/cvParentProfilePic"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/cvParentProfilePic" />
 
     <TextView
-        android:id="@+id/tvEdit"
+        android:id="@+id/tvParentProfileEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

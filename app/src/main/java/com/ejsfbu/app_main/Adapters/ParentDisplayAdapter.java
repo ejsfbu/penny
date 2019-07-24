@@ -34,7 +34,7 @@ public class ParentDisplayAdapter extends ArrayAdapter<User> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_parent, parent, false);
         }
         // Lookup view for data population
-        TextView tvName = convertView.findViewById(R.id.tv_parent_name);
+        TextView tvName = convertView.findViewById(R.id.tvChildName);
         ImageView ivPic = convertView.findViewById(R.id.ivParentImage);
         // Populate the data into the template view using the data object
         tvName.setText(user.getName());
@@ -46,9 +46,9 @@ public class ParentDisplayAdapter extends ArrayAdapter<User> {
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
+            options.placeholder(R.drawable.icon_user)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.ic_iconfinder_icons_user_1564534)
+                    .error(R.drawable.icon_user)
                     .transform(new CenterCrop())
                     .transform(new CircleCrop());
             Glide.with(getContext())

@@ -47,7 +47,7 @@ public class VerifyChildDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
 
-        tvParentCode = view.findViewById(R.id.tvParentCode);
+        tvParentCode = view.findViewById(R.id.tvParentAccountCode);
         tvParentCode.setText(user.getObjectId());
 
         bDismiss = view.findViewById(R.id.bDismiss);
