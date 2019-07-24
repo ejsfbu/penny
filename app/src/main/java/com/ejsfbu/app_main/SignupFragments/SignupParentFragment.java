@@ -226,7 +226,6 @@ public class SignupParentFragment extends Fragment {
     }
 
     public void getChildFromCode(String childCode) {
-
         User.Query userQuery = new User.Query();
         userQuery.whereEqualTo("objectId", childCode);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -239,7 +238,6 @@ public class SignupParentFragment extends Fragment {
                 } else {
                     child = objects.get(0);
                     user.addChild(child);
-
                 }
             }
         });

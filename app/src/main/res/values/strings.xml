@@ -13,8 +13,6 @@
     <string name="add_goal">Add Goal</string>
     <string name="birthday">Birthday (mm/dd/yyyy)</string>
     <string name="end_date">End Date (mm/dd/yyyy)</string>
-    <string name="welcome_text">Welcome to *app_main*!</string>
-    <string name="welcome_detail_text">Fill out the information below to create a *app_main* account.</string>
     <string name="completed_goals">Completed Goals</string>
     <string name="completed_badges">Completed Badges</string>
     <string name="in_progress_badges">In Progress Badges</string>
@@ -44,5 +42,6 @@
     <string name="hidden_password">**********</string>
     <string name="account_code">Account Code: </string>
     <string name="edit">Edit</string>
+    <string name="in_progress_goals">In Progress Goals</string>
     <string name="removeBank">Are you sure you want to remove this bank account?</string>
 </resources>

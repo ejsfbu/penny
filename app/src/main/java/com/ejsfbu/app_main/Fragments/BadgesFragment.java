@@ -2,16 +2,15 @@ package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
@@ -107,7 +106,7 @@ public class BadgesFragment extends Fragment {
         });
     }
 
-    protected  void loadCompletedBadges() {
+    protected void loadCompletedBadges() {
         final Reward.Query rewardsQuery = new Reward.Query();
         rewardsQuery.getTopCompleted()
                 .areCompleted();
@@ -123,7 +122,7 @@ public class BadgesFragment extends Fragment {
         });
     }
 
-    protected  void loadInProgressBadges() {
+    protected void loadInProgressBadges() {
         final Reward.Query rewardsQuery = new Reward.Query();
         rewardsQuery.getTopInProgress()
                 .areInProgress();
@@ -139,7 +138,8 @@ public class BadgesFragment extends Fragment {
         });
     }
 
-    private void makeBadgeRows(List<Reward> rewards, BadgeRowAdapter badgeRowAdapter, List<BadgeRow> badgeRows) {
+    private void makeBadgeRows(List<Reward> rewards, BadgeRowAdapter badgeRowAdapter,
+                               List<BadgeRow> badgeRows) {
         for (int i = 0; i < rewards.size() - (rewards.size() % 5); i += 5) {
             BadgeRow badgeRow = new BadgeRow();
             badgeRow.setBadge1(rewards.get(i));
