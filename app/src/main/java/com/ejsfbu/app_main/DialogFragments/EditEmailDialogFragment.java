@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -30,21 +30,21 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditUsernameDialogFragment extends DialogFragment {
+public class EditEmailDialogFragment extends DialogFragment {
 
-    private EditText etUsername;
+    private EditText etEmail;
     private Button bConfirm;
     private Button bCancel;
     private Context context;
     private ParseUser user;
-    private boolean usernameUnique;
+    private boolean emailUnique;
 
-    public EditUsernameDialogFragment() {
+    public EditEmailDialogFragment() {
 
     }
 
-    public static EditUsernameDialogFragment newInstance(String title) {
-        EditUsernameDialogFragment frag = new EditUsernameDialogFragment();
+    public static EditEmailDialogFragment newInstance(String title) {
+        EditEmailDialogFragment frag = new EditEmailDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -55,27 +55,27 @@ public class EditUsernameDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_edit_username, container);
+        return inflater.inflate(R.layout.fragment_edit_email, container);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        etUsername = view.findViewById(R.id.etUserName);
+        etEmail = view.findViewById(R.id.etEmail);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
-        etUsername.setText(user.getUsername());
-        String title = getArguments().getString("title", "Enter Name");
+        etEmail.setText(user.getEmail());
+        String title = getArguments().getString("title", "Enter Email");
         getDialog().setTitle(title);
-        etUsername.requestFocus();
+        etEmail.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
-        etUsername.addTextChangedListener(textChanged);
+        etEmail.addTextChangedListener(textChanged);
     }
 
-    public interface EditUsernameDialogListener {
+    public interface EditEmailDialogListener {
         void onFinishEditDialog();
     }
 
@@ -83,12 +83,12 @@ public class EditUsernameDialogFragment extends DialogFragment {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
         String fragmentTag = fragments.get(0).getTag();
         int fragmentId = fragments.get(0).getId();
-        EditUsernameDialogListener listener;
+        EditEmailDialogListener listener;
         if (fragments.size() > 1) {
-            listener = (EditUsernameDialogListener) getFragmentManager()
+            listener = (EditEmailDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {
-            listener = (EditUsernameDialogListener) getFragmentManager()
+            listener = (EditEmailDialogListener) getFragmentManager()
                     .findFragmentByTag(fragmentTag).getContext();
         }
         listener.onFinishEditDialog();
@@ -111,16 +111,17 @@ public class EditUsernameDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            if (!usernameUnique) {
-                Toast.makeText(getContext(), "Username is taken", Toast.LENGTH_LONG).show();
+            if (!emailUnique) {
+                Toast.makeText(getContext(), "Email is already associated with an account",
+                        Toast.LENGTH_LONG).show();
                 return;
             }
-            user.put("username", etUsername.getText().toString());
+            user.put("email", etEmail.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Username changed successfully.",
+                        Toast.makeText(context, "Email changed successfully.",
                                 Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
@@ -132,28 +133,27 @@ public class EditUsernameDialogFragment extends DialogFragment {
         });
     }
 
-    public void checkUsernameUnique() {
-        String username = etUsername.getText().toString();
+    public void checkEmailUnique() {
+        String email = etEmail.getText().toString();
         User.Query userQuery = new User.Query();
-        userQuery.testUsername(username);
+        userQuery.testEmail(email);
         userQuery.findInBackground(new FindCallback<User>() {
             @Override
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
+                        etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
                                 .getColor(android.R.color.holo_green_dark));
-                        usernameUnique = true;
+                        emailUnique = true;
                     } else {
-                        if (username.equals(user.getUsername())) {
-                            etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
-                                    .getColor(android.R.color.holo_green_dark));
-                            usernameUnique = true;
-                        } else {
-                            etUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
+                        if (email.equals(user.getEmail())) {
+                            etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
                                     .getColor(android.R.color.holo_red_dark));
-                            usernameUnique = false;
+                            emailUnique = false;
                         }
+                        etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
+                                .getColor(android.R.color.holo_green_dark));
+                        emailUnique = true;
                     }
                 } else {
                     e.printStackTrace();
@@ -167,7 +167,7 @@ public class EditUsernameDialogFragment extends DialogFragment {
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            checkUsernameUnique();
+            checkEmailUnique();
         }
 
         public void afterTextChanged(Editable s) {

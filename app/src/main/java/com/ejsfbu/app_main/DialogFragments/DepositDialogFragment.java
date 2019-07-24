@@ -1,9 +1,8 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,24 +26,22 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
-public class EditNameDialogFragment extends DialogFragment {
+public class DepositDialogFragment extends DialogFragment {
     // View objects
     private EditText etFirstName;
-    private EditText etMiddleInitial;
-    private EditText etLastName;
     private Button bConfirm;
     private Button bCancel;
     private Context context;
     private User user;
 
-    public EditNameDialogFragment() {
+    public DepositDialogFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static EditNameDialogFragment newInstance(String title) {
-        EditNameDialogFragment frag = new EditNameDialogFragment();
+    public static DepositDialogFragment newInstance(String title) {
+        DepositDialogFragment frag = new DepositDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -55,7 +52,7 @@ public class EditNameDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_edit_name, container);
+        return inflater.inflate(R.layout.fragment_edit_deposit, container);
     }
 
     @Override
@@ -64,8 +61,6 @@ public class EditNameDialogFragment extends DialogFragment {
         user = (User) ParseUser.getCurrentUser();
         // Get field from view
         etFirstName = view.findViewById(R.id.etFirstName);
-        etMiddleInitial = view.findViewById(R.id.etMiddleInitial);
-        etLastName = view.findViewById(R.id.etLastName);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
         fillData();
@@ -80,7 +75,7 @@ public class EditNameDialogFragment extends DialogFragment {
     }
 
     // Defines the listener interface
-    public interface EditNameDialogListener {
+    public interface DepositDialogListener {
         void onFinishEditDialog();
     }
 
@@ -89,12 +84,12 @@ public class EditNameDialogFragment extends DialogFragment {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
         String fragmentTag = fragments.get(0).getTag();
         int fragmentId = fragments.get(0).getId();
-        EditNameDialogListener listener;
+        DepositDialogFragment.DepositDialogListener listener;
         if (fragments.size() > 1) {
-            listener = (EditNameDialogListener) getFragmentManager()
+            listener = (DepositDialogFragment.DepositDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {
-            listener = (EditNameDialogListener) getFragmentManager()
+            listener = (DepositDialogFragment.DepositDialogListener) getFragmentManager()
                     .findFragmentByTag(fragmentTag).getContext();
         }
         listener.onFinishEditDialog();
@@ -121,9 +116,6 @@ public class EditNameDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            String name = etFirstName.getText().toString() + " "
-                    + etMiddleInitial.getText().toString() + " "
-                    + etLastName.getText().toString();
             user.put("name", name);
             user.saveInBackground(new SaveCallback() {
                 @Override
@@ -137,28 +129,5 @@ public class EditNameDialogFragment extends DialogFragment {
                 }
             });
         });
-    }
-
-    // fill name fields depending on user's name
-    private void fillData() {
-        String fullName = user.get("name").toString();
-        String arr[] = fullName.split(" ");
-        switch (arr.length) {
-            case 1:
-                etFirstName.setText(arr[0]);
-                break;
-            case 2:
-                etFirstName.setText(arr[0]);
-                etLastName.setText(arr[1]);
-                break;
-            case 3:
-                etFirstName.setText(arr[0]);
-                etLastName.setText(arr[2]);
-                etMiddleInitial.setText(arr[1]);
-                break;
-            default:
-                Log.d("Name", fullName);
-
-        }
     }
 }

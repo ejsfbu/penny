@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;

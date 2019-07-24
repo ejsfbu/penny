@@ -13,11 +13,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.EditFragments.RemoveBankDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.RemoveBankDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.User;
