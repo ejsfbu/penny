@@ -44,4 +44,5 @@
     <string name="hidden_password">**********</string>
     <string name="account_code">Account Code: </string>
     <string name="edit">Edit</string>
+    <string name="removeBank">Are you sure you want to remove this bank account?</string>
 </resources>

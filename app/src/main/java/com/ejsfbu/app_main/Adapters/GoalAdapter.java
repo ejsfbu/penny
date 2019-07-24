@@ -65,7 +65,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         private TextView tvEndDate;
         private TextView tvPercentDone;
         private ProgressBar pbPercentDone;
-        private ConstraintLayout root;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,7 +74,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             tvEndDate = itemView.findViewById(R.id.tvEndDate);
             tvPercentDone = itemView.findViewById(R.id.tvPercentDone);
             pbPercentDone = itemView.findViewById(R.id.pbPercentDone);
-            root = itemView.findViewById(R.id.root);
+
         }
 
         public void bind(Goal goal) {
