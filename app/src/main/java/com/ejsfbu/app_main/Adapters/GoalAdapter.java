@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
@@ -36,12 +37,17 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
     private List<Goal> goalsList;
     private Context context;
-    private String purpose;
+    private Fragment purpose;
 
-    public GoalAdapter(Context context, List<Goal> goals, String purpose) {
+    public GoalAdapter(Context context, List<Goal> goals, CancelGoalDialogFragment purpose) {
         this.context = context;
         this.goalsList = goals;
         this.purpose = purpose;
+    }
+
+    public GoalAdapter(Context context, List<Goal> goals) {
+        this.context = context;
+        this.goalsList = goals;
     }
 
     @NonNull
@@ -117,18 +123,24 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("Goal", goal);
+                    bundle.putParcelable("Cancelled Goal", goal);
                     //launch the details view
                     if (purpose.equals("Details")) {
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                     } else { //transfers money to this goal
+                        Goal cancel = purpose.getCancelledGoal();
 
 
-                        //back to the list
+                        //deletes previous goal
+
+
+
+                        //sends you to that detail goal
                         Toast.makeText(context, "Transfer has been made & goal is now deleted!", Toast.LENGTH_LONG).show();
-                        Fragment fragment = new GoalsListFragment();
+                        Fragment fragment = new GoalDetailsFragment();
+                        fragment.setArguments(bundle);
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                     }
                 }
