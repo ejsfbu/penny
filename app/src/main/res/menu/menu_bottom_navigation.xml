@@ -4,21 +4,21 @@
 
     <item
         android:id="@+id/miGoals"
-        android:icon="@drawable/ic_iconfinder_target_3827997"
+        android:icon="@drawable/icon_target"
         android:title="Goals"
         android:visible="true"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/miRewards"
-        android:icon="@drawable/ic_iconfinder_38_web_essential_3401856"
+        android:icon="@drawable/icon_star"
         android:title="Rewards"
         android:visible="true"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/miProfile"
-        android:icon="@drawable/ic_iconfinder_icons_user_1564534"
+        android:icon="@drawable/icon_user"
         android:title="Profile"
         android:visible="true"
         app:showAsAction="always" />

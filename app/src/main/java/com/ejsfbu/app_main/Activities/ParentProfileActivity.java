@@ -45,10 +45,10 @@ public class ParentProfileActivity extends AppCompatActivity
     TextView tvParentUsername;
     @BindView(R.id.tvParentPassword)
     TextView getTvParentPassword;
-    @BindView(R.id.tvParentCode)
+    @BindView(R.id.tvParentAccountCode)
     TextView tvParentCode;
-    @BindView(R.id.tvEdit)
-    TextView tvEdit;
+    @BindView(R.id.tvParentProfileEdit)
+    TextView tvParentProfileEdit;
 
     @BindView(R.id.ibEditParentName)
     ImageButton ibEditParentName;
@@ -85,10 +85,7 @@ public class ParentProfileActivity extends AppCompatActivity
         tvParentName.setText(user.getName());
         tvParentEmail.setText(user.getEmail());
         tvParentUsername.setText(user.getUsername());
-
-        String accountCode = getResources().getString(R.string.account_code)
-                + " " + user.getObjectId();
-        tvParentCode.setText(accountCode);
+        tvParentCode.setText(user.getObjectId());
 
         ParseFile image = user.getProfilePic();
         if (image != null) {
@@ -96,9 +93,9 @@ public class ParentProfileActivity extends AppCompatActivity
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
+            options.placeholder(R.drawable.icon_user)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.ic_iconfinder_icons_user_1564534)
+                    .error(R.drawable.icon_user)
                     .transform(new CenterCrop())
                     .transform(new CircleCrop());
             Glide.with(this)
@@ -161,7 +158,7 @@ public class ParentProfileActivity extends AppCompatActivity
         showEditImageDialog();
     }
 
-    @OnClick(R.id.tvEdit)
+    @OnClick(R.id.tvParentProfileEdit)
     public void onClickEdit() {
         showEditImageDialog();
     }

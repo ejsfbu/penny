@@ -44,4 +44,7 @@
     <string name="hidden_password">**********</string>
     <string name="account_code">Account Code: </string>
     <string name="edit">Edit</string>
+    <string name="bank_info">Bank Information</string>
+    <string name="refer_friend">Refer a Friend</string>
+    <string name="parents">Parents</string>
 </resources>

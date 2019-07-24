@@ -16,7 +16,7 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_iconfinder_target_3827997" />
+        app:srcCompat="@drawable/icon_target" />
 
     <TextView
         android:id="@+id/tvGoalDetailsName"
