@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
+import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
@@ -62,12 +63,12 @@ public class TransferGoalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        cancelledGoal = getArguments().getParcelable("Goal");
+        cancelledGoal = getArguments().getParcelable("Cancelled Goal");
 
 
         unbinder = ButterKnife.bind(this, view);
         goals = new ArrayList<>();
-        adapter = new GoalAdapter(context, goals, "Transfer");
+        adapter = new GoalAdapter(context, goals, CancelGoalDialogFragment.newInstance("Cancel", cancelledGoal));
         rvTransferGoals.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvTransferGoals.setLayoutManager(linearLayoutManager);
