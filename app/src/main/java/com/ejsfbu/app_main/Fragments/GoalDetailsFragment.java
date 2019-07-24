@@ -71,7 +71,7 @@ public class GoalDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-        goal = getArguments().getParcelable("Goal");
+       goal = getArguments().getParcelable("Clicked Goal");
 
         ParseFile image = goal.getParseFile("image");
         if (image != null) {

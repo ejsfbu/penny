@@ -26,6 +26,8 @@ import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.Date;
@@ -38,11 +40,13 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     private List<Goal> goalsList;
     private Context context;
     private Fragment purpose;
+    private Goal cancelled;
 
     public GoalAdapter(Context context, List<Goal> goals, CancelGoalDialogFragment purpose) {
         this.context = context;
         this.goalsList = goals;
         this.purpose = purpose;
+        this.cancelled = purpose.getCancelledGoal();
     }
 
     public GoalAdapter(Context context, List<Goal> goals) {
@@ -123,19 +127,32 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("Cancelled Goal", goal);
+                    bundle.putParcelable("Clicked Goal", goal);
                     //launch the details view
-                    if (purpose.equals("Details")) {
+                    if ((purpose == null) && (cancelled == null)) {
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                    } else { //transfers money to this goal
-                        Goal cancel = purpose.getCancelledGoal();
+                    }
+                    else {
+                        //transfers money to this goal
+                        Double saved = cancelled.getSaved();
+                        System.out.println("Send money");
 
-
-                        //deletes previous goal
-
-
+                        //deletes the goal
+                        Goal.Query query = new Goal.Query();
+                        query.whereEqualTo("objectId", cancelled.getObjectId());
+                        query.findInBackground(new FindCallback<Goal>() {
+                            @Override
+                            public void done(List<Goal> objects, ParseException e) {
+                                if (e == null) {
+                                    objects.get(0).deleteInBackground();
+                                    objects.get(0).saveInBackground();
+                                } else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
 
                         //sends you to that detail goal
                         Toast.makeText(context, "Transfer has been made & goal is now deleted!", Toast.LENGTH_LONG).show();

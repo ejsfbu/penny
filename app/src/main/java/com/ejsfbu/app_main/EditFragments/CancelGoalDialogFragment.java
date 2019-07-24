@@ -127,24 +127,6 @@ public class CancelGoalDialogFragment extends DialogFragment {
         transfer_opt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //transfer money to your bank account
-                Double saved = cancelledGoal.getSaved();
-
-                //deletes the goal
-                Goal.Query query = new Goal.Query();
-                query.whereEqualTo("objectId", cancelledGoal.getObjectId());
-                query.findInBackground(new FindCallback<Goal>() {
-                    @Override
-                    public void done(List<Goal> objects, ParseException e) {
-                        if (e == null) {
-                            objects.get(0).deleteInBackground();
-                            objects.get(0).saveInBackground();
-                        } else {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("Cancelled Goal", cancelledGoal);
                 Fragment transferGoalFragment = new TransferGoalFragment();
