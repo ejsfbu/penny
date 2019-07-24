@@ -17,7 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
+import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.Goal;
@@ -125,8 +127,11 @@ public class CancelGoalDialogFragment extends DialogFragment {
         transfer_opt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GoalsListFragment selectGoalFragment = new GoalsListFragment();
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalsListFragment).commit();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Goal", currentGoal);
+                Fragment fragment = new TransferGoalFragment();
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, fragment).commit();
                 dismiss();
             }
         });
