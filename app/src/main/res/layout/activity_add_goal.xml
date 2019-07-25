@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/piggy_bank"
+        app:srcCompat="@drawable/logo_piggy_bank"
         tools:ignore="ContentDescription" />
 
     <View
@@ -44,7 +44,7 @@
             android:id="@+id/etGoalName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/goal_name"
             android:inputType="text" />
 
@@ -65,7 +65,7 @@
             android:id="@+id/etGoalCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/goal_cost"
             android:inputType="numberDecimal" />
 
@@ -86,7 +86,7 @@
             android:id="@+id/etEndDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/end_date"
             android:inputType="date" />
 
@@ -99,7 +99,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/add_goal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -122,7 +122,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/white_button_background"
+        android:background="@drawable/background_button_white"
         app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toStartOf="@+id/verticalborder"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +136,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/white_button_background"
+        android:background="@drawable/background_button_white"
         android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toEndOf="parent"
@@ -172,7 +172,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/end_date_layout"
         app:layout_constraintEnd_toEndOf="@+id/end_date_layout"
         app:layout_constraintTop_toTopOf="@+id/end_date_layout"
-        app:srcCompat="@drawable/calendar_color" />
+        app:srcCompat="@drawable/icon_calendar_color" />
 
     <TextView
         android:id="@+id/tvAddGoalTitle"

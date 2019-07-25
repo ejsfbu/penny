@@ -47,4 +47,8 @@
     <string name="parents">Parents</string>
     <string name="in_progress_goals">In Progress Goals</string>
     <string name="removeBank">Are you sure you want to remove this bank account?</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="edit_password">Edit Password</string>
 </resources>
