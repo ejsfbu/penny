@@ -1,9 +1,8 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,31 +21,35 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.BankAccount;
+import com.ejsfbu.app_main.models.Transaction;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-public class EditNameDialogFragment extends DialogFragment {
+public class DepositDialogFragment extends DialogFragment {
     // View objects
-    private EditText etFirstName;
-    private EditText etMiddleInitial;
-    private EditText etLastName;
+    private EditText etAmount;
     private Button bConfirm;
     private Button bCancel;
     private Context context;
     private User user;
+    private Spinner spinner;
+    private List<BankAccount> banks;
 
-    public EditNameDialogFragment() {
+    public DepositDialogFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static EditNameDialogFragment newInstance(String title) {
-        EditNameDialogFragment frag = new EditNameDialogFragment();
+    public static DepositDialogFragment newInstance(String title) {
+        DepositDialogFragment frag = new DepositDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -55,7 +60,7 @@ public class EditNameDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_edit_name, container);
+        return inflater.inflate(R.layout.fragment_edit_deposit, container);
     }
 
     @Override
@@ -63,41 +68,30 @@ public class EditNameDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
         // Get field from view
-        etFirstName = view.findViewById(R.id.etFirstName);
-        etMiddleInitial = view.findViewById(R.id.etMiddleInitial);
-        etLastName = view.findViewById(R.id.etLastName);
+        etAmount = view.findViewById(R.id.etAmount);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+        spinner = view.findViewById(R.id.sBanks);
         fillData();
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        etFirstName.requestFocus();
+        etAmount.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
     }
 
     // Defines the listener interface
-    public interface EditNameDialogListener {
-        void onFinishEditDialog();
+    public interface DepositDialogListener {
+        void onFinishEditDialog(String bankName, Double amount);
     }
 
     // Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
-        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(0).getTag();
-        int fragmentId = fragments.get(0).getId();
-        EditNameDialogListener listener;
-        if (fragments.size() > 1) {
-            listener = (EditNameDialogListener) getFragmentManager()
-                    .findFragmentById(fragmentId);
-        } else {
-            listener = (EditNameDialogListener) getFragmentManager()
-                    .findFragmentByTag(fragmentTag).getContext();
-        }
-        listener.onFinishEditDialog();
+    public void sendBackResult(String bankName, Double amount) {
+        DepositDialogListener listener = (DepositDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        listener.onFinishEditDialog(bankName, amount);
         dismiss();
     }
 
@@ -121,44 +115,27 @@ public class EditNameDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            String name = etFirstName.getText().toString() + " "
-                    + etMiddleInitial.getText().toString() + " "
-                    + etLastName.getText().toString();
-            user.put("name", name);
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Toast.makeText(context, "Name changed successfully.", Toast.LENGTH_SHORT).show();
-                        sendBackResult();
-                    } else {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            String bankName = spinner.getSelectedItem().toString();
+            if (bankName.equals("No verified banks available")) {
+                Toast.makeText(context, "No bank account selected.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Double amount = Double.valueOf(etAmount.getText().toString());
+            sendBackResult(bankName, amount);
         });
     }
 
-    // fill name fields depending on user's name
     private void fillData() {
-        String fullName = user.get("name").toString();
-        String arr[] = fullName.split(" ");
-        switch (arr.length) {
-            case 1:
-                etFirstName.setText(arr[0]);
-                break;
-            case 2:
-                etFirstName.setText(arr[0]);
-                etLastName.setText(arr[1]);
-                break;
-            case 3:
-                etFirstName.setText(arr[0]);
-                etLastName.setText(arr[2]);
-                etMiddleInitial.setText(arr[1]);
-                break;
-            default:
-                Log.d("Name", fullName);
-
+        banks = user.getVerifiedBanks();
+        ArrayList<String> array = new ArrayList<>();
+        for (BankAccount bank: banks) {
+            array.add(bank.getBankName());
         }
+        if (array.size() == 0) {
+            array.add("No verified banks available");
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, array);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 }

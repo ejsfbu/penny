@@ -1,8 +1,9 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,21 +27,24 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
-public class RemoveBankDialogFragment extends DialogFragment {
+public class EditNameDialogFragment extends DialogFragment {
     // View objects
+    private EditText etFirstName;
+    private EditText etMiddleInitial;
+    private EditText etLastName;
     private Button bConfirm;
     private Button bCancel;
     private Context context;
     private User user;
 
-    public RemoveBankDialogFragment() {
+    public EditNameDialogFragment() {
         // Empty constructor is required for DialogFragment
         // Make sure not to add arguments to the constructor
         // Use `newInstance` instead as shown below
     }
 
-    public static RemoveBankDialogFragment newInstance(String title) {
-        RemoveBankDialogFragment frag = new RemoveBankDialogFragment();
+    public static EditNameDialogFragment newInstance(String title) {
+        EditNameDialogFragment frag = new EditNameDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -51,7 +55,7 @@ public class RemoveBankDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_edit_bank, container);
+        return inflater.inflate(R.layout.fragment_edit_name, container);
     }
 
     @Override
@@ -59,26 +63,40 @@ public class RemoveBankDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
         // Get field from view
+        etFirstName = view.findViewById(R.id.etFirstName);
+        etMiddleInitial = view.findViewById(R.id.etMiddleInitial);
+        etLastName = view.findViewById(R.id.etLastName);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+        fillData();
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
+        etFirstName.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
     }
 
     // Defines the listener interface
-    public interface RemoveBankDialogListener {
+    public interface EditNameDialogListener {
         void onFinishEditDialog();
     }
 
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        RemoveBankDialogListener listener = (RemoveBankDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
+        EditNameDialogListener listener;
+        if (fragments.size() > 1) {
+            listener = (EditNameDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
+        } else {
+            listener = (EditNameDialogListener) getFragmentManager()
+                    .findFragmentByTag(fragmentTag).getContext();
+        }
         listener.onFinishEditDialog();
         dismiss();
     }
@@ -103,7 +121,44 @@ public class RemoveBankDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            sendBackResult();
+            String name = etFirstName.getText().toString() + " "
+                    + etMiddleInitial.getText().toString() + " "
+                    + etLastName.getText().toString();
+            user.put("name", name);
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(context, "Name changed successfully.", Toast.LENGTH_SHORT).show();
+                        sendBackResult();
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
         });
+    }
+
+    // fill name fields depending on user's name
+    private void fillData() {
+        String fullName = user.get("name").toString();
+        String arr[] = fullName.split(" ");
+        switch (arr.length) {
+            case 1:
+                etFirstName.setText(arr[0]);
+                break;
+            case 2:
+                etFirstName.setText(arr[0]);
+                etLastName.setText(arr[1]);
+                break;
+            case 3:
+                etFirstName.setText(arr[0]);
+                etLastName.setText(arr[2]);
+                etMiddleInitial.setText(arr[1]);
+                break;
+            default:
+                Log.d("Name", fullName);
+
+        }
     }
 }

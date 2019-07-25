@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -108,6 +109,17 @@ public class User extends ParseUser {
 
     public List<BankAccount> getBanks() {
         return getList(KEY_BANK);
+    }
+
+    public List<BankAccount> getVerifiedBanks() {
+        List<BankAccount> newList = new ArrayList<>();
+        List<BankAccount> list = getList(KEY_BANK);
+        for (BankAccount bank: list){
+            if (bank.getVerified()) {
+                newList.add(bank);
+            }
+        }
+        return newList;
     }
 
     public void addBank(BankAccount bank) {

@@ -6,6 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Collections;
 import java.util.Date;
 
 @ParseClassName("Goal")
@@ -21,6 +22,7 @@ public class Goal extends ParseObject {
     public static final String KEY_END_DATE = "endDate";
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
+    public static final String KEY_TRANSACTIONS = "transactions";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -44,6 +46,10 @@ public class Goal extends ParseObject {
 
     public void setSaved(Double saved) {
         put(KEY_SAVED, saved);
+    }
+
+    public void addSaved(Double saved) {
+        put(KEY_SAVED, getSaved() + saved);
     }
 
     public Double getCost() {
@@ -85,6 +91,12 @@ public class Goal extends ParseObject {
     public void setDateCompleted(Date date) {
         put(KEY_DATE_COMPLETED, date);
     }
+
+    public void addTransaction(Transaction transaction) {
+        addAllUnique(KEY_TRANSACTIONS, Collections.singleton(transaction));
+    }
+
+    public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
     public static class Query extends ParseQuery<Goal> {
         public Query() {
