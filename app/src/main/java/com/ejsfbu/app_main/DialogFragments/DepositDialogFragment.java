@@ -85,23 +85,13 @@ public class DepositDialogFragment extends DialogFragment {
 
     // Defines the listener interface
     public interface DepositDialogListener {
-        void onFinishEditDialog();
+        void onFinishEditDialog(String bankName, Double amount);
     }
 
     // Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
-        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(0).getTag();
-        int fragmentId = fragments.get(0).getId();
-        DepositDialogFragment.DepositDialogListener listener;
-        if (fragments.size() > 1) {
-            listener = (DepositDialogFragment.DepositDialogListener) getFragmentManager()
-                    .findFragmentById(fragmentId);
-        } else {
-            listener = (DepositDialogFragment.DepositDialogListener) getFragmentManager()
-                    .findFragmentByTag(fragmentTag).getContext();
-        }
-        listener.onFinishEditDialog();
+    public void sendBackResult(String bankName, Double amount) {
+        DepositDialogListener listener = (DepositDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        listener.onFinishEditDialog(bankName, amount);
         dismiss();
     }
 
@@ -128,22 +118,10 @@ public class DepositDialogFragment extends DialogFragment {
             String bankName = spinner.getSelectedItem().toString();
             if (bankName.equals("No verified banks available")) {
                 Toast.makeText(context, "No bank account selected.", Toast.LENGTH_SHORT).show();
+                return;
             }
             Double amount = Double.valueOf(etAmount.getText().toString());
-            Transaction transaction = new Transaction();
-            for (BankAccount bank: banks){
-                if (bankName.equals(bank.getBankName())) {
-                    transaction.setBank(bank);
-                }
-            }
-            transaction.setAmount(amount);
-            transaction.setUser(user);
-            transaction.setType(false);
-            if (user.getRequiresApproval()) {
-                transaction.setApproval(false);
-            } else {
-                transaction.setApproval(true);
-            }
+            sendBackResult(bankName, amount);
         });
     }
 

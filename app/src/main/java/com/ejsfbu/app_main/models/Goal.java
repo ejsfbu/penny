@@ -48,6 +48,10 @@ public class Goal extends ParseObject {
         put(KEY_SAVED, saved);
     }
 
+    public void addSaved(Double saved) {
+        put(KEY_SAVED, getSaved() + saved);
+    }
+
     public Double getCost() {
         return getDouble(KEY_COST);
     }

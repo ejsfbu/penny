@@ -1,5 +1,6 @@
 package com.ejsfbu.app_main.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,9 +27,14 @@ import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Transaction;
+import com.ejsfbu.app_main.models.User;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +47,9 @@ import butterknife.Unbinder;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class GoalDetailsFragment extends Fragment {
+public class GoalDetailsFragment extends Fragment implements DepositDialogFragment.DepositDialogListener {
 
-    // Butterknife for fragment
-    private Unbinder unbinder;
+
     @BindView(R.id.ivGoalDetailsImage) ImageView ivGoalDetailsImage;
     @BindView(R.id.tvGoalDetailsName) TextView tvGoalDetailsName;
     @BindView(R.id.pbDetailsPercentDone) ProgressBar pbDetailsPercentDone;
@@ -60,18 +66,23 @@ public class GoalDetailsFragment extends Fragment {
     @BindView(R.id.tvAmountTitle) TextView tvAmountTitle;
     @BindView(R.id.tvAmount) TextView tvAmount;
 
-    List<Transaction>transactionsList;
-    TransactionAdapter adapter;
+    // Butterknife for fragment
+    private Unbinder unbinder;
+    private List<Transaction>transactionsList;
+    private TransactionAdapter adapter;
     private int transactionsLoaded;
-    LinearLayoutManager linearLayoutManager;
-    EndlessRecyclerViewScrollListener scrollListener;
+    private LinearLayoutManager linearLayoutManager;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private User user;
+    private Goal goal;
+    private Context context;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-        Goal goal = getArguments().getParcelable("Goal");
-        setGoalInfo(goal);
+        goal = getArguments().getParcelable("Goal");
+        setGoalInfo();
 
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
@@ -87,10 +98,12 @@ public class GoalDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = container.getContext();
+        user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
 
-    public void setGoalInfo(Goal goal) {
+    public void setGoalInfo() {
         //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal);
@@ -156,5 +169,57 @@ public class GoalDetailsFragment extends Fragment {
                 = DepositDialogFragment.newInstance("Deposit");
         depositDialogFragment.show(MainActivity.fragmentManager,
                 "fragment_edit_deposit");
+    }
+
+    @Override
+    public void onFinishEditDialog(String bankName, Double amount) {
+        Transaction transaction = new Transaction();
+        for (BankAccount bank: user.getVerifiedBanks()){
+            if (bankName.equals(bank.getBankName())) {
+                transaction.setBank(bank);
+            }
+        }
+        transaction.setAmount(amount);
+        transaction.setUser(user);
+        transaction.setType(false);
+        transaction.setGoal(goal);
+        if (user.getRequiresApproval()) {
+            transaction.setApproval(false);
+        } else {
+            transaction.setApproval(true);
+        }
+        transaction.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    checkTransactionApproval(transaction);
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void checkTransactionApproval(Transaction transaction) {
+        if (transaction.getApproval()) {
+            transaction.getBank().withdraw(transaction.getAmount());
+            goal.addSaved(transaction.getAmount());
+            Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
+        }
+        goal.addTransaction(transaction);
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // do the notification here instead for success
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
