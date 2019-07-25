@@ -88,7 +88,7 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("bank", bank);
                 fragment.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flMainContainer, fragment).commit();
             });
         }
 

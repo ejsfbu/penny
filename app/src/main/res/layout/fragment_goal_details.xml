@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Goal Name"
+                android:text="@string/goal_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toBottomOf="@+id/ivGoalDetailsImage"
                 app:layout_constraintStart_toEndOf="@+id/ivGoalDetailsImage"
@@ -39,129 +39,126 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <ProgressBar
-                android:id="@+id/pbDetailsPercentDone"
+                android:id="@+id/pbGoalDetailsPercentDone"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/ivGoalDetailsImage"
-                app:layout_constraintEnd_toStartOf="@+id/tvDetailsPercentDone"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsPercentDone"
                 app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsName"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsName" />
 
             <TextView
-                android:id="@+id/tvDetailsPercentDone"
+                android:id="@+id/tvGoalDetailsPercentDone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/pbDetailsPercentDone"
+                app:layout_constraintBottom_toBottomOf="@+id/pbGoalDetailsPercentDone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/pbDetailsPercentDone" />
+                app:layout_constraintTop_toTopOf="@+id/pbGoalDetailsPercentDone" />
 
             <Button
-                android:id="@+id/deposit_btn"
+                android:id="@+id/bGoalDetailsDeposit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Make a Deposit"
-                app:layout_constraintBottom_toTopOf="@+id/cancel_goal_btn"
-                app:layout_constraintEnd_toEndOf="@+id/cancel_goal_btn"
-                app:layout_constraintStart_toStartOf="@+id/cancel_goal_btn" />
+                android:text="@string/deposit"
+                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsCancelGoal"
+                app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsCancelGoal"
+                app:layout_constraintStart_toStartOf="@+id/bGoalDetailsCancelGoal" />
 
             <Button
-                android:id="@+id/cancel_goal_btn"
+                android:id="@+id/bGoalDetailsCancelGoal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Cancel Goal"
+                android:text="@string/edit_goal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/tvCompletionDateTitle"
+                android:id="@+id/tvGoalDetailsDateCompletedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Completion Date:"
+                android:text="@string/date_completed"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
-                app:layout_constraintTop_toBottomOf="@+id/tvTotalCostTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTotalCostTitle" />
 
             <TextView
-                android:id="@+id/tvCompletionDate"
+                android:id="@+id/tvGoalDetailsCompletionDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/tvCompletionDateTitle"
-                app:layout_constraintTop_toTopOf="@+id/tvCompletionDateTitle" />
+                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsDateCompletedTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
             <TextView
-                android:id="@+id/tvTotalCostTitle"
+                android:id="@+id/tvGoalDetailsTotalCostTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Total Cost:"
+                android:text="@string/total_cost"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
-                app:layout_constraintTop_toBottomOf="@+id/tvAmountTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsAmountSavedTitle" />
 
             <TextView
-                android:id="@+id/tvTotalCost"
+                android:id="@+id/tvGoalDetailsTotalCost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/tvTotalCostTitle"
-                app:layout_constraintTop_toTopOf="@+id/tvTotalCostTitle" />
+                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsTotalCostTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsTotalCostTitle" />
 
             <TextView
-                android:id="@+id/tvTranscationHistory"
+                android:id="@+id/tvGoalDetailsTransactionHistoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
-                android:text="Transaction History"
+                android:text="@string/transaction_history"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_constraintEnd_toEndOf="@+id/pbDetailsPercentDone"
+                app:layout_constraintEnd_toEndOf="@+id/pbGoalDetailsPercentDone"
                 app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toStartOf="@+id/tvCompletionDateTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompletionDateTitle" />
+                app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsDateCompletedTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
             <Button
-                android:id="@+id/auto_btn"
+                android:id="@+id/bGoalDetailsAutoPay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Set up automatic payment"
-                app:layout_constraintBottom_toTopOf="@+id/deposit_btn"
-                app:layout_constraintEnd_toEndOf="@+id/deposit_btn"
-                app:layout_constraintStart_toStartOf="@+id/deposit_btn" />
+                android:text="@string/auto_pay"
+                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintStart_toStartOf="@+id/bGoalDetailsDeposit" />
 
             <TextView
-                android:id="@+id/tvAmountTitle"
+                android:id="@+id/tvGoalDetailsAmountSavedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Amount Saved:"
+                android:text="@string/amount_saved"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
                 app:layout_constraintTop_toBottomOf="@+id/ivGoalDetailsImage" />
 
             <TextView
-                android:id="@+id/tvAmount"
+                android:id="@+id/tvGoalDetailsAmountSaved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="TextView"
-                app:layout_constraintStart_toEndOf="@+id/tvAmountTitle"
-                app:layout_constraintTop_toTopOf="@+id/tvAmountTitle" />
+                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsAmountSavedTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsAmountSavedTitle" />
 
             <TextView
                 android:id="@+id/tvPlaceholder"
@@ -171,10 +168,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="PLACEHOLDER FOR THE RECYCLER VIEW"
-                app:layout_constraintBottom_toTopOf="@+id/auto_btn"
+                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsAutoPay"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTranscationHistory" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTransactionHistoryTitle" />
 
             <ImageButton
                 android:id="@+id/ivEditGoalName"
@@ -193,9 +190,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="#00FFFFFF"
-                app:layout_constraintBottom_toBottomOf="@+id/tvCompletionDate"
-                app:layout_constraintStart_toEndOf="@+id/tvCompletionDate"
-                app:layout_constraintTop_toTopOf="@+id/tvCompletionDate"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsCompletionDate"
+                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsCompletionDate"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsCompletionDate"
                 app:srcCompat="@drawable/icon_edit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

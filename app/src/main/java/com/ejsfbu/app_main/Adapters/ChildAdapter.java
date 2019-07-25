@@ -26,8 +26,6 @@ import com.parse.ParseFile;
 
 import java.util.List;
 
-import butterknife.OnClick;
-
 public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> {
 
     private List<User> children;
@@ -65,17 +63,17 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
 
         private ImageView ivChildProfilePic;
         private TextView tvChildName;
-        private TextView tvNumGoalsInProgress;
-        private TextView tvNumGoalsCompleted;
-        private TextView tvPendingRequests;
+        private TextView tvChildNumGoalsInProgress;
+        private TextView tvChildNumGoalsCompleted;
+        private TextView tvChildPendingRequests;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivChildProfilePic = itemView.findViewById(R.id.ivChildProfilePic);
             tvChildName = itemView.findViewById(R.id.tvChildName);
-            tvNumGoalsCompleted = itemView.findViewById(R.id.tvNumGoalsCompleted);
-            tvNumGoalsInProgress = itemView.findViewById(R.id.tvNumGoalsInProgress);
-            tvPendingRequests = itemView.findViewById(R.id.tvPendingRequests);
+            tvChildNumGoalsCompleted = itemView.findViewById(R.id.tvChildNumGoalsCompleted);
+            tvChildNumGoalsInProgress = itemView.findViewById(R.id.tvChildNumGoalsInProgress);
+            tvChildPendingRequests = itemView.findViewById(R.id.tvChildPendingRequests);
 
             itemView.setOnClickListener(this);
         }
@@ -85,13 +83,13 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
             tvChildName.setText(child.getName());
 
             getNumGoalsInProgress(child);
-            tvNumGoalsInProgress.setText(numGoalsInProgress + " Goals in Progress");
+            tvChildNumGoalsInProgress.setText(numGoalsInProgress + " Goals in Progress");
 
             getNumGoalsCompleted(child);
-            tvNumGoalsCompleted.setText(numGoalsCompleted + " Goals Completed");
+            tvChildNumGoalsCompleted.setText(numGoalsCompleted + " Goals Completed");
 
             getNumPendingRequests(child);
-            tvPendingRequests.setText(numPendingRequests + " Requests Pending");
+            tvChildPendingRequests.setText(numPendingRequests + " Requests Pending");
 
             ParseFile image = child.getProfilePic();
             if (image != null) {

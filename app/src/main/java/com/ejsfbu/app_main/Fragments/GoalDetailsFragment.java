@@ -41,8 +41,10 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,40 +62,37 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     ImageView ivGoalDetailsImage;
     @BindView(R.id.tvGoalDetailsName)
     TextView tvGoalDetailsName;
-    @BindView(R.id.pbDetailsPercentDone)
-    ProgressBar pbDetailsPercentDone;
-    @BindView(R.id.tvDetailsPercentDone)
-    TextView tvDetailsPercentDone;
-    //TODO adding the recycler view
-    //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
-    @BindView(R.id.deposit_btn)
-    Button deposit_btn;
-    @BindView(R.id.tvTranscationHistory)
-    TextView tvTransactionsHistory;
-    @BindView(R.id.cancel_goal_btn)
-    Button cancel_goal_btn;
-    @BindView(R.id.tvCompletionDateTitle)
-    TextView tvCompletionDateTitle;
-    @BindView(R.id.tvCompletionDate)
-    TextView tvCompletionDate;
-    @BindView(R.id.tvTotalCostTitle)
-    TextView tvTotalCostTitle;
-    @BindView(R.id.tvTotalCost)
-    TextView tvTotalCost;
-    @BindView(R.id.tvAmountTitle)
-    TextView tvAmountTitle;
-    @BindView(R.id.tvAmount)
-    TextView tvAmount;
+    @BindView(R.id.pbGoalDetailsPercentDone)
+    ProgressBar pbGoalDetailsPercentDone;
+    @BindView(R.id.tvGoalDetailsPercentDone)
+    TextView tvGoalDetailsPercentDone;
+    @BindView(R.id.bGoalDetailsDeposit)
+    Button bGoalDetailsDeposit;
+    @BindView(R.id.tvGoalDetailsTransactionHistoryTitle)
+    TextView tvGoalDetailsTransactionHistoryTitle;
+    @BindView(R.id.bGoalDetailsCancelGoal)
+    Button bGoalDetailsCancelGoal;
+    @BindView(R.id.tvGoalDetailsDateCompletedTitle)
+    TextView tvGoalDetailsDateCompletedTitle;
+    @BindView(R.id.tvGoalDetailsCompletionDate)
+    TextView tvGoalDetailsCompletionDate;
+    @BindView(R.id.tvGoalDetailsTotalCostTitle)
+    TextView tvGoalDetailsTotalCostTitle;
+    @BindView(R.id.tvGoalDetailsTotalCost)
+    TextView tvGoalDetailsTotalCost;
+    @BindView(R.id.tvGoalDetailsAmountSavedTitle)
+    TextView tvGoalDetailsAmountSavedTitle;
+    @BindView(R.id.tvGoalDetailsAmountSaved)
+    TextView tvGoalDetailsAmountSaved;
 
-    // Butterknife for fragment
     private Unbinder unbinder;
-    private List<Transaction> transactionsList;
-    private TransactionAdapter adapter;
+    List<Transaction> transactionsList;
+    TransactionAdapter adapter;
     private int transactionsLoaded;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerViewScrollListener scrollListener;
-    private User user;
     private Goal goal;
+    private User user;
     private Context context;
 
     @Override
@@ -116,9 +115,10 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        context = container.getContext();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         user = (User) ParseUser.getCurrentUser();
+        context = container.getContext();
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
 
@@ -126,17 +126,18 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal);
-        tvCompletionDate.setText(goalEndDate);
+        tvGoalDetailsCompletionDate.setText(goalEndDate);
 
         //setting the total amount and saved amount in correct currency format
-        tvAmount.setText(formatCurrency(goal.getSaved()));
-        tvTotalCost.setText(formatCurrency(goal.getCost()));
+        tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
+        tvGoalDetailsTotalCost.setText(formatCurrency(goal.getCost()));
 
         //progress bar and percentage
         Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
-        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
+        tvGoalDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+        pbGoalDetailsPercentDone.setProgress((int) percentDone.doubleValue());
+        pbGoalDetailsPercentDone.getProgressDrawable().setTint(getContext()
+                .getResources().getColor(R.color.money_green));
 
         ParseFile image = goal.getParseFile("image");
         if (image != null) {
@@ -177,7 +178,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         return convertedAmount;
     }
 
-    @OnClick(R.id.deposit_btn)
+    @OnClick(R.id.bGoalDetailsDeposit)
     public void onClickDeposit() {
         showDepositDialog();
     }
@@ -242,7 +243,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         });
     }
 
-    @OnClick(R.id.cancel_goal_btn)
+    @OnClick(R.id.bGoalDetailsCancelGoal)
     public void onClickCancel(){
         showCancelGoalDialog();
     }
