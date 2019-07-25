@@ -102,6 +102,9 @@ public class User extends ParseUser {
     public void addParent(User parent) {
         addAllUnique(KEY_PARENTS, Collections.singleton(parent));
     }
+    public JSONArray getParents() {
+        return getJSONArray(KEY_PARENTS);
+    }
 
     public List<BankAccount> getBanks() {
         return getList(KEY_BANK);

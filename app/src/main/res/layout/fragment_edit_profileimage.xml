@@ -55,10 +55,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvProfilePic" />
+        app:layout_constraintTop_toBottomOf="@+id/cvChildProfilePic" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvProfilePic"
+        android:id="@+id/cvChildProfilePic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_iconfinder_icons_user_1564534"></ImageView>
+            app:srcCompat="@drawable/icon_user"></ImageView>
     </androidx.cardview.widget.CardView>
 
     <ImageButton
@@ -90,7 +90,7 @@
         app:layout_constraintEnd_toStartOf="@+id/verticalborder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/verticalborder"
-        app:srcCompat="@drawable/camera_icon" />
+        app:srcCompat="@drawable/icon_camera" />
 
     <ImageButton
         android:id="@+id/ibPhotos"
@@ -105,6 +105,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/verticalborder"
         app:layout_constraintTop_toTopOf="@+id/verticalborder"
-        app:srcCompat="@drawable/photo_icon" />
+        app:srcCompat="@drawable/icon_photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

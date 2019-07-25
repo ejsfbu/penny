@@ -62,7 +62,7 @@ public class NeedsParentDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
 
-        tvChildCode = view.findViewById(R.id.tvChildCode);
+        tvChildCode = view.findViewById(R.id.tvChildAccountCode);
         tvChildCode.setText(user.getObjectId());
 
         bParentSignup = view.findViewById(R.id.bParentSignup);

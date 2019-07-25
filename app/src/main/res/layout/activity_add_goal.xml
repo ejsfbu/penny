@@ -127,7 +127,7 @@
         app:layout_constraintEnd_toStartOf="@+id/verticalborder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/verticalborder"
-        app:srcCompat="@drawable/camera_icon" />
+        app:srcCompat="@drawable/icon_camera" />
 
     <ImageButton
         android:id="@+id/ibPhotos"
@@ -142,7 +142,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/verticalborder"
         app:layout_constraintTop_toTopOf="@+id/verticalborder"
-        app:srcCompat="@drawable/photo_icon" />
+        app:srcCompat="@drawable/icon_photo" />
 
     <ImageView
         android:id="@+id/ivGoalImage"

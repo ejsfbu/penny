@@ -42,6 +42,9 @@
     <string name="hidden_password">**********</string>
     <string name="account_code">Account Code: </string>
     <string name="edit">Edit</string>
+    <string name="bank_info">Bank Information</string>
+    <string name="refer_friend">Refer a Friend</string>
+    <string name="parents">Parents</string>
     <string name="in_progress_goals">In Progress Goals</string>
     <string name="removeBank">Are you sure you want to remove this bank account?</string>
 </resources>
