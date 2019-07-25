@@ -1,5 +1,6 @@
 package com.ejsfbu.app_main.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,13 +21,22 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Adapters.GoalAdapter;
+import com.ejsfbu.app_main.Adapters.TransactionAdapter;
+import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.BankAccount;
 import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Transaction;
+import com.ejsfbu.app_main.models.User;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,57 +51,54 @@ import java.util.Locale;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class GoalDetailsFragment extends Fragment {
+public class GoalDetailsFragment extends Fragment implements DepositDialogFragment.DepositDialogListener {
+
+    @BindView(R.id.ivGoalDetailsImage)
+    ImageView ivGoalDetailsImage;
+    @BindView(R.id.tvGoalDetailsName)
+    TextView tvGoalDetailsName;
+    @BindView(R.id.pbDetailsPercentDone)
+    ProgressBar pbDetailsPercentDone;
+    @BindView(R.id.tvDetailsPercentDone)
+    TextView tvDetailsPercentDone;
+    //TODO adding the recycler view
+    //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
+    @BindView(R.id.deposit_btn)
+    Button deposit_btn;
+    @BindView(R.id.tvTranscationHistory)
+    TextView tvTransactionsHistory;
+    @BindView(R.id.cancel_goal_btn)
+    Button cancel_goal_btn;
+    @BindView(R.id.tvCompletionDateTitle)
+    TextView tvCompletionDateTitle;
+    @BindView(R.id.tvCompletionDate)
+    TextView tvCompletionDate;
+    @BindView(R.id.tvTotalCostTitle)
+    TextView tvTotalCostTitle;
+    @BindView(R.id.tvTotalCost)
+    TextView tvTotalCost;
+    @BindView(R.id.tvAmountTitle)
+    TextView tvAmountTitle;
+    @BindView(R.id.tvAmount)
+    TextView tvAmount;
 
     // Butterknife for fragment
     private Unbinder unbinder;
-    @BindView(R.id.ivGoalDetailsImage) ImageView ivGoalDetailsImage;
-    @BindView(R.id.tvGoalDetailsName) TextView tvGoalDetailsName;
-    @BindView(R.id.pbDetailsPercentDone) ProgressBar pbDetailsPercentDone;
-    @BindView(R.id.tvDetailsPercentDone) TextView tvDetailsPercentDone;
-    //TODO adding the recycler view
-    //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
-    @BindView(R.id.deposit_btn) Button deposit_btn;
-    @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
-    @BindView(R.id.cancel_goal_btn) Button cancel_goal_btn;
-    @BindView(R.id.tvCompletionDateTitle) TextView tvCompletionDateTitle;
-    @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
-    @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
-    @BindView(R.id.tvTotalCost) TextView tvTotalCost;
-    @BindView(R.id.tvAmountTitle) TextView tvAmountTitle;
-    @BindView(R.id.tvAmount) TextView tvAmount;
-
-    List<Transaction>transactionsList;
-    TransactionAdapter adapter;
+    private List<Transaction> transactionsList;
+    private TransactionAdapter adapter;
     private int transactionsLoaded;
-    LinearLayoutManager linearLayoutManager;
-    EndlessRecyclerViewScrollListener scrollListener;
-    Goal goal;
+    private LinearLayoutManager linearLayoutManager;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private User user;
+    private Goal goal;
+    private Context context;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-       goal = getArguments().getParcelable("Clicked Goal");
-
-        ParseFile image = goal.getParseFile("image");
-        if (image != null) {
-            String imageUrl = image.getUrl();
-            imageUrl = imageUrl.substring(4);
-            imageUrl = "https" + imageUrl;
-            RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
-            Glide.with(getContext())
-                    .load(imageUrl)
-                    .apply(options) // Extra: round image corners
-                    .into(ivGoalDetailsImage);
-        }
-
-        setGoalInfo(goal);
+        goal = getArguments().getParcelable("Clicked Goal");
+        setGoalInfo();
 
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
@@ -106,10 +114,12 @@ public class GoalDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = container.getContext();
+        user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
 
-    public void setGoalInfo(Goal goal) {
+    public void setGoalInfo() {
         //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal);
@@ -124,11 +134,28 @@ public class GoalDetailsFragment extends Fragment {
         tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
         pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
         pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
+
+        ParseFile image = goal.getParseFile("image");
+        if (image != null) {
+            String imageUrl = image.getUrl();
+            imageUrl = imageUrl.substring(4);
+            imageUrl = "https" + imageUrl;
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.icon_target)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .error(R.drawable.icon_target)
+                    .transform(new CenterCrop())
+                    .transform(new CircleCrop());
+            Glide.with(getContext())
+                    .load(imageUrl)
+                    .apply(options) // Extra: round image corners
+                    .into(ivGoalDetailsImage);
+        }
     }
 
     public String formatDate(Goal goal) {
         String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
+        String finalizedDate = endDate.substring(4, 10) + ", " + endDate.substring(24, 28);
         return finalizedDate;
     }
 
@@ -147,9 +174,73 @@ public class GoalDetailsFragment extends Fragment {
         return convertedAmount;
     }
 
+    @OnClick(R.id.deposit_btn)
+    public void onClickDeposit() {
+        showDepositDialog();
+    }
+
+    // Call this method to launch the edit dialog
+    private void showDepositDialog() {
+        DepositDialogFragment depositDialogFragment
+                = DepositDialogFragment.newInstance("Deposit");
+        depositDialogFragment.show(MainActivity.fragmentManager,
+                "fragment_edit_deposit");
+    }
+
+    @Override
+    public void onFinishEditDialog(String bankName, Double amount) {
+        Transaction transaction = new Transaction();
+        for (BankAccount bank : user.getVerifiedBanks()) {
+            if (bankName.equals(bank.getBankName())) {
+                transaction.setBank(bank);
+            }
+        }
+        transaction.setAmount(amount);
+        transaction.setUser(user);
+        transaction.setType(false);
+        transaction.setGoal(goal);
+        if (user.getRequiresApproval()) {
+            transaction.setApproval(false);
+        } else {
+            transaction.setApproval(true);
+        }
+        transaction.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    checkTransactionApproval(transaction);
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void checkTransactionApproval(Transaction transaction) {
+        if (transaction.getApproval()) {
+            transaction.getBank().withdraw(transaction.getAmount());
+            goal.addSaved(transaction.getAmount());
+            Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
+        }
+        goal.addTransaction(transaction);
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // do the notification here instead for success
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     @OnClick(R.id.cancel_goal_btn)
-    public void onClickEdit(){
+    public void onClickEdit() {
         showCancelGoalDialog();
     }
 
@@ -157,5 +248,4 @@ public class GoalDetailsFragment extends Fragment {
         CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
         cancel.show(fragmentManager, "fragment_cancel_goal");
     }
-
 }

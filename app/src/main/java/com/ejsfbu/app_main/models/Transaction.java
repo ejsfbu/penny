@@ -15,6 +15,8 @@ public class Transaction extends ParseObject {
     public static final String KEY_AMOUNT = "amount";
     public static final String KEY_GOAL = "goal";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_APPROVED = "isApproved";
+    public static final String KEY_TYPE = "isWithdraw";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -43,6 +45,15 @@ public class Transaction extends ParseObject {
     public Goal getGoal() { return (Goal) get(KEY_GOAL); }
 
     public void setGoal(Goal goal) { put(KEY_GOAL, goal);}
+
+    public boolean getApproval() { return getBoolean(KEY_APPROVED); }
+
+    public void setApproval(boolean bool) { put(KEY_APPROVED, bool); }
+
+    // Get whether its a deposit or withdraw
+    public boolean getType() { return getBoolean(KEY_TYPE); }
+
+    public void setType(boolean bool) { put(KEY_TYPE, bool); }
 
     public static class Query extends ParseQuery<Transaction> {
         public Query() {
