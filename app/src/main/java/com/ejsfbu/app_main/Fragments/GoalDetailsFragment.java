@@ -125,7 +125,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     public void setGoalInfo() {
         //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
-        String goalEndDate = formatDate(goal);
+        String goalEndDate = formatDate(goal.getEndDate().toString());
         tvCompletionDate.setText(goalEndDate);
 
         //setting the total amount and saved amount in correct currency format
@@ -156,9 +156,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         }
     }
 
-    public String formatDate(Goal goal) {
-        String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4, 10) + ", " + endDate.substring(24, 28);
+    public static String formatDate(String date) {
+        String finalizedDate = date.substring(4, 10) + ", " + date.substring(24, 28);
         return finalizedDate;
     }
 
@@ -171,7 +170,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     public void loadTransactions() {
     }
 
-    public String formatCurrency(Double amount) {
+    public static String formatCurrency(Double amount) {
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.US);
         String convertedAmount = currency.format(amount);
         return convertedAmount;

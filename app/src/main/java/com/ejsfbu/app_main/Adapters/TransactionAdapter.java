@@ -62,16 +62,21 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tvDate;
         private TextView tvAmount;
+        private TextView tvBankName;
+        private TextView tvStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvAmount = itemView.findViewById(R.id.tvAmount);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvBankName = itemView.findViewById(R.id.tvTransactionBankName);
+            tvStatus = itemView.findViewById(R.id.tvTransactionStatus);
         }
 
         public void bind(Transaction transaction) {
-            tvDate.setText(transaction.getTransactionDate().toString());
-            tvAmount.setText(String.valueOf(transaction.getAmount()));
+            tvDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionDate().toString()));
+            tvAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
+
         }
     }
 
