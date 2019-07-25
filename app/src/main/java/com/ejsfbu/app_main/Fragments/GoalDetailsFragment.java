@@ -52,7 +52,7 @@ public class GoalDetailsFragment extends Fragment {
     //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
     @BindView(R.id.deposit_btn) Button deposit_btn;
     @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
-    @BindView(R.id.cancel_goal_btn) Button edit_goal_btn;
+    @BindView(R.id.cancel_goal_btn) Button cancel_goal_btn;
     @BindView(R.id.tvCompletionDateTitle) TextView tvCompletionDateTitle;
     @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
     @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
