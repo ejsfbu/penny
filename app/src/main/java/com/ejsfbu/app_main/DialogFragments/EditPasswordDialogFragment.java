@@ -24,7 +24,7 @@ import com.parse.SaveCallback;
 
 public class EditPasswordDialogFragment extends DialogFragment {
 
-    private EditText etPassword;
+    private EditText etNewPassword;
     private EditText etConfirmPassword;
     private Button bConfirm;
     private Button bCancel;
@@ -54,13 +54,13 @@ public class EditPasswordDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        etPassword = view.findViewById(R.id.etPassword);
+        etNewPassword = view.findViewById(R.id.etNewPassword);
         etConfirmPassword = view.findViewById(R.id.etConfirmPassword);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
         String title = getArguments().getString("title", "Enter Password");
         getDialog().setTitle(title);
-        etPassword.requestFocus();
+        etNewPassword.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
@@ -82,13 +82,13 @@ public class EditPasswordDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            if (!confirmPasswordsMatch(etPassword.getText().toString(),
+            if (!confirmPasswordsMatch(etNewPassword.getText().toString(),
                     etConfirmPassword.getText().toString())) {
                 Toast.makeText(context, "Passwords do not match.",
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            user.put("password", etPassword.getText().toString());
+            user.put("password", etNewPassword.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
