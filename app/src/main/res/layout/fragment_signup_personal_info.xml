@@ -20,7 +20,7 @@
             android:id="@+id/etFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/first_name"
             android:inputType="text" />
 
@@ -41,7 +41,7 @@
             android:id="@+id/etLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/last_name"
             android:inputType="text" />
 
@@ -62,7 +62,7 @@
             android:id="@+id/etBirthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/birthday"
             android:inputType="date" />
 
@@ -75,7 +75,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,6 +106,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/birthday_layout"
         app:layout_constraintBottom_toBottomOf="@id/birthday_layout"
-        app:srcCompat="@drawable/calendar_color" />
+        app:srcCompat="@drawable/icon_calendar_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
