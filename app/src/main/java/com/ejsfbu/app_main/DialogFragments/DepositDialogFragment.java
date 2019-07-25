@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,20 +21,26 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.models.BankAccount;
+import com.ejsfbu.app_main.models.Transaction;
 import com.ejsfbu.app_main.models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DepositDialogFragment extends DialogFragment {
     // View objects
-    private EditText etFirstName;
+    private EditText etAmount;
     private Button bConfirm;
     private Button bCancel;
     private Context context;
     private User user;
+    private Spinner spinner;
+    private List<BankAccount> banks;
 
     public DepositDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -60,15 +68,16 @@ public class DepositDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
         // Get field from view
-        etFirstName = view.findViewById(R.id.etFirstName);
+        etAmount = view.findViewById(R.id.etAmount);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+        spinner = view.findViewById(R.id.sBanks);
         fillData();
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        etFirstName.requestFocus();
+        etAmount.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
@@ -116,18 +125,39 @@ public class DepositDialogFragment extends DialogFragment {
         });
 
         bConfirm.setOnClickListener(view -> {
-            user.put("name", name);
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Toast.makeText(context, "Name changed successfully.", Toast.LENGTH_SHORT).show();
-                        sendBackResult();
-                    } else {
-                        e.printStackTrace();
-                    }
+            String bankName = spinner.getSelectedItem().toString();
+            if (bankName.equals("No verified banks available")) {
+                Toast.makeText(context, "No bank account selected.", Toast.LENGTH_SHORT).show();
+            }
+            Double amount = Double.valueOf(etAmount.getText().toString());
+            Transaction transaction = new Transaction();
+            for (BankAccount bank: banks){
+                if (bankName.equals(bank.getBankName())) {
+                    transaction.setBank(bank);
                 }
-            });
+            }
+            transaction.setAmount(amount);
+            transaction.setUser(user);
+            transaction.setType(false);
+            if (user.getRequiresApproval()) {
+                transaction.setApproval(false);
+            } else {
+                transaction.setApproval(true);
+            }
         });
+    }
+
+    private void fillData() {
+        banks = user.getVerifiedBanks();
+        ArrayList<String> array = new ArrayList<>();
+        for (BankAccount bank: banks) {
+            array.add(bank.getBankName());
+        }
+        if (array.size() == 0) {
+            array.add("No verified banks available");
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, array);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 }

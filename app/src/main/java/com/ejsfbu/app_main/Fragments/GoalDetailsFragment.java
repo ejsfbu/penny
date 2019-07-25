@@ -22,7 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
-import com.ejsfbu.app_main.DialogFragments.RemoveBankDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
@@ -152,9 +152,9 @@ public class GoalDetailsFragment extends Fragment {
 
     // Call this method to launch the edit dialog
     private void showDepositDialog() {
-        RemoveBankDialogFragment removeBankDialogFragment
-                = RemoveBankDialogFragment.newInstance("Remove bank");
-        removeBankDialogFragment.show(MainActivity.fragmentManager,
-                "fragment_edit_bank");
+        DepositDialogFragment depositDialogFragment
+                = DepositDialogFragment.newInstance("Deposit");
+        depositDialogFragment.show(MainActivity.fragmentManager,
+                "fragment_edit_deposit");
     }
 }
