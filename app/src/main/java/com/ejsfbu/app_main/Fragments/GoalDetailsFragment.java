@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -42,6 +43,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,8 +67,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     ProgressBar pbDetailsPercentDone;
     @BindView(R.id.tvDetailsPercentDone)
     TextView tvDetailsPercentDone;
-    //TODO adding the recycler view
-    //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
+    @BindView(R.id.rvGoalTransactionHistory)
+    RecyclerView rvTransactions;
     @BindView(R.id.deposit_btn)
     Button deposit_btn;
     @BindView(R.id.tvTranscationHistory)
@@ -84,6 +87,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     TextView tvAmountTitle;
     @BindView(R.id.tvAmount)
     TextView tvAmount;
+    @BindView(R.id.noTransactionsText)
+    TextView noTransactionText;
 
     // Butterknife for fragment
     private Unbinder unbinder;
@@ -102,15 +107,11 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
 
         goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
-
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
-        //rvTransactions.setAdapter(adapter);
+        rvTransactions.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        //rvTransactions.setLayoutManager(linearLayoutManager);
-
-        //TODO - Ethan is working on transaction model and recycler view for transactions.
-
+        rvTransactions.setLayoutManager(linearLayoutManager);
         loadTransactions();
     }
 
@@ -167,7 +168,16 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         unbinder.unbind();
     }
 
-    public void loadTransactions() {
+    private void loadTransactions() {
+        List<Transaction> transactions = goal.getTransactions();
+        if (transactions == null || transactions.size() == 0) {
+            noTransactionText.setVisibility(View.VISIBLE);
+        } else {
+            noTransactionText.setVisibility(View.GONE);
+        }
+        transactionsList.addAll(transactions);
+        adapter.notifyDataSetChanged();
+        transactionsLoaded = transactions.size();
     }
 
     public static String formatCurrency(Double amount) {
@@ -205,6 +215,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
             transaction.setApproval(false);
         } else {
             transaction.setApproval(true);
+            Date currentTime = Calendar.getInstance().getTime();
+            transaction.setTransactionCompleteDate(currentTime);
         }
         transaction.saveInBackground(new SaveCallback() {
             @Override

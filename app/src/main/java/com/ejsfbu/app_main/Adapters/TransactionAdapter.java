@@ -32,8 +32,8 @@ import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
-    Context context;
-    List<Transaction> transactionsList;
+    private Context context;
+    private List<Transaction> transactionsList;
 
     public TransactionAdapter(Context context, List<Transaction> transactions) {
         this.context = context;
@@ -74,9 +74,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         public void bind(Transaction transaction) {
-            tvDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionDate().toString()));
+            tvDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionCompleteDate().toString()));
             tvAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
-
+            String bankInfo = transaction.getBank().getBankName() + BankAdapter.formatAccountNumber(transaction.getBank().getAccountNumber());
+            tvBankName.setText(bankInfo);
+            //set stuff
+            if (transaction.getApproval()) {
+                tvStatus.setText("Status: Completed");
+            } else {
+                tvStatus.setText("Status: Pending");
+            }
         }
     }
 

@@ -1,6 +1,9 @@
 package com.ejsfbu.app_main.models;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -17,6 +20,7 @@ public class Transaction extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_APPROVED = "isApproved";
     public static final String KEY_TYPE = "isWithdraw";
+    public static final String KEY_COMPLETED_DATE = "completedDate";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -26,8 +30,22 @@ public class Transaction extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public Date getTransactionDate() {
-        return getDate(KEY_CREATED_AT);
+    public Date getTransactionCompleteDate() {
+        Date date = null;
+        try {
+            date = fetchIfNeeded().getDate(KEY_COMPLETED_DATE);
+        } catch (ParseException e) {
+            Log.d("transaction", e.toString());
+            e.printStackTrace();
+        }
+        if (date == null) {
+            date = getCreatedAt();
+        }
+        return date;
+    }
+
+    public void setTransactionCompleteDate(Date date) {
+        put(KEY_COMPLETED_DATE, date);
     }
 
     public void setBank(BankAccount bank) {

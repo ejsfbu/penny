@@ -74,9 +74,8 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 
         public void bind(BankAccount bank) {
             // TODO encapsulate to hide bank
-            String bankAccount =  bank.getAccountNumber();
             tvBankName.setText(bank.getBankName());
-            tvAccountNumber.setText("****" + bankAccount.substring(bankAccount.length() - 4));
+            tvAccountNumber.setText(formatAccountNumber(bank.getAccountNumber()));
             if (bank.getVerified()) {
                 tvVerified.setText("Verified");
             } else {
@@ -110,6 +109,10 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 //                    .apply(options)
 //                    .into(ivBadge);
 //        }
+    }
+
+    public static String formatAccountNumber(String number) {
+        return "****" + number.substring(number.length() - 4);
     }
 }
 
