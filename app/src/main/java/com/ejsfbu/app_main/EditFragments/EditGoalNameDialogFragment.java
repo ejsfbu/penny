@@ -10,19 +10,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
 public class EditGoalNameDialogFragment extends DialogFragment {
 
     Context context;
+    EditText newName;
+    Button bCancel;
+    Button bConfirm;
+    TextView title;
+    static Goal currentGoal;
 
     public EditGoalNameDialogFragment() {
 
@@ -33,6 +45,7 @@ public class EditGoalNameDialogFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
+        currentGoal = goal;
         return frag;
     }
 
@@ -47,9 +60,65 @@ public class EditGoalNameDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        title = view.findViewById(R.id.tvEditGoalName);
+        newName = view.findViewById(R.id.etNewGoalName);
+        bCancel = view.findViewById(R.id.bEditGoalNameCancel);
+        bConfirm = view.findViewById(R.id.bEditGoalNameConfirm);
+
+        setListeners();
     }
 
+    public void setListeners() {
+        bCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        bConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String goalName = newName.getText().toString();
+                if (goalName.equals("")) {
+                    Toast.makeText(context, "Please enter a new goal name", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (goalName.equals(currentGoal.getName())) {
+                    Toast.makeText(context, "This is the same goal name. Please enter a new goal name", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                currentGoal.setName(goalName);
+                currentGoal.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(context, "Successful!", Toast.LENGTH_LONG).show();
+                            sendBackResult();
+                        } else {
+                            Toast.makeText(context, "Failure!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    // Defines the listener interface
+    public interface EditGoalNameDialogListener {
+        void onFinishEditThisDialog();
+    }
+
+    // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(1).getId();
+        EditGoalNameDialogListener listener;
+        listener = (EditGoalNameDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
+        listener.onFinishEditThisDialog();
         dismiss();
     }
 
@@ -61,9 +130,5 @@ public class EditGoalNameDialogFragment extends DialogFragment {
         window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         super.onResume();
-    }
-
-    private void setOnClick() {
-
     }
 }

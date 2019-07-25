@@ -26,6 +26,10 @@ import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
+import com.ejsfbu.app_main.DialogFragments.EditEmailDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditGoalEndDateDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditGoalImageDialogFragment;
@@ -54,7 +58,8 @@ import java.util.Locale;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class GoalDetailsFragment extends Fragment implements DepositDialogFragment.DepositDialogListener {
+public class GoalDetailsFragment extends Fragment implements
+        EditGoalNameDialogFragment.EditGoalNameDialogListener, EditGoalEndDateDialogFragment.EditGoalDateDialogListener, DepositDialogFragment.DepositDialogListener {
 
     @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalDetailsImage;
@@ -281,6 +286,11 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     private void showEditGoalEndDateDialog() {
         EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
         editDate.show(fragmentManager, "fragment_edit_goal_end_date");
+    }
+
+    @Override
+    public void onFinishEditThisDialog() {
+        setGoalInfo();
     }
 }
 
