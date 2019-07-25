@@ -24,11 +24,15 @@ import com.parse.SaveCallback;
 
 public class EditPasswordDialogFragment extends DialogFragment {
 
+    private EditText etCurrentPassword;
     private EditText etNewPassword;
     private EditText etConfirmPassword;
+
     private Button bConfirm;
     private Button bCancel;
+
     private Context context;
+
     private ParseUser user;
 
     public EditPasswordDialogFragment() {
@@ -36,11 +40,11 @@ public class EditPasswordDialogFragment extends DialogFragment {
     }
 
     public static EditPasswordDialogFragment newInstance(String title) {
-        EditPasswordDialogFragment frag = new EditPasswordDialogFragment();
+        EditPasswordDialogFragment editPasswordDialogFragment = new EditPasswordDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
-        frag.setArguments(args);
-        return frag;
+        editPasswordDialogFragment.setArguments(args);
+        return editPasswordDialogFragment;
     }
 
     @Override
@@ -53,16 +57,21 @@ public class EditPasswordDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         user = ParseUser.getCurrentUser();
+
+        etCurrentPassword = view.findViewById(R.id.etCurrentPassword);
         etNewPassword = view.findViewById(R.id.etNewPassword);
         etConfirmPassword = view.findViewById(R.id.etConfirmPassword);
         bConfirm = view.findViewById(R.id.bConfirm);
         bCancel = view.findViewById(R.id.bCancel);
+
         String title = getArguments().getString("title", "Enter Password");
         getDialog().setTitle(title);
         etNewPassword.requestFocus();
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getDialog().getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         setOnClick();
     }
 
@@ -77,17 +86,25 @@ public class EditPasswordDialogFragment extends DialogFragment {
     }
 
     private void setOnClick() {
+
         bCancel.setOnClickListener(view -> {
             dismiss();
         });
 
         bConfirm.setOnClickListener(view -> {
+            if (!confirmCurrentPasswordCorrect(etCurrentPassword.getText().toString())) {
+                Toast.makeText(context, "Current password incorrect",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
             if (!confirmPasswordsMatch(etNewPassword.getText().toString(),
                     etConfirmPassword.getText().toString())) {
                 Toast.makeText(context, "Passwords do not match.",
                         Toast.LENGTH_LONG).show();
                 return;
             }
+            
             user.put("password", etNewPassword.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
