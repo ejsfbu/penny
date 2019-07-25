@@ -2,6 +2,7 @@ package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private TextView tvAmount;
         private TextView tvBankName;
         private TextView tvStatus;
+        private TextView tvAccountNumber;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,18 +73,23 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             tvDate = itemView.findViewById(R.id.tvDate);
             tvBankName = itemView.findViewById(R.id.tvTransactionBankName);
             tvStatus = itemView.findViewById(R.id.tvTransactionStatus);
+            tvAccountNumber = itemView.findViewById(R.id.tvTransactionAccountNumber);
         }
 
         public void bind(Transaction transaction) {
             tvDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionCompleteDate().toString()));
             tvAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
-            String bankInfo = transaction.getBank().getBankName() + BankAdapter.formatAccountNumber(transaction.getBank().getAccountNumber());
-            tvBankName.setText(bankInfo);
-            //set stuff
+            tvBankName.setText(transaction.getBank().getBankName());
+            tvAccountNumber.setText(BankAdapter.formatAccountNumber(transaction.getBank().getAccountNumber()));
             if (transaction.getApproval()) {
                 tvStatus.setText("Status: Completed");
             } else {
                 tvStatus.setText("Status: Pending");
+            }
+            if (transaction.getType()) {
+                tvAmount.setTextColor(context.getResources().getColor(R.color.money_green));
+            } else {
+                tvAmount.setTextColor(context.getResources().getColor(R.color.colorAccent));
             }
         }
     }
