@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/ic_iconfinder_icons_user_1564534" />
+            app:srcCompat="@drawable/icon_user" />
 
     </androidx.cardview.widget.CardView>
 

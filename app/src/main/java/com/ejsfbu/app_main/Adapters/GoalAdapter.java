@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -19,10 +20,20 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.AddGoalActivity;
+import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
+import com.ejsfbu.app_main.Fragments.GoalsListFragment;
+import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.models.Transaction;
+import com.ejsfbu.app_main.models.User;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -33,6 +44,15 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
     private List<Goal> goalsList;
     private Context context;
+    private Fragment purpose;
+    private Goal cancelled;
+
+    public GoalAdapter(Context context, List<Goal> goals, CancelGoalDialogFragment purpose) {
+        this.context = context;
+        this.goalsList = goals;
+        this.purpose = purpose;
+        this.cancelled = purpose.getCancelledGoal();
+    }
 
     public GoalAdapter(Context context, List<Goal> goals) {
         this.context = context;
@@ -97,9 +117,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 imageUrl = imageUrl.substring(4);
                 imageUrl = "https" + imageUrl;
                 RequestOptions options = new RequestOptions();
-                options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
+                options.placeholder(R.drawable.icon_user)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .error(R.drawable.ic_iconfinder_icons_user_1564534)
+                        .error(R.drawable.icon_user)
                         .transform(new CenterCrop())
                         .transform(new CircleCrop());
                 Glide.with(context)
@@ -111,12 +131,56 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //launch the details view
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("Goal", goal);
-                    Fragment fragment = new GoalDetailsFragment();
-                    fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    bundle.putParcelable("Clicked Goal", goal);
+                    //launch the details view
+                    if ((purpose == null) && (cancelled == null)) {
+                        Fragment fragment = new GoalDetailsFragment();
+                        fragment.setArguments(bundle);
+                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    }
+                    else {
+                        //transfers money to this goal
+                        Double saved = cancelled.getSaved();
+                        goal.setSaved(goal.getSaved() + saved);
+
+                        Transaction transfer = new Transaction();
+                        transfer.setAmount(saved);
+                        transfer.setGoal(goal);
+                        //TODO set up the bank that the transaction comes from
+                        transfer.setUser(ParseUser.getCurrentUser());
+                        transfer.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(context, "Money Transferred",
+                                            Toast.LENGTH_SHORT).show();
+                                    //deletes the goal
+                                    Goal.Query query = new Goal.Query();
+                                    query.whereEqualTo("objectId", cancelled.getObjectId());
+                                    query.findInBackground(new FindCallback<Goal>() {
+                                        @Override
+                                        public void done(List<Goal> objects, ParseException e) {
+                                            if (e == null) {
+                                                objects.get(0).deleteInBackground();
+                                                objects.get(0).saveInBackground();
+                                            } else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+
+                                    //sends you to that detail goal
+                                    Fragment fragment = new GoalDetailsFragment();
+                                    fragment.setArguments(bundle);
+                                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                                } else {
+                                    Toast.makeText(context, "Transfer Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }

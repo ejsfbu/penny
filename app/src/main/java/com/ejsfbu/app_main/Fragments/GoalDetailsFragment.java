@@ -25,6 +25,8 @@ import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
+import com.ejsfbu.app_main.Adapters.TransactionAdapter;
+import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
@@ -47,28 +49,42 @@ import butterknife.Unbinder;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+
 public class GoalDetailsFragment extends Fragment implements DepositDialogFragment.DepositDialogListener {
 
-
-    @BindView(R.id.ivGoalDetailsImage) ImageView ivGoalDetailsImage;
-    @BindView(R.id.tvGoalDetailsName) TextView tvGoalDetailsName;
-    @BindView(R.id.pbDetailsPercentDone) ProgressBar pbDetailsPercentDone;
-    @BindView(R.id.tvDetailsPercentDone) TextView tvDetailsPercentDone;
+    @BindView(R.id.ivGoalDetailsImage)
+    ImageView ivGoalDetailsImage;
+    @BindView(R.id.tvGoalDetailsName)
+    TextView tvGoalDetailsName;
+    @BindView(R.id.pbDetailsPercentDone)
+    ProgressBar pbDetailsPercentDone;
+    @BindView(R.id.tvDetailsPercentDone)
+    TextView tvDetailsPercentDone;
     //TODO adding the recycler view
     //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
-    @BindView(R.id.deposit_btn) Button deposit_btn;
-    @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
-    @BindView(R.id.edit_goal_btn) Button edit_goal_btn;
-    @BindView(R.id.tvCompletionDateTitle) TextView tvCompletionDateTitle;
-    @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
-    @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
-    @BindView(R.id.tvTotalCost) TextView tvTotalCost;
-    @BindView(R.id.tvAmountTitle) TextView tvAmountTitle;
-    @BindView(R.id.tvAmount) TextView tvAmount;
+    @BindView(R.id.deposit_btn)
+    Button deposit_btn;
+    @BindView(R.id.tvTranscationHistory)
+    TextView tvTransactionsHistory;
+    @BindView(R.id.cancel_goal_btn)
+    Button cancel_goal_btn;
+    @BindView(R.id.tvCompletionDateTitle)
+    TextView tvCompletionDateTitle;
+    @BindView(R.id.tvCompletionDate)
+    TextView tvCompletionDate;
+    @BindView(R.id.tvTotalCostTitle)
+    TextView tvTotalCostTitle;
+    @BindView(R.id.tvTotalCost)
+    TextView tvTotalCost;
+    @BindView(R.id.tvAmountTitle)
+    TextView tvAmountTitle;
+    @BindView(R.id.tvAmount)
+    TextView tvAmount;
 
     // Butterknife for fragment
     private Unbinder unbinder;
-    private List<Transaction>transactionsList;
+    private List<Transaction> transactionsList;
     private TransactionAdapter adapter;
     private int transactionsLoaded;
     private LinearLayoutManager linearLayoutManager;
@@ -81,7 +97,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-        goal = getArguments().getParcelable("Goal");
+        goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
 
         transactionsList = new ArrayList<>();
@@ -125,9 +141,9 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.ic_iconfinder_icons_user_1564534)
+            options.placeholder(R.drawable.icon_target)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.ic_iconfinder_icons_user_1564534)
+                    .error(R.drawable.icon_target)
                     .transform(new CenterCrop())
                     .transform(new CircleCrop());
             Glide.with(getContext())
@@ -139,7 +155,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
 
     public String formatDate(Goal goal) {
         String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
+        String finalizedDate = endDate.substring(4, 10) + ", " + endDate.substring(24, 28);
         return finalizedDate;
     }
 
@@ -174,7 +190,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     @Override
     public void onFinishEditDialog(String bankName, Double amount) {
         Transaction transaction = new Transaction();
-        for (BankAccount bank: user.getVerifiedBanks()){
+        for (BankAccount bank : user.getVerifiedBanks()) {
             if (bankName.equals(bank.getBankName())) {
                 transaction.setBank(bank);
             }
@@ -221,5 +237,15 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
                 }
             }
         });
+    }
+
+    @OnClick(R.id.cancel_goal_btn)
+    public void onClickEdit() {
+        showCancelGoalDialog();
+    }
+
+    private void showCancelGoalDialog() {
+        CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
+        cancel.show(fragmentManager, "fragment_cancel_goal");
     }
 }
