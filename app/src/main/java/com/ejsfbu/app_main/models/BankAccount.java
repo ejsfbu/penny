@@ -58,7 +58,14 @@ public class BankAccount extends ParseObject {
     }
 
     public boolean getVerified() {
-        return getBoolean(KEY_VERIFIED);
+        boolean isVerified = false;
+        try {
+            isVerified = fetchIfNeeded().getBoolean(KEY_VERIFIED);
+        } catch (ParseException e) {
+            Log.d("user", e.toString());
+            e.printStackTrace();
+        }
+        return isVerified;
     }
 
     public void setVerified(boolean bool) {

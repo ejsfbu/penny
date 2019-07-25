@@ -114,6 +114,8 @@ public class AddBankActivity extends AppCompatActivity {
                 } else {
                     e.printStackTrace();
                     Toast.makeText(AddBankActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    // maybe delete bank account if it could not link or retry
+
                 }
             }
         });
