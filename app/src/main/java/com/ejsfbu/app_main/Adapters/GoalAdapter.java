@@ -142,6 +142,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     else {
                         //transfers money to this goal
                         Double saved = cancelled.getSaved();
+                        goal.setSaved(goal.getSaved() + saved);
 
                         Transaction transfer = new Transaction();
                         transfer.setAmount(saved);
@@ -154,33 +155,31 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                                 if (e == null) {
                                     Toast.makeText(context, "Money Transferred",
                                             Toast.LENGTH_SHORT).show();
+                                    //deletes the goal
+                                    Goal.Query query = new Goal.Query();
+                                    query.whereEqualTo("objectId", cancelled.getObjectId());
+                                    query.findInBackground(new FindCallback<Goal>() {
+                                        @Override
+                                        public void done(List<Goal> objects, ParseException e) {
+                                            if (e == null) {
+                                                objects.get(0).deleteInBackground();
+                                                objects.get(0).saveInBackground();
+                                            } else {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+
+                                    //sends you to that detail goal
+                                    Fragment fragment = new GoalDetailsFragment();
+                                    fragment.setArguments(bundle);
+                                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                                 } else {
                                     Toast.makeText(context, "Transfer Failed",
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
-                        //deletes the goal
-                        Goal.Query query = new Goal.Query();
-                        query.whereEqualTo("objectId", cancelled.getObjectId());
-                        query.findInBackground(new FindCallback<Goal>() {
-                            @Override
-                            public void done(List<Goal> objects, ParseException e) {
-                                if (e == null) {
-                                    objects.get(0).deleteInBackground();
-                                    objects.get(0).saveInBackground();
-                                } else {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-
-                        //sends you to that detail goal
-                        Toast.makeText(context, "Transfer has been made & goal is now deleted!", Toast.LENGTH_LONG).show();
-                        Fragment fragment = new GoalDetailsFragment();
-                        fragment.setArguments(bundle);
-                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                     }
                 }
             });
