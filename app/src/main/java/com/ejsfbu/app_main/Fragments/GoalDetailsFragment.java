@@ -20,6 +20,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
+import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
@@ -31,10 +32,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class GoalDetailsFragment extends Fragment {
 
@@ -48,7 +52,7 @@ public class GoalDetailsFragment extends Fragment {
     //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
     @BindView(R.id.deposit_btn) Button deposit_btn;
     @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
-    @BindView(R.id.edit_goal_btn) Button edit_goal_btn;
+    @BindView(R.id.cancel_goal_btn) Button cancel_goal_btn;
     @BindView(R.id.tvCompletionDateTitle) TextView tvCompletionDateTitle;
     @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
     @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
@@ -61,12 +65,13 @@ public class GoalDetailsFragment extends Fragment {
     private int transactionsLoaded;
     LinearLayoutManager linearLayoutManager;
     EndlessRecyclerViewScrollListener scrollListener;
+    Goal goal;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-        Goal goal = getArguments().getParcelable("Goal");
+       goal = getArguments().getParcelable("Clicked Goal");
 
         ParseFile image = goal.getParseFile("image");
         if (image != null) {
@@ -86,21 +91,6 @@ public class GoalDetailsFragment extends Fragment {
         }
 
         setGoalInfo(goal);
-
-
-        tvGoalDetailsName.setText(goal.getName());
-        //TODO Format the Date
-        tvTotalCost.setText("$" + goal.getCost());
-        String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
-        System.out.println(endDate.length());
-        System.out.println(endDate);
-        tvCompletionDate.setText(finalizedDate);
-
-        Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
-        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
 
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
@@ -156,4 +146,16 @@ public class GoalDetailsFragment extends Fragment {
         String convertedAmount = currency.format(amount);
         return convertedAmount;
     }
+
+
+    @OnClick(R.id.cancel_goal_btn)
+    public void onClickEdit(){
+        showCancelGoalDialog();
+    }
+
+    private void showCancelGoalDialog() {
+        CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
+        cancel.show(fragmentManager, "fragment_cancel_goal");
+    }
+
 }
