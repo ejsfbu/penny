@@ -13,8 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.EditFragments.RemoveBankDialogFragment;
@@ -26,7 +24,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,18 +33,17 @@ import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class BankDetailsFragment extends Fragment implements RemoveBankDialogFragment.RemoveBankDialogListener {
 
-    @BindView(R.id.ivBankImage)
-    ImageView ivBankImage;
-    @BindView(R.id.tvBankName)
-    TextView tvBankName;
-    @BindView(R.id.tvAccount)
-    TextView tvAccount;
-    @BindView(R.id.tvVerificationStatus)
-    TextView tvVerificationStatus;
-    @BindView(R.id.bRemove)
-    Button bRemove;
+    @BindView(R.id.ivBankDetailsBankImage)
+    ImageView ivBankDetailsBankImage;
+    @BindView(R.id.tvBankDetailsBankName)
+    TextView tvBankDetailsBankName;
+    @BindView(R.id.tvBankDetailsAccountNumber)
+    TextView tvBankDetailsAccountNumber;
+    @BindView(R.id.tvBankDetailsVerificationStatus)
+    TextView tvBankDetailsVerificationStatus;
+    @BindView(R.id.bBankDetailsRemove)
+    Button bBankDetailsRemove;
 
-    // Butterknife for fragment
     private Unbinder unbinder;
     private User user;
     private Context context;
@@ -56,7 +52,6 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment98
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_bank_details, container, false);
     }
@@ -67,37 +62,34 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
         user = (User) ParseUser.getCurrentUser();
         Bundle bundle = this.getArguments();
         bank = bundle.getParcelable("bank");
-        tvBankName.setText(bank.getBankName());
-        String bankAccount =  bank.getAccountNumber();
-        tvAccount.setText("****" + bankAccount.substring(bankAccount.length() - 4));
+        tvBankDetailsBankName.setText(bank.getBankName());
+        String accountNum = bank.getAccountNumber();
+        tvBankDetailsAccountNumber.setText("****" + accountNum.substring(accountNum.length() - 4));
         if (bank.getVerified()) {
-            tvVerificationStatus.setText("Verified");
+            tvBankDetailsVerificationStatus.setText("Verified");
         } else {
-            tvVerificationStatus.setText("Pending");
+            tvBankDetailsVerificationStatus.setText("Pending");
         }
     }
 
-    // When change fragment unbind view
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
 
-    @OnClick(R.id.bRemove)
+    @OnClick(R.id.bBankDetailsRemove)
     public void onClickRemove() {
         showEditDialog();
     }
 
-    // Call this method to launch the edit dialog
     private void showEditDialog() {
         RemoveBankDialogFragment removeBankDialogFragment
                 = RemoveBankDialogFragment.newInstance("Remove bank");
         removeBankDialogFragment.show(MainActivity.fragmentManager,
-                "fragment_edit_bank");
+                "fragment_remove_bank");
     }
 
-    // This is called when the dialog is completed and the results have been passed
     @Override
     public void onFinishEditDialog() {
         user.removeBank(bank);
@@ -121,9 +113,11 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(context, "Bank account removed.", Toast.LENGTH_LONG).show();
-                    Fragment fragment = new BankAccountsFragment();
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    Toast.makeText(context, "Bank account removed.",
+                            Toast.LENGTH_LONG).show();
+                    Fragment fragment = new BanksListFragment();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flMainContainer, fragment).commit();
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();

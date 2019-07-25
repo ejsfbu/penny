@@ -28,24 +28,21 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class GoalsListFragment extends Fragment {
 
     public static final String TAG = "GoalsListFragment";
 
-    @BindView(R.id.rvGoals)
-    RecyclerView rvGoals;
-    @BindView(R.id.fabAdd)
-    FloatingActionButton fabAdd;
+    @BindView(R.id.rvGoalsListGoals)
+    RecyclerView rvGoalsListGoals;
+    @BindView(R.id.fabAddGoal)
+    FloatingActionButton fabAddGoal;
 
-    // Butterknife for fragment
     private Unbinder unbinder;
     private Context context;
     private EndlessRecyclerViewScrollListener scrollListener;
     private LinearLayoutManager linearLayoutManager;
-    // keep track of how many goals have been loaded
     private int goalsLoaded;
     protected GoalAdapter adapter;
     protected List<Goal> goalList;
@@ -53,7 +50,6 @@ public class GoalsListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         context = parent.getContext();
         return inflater.inflate(R.layout.fragment_goals_list, parent, false);
     }
@@ -61,20 +57,17 @@ public class GoalsListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        // Recycler view set up
         goalList = new ArrayList<>();
         adapter = new GoalAdapter(context, goalList);
-        rvGoals.setAdapter(adapter);
+        rvGoalsListGoals.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        rvGoals.setLayoutManager(linearLayoutManager);
+        rvGoalsListGoals.setLayoutManager(linearLayoutManager);
         setListeners();
-        // Adds the scroll listener to RecyclerView
-        rvGoals.addOnScrollListener(scrollListener);
+        rvGoalsListGoals.addOnScrollListener(scrollListener);
 
         loadGoals();
     }
 
-    // When change fragment unbind view
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -82,9 +75,7 @@ public class GoalsListFragment extends Fragment {
     }
 
     protected void loadGoals() {
-        // set up query
         final Goal.Query goalsQuery = new Goal.Query();
-        // Add Query specifications
         goalsQuery.getTopByEndDate()
                 .areNotCompleted()
                 .fromCurrentUser();
@@ -103,37 +94,29 @@ public class GoalsListFragment extends Fragment {
     }
 
     private void setListeners() {
-        // Retain an instance so that you can call `resetState()` for fresh searches
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
                 loadNextDataFromApi(page);
             }
         };
 
-        fabAdd.setOnClickListener(view -> {
+        fabAddGoal.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), AddGoalActivity.class);
             startActivity(i);
         });
     }
 
-    // Append the next page of data into the adapter
-    // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi(int offset) {
         if (adapter.getItemCount() < goalsLoaded) {
             return;
         }
         Log.d("data", String.valueOf(offset));
-        // set up query
-        final Goal.Query postsQuery = new Goal.Query();
-        // Add Query specifications
-        postsQuery.setTop(goalsLoaded + 20)
+        final Goal.Query goalQuery = new Goal.Query();
+        goalQuery.setTop(goalsLoaded + 20)
                 .areNotCompleted()
                 .fromCurrentUser();
-        //.setSkip(goalsLoaded);
-        postsQuery.findInBackground(new FindCallback<Goal>() {
+        goalQuery.findInBackground(new FindCallback<Goal>() {
             @Override
             public void done(List<Goal> objects, ParseException e) {
                 if (e == null) {

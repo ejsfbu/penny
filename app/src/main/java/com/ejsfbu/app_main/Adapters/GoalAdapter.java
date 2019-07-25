@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,18 +61,18 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivGoalImage;
         private TextView tvGoalName;
-        private TextView tvEndDate;
-        private TextView tvPercentDone;
-        private ProgressBar pbPercentDone;
+        private TextView tvGoalEndDate;
+        private TextView tvGoalPercentDone;
+        private ProgressBar pbGoalPercentDone;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivGoalImage = itemView.findViewById(R.id.ivGoalImage);
             tvGoalName = itemView.findViewById(R.id.tvGoalName);
-            tvEndDate = itemView.findViewById(R.id.tvEndDate);
-            tvPercentDone = itemView.findViewById(R.id.tvPercentDone);
-            pbPercentDone = itemView.findViewById(R.id.pbPercentDone);
+            tvGoalEndDate = itemView.findViewById(R.id.tvGoalEndDate);
+            tvGoalPercentDone = itemView.findViewById(R.id.tvGoalPercentDone);
+            pbGoalPercentDone = itemView.findViewById(R.id.pbGoalPercentDone);
 
         }
 
@@ -83,13 +82,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             Date endDate = goal.getEndDate();
             if (endDate != null) {
                 String endDateString = endDate.toString();
-                tvEndDate.setText("by " + formatDateString(endDateString));
+                tvGoalEndDate.setText("by " + formatDateString(endDateString));
             }
 
             Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-            tvPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-            pbPercentDone.setProgress((int) percentDone.doubleValue());
-            pbPercentDone.getProgressDrawable().setTint(context.getResources().getColor(R.color.money_green));
+            tvGoalPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+            pbGoalPercentDone.setProgress((int) percentDone.doubleValue());
+            pbGoalPercentDone.getProgressDrawable().setTint(context.getResources()
+                    .getColor(R.color.money_green));
 
             ParseFile image = goal.getImage();
             if (image != null) {
@@ -116,7 +116,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     bundle.putParcelable("Goal", goal);
                     Fragment fragment = new GoalDetailsFragment();
                     fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flMainContainer, fragment).commit();
                 }
             });
         }

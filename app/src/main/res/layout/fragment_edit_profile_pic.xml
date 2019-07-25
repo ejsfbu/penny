@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="20dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvEditProfilePicTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Change Profile Image"
+        android:text="@string/edit_profile_pic"
         android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,44 +21,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/bConfirm"
-        android:layout_width="wrap_content"
+        android:id="@+id/bEditProfilePicConfirm"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/background_button_white"
-        android:text="Upload"
+        android:background="@drawable/background_button_pig_pink"
+        android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/verticalborder"
-        app:layout_constraintTop_toBottomOf="@+id/ibPhotos" />
+        app:layout_constraintTop_toBottomOf="@+id/ibEditProfilePicPhotos" />
 
     <Button
-        android:id="@+id/bCancel"
-        android:layout_width="wrap_content"
+        android:id="@+id/bEditProfilePicCancel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/background_button_white"
+        android:background="@drawable/background_button_coin_blue"
         android:text="@android:string/cancel"
         app:layout_constraintEnd_toStartOf="@+id/verticalborder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bConfirm" />
+        app:layout_constraintTop_toTopOf="@+id/bEditProfilePicConfirm" />
 
     <View
         android:id="@+id/verticalborder"
         android:layout_width="1dp"
         android:layout_height="60dp"
-        android:layout_marginTop="24dp"
         android:background="#CCCCCCCC"
-        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/bEditProfilePicCancel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvChildProfilePic" />
+        app:layout_constraintTop_toTopOf="@+id/bEditProfilePicConfirm" />
+
+    <View
+        android:id="@+id/verticalborder2"
+        android:layout_width="1dp"
+        android:layout_height="60dp"
+        android:background="#CCCCCCCC"
+        app:layout_constraintBottom_toBottomOf="@id/ibEditProfilePicCamera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ibEditProfilePicPhotos" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvChildProfilePic"
+        android:id="@+id/cvEditProfilePicProfilePic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
@@ -69,42 +77,43 @@
         app:cardCornerRadius="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/tvEditProfilePicTitle">
 
         <ImageView
-            android:id="@+id/ivChildProfilePic"
+            android:id="@+id/ivEditProfilePicProfilePic"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/icon_user"></ImageView>
+            app:srcCompat="@drawable/icon_user" />
+
     </androidx.cardview.widget.CardView>
 
     <ImageButton
-        android:id="@+id/ibCamera"
+        android:id="@+id/ibEditProfilePicCamera"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_white"
-        app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toStartOf="@+id/verticalborder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/verticalborder"
+        app:layout_constraintTop_toBottomOf="@+id/cvEditProfilePicProfilePic"
         app:srcCompat="@drawable/icon_camera" />
 
     <ImageButton
-        android:id="@+id/ibPhotos"
+        android:id="@+id/ibEditProfilePicPhotos"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
         android:background="@drawable/background_button_white"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/verticalborder"
-        app:layout_constraintTop_toTopOf="@+id/verticalborder"
+        app:layout_constraintStart_toEndOf="@+id/verticalborder2"
+        app:layout_constraintTop_toBottomOf="@+id/cvEditProfilePicProfilePic"
         app:srcCompat="@drawable/icon_photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

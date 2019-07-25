@@ -54,24 +54,22 @@ import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.rotateBitmapOrientation;
 
 public class EditProfileImageDialogFragment extends DialogFragment {
-    // Request codes
+
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    // needed values
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private Context context;
     private ParseUser user;
-    private Button bConfirm;
-    private Button bCancel;
-    private ImageView ivProfileImage;
-    private ImageButton ibPhotos;
-    private ImageButton ibCamera;
+
+    private Button bEditProfilePicConfirm;
+    private Button bEditProfilePicCancel;
+    private ImageView ivEditProfilePicProfilePic;
+    private ImageButton ibEditProfilePicPhotos;
+    private ImageButton ibEditProfilePicCamera;
 
     public EditProfileImageDialogFragment() {
-        // Empty constructor is required for DialogFragment
-        // Make sure not to add arguments to the constructor
-        // Use `newInstance` instead as shown below
+
     }
 
     public static EditProfileImageDialogFragment newInstance(String title) {
@@ -86,36 +84,33 @@ public class EditProfileImageDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_edit_profileimage, container);
+        return inflater.inflate(R.layout.fragment_edit_profile_pic, container);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        // Get field from view
-        ivProfileImage = view.findViewById(R.id.ivChildProfilePic);
-        ibPhotos = view.findViewById(R.id.ibPhotos);
-        ibCamera = view.findViewById(R.id.ibCamera);
-        bConfirm = view.findViewById(R.id.bConfirm);
-        bCancel = view.findViewById(R.id.bCancel);
+
+        ivEditProfilePicProfilePic = view.findViewById(R.id.ivEditProfilePicProfilePic);
+        ibEditProfilePicPhotos = view.findViewById(R.id.ibEditProfilePicPhotos);
+        ibEditProfilePicCamera = view.findViewById(R.id.ibEditProfilePicCamera);
+        bEditProfilePicConfirm = view.findViewById(R.id.bEditProfilePicConfirm);
+        bEditProfilePicCancel = view.findViewById(R.id.bEditProfilePicCancel);
+
         fillData();
-        // Fetch arguments from bundle and set title
+
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
-        //etFirstName.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
     }
 
-    // Defines the listener interface
     public interface EditProfileImageDialogListener {
         void onFinishEditDialog();
     }
 
-    // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
         String fragmentTag = fragments.get(0).getTag();
@@ -133,19 +128,15 @@ public class EditProfileImageDialogFragment extends DialogFragment {
     }
 
     public void onResume() {
-        // Store access variables for window and blank point
         Window window = getDialog().getWindow();
         Point size = new Point();
-        // Store dimensions of the screen in `size`
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
         window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-        // Call super onResume after sizing
         super.onResume();
     }
 
-    // load user profile image
     private void fillData() {
         ParseFile image = user.getParseFile("profileImage");
         if (image != null) {
@@ -161,18 +152,18 @@ public class EditProfileImageDialogFragment extends DialogFragment {
             Glide.with(context)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivProfileImage);
+                    .into(ivEditProfilePicProfilePic);
         }
     }
 
     private void setOnClick() {
-        bCancel.setOnClickListener(view -> {
+        bEditProfilePicCancel.setOnClickListener(view -> {
             dismiss();
         });
 
-        bConfirm.setOnClickListener(view -> {
+        bEditProfilePicConfirm.setOnClickListener(view -> {
             ParseFile parseFile;
-            if (photoFile == null || ivProfileImage.getDrawable() == null) {
+            if (photoFile == null || ivEditProfilePicProfilePic.getDrawable() == null) {
                 parseFile = null;
                 dismiss();
                 return;
@@ -194,18 +185,17 @@ public class EditProfileImageDialogFragment extends DialogFragment {
             });
         });
 
-        ibPhotos.setOnClickListener(view -> {
+        ibEditProfilePicPhotos.setOnClickListener(view -> {
             requestPerms();
             Intent intent = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
             if (intent.resolveActivity(context.getPackageManager()) != null) {
-                // Bring up gallery to select a photo
                 startActivityForResult(intent, PICK_PHOTO_CODE);
             }
         });
 
-        ibCamera.setOnClickListener(view -> {
+        ibEditProfilePicCamera.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             photoFile = AddGoalActivity.getPhotoFileUri(photoFileName, context);
 
@@ -219,7 +209,6 @@ public class EditProfileImageDialogFragment extends DialogFragment {
         });
     }
 
-    // TODO try to write once
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_PHOTO_CODE) {
@@ -245,7 +234,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ivProfileImage.setImageBitmap(selectedImage);
+                ivEditProfilePicProfilePic.setImageBitmap(selectedImage);
             }
         }
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -270,7 +259,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
                     e.printStackTrace();
                 }
                 //ivGoalImage.setVisibility(View.VISIBLE);
-                ivProfileImage.setImageBitmap(cropImg);
+                ivEditProfilePicProfilePic.setImageBitmap(cropImg);
                 Log.d("ProfileImage", photoFile.getAbsolutePath());
             } else { // Result was a failure
                 Toast.makeText(context, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();

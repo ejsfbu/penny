@@ -26,37 +26,46 @@ import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Transaction;
 import com.parse.ParseFile;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 public class GoalDetailsFragment extends Fragment {
 
-    // Butterknife for fragment
     private Unbinder unbinder;
-    @BindView(R.id.ivGoalDetailsImage) ImageView ivGoalDetailsImage;
-    @BindView(R.id.tvGoalDetailsName) TextView tvGoalDetailsName;
-    @BindView(R.id.pbDetailsPercentDone) ProgressBar pbDetailsPercentDone;
-    @BindView(R.id.tvDetailsPercentDone) TextView tvDetailsPercentDone;
-    //TODO adding the recycler view
-    //@BindView(R.id.rvTransactions) RecyclerView rvTransactions;
-    @BindView(R.id.deposit_btn) Button deposit_btn;
-    @BindView(R.id.tvTranscationHistory) TextView tvTransactionsHistory;
-    @BindView(R.id.edit_goal_btn) Button edit_goal_btn;
-    @BindView(R.id.tvCompletionDateTitle) TextView tvCompletionDateTitle;
-    @BindView(R.id.tvCompletionDate) TextView tvCompletionDate;
-    @BindView(R.id.tvTotalCostTitle) TextView tvTotalCostTitle;
-    @BindView(R.id.tvTotalCost) TextView tvTotalCost;
-    @BindView(R.id.tvAmountTitle) TextView tvAmountTitle;
-    @BindView(R.id.tvAmount) TextView tvAmount;
+    @BindView(R.id.ivGoalDetailsImage)
+    ImageView ivGoalDetailsImage;
+    @BindView(R.id.tvGoalDetailsName)
+    TextView tvGoalDetailsName;
+    @BindView(R.id.pbGoalDetailsPercentDone)
+    ProgressBar pbGoalDetailsPercentDone;
+    @BindView(R.id.tvGoalDetailsPercentDone)
+    TextView tvGoalDetailsPercentDone;
+    @BindView(R.id.bGoalDetailsDeposit)
+    Button bGoalDetailsDeposit;
+    @BindView(R.id.tvGoalDetailsTransactionHistoryTitle)
+    TextView tvGoalDetailsTransactionHistoryTitle;
+    @BindView(R.id.bGoalDetailsCancelGoal)
+    Button bGoalDetailsCancelGoal;
+    @BindView(R.id.tvGoalDetailsDateCompletedTitle)
+    TextView tvGoalDetailsDateCompletedTitle;
+    @BindView(R.id.tvGoalDetailsCompletionDate)
+    TextView tvGoalDetailsCompletionDate;
+    @BindView(R.id.tvGoalDetailsTotalCostTitle)
+    TextView tvGoalDetailsTotalCostTitle;
+    @BindView(R.id.tvGoalDetailsTotalCost)
+    TextView tvGoalDetailsTotalCost;
+    @BindView(R.id.tvGoalDetailsAmountSavedTitle)
+    TextView tvGoalDetailsAmountSavedTitle;
+    @BindView(R.id.tvGoalDetailsAmountSaved)
+    TextView tvGoalDetailsAmountSaved;
 
-    List<Transaction>transactionsList;
+    List<Transaction> transactionsList;
     TransactionAdapter adapter;
     private int transactionsLoaded;
     LinearLayoutManager linearLayoutManager;
@@ -90,17 +99,18 @@ public class GoalDetailsFragment extends Fragment {
 
         tvGoalDetailsName.setText(goal.getName());
         //TODO Format the Date
-        tvTotalCost.setText("$" + goal.getCost());
+        tvGoalDetailsTotalCost.setText("$" + goal.getCost());
         String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
+        String finalizedDate = endDate.substring(4, 10) + ", " + endDate.substring(24, 28);
         System.out.println(endDate.length());
         System.out.println(endDate);
-        tvCompletionDate.setText(finalizedDate);
+        tvGoalDetailsCompletionDate.setText(finalizedDate);
 
         Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
-        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
+        tvGoalDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+        pbGoalDetailsPercentDone.setProgress((int) percentDone.doubleValue());
+        pbGoalDetailsPercentDone.getProgressDrawable().setTint(getContext()
+                .getResources().getColor(R.color.money_green));
 
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
@@ -115,7 +125,8 @@ public class GoalDetailsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
 
@@ -123,22 +134,23 @@ public class GoalDetailsFragment extends Fragment {
         //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal);
-        tvCompletionDate.setText(goalEndDate);
+        tvGoalDetailsCompletionDate.setText(goalEndDate);
 
         //setting the total amount and saved amount in correct currency format
-        tvAmount.setText(formatCurrency(goal.getSaved()));
-        tvTotalCost.setText(formatCurrency(goal.getCost()));
+        tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
+        tvGoalDetailsTotalCost.setText(formatCurrency(goal.getCost()));
 
         //progress bar and percentage
         Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-        tvDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-        pbDetailsPercentDone.setProgress((int) percentDone.doubleValue());
-        pbDetailsPercentDone.getProgressDrawable().setTint(getContext().getResources().getColor(R.color.money_green));
+        tvGoalDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+        pbGoalDetailsPercentDone.setProgress((int) percentDone.doubleValue());
+        pbGoalDetailsPercentDone.getProgressDrawable().setTint(getContext()
+                .getResources().getColor(R.color.money_green));
     }
 
     public String formatDate(Goal goal) {
         String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4,10) + ", " + endDate.substring(24,28);
+        String finalizedDate = endDate.substring(4, 10) + ", " + endDate.substring(24, 28);
         return finalizedDate;
     }
 
