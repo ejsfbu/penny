@@ -101,6 +101,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
                 //transfer money to your bank account
                 Double saved = cancelledGoal.getSaved();
 
+
                 //deletes the goal
                 Goal.Query query = new Goal.Query();
                 query.whereEqualTo("objectId", cancelledGoal.getObjectId());
