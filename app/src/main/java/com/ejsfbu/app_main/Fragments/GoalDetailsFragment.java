@@ -27,6 +27,9 @@ import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditGoalEndDateDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditGoalImageDialogFragment;
+import com.ejsfbu.app_main.EditFragments.EditGoalNameDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.BankAccount;
@@ -240,7 +243,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     }
 
     @OnClick(R.id.cancel_goal_btn)
-    public void onClickEdit() {
+    public void onClickCancel(){
         showCancelGoalDialog();
     }
 
@@ -248,4 +251,36 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
         cancel.show(fragmentManager, "fragment_cancel_goal");
     }
+
+    @OnClick(R.id.ivEditGoalName)
+    public void onClickGoalName() {
+        showEditGoalNameDialog();
+    }
+
+    private void showEditGoalNameDialog() {
+        EditGoalNameDialogFragment editName = EditGoalNameDialogFragment.newInstance("Edit Goal Name", goal);
+        editName.show(fragmentManager, "fragment_edit_goal_name");
+    }
+
+
+    @OnClick(R.id.ivGoalDetailsImage)
+    public void onClickImage(){
+        showEditGoalImageDialog();
+    }
+
+    private void showEditGoalImageDialog() {
+        EditGoalImageDialogFragment editImage = EditGoalImageDialogFragment.newInstance("Edit Goal Image", goal);
+        editImage.show(fragmentManager, "fragment_edit_goal_image");
+    }
+
+    @OnClick(R.id.ivEditGoalDate)
+    public void onClickDate(){
+        showEditGoalEndDateDialog();
+    }
+
+    private void showEditGoalEndDateDialog() {
+        EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
+        editDate.show(fragmentManager, "fragment_edit_goal_end_date");
+    }
 }
+
