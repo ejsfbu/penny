@@ -37,10 +37,10 @@ public class ParentActivity extends AppCompatActivity {
 
     public static final String TAG = "ParentActivity";
 
-    @BindView(R.id.rvChildren)
-    RecyclerView rvChildren;
-    @BindView(R.id.ivProfilePic)
-    ImageView ivProfilePic;
+    @BindView(R.id.rvParentChildren)
+    RecyclerView rvParentChildren;
+    @BindView(R.id.ivParentProfilePic)
+    ImageView ivParentProfilePic;
 
     private ArrayList<User> children;
     private ChildAdapter adapter;
@@ -62,8 +62,8 @@ public class ParentActivity extends AppCompatActivity {
 
         children = new ArrayList<>();
         adapter = new ChildAdapter(this, children);
-        rvChildren.setAdapter(adapter);
-        rvChildren.setLayoutManager(new LinearLayoutManager(this));
+        rvParentChildren.setAdapter(adapter);
+        rvParentChildren.setLayoutManager(new LinearLayoutManager(this));
 
         ParseFile image = parent.getProfilePic();
         if (image != null) {
@@ -78,7 +78,7 @@ public class ParentActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivProfilePic);
+                    .into(ivParentProfilePic);
         }
 
         loadChildren();
@@ -109,7 +109,7 @@ public class ParentActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.ivProfilePic)
+    @OnClick(R.id.ivParentProfilePic)
     public void onClickProfile() {
         Intent intent = new Intent(this, ParentProfileActivity.class);
         startActivity(intent);

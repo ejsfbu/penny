@@ -6,30 +6,15 @@ import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Transaction;
-import com.parse.ParseFile;
 
-import java.util.Date;
 import java.util.List;
-
-import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
@@ -44,7 +29,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @NonNull
     @Override
     public TransactionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_transaction,
+                parent, false);
         return new TransactionAdapter.ViewHolder(view);
 
     }
@@ -61,24 +47,25 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvDate;
-        private TextView tvAmount;
+
+        private TextView tvTransactionDate;
+        private TextView tvTransactionAmount;
         private TextView tvBankName;
         private TextView tvStatus;
         private TextView tvAccountNumber;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvAmount = itemView.findViewById(R.id.tvAmount);
-            tvDate = itemView.findViewById(R.id.tvDate);
+            tvTransactionAmount = itemView.findViewById(R.id.tvTransactionAmount);
+            tvTransactionDate = itemView.findViewById(R.id.tvTransactionDate);
             tvBankName = itemView.findViewById(R.id.tvTransactionBankName);
             tvStatus = itemView.findViewById(R.id.tvTransactionStatus);
             tvAccountNumber = itemView.findViewById(R.id.tvTransactionAccountNumber);
         }
 
         public void bind(Transaction transaction) {
-            tvDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionCompleteDate().toString()));
-            tvAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
+            tvTransactionDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionCompleteDate().toString()));
+            tvTransactionAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
             tvBankName.setText(transaction.getBank().getBankName());
             tvAccountNumber.setText(BankAdapter.formatAccountNumber(transaction.getBank().getAccountNumber()));
             if (transaction.getApproval()) {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.BadgesFragment">
+    tools:context=".Fragments.RewardsFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tvCompletedGoals"
+                android:id="@+id/tvRewardsCompletedGoalsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -29,7 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCompletedGoals"
+                android:id="@+id/rvRewardsCompletedGoals"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="8dp"
@@ -37,10 +38,10 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompletedGoals" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsCompletedGoalsTitle" />
 
             <TextView
-                android:id="@+id/tvCompletedBadges"
+                android:id="@+id/tvRewardsCompletedBadgesTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -49,10 +50,10 @@
                 android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvCompletedGoals" />
+                app:layout_constraintTop_toBottomOf="@id/rvRewardsCompletedGoals" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCompletedBadges"
+                android:id="@+id/rvRewardsCompletedBadges"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="8dp"
@@ -60,10 +61,10 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompletedBadges" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsCompletedBadgesTitle" />
 
             <TextView
-                android:id="@+id/tvInProgressBadges"
+                android:id="@+id/tvRewardsInProgressBadgesTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -72,10 +73,10 @@
                 android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvCompletedBadges" />
+                app:layout_constraintTop_toBottomOf="@id/rvRewardsCompletedBadges" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvInProgressBadges"
+                android:id="@+id/rvRewardsInProgressBadges"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="8dp"
@@ -83,7 +84,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvInProgressBadges" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsInProgressBadgesTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

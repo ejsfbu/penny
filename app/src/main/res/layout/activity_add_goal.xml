@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     tools:visibility="visible">
 
     <ImageView
-        android:id="@+id/ivAppLogo"
+        android:id="@+id/ivAddGoalAppLogo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -17,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/piggy_bank"
+        app:srcCompat="@drawable/logo_piggy_bank"
         tools:ignore="ContentDescription" />
 
     <View
@@ -26,11 +27,11 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppLogo"
+        app:layout_constraintTop_toBottomOf="@+id/ivAddGoalAppLogo"
         tools:layout_editor_absoluteX="8dp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/goal_name_layout"
+        android:id="@+id/add_goal_goal_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -41,17 +42,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAddGoalTitle">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etGoalName"
+            android:id="@+id/etAddGoalGoalName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/goal_name"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/goal_cost_layout"
+        android:id="@+id/add_goal_goal_cost_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -59,20 +60,20 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goal_name_layout">
+        app:layout_constraintTop_toBottomOf="@+id/add_goal_goal_name_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etGoalCost"
+            android:id="@+id/etAddGoalGoalCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/goal_cost"
             android:inputType="numberDecimal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/end_date_layout"
+        android:id="@+id/add_goal_end_date_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -80,31 +81,31 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goal_cost_layout">
+        app:layout_constraintTop_toBottomOf="@+id/add_goal_goal_cost_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEndDate"
+            android:id="@+id/etAddGoalEndDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/end_date"
             android:inputType="date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/bAddGoal"
+        android:id="@+id/bAddGoalAdd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/add_goal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivGoalImage" />
+        app:layout_constraintTop_toBottomOf="@+id/ivAddGoalGoalImage" />
 
     <View
         android:id="@+id/verticalborder"
@@ -114,15 +115,15 @@
         android:background="#CCCCCCCC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvImageInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAddGoalImageInfo" />
 
     <ImageButton
-        android:id="@+id/ibCamera"
+        android:id="@+id/ibAddGoalCamera"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/white_button_background"
+        android:background="@drawable/background_button_white"
         app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toStartOf="@+id/verticalborder"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,13 +131,13 @@
         app:srcCompat="@drawable/icon_camera" />
 
     <ImageButton
-        android:id="@+id/ibPhotos"
+        android:id="@+id/ibAddGoalPhotos"
         android:layout_width="60dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/white_button_background"
+        android:background="@drawable/background_button_white"
         android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
         app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +146,7 @@
         app:srcCompat="@drawable/icon_photo" />
 
     <ImageView
-        android:id="@+id/ivGoalImage"
+        android:id="@+id/ivAddGoalGoalImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="8dp"
@@ -161,7 +162,7 @@
         app:srcCompat="@color/grey_7_75_transparent" />
 
     <ImageButton
-        android:id="@+id/bDate"
+        android:id="@+id/bAddGoalDate"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -169,10 +170,10 @@
         android:adjustViewBounds="true"
         android:background="#00FFFFFF"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@+id/end_date_layout"
-        app:layout_constraintEnd_toEndOf="@+id/end_date_layout"
-        app:layout_constraintTop_toTopOf="@+id/end_date_layout"
-        app:srcCompat="@drawable/calendar_color" />
+        app:layout_constraintBottom_toBottomOf="@+id/add_goal_end_date_layout"
+        app:layout_constraintEnd_toEndOf="@+id/add_goal_end_date_layout"
+        app:layout_constraintTop_toTopOf="@+id/add_goal_end_date_layout"
+        app:srcCompat="@drawable/icon_calendar_color" />
 
     <TextView
         android:id="@+id/tvAddGoalTitle"
@@ -190,7 +191,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
     <TextView
-        android:id="@+id/tvImageInfo"
+        android:id="@+id/tvAddGoalImageInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -199,6 +200,6 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/end_date_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/add_goal_end_date_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

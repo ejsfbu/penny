@@ -3,7 +3,6 @@ package com.ejsfbu.app_main.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.Adapters.ParentDisplayAdapter;
 import com.ejsfbu.app_main.DialogFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
@@ -57,50 +55,50 @@ public class ProfileFragment extends Fragment
 
     public static final String TAG = "ProfileFragment";
 
-    @BindView(R.id.bChildLogout)
-    Button bChildLogout;
+    @BindView(R.id.bProfileLogout)
+    Button bProfileLogout;
 
-    @BindView(R.id.ibEditChildName)
-    ImageButton ibEditChildName;
-    @BindView(R.id.ibEditChildUsername)
-    ImageButton ibEditChildUsername;
+    @BindView(R.id.ibProfileEditName)
+    ImageButton ibProfileEditName;
+    @BindView(R.id.ibProfileEditUsername)
+    ImageButton ibProfileEditUsername;
 
-    @BindView(R.id.cvParentProfilePic1)
-    CardView cvParentProfilePic1;
-    @BindView(R.id.cvParentProfilePic2)
-    CardView cvParentProfilePic2;
-    @BindView(R.id.cvParentProfilePic3)
-    CardView cvParentProfilePic3;
-    @BindView(R.id.cvParentProfilePic4)
-    CardView cvParentProfilePic4;
+    @BindView(R.id.cvProfileParentProfilePic1)
+    CardView cvProfileParentProfilePic1;
+    @BindView(R.id.cvProfileParentProfilePic2)
+    CardView cvProfileParentProfilePic2;
+    @BindView(R.id.cvProfileParentProfilePic3)
+    CardView cvProfileParentProfilePic3;
+    @BindView(R.id.cvProfileParentProfilePic4)
+    CardView cvProfileParentProfilePic4;
 
-    @BindView(R.id.ivChildProfilePic)
-    ImageView ivChildProfilePic;
-    @BindView(R.id.ivParentProfilePic1)
-    ImageView ivParentProfilePic1;
-    @BindView(R.id.ivParentProfilePic2)
-    ImageView ivParentProfilePic2;
-    @BindView(R.id.ivParentProfilePic3)
-    ImageView ivParentProfilePic3;
-    @BindView(R.id.ivParentProfilePic4)
-    ImageView ivParentProfilePic4;
+    @BindView(R.id.ivProfileChildProfilePic)
+    ImageView ivProfileChildProfilePic;
+    @BindView(R.id.ivProfileParentProfilePic1)
+    ImageView ivProfileParentProfilePic1;
+    @BindView(R.id.ivProfileParentProfilePic2)
+    ImageView ivProfileParentProfilePic2;
+    @BindView(R.id.ivProfileParentProfilePic3)
+    ImageView ivProfileParentProfilePic3;
+    @BindView(R.id.ivProfileParentProfilePic4)
+    ImageView ivProfileParentProfilePic4;
 
-    @BindView(R.id.tvChildUsername)
-    TextView tvChildUsername;
-    @BindView(R.id.tvChildName)
-    TextView tvChildName;
-    @BindView(R.id.tvChildEmail)
-    TextView tvChildEmail;
-    @BindView(R.id.tvChildAccountCode)
-    TextView tvChildAccountCode;
-    @BindView(R.id.tvParentName1)
-    TextView tvParentName1;
-    @BindView(R.id.tvParentName2)
-    TextView tvParentName2;
-    @BindView(R.id.tvParentName3)
-    TextView tvParentName3;
-    @BindView(R.id.tvParentName4)
-    TextView tvParentName4;
+    @BindView(R.id.tvProfileUsername)
+    TextView tvProfileUsername;
+    @BindView(R.id.tvProfileName)
+    TextView tvProfileName;
+    @BindView(R.id.tvProfileEmail)
+    TextView tvProfileEmail;
+    @BindView(R.id.tvProfileAccountCode)
+    TextView tvProfileAccountCode;
+    @BindView(R.id.tvProfileParentName1)
+    TextView tvProfileParentName1;
+    @BindView(R.id.tvProfileParentName2)
+    TextView tvProfileParentName2;
+    @BindView(R.id.tvProfileParentName3)
+    TextView tvProfileParentName3;
+    @BindView(R.id.tvProfileParentName4)
+    TextView tvProfileParentName4;
 
     private Unbinder unbinder;
     private User user;
@@ -130,7 +128,7 @@ public class ProfileFragment extends Fragment
         unbinder.unbind();
     }
 
-    @OnClick(R.id.bChildLogout)
+    @OnClick(R.id.bProfileLogout)
     public void onClickLogOut() {
         ParseUser.logOut();
 
@@ -139,41 +137,41 @@ public class ProfileFragment extends Fragment
         getActivity().finish();
     }
 
-    @OnClick(R.id.ibEditChildName)
+    @OnClick(R.id.ibProfileEditName)
     public void onClickEditName() {
         showEditNameDialog();
     }
 
-    @OnClick(R.id.ibEditChildUsername)
+    @OnClick(R.id.ibProfileEditUsername)
     public void onClickEditUserName() {
         showEditUsernameDialog();
     }
 
-    @OnClick(R.id.ibEditChildEmail)
+    @OnClick(R.id.ibProfileEditEmail)
     public void onClickEditEmail() {
         showEditEmailDialog();
     }
 
-    @OnClick(R.id.ibEditChildPassword)
+    @OnClick(R.id.ibProfileEditPassword)
     public void onClickEditPassword() {
         showEditPasswordDialog();
     }
 
-    @OnClick(R.id.ivChildProfilePic)
+    @OnClick(R.id.ivProfileChildProfilePic)
     public void onClickEditImage() {
         showEditImageDialog();
     }
 
-    @OnClick(R.id.tvChildProfileEdit)
+    @OnClick(R.id.tvProfileEdit)
     public void onClickChildProfileEdit() {
         showEditImageDialog();
     }
 
-    @OnClick(R.id.bChildBankInfo)
+    @OnClick(R.id.bProfileBankInfo)
     public void onClickBanks() {
-        Fragment bankFragment = new BankAccountsFragment();
+        Fragment bankFragment = new BanksListFragment();
         MainActivity.fragmentManager.beginTransaction()
-                .replace(R.id.flContainer, bankFragment).commit();
+                .replace(R.id.flMainContainer, bankFragment).commit();
     }
 
     private void showEditNameDialog() {
@@ -206,7 +204,7 @@ public class ProfileFragment extends Fragment
         EditProfileImageDialogFragment editProfileImageDialogFragment
                 = EditProfileImageDialogFragment.newInstance("Edit Password");
         editProfileImageDialogFragment.show(MainActivity.fragmentManager,
-                "fragment_edit_profileimage");
+                "fragment_edit_profile_pic");
     }
 
     private void loadProfileData() {
@@ -224,12 +222,12 @@ public class ProfileFragment extends Fragment
             Glide.with(context)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivChildProfilePic);
+                    .into(ivProfileChildProfilePic);
         }
-        tvChildUsername.setText(user.getUsername());
-        tvChildEmail.setText(user.getEmail());
-        tvChildName.setText(user.getName());
-        tvChildAccountCode.setText(user.getObjectId());
+        tvProfileUsername.setText(user.getUsername());
+        tvProfileEmail.setText(user.getEmail());
+        tvProfileName.setText(user.getName());
+        tvProfileAccountCode.setText(user.getObjectId());
 
         JSONArray jsonParents = user.getParents();
         if (jsonParents == null) {
@@ -263,28 +261,28 @@ public class ProfileFragment extends Fragment
 
     public void loopParents() {
         if (parents.size() > 0) {
-            cvParentProfilePic1.setVisibility(View.VISIBLE);
-            tvParentName1.setVisibility(View.VISIBLE);
+            cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
+            tvProfileParentName1.setVisibility(View.VISIBLE);
             User parent1 = (User) parents.get(0);
-            setParent(parent1, ivParentProfilePic1, tvParentName1);
+            setParent(parent1, ivProfileParentProfilePic1, tvProfileParentName1);
         }
         if (parents.size() > 1) {
-            cvParentProfilePic2.setVisibility(View.VISIBLE);
-            tvParentName2.setVisibility(View.VISIBLE);
+            cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
+            tvProfileParentName2.setVisibility(View.VISIBLE);
             User parent2 = (User) parents.get(1);
-            setParent(parent2, ivParentProfilePic2, tvParentName2);
+            setParent(parent2, ivProfileParentProfilePic2, tvProfileParentName2);
         }
         if (parents.size() > 2) {
-            cvParentProfilePic3.setVisibility(View.VISIBLE);
-            tvParentName3.setVisibility(View.VISIBLE);
+            cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
+            tvProfileParentName3.setVisibility(View.VISIBLE);
             User parent3 = (User) parents.get(2);
-            setParent(parent3, ivParentProfilePic3, tvParentName3);
+            setParent(parent3, ivProfileParentProfilePic3, tvProfileParentName3);
         }
         if (parents.size() > 3) {
-            cvParentProfilePic4.setVisibility(View.VISIBLE);
-            tvParentName4.setVisibility(View.VISIBLE);
+            cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
+            tvProfileParentName4.setVisibility(View.VISIBLE);
             User parent4 = (User) parents.get(3);
-            setParent(parent4, ivParentProfilePic4, tvParentName4);
+            setParent(parent4, ivProfileParentProfilePic4, tvProfileParentName4);
         }
     }
 

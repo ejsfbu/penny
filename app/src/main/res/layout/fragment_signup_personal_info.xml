@@ -2,32 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/first_name_layout"
+        android:id="@+id/sign_up_personal_info_first_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+        app:layout_constraintTop_toBottomOf="@+id/tvSignUpPersonalInfoTitle">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etFirstName"
+            android:id="@+id/etSignUpPersonalInfoFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/first_name"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/last_name_layout"
+        android:id="@+id/sign_up_personal_info_last_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -35,20 +34,20 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/first_name_layout">
+        app:layout_constraintTop_toBottomOf="@id/sign_up_personal_info_first_name_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etLastName"
+            android:id="@+id/etSignUpPersonalInfoLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/last_name"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/birthday_layout"
+        android:id="@+id/sign_up_personal_info_birthday_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -56,33 +55,33 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/last_name_layout">
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_personal_info_last_name_layout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etBirthday"
+            android:id="@+id/etSignUpPersonalInfoBirthday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/birthday"
             android:inputType="date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/bNext"
+        android:id="@+id/bSignUpPersonalInfoNext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/birthday_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_up_personal_info_birthday_layout" />
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvSignUpPersonalInfoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -95,7 +94,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/bDate"
+        android:id="@+id/ibSignUpPersonalInfoDate"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
@@ -103,9 +102,9 @@
         android:adjustViewBounds="true"
         android:background="#00FFFFFF"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@id/sign_up_personal_info_birthday_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/birthday_layout"
-        app:layout_constraintBottom_toBottomOf="@id/birthday_layout"
-        app:srcCompat="@drawable/calendar_color" />
+        app:layout_constraintTop_toTopOf="@+id/sign_up_personal_info_birthday_layout"
+        app:srcCompat="@drawable/icon_calendar_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
