@@ -31,6 +31,11 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
@@ -47,7 +52,7 @@ public class EditGoalImageDialogFragment extends DialogFragment {
     Context context;
     Button bCancel;
     Button bConfirm;
-    ImageView ivGoalImage;
+    ImageView ivPrevGoalImage;
     ImageButton ibGalleryPhoto;
     ImageButton ibCameraPhoto;
 
@@ -80,9 +85,26 @@ public class EditGoalImageDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         bCancel = view.findViewById(R.id.bEditGoalImageCancel);
         bConfirm = view.findViewById(R.id.bEditGoalImageConfirm);
-        ivGoalImage = view.findViewById(R.id.ivPrevGoalImage);
+        ivPrevGoalImage = view.findViewById(R.id.ivPrevGoalImage);
         ibGalleryPhoto = view.findViewById(R.id.ibEditGoalImagePhotos);
         ibCameraPhoto = view.findViewById(R.id.ibEditGoalImageCamera);
+
+        ParseFile image = currentGoal.getImage();
+        if (image != null) {
+            String imageUrl = image.getUrl();
+            imageUrl = imageUrl.substring(4);
+            imageUrl = "https" + imageUrl;
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.icon_user)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .error(R.drawable.icon_user)
+                    .transform(new CenterCrop())
+                    .transform(new CircleCrop());
+            Glide.with(context)
+                    .load(imageUrl)
+                    .apply(options) // Extra: round image corners
+                    .into(ivPrevGoalImage);
+        }
 
         setListeners();
     }
@@ -98,7 +120,7 @@ public class EditGoalImageDialogFragment extends DialogFragment {
         bConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (photoFile == null || ivGoalImage.getDrawable() == null) {
+                if (photoFile == null || ivPrevGoalImage.getDrawable() == null) {
                     Toast.makeText(context, "Please upload or take a photo", Toast.LENGTH_LONG).show();
                     return;
                 }
