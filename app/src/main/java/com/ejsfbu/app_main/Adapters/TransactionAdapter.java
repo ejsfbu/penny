@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Transaction;
+import com.ejsfbu.app_main.Models.Transaction;
 
 import java.util.List;
 

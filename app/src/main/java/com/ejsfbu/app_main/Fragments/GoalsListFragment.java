@@ -18,7 +18,7 @@ import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.Models.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;

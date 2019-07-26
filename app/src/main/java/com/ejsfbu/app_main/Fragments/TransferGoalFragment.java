@@ -16,10 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
-import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.Models.Goal;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 

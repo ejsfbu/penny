@@ -15,14 +15,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BadgeRow;
-import com.ejsfbu.app_main.models.Reward;
+import com.ejsfbu.app_main.Models.BadgeRow;
+import com.ejsfbu.app_main.Models.Reward;
 import com.parse.ParseFile;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class BadgeRowAdapter extends RecyclerView.Adapter<BadgeRowAdapter.ViewHolder> {
 

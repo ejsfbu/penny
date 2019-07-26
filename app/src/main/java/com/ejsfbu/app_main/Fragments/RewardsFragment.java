@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BadgeRow;
-import com.ejsfbu.app_main.models.Goal;
-import com.ejsfbu.app_main.models.Reward;
+import com.ejsfbu.app_main.Models.BadgeRow;
+import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Reward;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 

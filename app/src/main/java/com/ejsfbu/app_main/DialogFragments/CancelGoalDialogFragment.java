@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -19,8 +19,8 @@ import androidx.fragment.app.Fragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.Goal;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 

@@ -20,8 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;

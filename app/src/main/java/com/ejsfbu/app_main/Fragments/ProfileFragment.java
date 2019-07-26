@@ -29,7 +29,7 @@ import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;

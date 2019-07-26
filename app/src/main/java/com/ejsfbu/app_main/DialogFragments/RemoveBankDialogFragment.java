@@ -1,6 +1,5 @@
 package com.ejsfbu.app_main.DialogFragments;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -16,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
-import com.parse.ParseUser;
 
 public class RemoveBankDialogFragment extends DialogFragment {
 

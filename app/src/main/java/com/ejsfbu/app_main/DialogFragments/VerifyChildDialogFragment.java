@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.PopupFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.graphics.Point;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseUser;
 
 public class VerifyChildDialogFragment extends DialogFragment {

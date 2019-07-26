@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

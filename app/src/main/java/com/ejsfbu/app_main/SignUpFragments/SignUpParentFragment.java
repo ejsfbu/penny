@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;

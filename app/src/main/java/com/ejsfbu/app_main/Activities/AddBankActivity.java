@@ -8,8 +8,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

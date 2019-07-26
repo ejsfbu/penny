@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignUpFragments.SignUpParentFragment;
 import com.ejsfbu.app_main.SignUpFragments.SignUpPersonalInfoFragment;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity

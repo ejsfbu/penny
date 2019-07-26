@@ -2,11 +2,11 @@ package com.ejsfbu.app_main;
 
 import android.app.Application;
 
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.Goal;
-import com.ejsfbu.app_main.models.Reward;
-import com.ejsfbu.app_main.models.Transaction;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.Transaction;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

@@ -34,7 +34,7 @@ import androidx.fragment.app.FragmentManager;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.Models.Goal;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;

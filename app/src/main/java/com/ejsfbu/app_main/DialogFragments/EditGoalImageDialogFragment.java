@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -13,23 +13,20 @@ import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.Models.Goal;
 
-import java.util.ArrayList;
-
-public class EditGoalNameDialogFragment extends DialogFragment {
+public class EditGoalImageDialogFragment extends DialogFragment {
 
     Context context;
 
-    public EditGoalNameDialogFragment() {
+    public EditGoalImageDialogFragment() {
 
     }
 
-    public static EditGoalNameDialogFragment newInstance(String title, Goal goal) {
-        EditGoalNameDialogFragment frag = new EditGoalNameDialogFragment();
+    public static EditGoalImageDialogFragment newInstance(String title, Goal goal) {
+        EditGoalImageDialogFragment frag = new EditGoalImageDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -40,7 +37,7 @@ public class EditGoalNameDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_edit_goal_name, container);
+        return inflater.inflate(R.layout.fragment_edit_goal_image, container);
     }
 
     @Override

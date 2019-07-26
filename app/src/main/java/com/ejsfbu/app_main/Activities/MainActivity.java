@@ -13,9 +13,9 @@ import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.Fragments.RewardsFragment;
-import com.ejsfbu.app_main.PopupFragments.NeedsParentDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 

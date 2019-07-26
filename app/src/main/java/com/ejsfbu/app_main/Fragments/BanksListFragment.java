@@ -18,8 +18,8 @@ import com.ejsfbu.app_main.Activities.AddBankActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.BankAdapter;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseUser;
 

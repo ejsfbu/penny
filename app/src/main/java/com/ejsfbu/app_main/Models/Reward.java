@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.models;
+package com.ejsfbu.app_main.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;

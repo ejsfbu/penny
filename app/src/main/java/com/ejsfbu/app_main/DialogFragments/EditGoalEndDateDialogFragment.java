@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -10,19 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import java.util.ArrayList;
+import com.ejsfbu.app_main.Models.Goal;
 
 public class EditGoalEndDateDialogFragment extends DialogFragment {
 

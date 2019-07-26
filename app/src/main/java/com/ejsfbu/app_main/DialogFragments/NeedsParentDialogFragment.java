@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.PopupFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Intent;
 import android.graphics.Point;
@@ -22,7 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.SignUpActivity;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
