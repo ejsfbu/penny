@@ -397,13 +397,16 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         Log.d(TAG, String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
 
-        String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth) + "/" + formatDate(year);
+        String date = formatDate(monthOfYear, "month") + "/" + formatDate(dayOfMonth, "day") + "/" + formatDate(year, "year");
         etEndDate.setText(date);
     }
 
-    // adds the 0 in front of days/months below 10
-    public static String formatDate(int dayOrMonth) {
+    // adds the 0 in front of days/months below 10 & formats for the correct month
+    public static String formatDate(int dayOrMonth, String type) {
         String date;
+        if (type.equals("month")) {
+            dayOrMonth += 1;
+        }
         if (dayOrMonth < 10) {
             date = "0" + dayOrMonth;
         } else {

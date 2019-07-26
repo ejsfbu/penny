@@ -2,6 +2,7 @@ package com.ejsfbu.app_main.EditFragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -160,8 +161,6 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                 }
             }
         });
-
-
     }
 
     // Defines the listener interface
