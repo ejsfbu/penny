@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @ParseClassName("Transaction")
@@ -21,6 +22,24 @@ public class Transaction extends ParseObject {
     public static final String KEY_APPROVED = "isApproved";
     public static final String KEY_TYPE = "isWithdraw";
     public static final String KEY_COMPLETED_DATE = "completedDate";
+
+    public Transaction() {
+        super();
+    }
+
+    public Transaction(ParseUser user, BankAccount bank, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
+        this.setUser(user);
+        this.setBank(bank);
+        this.setAmount(amount);
+        this.setGoal(goal);
+        this.setApproval(isApproved);
+        this.setType(isWithdraw);
+        if (isApproved) {
+            Date currentTime = Calendar.getInstance().getTime();
+            this.setTransactionCompleteDate(currentTime);
+        }
+    }
+
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
