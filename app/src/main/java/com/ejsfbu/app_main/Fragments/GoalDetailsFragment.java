@@ -175,8 +175,11 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
             transactionsLoaded = 0;
         } else {
             noTransactionText.setVisibility(View.GONE);
-            transactionsList.addAll(transactions);
-            adapter.notifyDataSetChanged();
+            // add in reverse order
+            for (int i = transactions.size() - 1; i >= 0; i--) {
+                transactionsList.add(transactions.get(i));
+                adapter.notifyDataSetChanged();
+            }
             transactionsLoaded = transactions.size();
         }
 
@@ -246,7 +249,9 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    // do the notification here instead for success
+                    transactionsList.clear();
+                    adapter.notifyDataSetChanged();
+                    loadTransactions();
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
