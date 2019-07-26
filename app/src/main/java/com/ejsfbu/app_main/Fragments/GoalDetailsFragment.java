@@ -59,7 +59,10 @@ import java.util.Locale;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class GoalDetailsFragment extends Fragment implements
-        EditGoalNameDialogFragment.EditGoalNameDialogListener, EditGoalEndDateDialogFragment.EditGoalDateDialogListener, DepositDialogFragment.DepositDialogListener {
+        EditGoalNameDialogFragment.EditGoalNameDialogListener,
+        EditGoalEndDateDialogFragment.EditGoalDateDialogListener,
+        DepositDialogFragment.DepositDialogListener,
+        EditGoalImageDialogFragment.EditGoalImageDialogListener {
 
     @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalDetailsImage;
