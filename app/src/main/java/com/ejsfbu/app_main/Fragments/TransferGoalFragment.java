@@ -147,7 +147,7 @@ public class TransferGoalFragment extends Fragment {
                 bundle.putParcelable("Cancelled Goal", cancelledGoal);
                 Fragment goalDetail = new GoalDetailsFragment();
                 goalDetail.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalDetail).commit();
+                getFragmentManager().beginTransaction().replace(R.id.flMainContainer, goalDetail).commit();
             }
         });
 

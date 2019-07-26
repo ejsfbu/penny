@@ -119,7 +119,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
 
                 //return to goals page
                 GoalsListFragment goalsListFragment = new GoalsListFragment();
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalsListFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.flMainContainer, goalsListFragment).commit();
                 dismiss();
             }
         });
@@ -132,7 +132,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
                 bundle.putParcelable("Cancelled Goal", cancelledGoal);
                 Fragment transferGoalFragment = new TransferGoalFragment();
                 transferGoalFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, transferGoalFragment).commit();
+                getFragmentManager().beginTransaction().replace(R.id.flMainContainer, transferGoalFragment).commit();
                 dismiss();
             }
         });
