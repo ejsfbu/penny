@@ -127,20 +127,21 @@
                 android:gravity="center"
                 android:text="@string/transaction_history"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_constraintEnd_toEndOf="@+id/pbGoalDetailsPercentDone"
-                app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsDateCompletedTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCompletionDateTitle" />
 
             <Button
                 android:id="@+id/bGoalDetailsAutoPay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/auto_pay"
-                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
-                app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsDeposit"
-                app:layout_constraintStart_toStartOf="@+id/bGoalDetailsDeposit" />
+                app:layout_constraintBottom_toTopOf="@+id/deposit_btn"
+                app:layout_constraintEnd_toEndOf="@+id/deposit_btn"
+                app:layout_constraintStart_toStartOf="@+id/deposit_btn"
+                app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
 
             <TextView
                 android:id="@+id/tvGoalDetailsAmountSavedTitle"
@@ -159,19 +160,6 @@
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsAmountSavedTitle"
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsAmountSavedTitle" />
-
-            <TextView
-                android:id="@+id/tvPlaceholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="PLACEHOLDER FOR THE RECYCLER VIEW"
-                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsAutoPay"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTransactionHistoryTitle" />
 
             <ImageButton
                 android:id="@+id/ivEditGoalName"
@@ -195,6 +183,74 @@
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsCompletionDate"
                 app:srcCompat="@drawable/icon_edit" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGoalTransactionHistory"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTranscationHistory" />
+
+            <View
+                android:id="@+id/borderTop"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#CCCCCCCC"
+                app:layout_constraintBottom_toTopOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rvGoalTransactionHistory" />
+
+            <View
+                android:id="@+id/borderBot"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#CCCCCCCC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
+
+            <View
+                android:id="@+id/verticalborderLeft"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#CCCCCCCC"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintStart_toStartOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintTop_toTopOf="@+id/rvGoalTransactionHistory" />
+
+            <View
+                android:id="@+id/verticalborderRight"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#CCCCCCCC"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintStart_toEndOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintTop_toTopOf="@+id/rvGoalTransactionHistory" />
+
+            <TextView
+                android:id="@+id/noTransactionsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="No transactions available"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintEnd_toStartOf="@+id/verticalborderRight"
+                app:layout_constraintStart_toEndOf="@+id/verticalborderLeft"
+                app:layout_constraintTop_toBottomOf="@+id/borderTop" />
+          
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

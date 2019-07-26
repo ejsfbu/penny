@@ -230,7 +230,11 @@ public class ProfileFragment extends Fragment
         tvProfileAccountCode.setText(user.getObjectId());
 
         JSONArray jsonParents = user.getParents();
-        numParents = jsonParents.length();
+        if (jsonParents == null) {
+            numParents  = 0;
+        } else {
+            numParents = jsonParents.length();
+        }
         for (int i = 0; i < numParents; i++) {
             try {
                 JSONObject jsonParent = (JSONObject) jsonParents.get(i);

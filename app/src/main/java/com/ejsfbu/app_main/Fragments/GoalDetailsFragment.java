@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -41,6 +42,8 @@ import com.parse.SaveCallback;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,6 +64,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     ProgressBar pbGoalDetailsPercentDone;
     @BindView(R.id.tvGoalDetailsPercentDone)
     TextView tvGoalDetailsPercentDone;
+    @BindView(R.id.rvGoalTransactionHistory)
+    RecyclerView rvTransactions;
     @BindView(R.id.bGoalDetailsDeposit)
     Button bGoalDetailsDeposit;
     @BindView(R.id.tvGoalDetailsTransactionHistoryTitle)
@@ -79,7 +84,10 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     TextView tvGoalDetailsAmountSavedTitle;
     @BindView(R.id.tvGoalDetailsAmountSaved)
     TextView tvGoalDetailsAmountSaved;
+    @BindView(R.id.noTransactionsText)
+    TextView noTransactionText;
 
+    // Butterknife for fragment
     private Unbinder unbinder;
     List<Transaction> transactionsList;
     TransactionAdapter adapter;
@@ -97,12 +105,9 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         setGoalInfo();
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
-        //rvTransactions.setAdapter(adapter);
+        rvTransactions.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        //rvTransactions.setLayoutManager(linearLayoutManager);
-
-        //TODO - Ethan is working on transaction model and recycler view for transactions.
-
+        rvTransactions.setLayoutManager(linearLayoutManager);
         loadTransactions();
     }
 
@@ -118,7 +123,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     public void setGoalInfo() {
         //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
-        String goalEndDate = formatDate(goal);
+        String goalEndDate = formatDate(goal.getEndDate().toString());
         tvGoalDetailsCompletionDate.setText(goalEndDate);
 
         //setting the total amount and saved amount in correct currency format
@@ -150,9 +155,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         }
     }
 
-    public String formatDate(Goal goal) {
-        String endDate = goal.get("endDate").toString();
-        String finalizedDate = endDate.substring(4, 10) + ", " + endDate.substring(24, 28);
+    public static String formatDate(String date) {
+        String finalizedDate = date.substring(4, 10) + ", " + date.substring(24, 28);
         return finalizedDate;
     }
 
@@ -162,10 +166,24 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         unbinder.unbind();
     }
 
-    public void loadTransactions() {
+    private void loadTransactions() {
+        List<Transaction> transactions = goal.getTransactions();
+        if (transactions == null || transactions.size() == 0) {
+            noTransactionText.setVisibility(View.VISIBLE);
+            transactionsLoaded = 0;
+        } else {
+            noTransactionText.setVisibility(View.GONE);
+            // add in reverse order
+            for (int i = transactions.size() - 1; i >= 0; i--) {
+                transactionsList.add(transactions.get(i));
+                adapter.notifyDataSetChanged();
+            }
+            transactionsLoaded = transactions.size();
+        }
+
     }
 
-    public String formatCurrency(Double amount) {
+    public static String formatCurrency(Double amount) {
         NumberFormat currency = NumberFormat.getCurrencyInstance(Locale.US);
         String convertedAmount = currency.format(amount);
         return convertedAmount;
@@ -200,6 +218,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
             transaction.setApproval(false);
         } else {
             transaction.setApproval(true);
+            Date currentTime = Calendar.getInstance().getTime();
+            transaction.setTransactionCompleteDate(currentTime);
         }
         transaction.saveInBackground(new SaveCallback() {
             @Override
@@ -227,7 +247,9 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    // do the notification here instead for success
+                    transactionsList.clear();
+                    adapter.notifyDataSetChanged();
+                    loadTransactions();
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -1,6 +1,8 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,8 @@ import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
-    Context context;
-    List<Transaction> transactionsList;
+    private Context context;
+    private List<Transaction> transactionsList;
 
     public TransactionAdapter(Context context, List<Transaction> transactions) {
         this.context = context;
@@ -48,16 +50,34 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
         private TextView tvTransactionDate;
         private TextView tvTransactionAmount;
+        private TextView tvBankName;
+        private TextView tvStatus;
+        private TextView tvAccountNumber;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTransactionAmount = itemView.findViewById(R.id.tvTransactionAmount);
             tvTransactionDate = itemView.findViewById(R.id.tvTransactionDate);
+            tvBankName = itemView.findViewById(R.id.tvTransactionBankName);
+            tvStatus = itemView.findViewById(R.id.tvTransactionStatus);
+            tvAccountNumber = itemView.findViewById(R.id.tvTransactionAccountNumber);
         }
 
         public void bind(Transaction transaction) {
-            tvTransactionDate.setText(transaction.getTransactionDate().toString());
-            tvTransactionAmount.setText(String.valueOf(transaction.getAmount()));
+            tvTransactionDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionCompleteDate().toString()));
+            tvTransactionAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
+            tvBankName.setText(transaction.getBank().getBankName());
+            tvAccountNumber.setText(BankAdapter.formatAccountNumber(transaction.getBank().getAccountNumber()));
+            if (transaction.getApproval()) {
+                tvStatus.setText("Status: Completed");
+            } else {
+                tvStatus.setText("Status: Pending");
+            }
+            if (transaction.getType()) {
+                tvAmount.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            } else {
+                tvAmount.setTextColor(context.getResources().getColor(R.color.money_green));
+            }
         }
     }
 
