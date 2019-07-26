@@ -134,7 +134,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction()
-                                .replace(R.id.flMainContainer, fragment).commit();
+                                .replace(R.id.flMainContainer, fragment).commitAllowingStateLoss();
                     } else {
                         //transfers money to this goal
                         Double saved = cancelled.getSaved();

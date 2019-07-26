@@ -24,17 +24,18 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
-import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalEndDateDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalNameDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -54,7 +55,8 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class GoalDetailsFragment extends Fragment implements DepositDialogFragment.DepositDialogListener {
+public class GoalDetailsFragment extends Fragment
+        implements DepositDialogFragment.DepositDialogListener {
 
     @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalDetailsImage;
@@ -87,7 +89,6 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     @BindView(R.id.noTransactionsText)
     TextView noTransactionText;
 
-    // Butterknife for fragment
     private Unbinder unbinder;
     List<Transaction> transactionsList;
     TransactionAdapter adapter;
@@ -121,16 +122,13 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     }
 
     public void setGoalInfo() {
-        //set the text for goal name and end date
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal.getEndDate().toString());
         tvGoalDetailsCompletionDate.setText(goalEndDate);
 
-        //setting the total amount and saved amount in correct currency format
         tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
         tvGoalDetailsTotalCost.setText(formatCurrency(goal.getCost()));
 
-        //progress bar and percentage
         Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
         tvGoalDetailsPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
         pbGoalDetailsPercentDone.setProgress((int) percentDone.doubleValue());
@@ -194,7 +192,6 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         showDepositDialog();
     }
 
-    // Call this method to launch the edit dialog
     private void showDepositDialog() {
         DepositDialogFragment depositDialogFragment
                 = DepositDialogFragment.newInstance("Deposit");
@@ -238,9 +235,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         if (transaction.getApproval()) {
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
-            Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
+            createRequest(transaction);
         }
         goal.addTransaction(transaction);
         goal.saveInBackground(new SaveCallback() {
@@ -250,6 +246,39 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
                     transactionsList.clear();
                     adapter.notifyDataSetChanged();
                     loadTransactions();
+                    Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                } else {
+                    e.printStackTrace();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void createRequest(Transaction transaction) {
+        Request request = new Request();
+        request.setUser(user);
+        request.setRequestType("Goal Deposit");
+        request.setRequestDetails(user.getName() + " wants to deposit $"
+                + String.format("%.2f", transaction.getAmount()) + " towards " + goal.getName()
+                + " from " + transaction.getBank().getBankName());
+        request.setTransaction(transaction);
+        request.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    user.addRequest(request);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                e.printStackTrace();
+                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

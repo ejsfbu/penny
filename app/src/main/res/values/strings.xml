@@ -83,4 +83,8 @@
     <string name="status">Status:</string>
     <string name="edit_goal_name">Edit Goal Name</string>
     <string name="cancel_goal">Cancel Goal</string>
+    <string name="request_type">Request Type</string>
+    <string name="request_details">Request Details</string>
+    <string name="approve">Approve</string>
+    <string name="deny">Deny</string>
 </resources>

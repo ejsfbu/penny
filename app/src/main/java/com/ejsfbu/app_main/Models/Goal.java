@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -42,7 +43,14 @@ public class Goal extends ParseObject {
     }
 
     public Double getSaved() {
-        return getDouble(KEY_SAVED);
+        Double saved;
+        try {
+            saved = fetchIfNeeded().getDouble(KEY_SAVED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            saved = 0.0;
+        }
+        return saved;
     }
 
     public void setSaved(Double saved) {

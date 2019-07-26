@@ -53,7 +53,14 @@ public class Transaction extends ParseObject {
     }
 
     public BankAccount getBank() {
-        return (BankAccount) getParseObject(KEY_BANK_ACCOUNT);
+        BankAccount bank;
+        try {
+            bank = (BankAccount) fetchIfNeeded().getParseObject(KEY_BANK_ACCOUNT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            bank = null;
+        }
+        return bank;
     }
 
     public Double getAmount() { return getDouble(KEY_AMOUNT); }
