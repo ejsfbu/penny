@@ -22,10 +22,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
-import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditGoalEndDateDialogFragment;
 import com.ejsfbu.app_main.EditFragments.EditGoalImageDialogFragment;
@@ -50,9 +48,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
-import java.text.NumberFormat;
-import java.util.Locale;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
@@ -98,10 +93,8 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-
         goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
-
         transactionsList = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
         //rvTransactions.setAdapter(adapter);
@@ -244,7 +237,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     }
 
     @OnClick(R.id.bGoalDetailsCancelGoal)
-    public void onClickCancel(){
+    public void onClickCancel() {
         showCancelGoalDialog();
     }
 
@@ -265,7 +258,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
 
 
     @OnClick(R.id.ivGoalDetailsImage)
-    public void onClickImage(){
+    public void onClickImage() {
         showEditGoalImageDialog();
     }
 
@@ -275,7 +268,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     }
 
     @OnClick(R.id.ivEditGoalDate)
-    public void onClickDate(){
+    public void onClickDate() {
         showEditGoalEndDateDialog();
     }
 
