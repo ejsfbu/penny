@@ -92,7 +92,6 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
         bConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Click made", Toast.LENGTH_LONG).show();
                 final Date endDate;
                 if (confirmCorrectDateFormat(newDate.getText().toString())) {
                     endDate = parseDate(newDate.getText().toString());
@@ -105,19 +104,22 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
                     return;
                 }
 
-                selectedGoal.setEndDate(endDate);
-                selectedGoal.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(context, "Successful!", Toast.LENGTH_LONG).show();
-                            sendBackResult();
-                        } else {
-                            Toast.makeText(context, "Failure!", Toast.LENGTH_LONG).show();
+                if (endDate.toString().equals(selectedGoal.getEndDate().toString())) {
+                    Toast.makeText(context, "This is the same goal completion date. Please enter a new goal completion date", Toast.LENGTH_LONG).show();
+                } else {
+                    selectedGoal.setEndDate(endDate);
+                    selectedGoal.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(context, "Successful!", Toast.LENGTH_LONG).show();
+                                sendBackResult();
+                            } else {
+                                Toast.makeText(context, "Failure!", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
             }
 
         });
