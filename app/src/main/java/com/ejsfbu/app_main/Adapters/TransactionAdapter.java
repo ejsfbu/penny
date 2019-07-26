@@ -87,9 +87,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 tvStatus.setText("Status: Pending");
             }
             if (transaction.getType()) {
-                tvAmount.setTextColor(context.getResources().getColor(R.color.money_green));
-            } else {
                 tvAmount.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            } else {
+                tvAmount.setTextColor(context.getResources().getColor(R.color.money_green));
             }
         }
     }

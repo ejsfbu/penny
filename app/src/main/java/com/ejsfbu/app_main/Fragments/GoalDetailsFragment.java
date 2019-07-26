@@ -172,12 +172,14 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         List<Transaction> transactions = goal.getTransactions();
         if (transactions == null || transactions.size() == 0) {
             noTransactionText.setVisibility(View.VISIBLE);
+            transactionsLoaded = 0;
         } else {
             noTransactionText.setVisibility(View.GONE);
+            transactionsList.addAll(transactions);
+            adapter.notifyDataSetChanged();
+            transactionsLoaded = transactions.size();
         }
-        transactionsList.addAll(transactions);
-        adapter.notifyDataSetChanged();
-        transactionsLoaded = transactions.size();
+
     }
 
     public static String formatCurrency(Double amount) {
