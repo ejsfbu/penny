@@ -33,10 +33,8 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/goal_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/ivGoalDetailsImage"
                 app:layout_constraintStart_toEndOf="@+id/ivGoalDetailsImage"
-                app:layout_constraintTop_toTopOf="@+id/ivGoalDetailsImage"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="@+id/ivGoalDetailsImage" />
 
             <ProgressBar
                 android:id="@+id/pbGoalDetailsPercentDone"
@@ -76,7 +74,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/edit_goal"
+                android:text="@string/cancel_goal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -92,7 +90,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTotalCostTitle" />
 
             <TextView
-                android:id="@+id/tvGoalDetailsCompletionDate"
+                android:id="@+id/tvGoalDetailsDateCompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -129,7 +127,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompletionDateTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
             <Button
                 android:id="@+id/bGoalDetailsAutoPay"
@@ -138,9 +136,9 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/auto_pay"
-                app:layout_constraintBottom_toTopOf="@+id/deposit_btn"
-                app:layout_constraintEnd_toEndOf="@+id/deposit_btn"
-                app:layout_constraintStart_toStartOf="@+id/deposit_btn"
+                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintStart_toStartOf="@+id/bGoalDetailsDeposit"
                 app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
 
             <TextView
@@ -178,9 +176,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="#00FFFFFF"
-                app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsCompletionDate"
-                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsCompletionDate"
-                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsCompletionDate"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsDateCompleted"
+                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsDateCompleted"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompleted"
                 app:srcCompat="@drawable/icon_edit" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -192,7 +190,7 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTranscationHistory" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTransactionHistoryTitle" />
 
             <View
                 android:id="@+id/borderTop"
@@ -250,7 +248,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/verticalborderRight"
                 app:layout_constraintStart_toEndOf="@+id/verticalborderLeft"
                 app:layout_constraintTop_toBottomOf="@+id/borderTop" />
-          
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

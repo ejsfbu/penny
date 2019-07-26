@@ -74,7 +74,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     Button bGoalDetailsCancelGoal;
     @BindView(R.id.tvGoalDetailsDateCompletedTitle)
     TextView tvGoalDetailsDateCompletedTitle;
-    @BindView(R.id.tvGoalDetailsCompletionDate)
+    @BindView(R.id.tvGoalDetailsDateCompleted)
     TextView tvGoalDetailsCompletionDate;
     @BindView(R.id.tvGoalDetailsTotalCostTitle)
     TextView tvGoalDetailsTotalCostTitle;
@@ -199,7 +199,7 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
         DepositDialogFragment depositDialogFragment
                 = DepositDialogFragment.newInstance("Deposit");
         depositDialogFragment.show(MainActivity.fragmentManager,
-                "fragment_edit_deposit");
+                "fragment_deposit");
     }
 
     @Override

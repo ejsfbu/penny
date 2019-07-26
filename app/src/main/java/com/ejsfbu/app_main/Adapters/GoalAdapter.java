@@ -19,15 +19,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
-import com.ejsfbu.app_main.Fragments.GoalsListFragment;
-import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.ejsfbu.app_main.models.Transaction;
-import com.ejsfbu.app_main.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -137,9 +133,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     if ((purpose == null) && (cancelled == null)) {
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
-                        fragmentManager.beginTransaction().replace(R.id.flMainContainer, fragment).commit();
-                    }
-                    else {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.flMainContainer, fragment).commit();
+                    } else {
                         //transfers money to this goal
                         Double saved = cancelled.getSaved();
                         goal.setSaved(goal.getSaved() + saved);
@@ -173,7 +169,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                                     //sends you to that detail goal
                                     Fragment fragment = new GoalDetailsFragment();
                                     fragment.setArguments(bundle);
-                                    fragmentManager.beginTransaction().replace(R.id.flMainContainer, fragment).commit();
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.flMainContainer, fragment).commit();
                                 } else {
                                     Toast.makeText(context, "Transfer Failed",
                                             Toast.LENGTH_SHORT).show();

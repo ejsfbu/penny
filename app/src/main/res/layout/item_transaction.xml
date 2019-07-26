@@ -46,27 +46,27 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="32dp"
-        android:text="Bank"
+        android:text="@string/bank_name"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
-        app:layout_constraintEnd_toStartOf="@+id/tvAmount"
-        app:layout_constraintStart_toEndOf="@+id/tvDate"
-        app:layout_constraintTop_toTopOf="@+id/tvDate" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvTransactionDate"
+        app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
+        app:layout_constraintStart_toEndOf="@+id/tvTransactionDate"
+        app:layout_constraintTop_toTopOf="@+id/tvTransactionDate" />
 
     <TextView
         android:id="@+id/tvTransactionStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Status: "
-        app:layout_constraintStart_toStartOf="@+id/tvDate"
-        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+        android:text="@string/status"
+        app:layout_constraintStart_toStartOf="@+id/tvTransactionDate"
+        app:layout_constraintTop_toBottomOf="@+id/tvTransactionDate" />
 
     <TextView
         android:id="@+id/tvTransactionAccountNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="***"
+        android:text="@string/hidden_account_number"
         app:layout_constraintEnd_toEndOf="@+id/tvTransactionBankName"
         app:layout_constraintStart_toStartOf="@+id/tvTransactionBankName"
         app:layout_constraintTop_toTopOf="@+id/tvTransactionStatus" />

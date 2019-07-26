@@ -1,8 +1,6 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.AndroidException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Transaction;
 
@@ -64,19 +63,24 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         }
 
         public void bind(Transaction transaction) {
-            tvTransactionDate.setText(GoalDetailsFragment.formatDate(transaction.getTransactionCompleteDate().toString()));
-            tvTransactionAmount.setText(GoalDetailsFragment.formatCurrency(transaction.getAmount()));
+            tvTransactionDate.setText(GoalDetailsFragment
+                    .formatDate(transaction.getTransactionCompleteDate().toString()));
+            tvTransactionAmount.setText(GoalDetailsFragment
+                    .formatCurrency(transaction.getAmount()));
             tvBankName.setText(transaction.getBank().getBankName());
-            tvAccountNumber.setText(BankAdapter.formatAccountNumber(transaction.getBank().getAccountNumber()));
+            tvAccountNumber.setText(BankAdapter
+                    .formatAccountNumber(transaction.getBank().getAccountNumber()));
             if (transaction.getApproval()) {
                 tvStatus.setText("Status: Completed");
             } else {
                 tvStatus.setText("Status: Pending");
             }
             if (transaction.getType()) {
-                tvAmount.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                tvTransactionAmount.setTextColor(context
+                        .getResources().getColor(R.color.colorAccent));
             } else {
-                tvAmount.setTextColor(context.getResources().getColor(R.color.money_green));
+                tvTransactionAmount.setTextColor(context
+                        .getResources().getColor(R.color.money_green));
             }
         }
     }

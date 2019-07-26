@@ -54,7 +54,8 @@ public class TransferGoalFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_transfer_goal, container, false);
     }
@@ -68,7 +69,8 @@ public class TransferGoalFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, view);
         goals = new ArrayList<>();
-        adapter = new GoalAdapter(context, goals, CancelGoalDialogFragment.newInstance("Cancel", cancelledGoal));
+        adapter = new GoalAdapter(context, goals, CancelGoalDialogFragment
+                .newInstance("Cancel", cancelledGoal));
         rvTransferGoals.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvTransferGoals.setLayoutManager(linearLayoutManager);
@@ -80,7 +82,6 @@ public class TransferGoalFragment extends Fragment {
         loadGoals();
     }
 
-    // When change fragment unbind view
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -88,9 +89,7 @@ public class TransferGoalFragment extends Fragment {
     }
 
     protected void loadGoals() {
-        // set up query
         final Goal.Query goalsQuery = new Goal.Query();
-        // Add Query specifications
         goalsQuery.getTopByEndDate()
                 .areNotCompleted()
                 .fromCurrentUser()
@@ -109,16 +108,12 @@ public class TransferGoalFragment extends Fragment {
         });
     }
 
-    // Append the next page of data into the adapter
-    // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi(int offset) {
         if (adapter.getItemCount() < goalsLoaded) {
             return;
         }
         Log.d("data", String.valueOf(offset));
-        // set up query
         final Goal.Query postsQuery = new Goal.Query();
-        // Add Query specifications
         postsQuery.setTop(goalsLoaded + 20)
                 .areNotCompleted()
                 .fromCurrentUser()
@@ -147,15 +142,14 @@ public class TransferGoalFragment extends Fragment {
                 bundle.putParcelable("Cancelled Goal", cancelledGoal);
                 Fragment goalDetail = new GoalDetailsFragment();
                 goalDetail.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.flMainContainer, goalDetail).commit();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.flMainContainer, goalDetail).commit();
             }
         });
 
-        scrollListener =  new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
                 loadNextDataFromApi(page);
             }
         };

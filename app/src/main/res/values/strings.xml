@@ -80,4 +80,7 @@
     <string name="account_number">Account Number</string>
     <string name="confirm_account_number">Confirm Account Number</string>
     <string name="add_bank_account">Add Bank Account</string>
+    <string name="status">Status:</string>
+    <string name="edit_goal_name">Edit Goal Name</string>
+    <string name="cancel_goal">Cancel Goal</string>
 </resources>

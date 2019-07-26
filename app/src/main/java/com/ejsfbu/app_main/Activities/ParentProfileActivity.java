@@ -59,8 +59,8 @@ public class ParentProfileActivity extends AppCompatActivity
     @BindView(R.id.ibParentProfileEditPassword)
     ImageButton ibParentProfileEditPassword;
 
-    @BindView(R.id.ivParentProfilePic)
-    ImageView ivParentProfilePic;
+    @BindView(R.id.ivParentProfileProfilePic)
+    ImageView ivParentProfileProfilePic;
 
     @BindView(R.id.bParentProfileLogout)
     Button bParentProfileLogout;
@@ -101,7 +101,7 @@ public class ParentProfileActivity extends AppCompatActivity
             Glide.with(this)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivParentProfilePic);
+                    .into(ivParentProfileProfilePic);
         }
     }
 
@@ -153,7 +153,7 @@ public class ParentProfileActivity extends AppCompatActivity
                 "fragment_edit_password");
     }
 
-    @OnClick(R.id.ivParentProfilePic)
+    @OnClick(R.id.ivParentProfileProfilePic)
     public void onClickParentProfilePic() {
         showEditImageDialog();
     }
