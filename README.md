@@ -114,6 +114,7 @@ Scope: How well-formed is the scope for this app?
 * record expense - can take picture to autofill from receipt picture - recalculate expenses
 * graph progress of saving
 * look at kids messenger for example of parent approval 
+* daily/monthy saving goal
 ### 2. Screen Archetypes
 
 * Log in/Sign up
