@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.SignupFragments.SignupParentFragment;
-import com.ejsfbu.app_main.SignupFragments.SignupPersonalInfoFragment;
+import com.ejsfbu.app_main.SignUpFragments.SignUpParentFragment;
+import com.ejsfbu.app_main.SignUpFragments.SignUpPersonalInfoFragment;
 import com.ejsfbu.app_main.models.User;
 import java.util.Calendar;
 
@@ -32,12 +32,12 @@ public class SignUpActivity extends AppCompatActivity
 
         if (getIntent().getBooleanExtra("isParent", false)) {
             user.setIsParent(true);
-            Fragment parentSignupFragment = new SignupParentFragment();
+            Fragment parentSignupFragment = new SignUpParentFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
                     parentSignupFragment).commit();
         } else {
             user.setIsParent(false);
-            Fragment personalInfoFragment = new SignupPersonalInfoFragment();
+            Fragment personalInfoFragment = new SignUpPersonalInfoFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
                     personalInfoFragment).commit();
         }
@@ -55,7 +55,7 @@ public class SignUpActivity extends AppCompatActivity
 
         String date = formatDate(monthOfYear) + "/" + formatDate(dayOfMonth)
                 + "/" + formatDate(year);
-        SignupPersonalInfoFragment.etBirthday.setText(date);
+        SignUpPersonalInfoFragment.etSignUpPersonalInfoBirthday.setText(date);
     }
 
     // adds the 0 in front of days/months below 10

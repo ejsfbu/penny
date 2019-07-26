@@ -90,7 +90,7 @@ public class DepositDialogFragment extends DialogFragment {
 
     // Call this method to send the data back to the parent fragment
     public void sendBackResult(String bankName, Double amount) {
-        DepositDialogListener listener = (DepositDialogListener) getFragmentManager().findFragmentById(R.id.flContainer);
+        DepositDialogListener listener = (DepositDialogListener) getFragmentManager().findFragmentById(R.id.flMainContainer);
         listener.onFinishEditDialog(bankName, amount);
         dismiss();
     }

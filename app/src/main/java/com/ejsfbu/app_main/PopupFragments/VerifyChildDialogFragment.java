@@ -23,10 +23,13 @@ import com.parse.ParseUser;
 public class VerifyChildDialogFragment extends DialogFragment {
 
     private User user;
-    private TextView tvParentCode;
-    private Button bDismiss;
 
-    public VerifyChildDialogFragment() {}
+    private TextView tvVerifyChildParentCode;
+    private Button bVerifyChildDismiss;
+
+    public VerifyChildDialogFragment() {
+
+    }
 
     public static VerifyChildDialogFragment newInstance(String title) {
         VerifyChildDialogFragment verifyChildDialogFragment = new VerifyChildDialogFragment();
@@ -38,7 +41,8 @@ public class VerifyChildDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_verify_child, container);
     }
 
@@ -47,11 +51,11 @@ public class VerifyChildDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
 
-        tvParentCode = view.findViewById(R.id.tvParentAccountCode);
-        tvParentCode.setText(user.getObjectId());
+        tvVerifyChildParentCode = view.findViewById(R.id.tvVerifyChildParentCode);
+        tvVerifyChildParentCode.setText(user.getObjectId());
 
-        bDismiss = view.findViewById(R.id.bDismiss);
-        bDismiss.setOnClickListener(new View.OnClickListener() {
+        bVerifyChildDismiss = view.findViewById(R.id.bVerifyChildDismiss);
+        bVerifyChildDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
@@ -60,7 +64,7 @@ public class VerifyChildDialogFragment extends DialogFragment {
 
         String title = getArguments().getString("title", "Verify Child");
         getDialog().setTitle(title);
-        tvParentCode.requestFocus();
+        tvVerifyChildParentCode.requestFocus();
         getDialog().setCanceledOnTouchOutside(false);
     }
 

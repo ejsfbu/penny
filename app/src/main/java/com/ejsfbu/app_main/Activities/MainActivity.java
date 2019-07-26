@@ -1,22 +1,19 @@
 package com.ejsfbu.app_main.Activities;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.ejsfbu.app_main.Fragments.BadgesFragment;
-import com.ejsfbu.app_main.Fragments.BankAccountsFragment;
+import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
-import com.ejsfbu.app_main.PopupFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
+import com.ejsfbu.app_main.Fragments.RewardsFragment;
+import com.ejsfbu.app_main.PopupFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.miRewards:
-                    fragment = new BadgesFragment();
+                    fragment = new RewardsFragment();
                     break;
                 case R.id.miGoals:
                     fragment = new GoalsListFragment();
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ProfileFragment();
                     break;
             }
-            fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.flMainContainer, fragment).commit();
             return true;
         });
         bottomNavigationView.setSelectedItemId(R.id.miGoals);
@@ -76,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
-            Fragment bankFragment = new BankAccountsFragment();
-            fragmentManager.beginTransaction().replace(R.id.flContainer, bankFragment).commitAllowingStateLoss();
+            Fragment bankFragment = new BanksListFragment();
+            fragmentManager.beginTransaction().replace(R.id.flMainContainer, bankFragment)
+                    .commitAllowingStateLoss();
         }
     }
 
     private void showConnectParentDialog() {
-        NeedsParentDialogFragment needsParentDialogFragment = NeedsParentDialogFragment.newInstance("Needs Parent");
+        NeedsParentDialogFragment needsParentDialogFragment =
+                NeedsParentDialogFragment.newInstance("Needs Parent");
         needsParentDialogFragment.show(MainActivity.fragmentManager, "fragment_needs_parent");
 
     }

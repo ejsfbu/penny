@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.SignupFragments;
+package com.ejsfbu.app_main.SignUpFragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -29,45 +29,47 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.SignUpActivity.user;
 
-public class SignupPersonalInfoFragment extends Fragment {
+public class SignUpPersonalInfoFragment extends Fragment {
 
     public static final String TAG = "SignupPersonalInfoFrag";
 
-    @BindView(R.id.etFirstName)
-    EditText etFirstName;
-    @BindView(R.id.etLastName)
-    EditText etLastName;
-    public static EditText etBirthday;
-    @BindView(R.id.bNext)
-    Button bNext;
-    @BindView(R.id.bDate)
-    ImageButton bDate;
+    @BindView(R.id.etSignUpPersonalInfoFirstName)
+    EditText etSignUpPersonalInfoFirstName;
+    @BindView(R.id.etSignUpPersonalInfoLastName)
+    EditText etSignUpPersonalInfoLastName;
+    public static EditText etSignUpPersonalInfoBirthday;
+    @BindView(R.id.bSignUpPersonalInfoNext)
+    Button bSignUpPersonalInfoNext;
+    @BindView(R.id.ibSignUpPersonalInfoDate)
+    ImageButton ibSignUpPersonalInfoDate;
 
     private Unbinder unbinder;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_signup_personal_info, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_signup_personal_info,
+                container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        etBirthday = view.findViewById(R.id.etBirthday);
+        etSignUpPersonalInfoBirthday = view.findViewById(R.id.etSignUpPersonalInfoBirthday);
     }
 
-    @OnClick(R.id.bNext)
+    @OnClick(R.id.bSignUpPersonalInfoNext)
     public void onClickNext() {
 
-        final String firstName = etFirstName.getText().toString();
+        final String firstName = etSignUpPersonalInfoFirstName.getText().toString();
         if (firstName.equals("")) {
             Toast.makeText(getContext(), "Please enter a first name",
                     Toast.LENGTH_LONG).show();
             return;
         }
 
-        final String lastName = etLastName.getText().toString();
+        final String lastName = etSignUpPersonalInfoLastName.getText().toString();
 
         final String name;
         if (lastName.equals("")) {
@@ -78,7 +80,7 @@ public class SignupPersonalInfoFragment extends Fragment {
 
         user.setName(name);
 
-        final String birthdayString = etBirthday.getText().toString();
+        final String birthdayString = etSignUpPersonalInfoBirthday.getText().toString();
         if (birthdayString.equals("")) {
             Toast.makeText(getContext(), "Please enter your birthday",
                     Toast.LENGTH_LONG).show();
@@ -100,7 +102,7 @@ public class SignupPersonalInfoFragment extends Fragment {
                     user.setRequiresApproval(true);
                 }
                 user.setBirthday(birthday);
-                Fragment email = new SignupAccountInfoFragment();
+                Fragment email = new SignUpAccountInfoFragment();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.flSignUpContainer, email)
                         .commit();
@@ -111,13 +113,13 @@ public class SignupPersonalInfoFragment extends Fragment {
             return;
         }
 
-        Fragment accountInfoFragment = new SignupAccountInfoFragment();
+        Fragment accountInfoFragment = new SignUpAccountInfoFragment();
         getFragmentManager().beginTransaction()
                 .replace(R.id.flSignUpContainer, accountInfoFragment)
                 .commit();
     }
 
-    @OnClick(R.id.bDate)
+    @OnClick(R.id.ibSignUpPersonalInfoDate)
     public void onDatePick() {
         showDatePickerDialog();
     }
