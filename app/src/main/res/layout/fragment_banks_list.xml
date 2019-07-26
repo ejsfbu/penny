@@ -2,12 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBanks"
+        android:id="@+id/rvBanksListBanks"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,13 +15,13 @@
         app:layout_constraintTop_toBottomOf="@+id/border" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvBanksListTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Bank Accounts"
+        android:text="@string/bank_accounts"
         android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,18 +37,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/tvBanksListTitle" />
 
     <TextView
-        android:id="@+id/tvNoBanks"
+        android:id="@+id/tvBanksListNoBanks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:text="Click the button below to link a bank account."
-        android:textColor="@color/Black"
-        android:visibility="invisible"
+        android:text="@string/add_bank_info"
+        android:textColor="@color/black"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/border" />
@@ -60,9 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@android:drawable/ic_menu_add"
-        android:background="@color/colorAccent"
-        android:tint="@android:color/white"
+        android:background="@color/pig_pink"
+        android:src="@drawable/icon_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

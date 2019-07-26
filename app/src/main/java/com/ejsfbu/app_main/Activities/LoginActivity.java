@@ -21,17 +21,17 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String TAG = "LoginActivities";
+    public static final String TAG = "LoginActivity";
 
-    @BindView(R.id.etUsername)
+    @BindView(R.id.etLoginUsername)
     EditText etUsername;
-    @BindView(R.id.etPassword)
+    @BindView(R.id.etLoginPassword)
     EditText etPassword;
     @BindView(R.id.bLogin)
     Button bLogin;
     @BindView(R.id.bSignUp)
     Button bSignUp;
-    @BindView(R.id.bParentSignUp)
+    @BindView(R.id.bLoginParentSignUp)
     Button bParentSignUp;
 
     @Override
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.bParentSignUp)
+    @OnClick(R.id.bLoginParentSignUp)
     public void clickParentSignUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         intent.putExtra("isParent", true);
@@ -82,20 +82,24 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(LoginActivity.this, "Login Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Login Success",
+                            Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Login Success");
 
                     if (((User) user).getIsParent()) {
-                        Intent intent = new Intent(LoginActivity.this, ParentActivity.class);
+                        Intent intent = new Intent(LoginActivity.this,
+                                ParentActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
-                        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        final Intent intent = new Intent(LoginActivity.this,
+                                MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, e.getMessage(),
+                            Toast.LENGTH_LONG).show();
                     Log.e(TAG, "Login Failure");
                     e.printStackTrace();
                 }
