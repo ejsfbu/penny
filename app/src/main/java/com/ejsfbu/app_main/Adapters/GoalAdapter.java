@@ -150,7 +150,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     } else {
                         approval = true;
                     }
-                    Transaction transfer = new Transaction(user, null, saved, goal, approval, false);
+                    Transaction transfer = new Transaction(user, cancelled.getName(), saved, goal, approval, false);
                     transfer.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

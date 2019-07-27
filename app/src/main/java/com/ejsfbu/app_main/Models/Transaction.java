@@ -22,6 +22,7 @@ public class Transaction extends ParseObject {
     public static final String KEY_APPROVED = "isApproved";
     public static final String KEY_TYPE = "isWithdraw";
     public static final String KEY_COMPLETED_DATE = "completedDate";
+    public static final String KEY_FROM_GOAL = "fromGoal";
 
     public Transaction() {
         super();
@@ -42,12 +43,13 @@ public class Transaction extends ParseObject {
     }
 
     // for transferring from goals, no bank
-    public Transaction(ParseUser user, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
+    public Transaction(ParseUser user, String goalName, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
         this.setUser(user);
         this.setAmount(amount);
         this.setGoal(goal);
         this.setApproval(isApproved);
         this.setType(isWithdraw);
+        this.setFromGoal(goalName);
         if (isApproved) {
             Date currentTime = Calendar.getInstance().getTime();
             this.setTransactionCompleteDate(currentTime);
@@ -88,6 +90,10 @@ public class Transaction extends ParseObject {
     public BankAccount getBank() {
         return (BankAccount) getParseObject(KEY_BANK_ACCOUNT);
     }
+
+    public String getFromGoal() { return getString(KEY_FROM_GOAL); }
+
+    public void setFromGoal(String name) { put(KEY_FROM_GOAL, name);}
 
     public Double getAmount() { return getDouble(KEY_AMOUNT); }
 
