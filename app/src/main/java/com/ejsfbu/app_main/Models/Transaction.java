@@ -27,9 +27,23 @@ public class Transaction extends ParseObject {
         super();
     }
 
+    // for deposits and withdrawals
     public Transaction(ParseUser user, BankAccount bank, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
         this.setUser(user);
         this.setBank(bank);
+        this.setAmount(amount);
+        this.setGoal(goal);
+        this.setApproval(isApproved);
+        this.setType(isWithdraw);
+        if (isApproved) {
+            Date currentTime = Calendar.getInstance().getTime();
+            this.setTransactionCompleteDate(currentTime);
+        }
+    }
+
+    // for transferring from goals, no bank
+    public Transaction(ParseUser user, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
+        this.setUser(user);
         this.setAmount(amount);
         this.setGoal(goal);
         this.setApproval(isApproved);
