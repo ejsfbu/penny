@@ -6,7 +6,12 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,16 +41,23 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.BitmapScaler;
+import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 public class EditGoalImageDialogFragment extends DialogFragment {
 
@@ -137,7 +149,6 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                             sendBackResult();
                         } else {
                             Toast.makeText(context, "Failed! Goal Photo has not been updated!", Toast.LENGTH_LONG).show();
-                            sendBackResult();
                         }
                     }
                 });
@@ -185,22 +196,7 @@ public class EditGoalImageDialogFragment extends DialogFragment {
         });
     }
 
-    // Defines the listener interface
-    public interface EditGoalImageDialogListener {
-        void onFinishEditThisDialog();
-    }
 
-    // Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
-        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(0).getTag();
-        int fragmentId = fragments.get(1).getId();
-        EditGoalImageDialogFragment.EditGoalImageDialogListener listener;
-        listener = (EditGoalImageDialogFragment.EditGoalImageDialogListener) getFragmentManager()
-                .findFragmentById(fragmentId);
-        listener.onFinishEditThisDialog();
-        dismiss();
-    }
     public void onResume() {
         Window window = getDialog().getWindow();
         Point size = new Point();
@@ -247,4 +243,124 @@ public class EditGoalImageDialogFragment extends DialogFragment {
 
         return file;
     }
+
+    // handle result of photo choosing
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_PHOTO_CODE) {
+            if (resultCode == RESULT_OK && data != null) {
+                Uri photoUri = data.getData();
+                photoFile = new File(getRealPathFromURI(photoUri, context));
+                // by this point we have the camera photo on disk
+                // Write the bytes of the bitmap to file
+                Bitmap selectedImage = null;
+                try {
+                    selectedImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
+                    // Resize Image
+                    Bitmap resizedBitmap = BitmapScaler.scaleToFill(selectedImage, 200, 200);
+                    // Configure byte output stream
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    // Compress the image further
+                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                    // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                    File resizedFile = getPhotoFileUri(photoFileName + "_resized", context);
+                    resizedFile.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(resizedFile);
+                    fos.write(bytes.toByteArray());
+                    fos.close();
+                    photoFile = resizedFile;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // Load the selected image into a preview
+                ivPrevGoalImage.setVisibility(View.VISIBLE);
+                ivPrevGoalImage.setImageBitmap(selectedImage);
+            }
+        }
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName, context));
+                Bitmap rotatedBitmap = rotateBitmapOrientation(takenPhotoUri.getPath());
+                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rotatedBitmap, 200);
+                Bitmap cropImg = Bitmap.createBitmap(resizedBitmap, 0, 0, 200, 200);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                cropImg.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                File resizedFile = getPhotoFileUri(photoFileName + "_resized", context);
+                try {
+                    resizedFile.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(resizedFile);
+                    fos.write(bytes.toByteArray());
+                    fos.close();
+                    photoFile = resizedFile;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ivPrevGoalImage.setVisibility(View.VISIBLE);
+                ivPrevGoalImage.setImageBitmap(cropImg);
+                Log.d("", photoFile.getAbsolutePath());
+            } else { // Result was a failure
+                Toast.makeText(context, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public static Bitmap rotateBitmapOrientation(String photoFilePath) {
+        // Create and configure BitmapFactory
+        BitmapFactory.Options bounds = new BitmapFactory.Options();
+        bounds.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoFilePath, bounds);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
+        // Read EXIF Data
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(photoFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+        // Rotate Bitmap
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        // Return result
+        return rotatedBitmap;
+    }
+
+    public static String getRealPathFromURI(Uri contentURI, Context context) {
+        String result;
+        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
+
+    // Defines the listener interface
+    public interface EditGoalImageDialogListener {
+        void onFinishEditThisDialog();
+    }
+
+    // Call this method to send the data back to the parent fragment
+    public void sendBackResult() {
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(1).getTag();
+        int fragmentId = fragments.get(1).getId();
+        EditGoalImageDialogListener listener;
+        listener = (EditGoalImageDialogListener) getFragmentManager().findFragmentById(fragmentId);
+        listener.onFinishEditThisDialog();
+        dismiss();
+    }
+
 }
