@@ -130,17 +130,19 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             }
             setOnClick(goal);
         }
-
+      
         private void setOnClick(Goal goal) {
-            itemView.setOnClickListener(view -> {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("Clicked Goal", goal);
-                //launch the details view
-                if ((purpose == null) && (cancelled == null)) {
-                    Fragment fragment = new GoalDetailsFragment();
-                    fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.flMainContainer, fragment).commit();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("Clicked Goal", goal);
+                    //launch the details view
+                    if ((purpose == null) && (cancelled == null)) {
+                        Fragment fragment = new GoalDetailsFragment();
+                        fragment.setArguments(bundle);
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.flMainContainer, fragment).commitAllowingStateLoss();
                 } else {
                     //transfers money to this goal
                     Double saved = cancelled.getSaved();

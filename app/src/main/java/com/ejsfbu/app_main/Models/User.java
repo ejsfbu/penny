@@ -29,6 +29,7 @@ public class User extends ParseUser {
     public static final String KEY_NEEDS_PARENT = "needsParent";
     public static final String KEY_REQUIRES_APPROVAL = "requireApproval";
     public static final String KEY_PROFILE_PIC = "profileImage";
+    public static final String KEY_REQUESTS = "pendingRequests";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -80,7 +81,8 @@ public class User extends ParseUser {
     }
 
     public boolean getRequiresApproval() {
-        return getBoolean(KEY_REQUIRES_APPROVAL);
+        boolean requiresApproval = getBoolean(KEY_REQUIRES_APPROVAL);
+        return requiresApproval;
     }
     public void setRequiresApproval(boolean requiresApproval) {
         put(KEY_REQUIRES_APPROVAL, requiresApproval);
@@ -127,6 +129,13 @@ public class User extends ParseUser {
     }
 
     public void removeBank(BankAccount bank) { removeAll(KEY_BANK, Collections.singleton(bank));}
+
+    public void addRequest(Request request) {
+        addAllUnique(KEY_REQUESTS, Collections.singleton(request));
+    }
+    public void removeRequest(Request request) {
+        removeAll(KEY_REQUESTS, Collections.singleton(request));
+    }
 
     public static class Query extends ParseQuery<User> {
         public Query() {

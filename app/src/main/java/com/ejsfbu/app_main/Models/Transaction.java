@@ -87,8 +87,15 @@ public class Transaction extends ParseObject {
         put(KEY_BANK_ACCOUNT, bank);
     }
 
-    public com.ejsfbu.app_main.Models.BankAccount getBank() {
-        return (com.ejsfbu.app_main.Models.BankAccount) getParseObject(KEY_BANK_ACCOUNT);
+    public BankAccount getBank() {
+        BankAccount bank;
+        try {
+            bank = (BankAccount) fetchIfNeeded().getParseObject(KEY_BANK_ACCOUNT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            bank = null;
+        }
+        return bank;
     }
 
     public String getFromGoal() { return getString(KEY_FROM_GOAL); }
@@ -99,7 +106,16 @@ public class Transaction extends ParseObject {
 
     public void setAmount(Double amount) { put(KEY_AMOUNT, amount);}
 
-    public com.ejsfbu.app_main.Models.Goal getGoal() { return (com.ejsfbu.app_main.Models.Goal) get(KEY_GOAL); }
+    public Goal getGoal() {
+        Goal goal;
+        try {
+            goal = (Goal) fetchIfNeeded().getParseObject(KEY_GOAL);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            goal = null;
+        }
+        return goal;
+    }
 
     public void setGoal(com.ejsfbu.app_main.Models.Goal goal) { put(KEY_GOAL, goal);}
 

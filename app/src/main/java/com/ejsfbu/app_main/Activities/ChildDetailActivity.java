@@ -13,6 +13,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
+import com.ejsfbu.app_main.Adapters.RequestAdapter;
+import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.User;
@@ -47,9 +49,11 @@ public class ChildDetailActivity extends AppCompatActivity {
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
+    private List<Request> pendingRequests;
 
     private GoalAdapter completedGoalsAdapter;
     private GoalAdapter inProgressGoalsAdapter;
+    private RequestAdapter pendingRequestsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +64,19 @@ public class ChildDetailActivity extends AppCompatActivity {
 
         completedGoals = new ArrayList<>();
         inProgressGoals = new ArrayList<>();
+        pendingRequests = new ArrayList<>();
 
         completedGoalsAdapter = new GoalAdapter(this, completedGoals);
         inProgressGoalsAdapter = new GoalAdapter(this, inProgressGoals);
+        pendingRequestsAdapter = new RequestAdapter(this, pendingRequests);
 
         rvChildDetailCompletedGoals.setAdapter(completedGoalsAdapter);
         rvChildDetailInProgressGoals.setAdapter(inProgressGoalsAdapter);
+        rvChildDetailPendingRequests.setAdapter(pendingRequestsAdapter);
 
         rvChildDetailCompletedGoals.setLayoutManager(new LinearLayoutManager(this));
         rvChildDetailInProgressGoals.setLayoutManager(new LinearLayoutManager(this));
+        rvChildDetailPendingRequests.setLayoutManager(new LinearLayoutManager(this));
 
         String childCode = getIntent().getStringExtra("childCode");
         getChildFromCode(childCode);
@@ -114,6 +122,7 @@ public class ChildDetailActivity extends AppCompatActivity {
 
         loadCompletedGoals();
         loadInProgressGoals();
+        loadPendingRequests();
     }
 
     public void loadCompletedGoals() {
@@ -141,6 +150,22 @@ public class ChildDetailActivity extends AppCompatActivity {
                 if (e == null) {
                     inProgressGoals.addAll(objects);
                     inProgressGoalsAdapter.notifyDataSetChanged();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void loadPendingRequests() {
+        final Request.Query requestQuery = new Request.Query();
+        requestQuery.fromUser(child);
+        requestQuery.findInBackground(new FindCallback<Request>() {
+            @Override
+            public void done(List<Request> objects, ParseException e) {
+                if (e == null) {
+                    pendingRequests.addAll(objects);
+                    pendingRequestsAdapter.notifyDataSetChanged();
                 } else {
                     e.printStackTrace();
                 }
