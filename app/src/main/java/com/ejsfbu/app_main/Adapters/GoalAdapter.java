@@ -143,32 +143,33 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction()
                                 .replace(R.id.flMainContainer, fragment).commitAllowingStateLoss();
-                } else {
-                    //transfers money to this goal
-                    Double saved = cancelled.getSaved();
-                    boolean approval;
-                    if (user.getRequiresApproval()) {
-                        approval = false;
                     } else {
-                        approval = true;
-                    }
-                    Transaction transfer = new Transaction(user, cancelled.getName(), saved, goal, approval, false);
-                    transfer.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                handleCancelledGoal(goal, transfer);
-                                //sends you to that detail goal
-                                Fragment fragment = new GoalDetailsFragment();
-                                fragment.setArguments(bundle);
-                                fragmentManager.beginTransaction()
-                                        .replace(R.id.flMainContainer, fragment).commit();
-                            } else {
-                                Toast.makeText(context, "Transfer Failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
+                        //transfers money to this goal
+                        Double saved = cancelled.getSaved();
+                        boolean approval;
+                        if (user.getRequiresApproval()) {
+                            approval = false;
+                        } else {
+                            approval = true;
                         }
-                    });
+                        Transaction transfer = new Transaction(user, cancelled.getName(), saved, goal, approval, false);
+                        transfer.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    handleCancelledGoal(goal, transfer);
+                                    //sends you to that detail goal
+                                    Fragment fragment = new GoalDetailsFragment();
+                                    fragment.setArguments(bundle);
+                                    fragmentManager.beginTransaction()
+                                            .replace(R.id.flMainContainer, fragment).commit();
+                                } else {
+                                    Toast.makeText(context, "Transfer Failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }
