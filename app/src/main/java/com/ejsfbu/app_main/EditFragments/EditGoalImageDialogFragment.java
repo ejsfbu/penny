@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -41,12 +42,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -58,23 +61,30 @@ import java.util.ArrayList;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
+import static com.ejsfbu.app_main.Activities.AddGoalActivity.getPhotoFileUri;
+import static com.ejsfbu.app_main.Activities.AddGoalActivity.getRealPathFromURI;
+import static com.ejsfbu.app_main.Activities.AddGoalActivity.rotateBitmapOrientation;
 
 public class EditGoalImageDialogFragment extends DialogFragment {
 
-    Context context;
-    Button bCancel;
-    Button bConfirm;
-    ImageView ivPrevGoalImage;
-    ImageButton ibGalleryPhoto;
-    ImageButton ibCameraPhoto;
-
-    private final static int PICK_PHOTO_CODE = 1046;
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    private Context context;
+    private Button bCancel;
+    private Button bConfirm;
+    private ImageView ivPrevGoalImage;
+    private ImageButton ibGalleryPhoto;
+    private ImageButton ibCameraPhoto;
     private File photoFile;
     public String photoFileName = "photo.jpg";
-    static Goal currentGoal;
+    private static Goal currentGoal;
 
-    public EditGoalImageDialogFragment() { }
+    // Request codes
+    private final static int PICK_PHOTO_CODE = 1046;
+    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+
+
+    public EditGoalImageDialogFragment() {
+
+    }
 
     public static EditGoalImageDialogFragment newInstance(String title, Goal goal) {
         EditGoalImageDialogFragment frag = new EditGoalImageDialogFragment();
@@ -101,7 +111,12 @@ public class EditGoalImageDialogFragment extends DialogFragment {
         ibGalleryPhoto = view.findViewById(R.id.ibEditGoalImagePhotos);
         ibCameraPhoto = view.findViewById(R.id.ibEditGoalImageCamera);
 
-        ParseFile image = currentGoal.getImage();
+        setGoalImage();
+        setListeners();
+    }
+
+    public void setGoalImage() {
+        ParseFile image = currentGoal.getParseFile("image");
         if (image != null) {
             String imageUrl = image.getUrl();
             imageUrl = imageUrl.substring(4);
@@ -117,11 +132,9 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                     .apply(options) // Extra: round image corners
                     .into(ivPrevGoalImage);
         }
-
-        setListeners();
     }
 
-    public void setListeners(){
+    public void setListeners() {
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,15 +145,15 @@ public class EditGoalImageDialogFragment extends DialogFragment {
         bConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ParseFile parseFile;
                 if (photoFile == null || ivPrevGoalImage.getDrawable() == null) {
                     Toast.makeText(context, "Please upload or take a photo", Toast.LENGTH_LONG).show();
                     return;
+                } else {
+                    parseFile = new ParseFile(photoFile);
                 }
 
-                final ParseFile image = new ParseFile(photoFile);
-                image.saveInBackground();
-
-                currentGoal.setImage(image);
+                currentGoal.setImage(parseFile);
                 currentGoal.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -149,6 +162,7 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                             sendBackResult();
                         } else {
                             Toast.makeText(context, "Failed! Goal Photo has not been updated!", Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -197,72 +211,45 @@ public class EditGoalImageDialogFragment extends DialogFragment {
     }
 
 
+    // Call this method to send the data back to the parent fragment
+    public void sendBackResult() {
+        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
+        String fragmentTag = fragments.get(1).getTag();
+        int fragmentId = fragments.get(1).getId();
+        EditGoalImageDialogListener listener;
+        listener = (EditGoalImageDialogListener) getFragmentManager().findFragmentById(fragmentId);
+        listener.onFinishEditThisDialog();
+        dismiss();
+    }
+
     public void onResume() {
+        // Store access variables for window and blank point
         Window window = getDialog().getWindow();
         Point size = new Point();
+        // Store dimensions of the screen in `size`
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
         window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
+        // Call super onResume after sizing
         super.onResume();
     }
 
-    public void requestPerms() {
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // No explanation needed; request the permission
-            ActivityCompat.requestPermissions((Activity) context,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    0);
-
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-        } else {
-            //testPost();
-        }
-    }
-
-    // Returns the File for a photo stored on disk given the fileName
-    public static File getPhotoFileUri(String fileName, Context context) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ImageUpload");
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d("EditGoalImageDialogFrag", "failed to create directory");
-        }
-
-        // Return the file target for the photo based on filename
-        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
-        return file;
-    }
-
-    // handle result of photo choosing
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_PHOTO_CODE) {
             if (resultCode == RESULT_OK && data != null) {
                 Uri photoUri = data.getData();
                 photoFile = new File(getRealPathFromURI(photoUri, context));
-                // by this point we have the camera photo on disk
-                // Write the bytes of the bitmap to file
                 Bitmap selectedImage = null;
                 try {
-                    selectedImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoUri);
-                    // Resize Image
-                    Bitmap resizedBitmap = BitmapScaler.scaleToFill(selectedImage, 200, 200);
-                    // Configure byte output stream
+                    selectedImage = MediaStore.Images.Media
+                            .getBitmap(context.getContentResolver(), photoUri);
+                    Bitmap resizedBitmap = BitmapScaler
+                            .scaleToFill(selectedImage, 200, 200);
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    // Compress the image further
-                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                    // Create a new file for the resized bitmap (`getPhotoFileUri` defined above)
+                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG,
+                            40, bytes);
                     File resizedFile = getPhotoFileUri(photoFileName + "_resized", context);
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
@@ -272,8 +259,6 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                // Load the selected image into a preview
-                ivPrevGoalImage.setVisibility(View.VISIBLE);
                 ivPrevGoalImage.setImageBitmap(selectedImage);
             }
         }
@@ -282,7 +267,8 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName, context));
                 Bitmap rotatedBitmap = rotateBitmapOrientation(takenPhotoUri.getPath());
                 Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rotatedBitmap, 200);
-                Bitmap cropImg = Bitmap.createBitmap(resizedBitmap, 0, 0, 200, 200);
+                Bitmap cropImg = Bitmap.createBitmap(resizedBitmap,
+                        0, 0, 200, 200);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 cropImg.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
                 File resizedFile = getPhotoFileUri(photoFileName + "_resized", context);
@@ -295,72 +281,39 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ivPrevGoalImage.setVisibility(View.VISIBLE);
+                //ivGoalImage.setVisibility(View.VISIBLE);
                 ivPrevGoalImage.setImageBitmap(cropImg);
-                Log.d("", photoFile.getAbsolutePath());
+                Log.d("ProfileImage", photoFile.getAbsolutePath());
             } else { // Result was a failure
                 Toast.makeText(context, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public static Bitmap rotateBitmapOrientation(String photoFilePath) {
-        // Create and configure BitmapFactory
-        BitmapFactory.Options bounds = new BitmapFactory.Options();
-        bounds.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(photoFilePath, bounds);
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        Bitmap bm = BitmapFactory.decodeFile(photoFilePath, opts);
-        // Read EXIF Data
-        ExifInterface exif = null;
-        try {
-            exif = new ExifInterface(photoFilePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
-        int rotationAngle = 0;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
-        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
-        // Rotate Bitmap
-        Matrix matrix = new Matrix();
-        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
-        // Return result
-        return rotatedBitmap;
-    }
-
-    public static String getRealPathFromURI(Uri contentURI, Context context) {
-        String result;
-        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }
-
-
     // Defines the listener interface
     public interface EditGoalImageDialogListener {
         void onFinishEditThisDialog();
     }
 
-    // Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
-        ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(1).getTag();
-        int fragmentId = fragments.get(1).getId();
-        EditGoalImageDialogListener listener;
-        listener = (EditGoalImageDialogListener) getFragmentManager().findFragmentById(fragmentId);
-        listener.onFinishEditThisDialog();
-        dismiss();
+    public void requestPerms() {
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions((Activity) context,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    0);
+        } else {
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == 0) {
+            //testPost();
+        }
     }
 
 }
