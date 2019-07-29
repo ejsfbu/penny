@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // REQUEST_CODE is defined above
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
             Fragment bankFragment = new BanksListFragment();
             fragmentManager.beginTransaction().replace(R.id.flMainContainer, bankFragment)

@@ -43,8 +43,6 @@ import com.parse.SaveCallback;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,8 +53,11 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class GoalDetailsFragment extends Fragment
-        implements DepositDialogFragment.DepositDialogListener {
+public class GoalDetailsFragment extends Fragment implements
+        EditGoalNameDialogFragment.EditGoalNameDialogListener,
+        EditGoalEndDateDialogFragment.EditGoalDateDialogListener,
+        DepositDialogFragment.DepositDialogListener,
+        EditGoalImageDialogFragment.EditGoalImageDialogListener {
 
     @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalDetailsImage;
@@ -313,6 +314,11 @@ public class GoalDetailsFragment extends Fragment
     private void showEditGoalEndDateDialog() {
         EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
         editDate.show(fragmentManager, "fragment_edit_goal_end_date");
+    }
+
+    @Override
+    public void onFinishEditThisDialog() {
+        setGoalInfo();
     }
 }
 

@@ -152,7 +152,7 @@ public class Goal extends ParseObject {
             return this;
         }
 
-        public Query fromUser(User user) {
+        public Query fromUser(com.ejsfbu.app_main.Models.User user) {
             whereEqualTo(KEY_USER, user);
             return this;
         }
