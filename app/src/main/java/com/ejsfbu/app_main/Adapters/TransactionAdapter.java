@@ -67,9 +67,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                     .formatDate(transaction.getTransactionCompleteDate().toString()));
             tvTransactionAmount.setText(GoalDetailsFragment
                     .formatCurrency(transaction.getAmount()));
-            tvBankName.setText(transaction.getBank().getBankName());
-            tvAccountNumber.setText(BankAdapter
-                    .formatAccountNumber(transaction.getBank().getAccountNumber()));
+            if (transaction.getBank() == null) {
+                tvBankName.setText("Goal");
+                tvAccountNumber.setText(transaction.getFromGoal());
+            } else {
+                tvBankName.setText(transaction.getBank().getBankName());
+                tvAccountNumber.setText(BankAdapter
+                        .formatAccountNumber(transaction.getBank().getAccountNumber()));
+            }
             if (transaction.getApproval()) {
                 tvStatus.setText("Status: Completed");
             } else {

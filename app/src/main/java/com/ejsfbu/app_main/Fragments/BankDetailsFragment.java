@@ -97,15 +97,17 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    deleteBank();
+                    Toast.makeText(context, "Bank account removed.",
+                            Toast.LENGTH_LONG).show();
+                    Fragment fragment = new BanksListFragment();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flMainContainer, fragment).commit();
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
-
-
     }
 
     private void deleteBank() {
