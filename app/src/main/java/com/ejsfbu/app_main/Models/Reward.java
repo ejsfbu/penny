@@ -15,7 +15,6 @@ public class Reward extends ParseObject {
     public static final String KEY_DESCRIPTION = "rewardDescription";
     public static final String KEY_IN_PROGRESS = "inProgress";
     public static final String KEY_COMPLETED = "completed";
-    public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_CREATED_AT = "createdAt";
 
     public String getName() {
@@ -46,14 +45,6 @@ public class Reward extends ParseObject {
         put(KEY_COMPLETED, completed);
     }
 
-    public String getDateCompleted() {
-        return getDate(KEY_DATE_COMPLETED).toString();
-    }
-
-    public void setDateCompleted(Date dateCompleted) {
-        put(KEY_DATE_COMPLETED, dateCompleted);
-    }
-
     public static class Query extends ParseQuery<Reward> {
 
         public Query() {
@@ -62,13 +53,13 @@ public class Reward extends ParseObject {
 
         public Query getTopCompleted() {
             setLimit(20);
-            orderByDescending(KEY_DATE_COMPLETED);
+            orderByAscending(KEY_NAME);
             return this;
         }
 
         public Query getTopInProgress() {
             setLimit(20);
-            orderByDescending(KEY_CREATED_AT);
+            orderByAscending(KEY_NAME);
             return this;
         }
 
