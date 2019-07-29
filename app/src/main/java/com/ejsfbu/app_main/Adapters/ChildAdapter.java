@@ -31,10 +31,6 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
     private List<User> children;
     private Context context;
 
-    private int numGoalsInProgress;
-    private int numGoalsCompleted;
-    private int numPendingRequests;
-
     public ChildAdapter(Context context, List<User> children) {
         this.context = context;
         this.children = children;
@@ -83,13 +79,9 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
             tvChildName.setText(child.getName());
 
             getNumGoalsInProgress(child);
-            tvChildNumGoalsInProgress.setText(numGoalsInProgress + " Goals in Progress");
-
             getNumGoalsCompleted(child);
-            tvChildNumGoalsCompleted.setText(numGoalsCompleted + " Goals Completed");
-
             getNumPendingRequests(child);
-            tvChildPendingRequests.setText(numPendingRequests + " Requests Pending");
+
 
             ParseFile image = child.getProfilePic();
             if (image != null) {
@@ -115,7 +107,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
                 @Override
                 public void done(List<Goal> objects, ParseException e) {
                     if (e == null) {
-                        numGoalsInProgress = objects.size();
+                        tvChildNumGoalsInProgress.setText(objects.size() + " Goals in Progress");
                     } else {
                         e.printStackTrace();
                     }
@@ -130,7 +122,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
                 @Override
                 public void done(List<Goal> objects, ParseException e) {
                     if (e == null) {
-                        numGoalsCompleted = objects.size();
+                        tvChildNumGoalsCompleted.setText(objects.size() + " Goals Completed");
                     } else {
                         e.printStackTrace();
                     }
@@ -145,7 +137,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
                 @Override
                 public void done(List<Request> objects, ParseException e) {
                     if (e == null) {
-                        numPendingRequests = objects.size();
+                        tvChildPendingRequests.setText(objects.size() + " Requests Pending");
                     } else {
                         e.printStackTrace();
                     }

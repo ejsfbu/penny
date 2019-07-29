@@ -13,8 +13,8 @@ public class Request extends ParseObject {
     public static final String KEY_REQUEST_DETAILS = "requestDetails";
     public static final String KEY_TRANSACTION = "transaction";
 
-    public ParseUser getUser() {
-        return getParseUser(KEY_USER);
+    public User getUser() {
+        return (User) getParseUser(KEY_USER);
     }
 
     public void setUser(ParseUser user) {
@@ -37,8 +37,8 @@ public class Request extends ParseObject {
         put(KEY_REQUEST_DETAILS, requestDetails);
     }
 
-    public ParseObject getTransaction() {
-        return getParseObject(KEY_TRANSACTION);
+    public Transaction getTransaction() {
+        return (Transaction) get(KEY_TRANSACTION);
     }
 
     public void setTransaction(ParseObject transaction) {

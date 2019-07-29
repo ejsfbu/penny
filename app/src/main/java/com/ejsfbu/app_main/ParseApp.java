@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
@@ -17,7 +18,6 @@ public class ParseApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // User
         ParseObject.registerSubclass(User.class);
         final Parse.Configuration configurationUser = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
@@ -26,7 +26,6 @@ public class ParseApp extends Application {
                 .build();
         Parse.initialize(configurationUser);
 
-        // Goal
         ParseObject.registerSubclass(Goal.class);
         final Parse.Configuration configurationGoal = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
@@ -35,7 +34,6 @@ public class ParseApp extends Application {
                 .build();
         Parse.initialize(configurationGoal);
 
-        // Reward
         ParseObject.registerSubclass(Reward.class);
         final Parse.Configuration configurationReward = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
@@ -44,7 +42,6 @@ public class ParseApp extends Application {
                 .build();
         Parse.initialize(configurationReward);
 
-        // Bank Account
         ParseObject.registerSubclass(BankAccount.class);
         final Parse.Configuration configurationBank = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
@@ -53,7 +50,6 @@ public class ParseApp extends Application {
                 .build();
         Parse.initialize(configurationBank);
 
-        // Transactions
         ParseObject.registerSubclass(Transaction.class);
         final Parse.Configuration configurationTransaction = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
@@ -61,5 +57,13 @@ public class ParseApp extends Application {
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationTransaction);
+
+        ParseObject.registerSubclass(Request.class);
+        final Parse.Configuration configurationRequest = new Parse.Configuration.Builder(this)
+                .applicationId("ejsfbu-money")
+                .clientKey("money-makes-the-world-go-around")
+                .server("https://youth-financial-planning.herokuapp.com/parse")
+                .build();
+        Parse.initialize(configurationRequest);
     }
 }
