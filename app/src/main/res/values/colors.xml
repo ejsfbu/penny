@@ -14,4 +14,7 @@
     <color name="pig_pink_pressed">#C95A8E</color>
     <color name="coin_blue">#D2EAE4</color>
     <color name="coin_blue_pressed">#7BBDAB</color>
+    <color name="bronze">#cd7f32</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gold">#D4AF37</color>
 </resources>
