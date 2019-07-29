@@ -24,17 +24,17 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
-import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalEndDateDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalNameDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -42,8 +42,6 @@ import com.parse.SaveCallback;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,7 +52,11 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class GoalDetailsFragment extends Fragment implements DepositDialogFragment.DepositDialogListener {
+public class GoalDetailsFragment extends Fragment implements
+        EditGoalNameDialogFragment.EditGoalNameDialogListener,
+        EditGoalEndDateDialogFragment.EditGoalDateDialogListener,
+        DepositDialogFragment.DepositDialogListener,
+        EditGoalImageDialogFragment.EditGoalImageDialogListener {
 
     @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalDetailsImage;
@@ -293,6 +295,11 @@ public class GoalDetailsFragment extends Fragment implements DepositDialogFragme
     private void showEditGoalEndDateDialog() {
         EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
         editDate.show(fragmentManager, "fragment_edit_goal_end_date");
+    }
+
+    @Override
+    public void onFinishEditThisDialog() {
+        setGoalInfo();
     }
 }
 

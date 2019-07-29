@@ -29,7 +29,7 @@ public class Transaction extends ParseObject {
     }
 
     // for deposits and withdrawals
-    public Transaction(ParseUser user, BankAccount bank, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
+    public Transaction(ParseUser user, com.ejsfbu.app_main.Models.BankAccount bank, Double amount, com.ejsfbu.app_main.Models.Goal goal, boolean isApproved, boolean isWithdraw) {
         this.setUser(user);
         this.setBank(bank);
         this.setAmount(amount);
@@ -43,7 +43,7 @@ public class Transaction extends ParseObject {
     }
 
     // for transferring from goals, no bank
-    public Transaction(ParseUser user, String goalName, Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
+    public Transaction(ParseUser user, String goalName, Double amount, com.ejsfbu.app_main.Models.Goal goal, boolean isApproved, boolean isWithdraw) {
         this.setUser(user);
         this.setAmount(amount);
         this.setGoal(goal);
@@ -83,12 +83,12 @@ public class Transaction extends ParseObject {
         put(KEY_COMPLETED_DATE, date);
     }
 
-    public void setBank(BankAccount bank) {
+    public void setBank(com.ejsfbu.app_main.Models.BankAccount bank) {
         put(KEY_BANK_ACCOUNT, bank);
     }
 
-    public BankAccount getBank() {
-        return (BankAccount) getParseObject(KEY_BANK_ACCOUNT);
+    public com.ejsfbu.app_main.Models.BankAccount getBank() {
+        return (com.ejsfbu.app_main.Models.BankAccount) getParseObject(KEY_BANK_ACCOUNT);
     }
 
     public String getFromGoal() { return getString(KEY_FROM_GOAL); }
@@ -99,9 +99,9 @@ public class Transaction extends ParseObject {
 
     public void setAmount(Double amount) { put(KEY_AMOUNT, amount);}
 
-    public Goal getGoal() { return (Goal) get(KEY_GOAL); }
+    public com.ejsfbu.app_main.Models.Goal getGoal() { return (com.ejsfbu.app_main.Models.Goal) get(KEY_GOAL); }
 
-    public void setGoal(Goal goal) { put(KEY_GOAL, goal);}
+    public void setGoal(com.ejsfbu.app_main.Models.Goal goal) { put(KEY_GOAL, goal);}
 
     public boolean getApproval() { return getBoolean(KEY_APPROVED); }
 
@@ -122,12 +122,12 @@ public class Transaction extends ParseObject {
             return this;
         }
 
-        public Query filterGoal(Goal goal) {
+        public Query filterGoal(com.ejsfbu.app_main.Models.Goal goal) {
             whereEqualTo(KEY_GOAL, goal);
             return this;
         }
 
-        public Query filterBank(BankAccount bank) {
+        public Query filterBank(com.ejsfbu.app_main.Models.BankAccount bank) {
             whereEqualTo(KEY_BANK_ACCOUNT, bank);
             return this;
         }
