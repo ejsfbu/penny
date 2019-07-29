@@ -35,8 +35,6 @@ public class RewardDetailDialogFragment extends DialogFragment {
     private ImageView ivRewardDetailBadgeImage;
     private TextView tvRewardDetailBadgeName;
     private TextView tvRewardDetailBadgeDescription;
-    private TextView tvRewardDetailEarnedOnTitle;
-    private TextView tvRewardDetailEarnedOn;
     private TextView tvRewardDetailStatus;
     private Button bRewardDetailClose;
 
@@ -68,8 +66,6 @@ public class RewardDetailDialogFragment extends DialogFragment {
         ivRewardDetailBadgeImage = view.findViewById(R.id.ivRewardDetailBadgeImage);
         tvRewardDetailBadgeName = view.findViewById(R.id.tvRewardDetailBadgeName);
         tvRewardDetailBadgeDescription = view.findViewById(R.id.tvRewardDetailBadgeDescription);
-        tvRewardDetailEarnedOnTitle = view.findViewById(R.id.tvRewardDetailEarnedOnTitle);
-        tvRewardDetailEarnedOn = view.findViewById(R.id.tvRewardDetailEarnedOn);
         tvRewardDetailStatus = view.findViewById(R.id.tvRewardDetailStatus);
         bRewardDetailClose = view.findViewById(R.id.bRewardDetailClose);
 
@@ -95,11 +91,8 @@ public class RewardDetailDialogFragment extends DialogFragment {
 
         if (badge.getCompleted()) {
             tvRewardDetailStatus.setText("Completed");
-            tvRewardDetailEarnedOn.setText(formatDate(badge.getDateCompleted()));
         } else if (badge.getInProgress()) {
             tvRewardDetailStatus.setText("In Progress");
-            tvRewardDetailEarnedOnTitle.setVisibility(View.GONE);
-            tvRewardDetailEarnedOn.setVisibility(View.GONE);
         }
 
         bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +174,7 @@ public class RewardDetailDialogFragment extends DialogFragment {
         Point size = new Point();
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
-        window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout((int) (size.x * 0.95), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         super.onResume();
     }

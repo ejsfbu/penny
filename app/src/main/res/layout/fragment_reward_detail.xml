@@ -18,13 +18,15 @@
 
     <TextView
         android:id="@+id/tvRewardDetailBadgeName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/badge_name"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
         app:layout_constraintTop_toTopOf="@+id/ivRewardDetailBadgeImage" />
 
@@ -62,26 +64,6 @@
         app:layout_constraintStart_toEndOf="@+id/tvRewardDetailStatusTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailBadgeDescription" />
 
-    <TextView
-        android:id="@+id/tvRewardDetailEarnedOnTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/earned_on"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle" />
-
-    <TextView
-        android:id="@+id/tvRewardDetailEarnedOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRewardDetailEarnedOnTitle"
-        app:layout_constraintStart_toEndOf="@+id/tvRewardDetailEarnedOnTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvRewardDetailEarnedOnTitle" />
-
     <Button
         android:id="@+id/bRewardDetailClose"
         android:layout_width="0dp"
@@ -95,5 +77,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailEarnedOnTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>
