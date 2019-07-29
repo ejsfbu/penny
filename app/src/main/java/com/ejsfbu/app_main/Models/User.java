@@ -30,6 +30,8 @@ public class User extends ParseUser {
     public static final String KEY_REQUIRES_APPROVAL = "requireApproval";
     public static final String KEY_PROFILE_PIC = "profileImage";
     public static final String KEY_REQUESTS = "pendingRequests";
+    public static final String KEY_COMPLETED_BADGES = "completedBadges";
+    public static final String KEY_IN_PROGRESS_BADGES = "inProgressBadges";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -136,6 +138,14 @@ public class User extends ParseUser {
     public void removeRequest(Request request) {
         removeAll(KEY_REQUESTS, Collections.singleton(request));
     }
+
+    public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }
+
+    public List<Reward> getCompletedBadges() { return getList(KEY_COMPLETED_BADGES); }
+
+    public void addInProgressBadge(Reward reward) { addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward)); }
+
+    public List<Reward> getInProgressBadges() { return getList(KEY_IN_PROGRESS_BADGES); }
 
     public static class Query extends ParseQuery<User> {
         public Query() {
