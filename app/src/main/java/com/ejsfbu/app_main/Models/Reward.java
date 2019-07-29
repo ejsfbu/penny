@@ -12,6 +12,7 @@ public class Reward extends ParseObject {
 
     public static final String KEY_NAME = "rewardName";
     public static final String KEY_BADGE_IMAGE = "badgeImage";
+    public static final String KEY_DESCRIPTION = "rewardDescription";
     public static final String KEY_IN_PROGRESS = "inProgress";
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
@@ -23,6 +24,10 @@ public class Reward extends ParseObject {
 
     public ParseFile getBadgeImage() {
         return getParseFile(KEY_BADGE_IMAGE);
+    }
+
+    public String getDescription() {
+        return getString(KEY_DESCRIPTION);
     }
 
     public boolean getInProgress() {

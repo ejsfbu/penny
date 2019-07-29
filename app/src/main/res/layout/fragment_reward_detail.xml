@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivRewardDetailBadgeImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_star" />
+
+    <TextView
+        android:id="@+id/tvRewardDetailBadgeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/badge_name"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
+        app:layout_constraintTop_toTopOf="@+id/ivRewardDetailBadgeImage" />
+
+    <TextView
+        android:id="@+id/tvRewardDetailBadgeDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/badge_description"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailBadgeName" />
+
+    <TextView
+        android:id="@+id/tvRewardDetailStatusTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/status"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailBadgeDescription" />
+
+    <TextView
+        android:id="@+id/tvRewardDetailStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/tvRewardDetailStatusTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailBadgeDescription" />
+
+    <TextView
+        android:id="@+id/tvRewardDetailEarnedOnTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/earned_on"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle" />
+
+    <TextView
+        android:id="@+id/tvRewardDetailEarnedOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRewardDetailEarnedOnTitle"
+        app:layout_constraintStart_toEndOf="@+id/tvRewardDetailEarnedOnTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvRewardDetailEarnedOnTitle" />
+
+    <Button
+        android:id="@+id/bRewardDetailClose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/background_button_pig_pink"
+        android:text="@string/close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailEarnedOnTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>
