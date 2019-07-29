@@ -246,7 +246,9 @@ public class GoalDetailsFragment extends Fragment
                     transactionsList.clear();
                     adapter.notifyDataSetChanged();
                     loadTransactions();
-                    Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                    if (transaction.getApproval()) {
+                        Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -267,18 +269,7 @@ public class GoalDetailsFragment extends Fragment
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    user.addRequest(request);
-                    user.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
-                            } else {
-                                e.printStackTrace();
-                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -114,6 +114,47 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                     });
                 }
             });
+
+            bRequestDeny.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Transaction transaction = request.getTransaction();
+                    Goal goal = transaction.getGoal();
+                    goal.removeTransaction(transaction);
+                    goal.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                transaction.deleteInBackground(new DeleteCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            request.deleteInBackground(new DeleteCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        requests.remove(request);
+                                                        notifyDataSetChanged();
+                                                        Toast.makeText(context,
+                                                                "Request Cancelled",
+                                                                Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
         }
     }
 }
