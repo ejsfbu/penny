@@ -108,6 +108,11 @@ public class DepositDialogFragment extends DialogFragment {
                 return;
             }
             Double amount = Double.valueOf(etDepositAmount.getText().toString());
+            if (amount == 0.0) {
+                Toast.makeText(context, "Enter a value greater than 0.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             sendBackResult(bankName, amount);
         });
     }
