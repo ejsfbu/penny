@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.PopupFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Intent;
 import android.graphics.Point;
@@ -22,7 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.SignUpActivity;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -32,15 +32,17 @@ import java.util.List;
 
 public class NeedsParentDialogFragment extends DialogFragment {
 
-    private User user;
-    private TextView tvChildCode;
-    private Button bParentSignup;
-    private Button bSubmit;
-    private EditText etParentCode;
+    private TextView tvNeedsParentChildCode;
+    private Button bNeedsParentParentSignUp;
+    private Button bNeedsParentSubmit;
+    private EditText etNeedsParentParentCode;
+
     private String parentCode;
     private User parent;
+    private User user;
 
     public NeedsParentDialogFragment() {
+
     }
 
     public static NeedsParentDialogFragment newInstance(String title) {
@@ -53,7 +55,8 @@ public class NeedsParentDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_needs_parent, container);
     }
 
@@ -62,11 +65,11 @@ public class NeedsParentDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
 
-        tvChildCode = view.findViewById(R.id.tvChildAccountCode);
-        tvChildCode.setText(user.getObjectId());
+        tvNeedsParentChildCode = view.findViewById(R.id.tvNeedsParentChildCode);
+        tvNeedsParentChildCode.setText(user.getObjectId());
 
-        bParentSignup = view.findViewById(R.id.bParentSignup);
-        bParentSignup.setOnClickListener(new View.OnClickListener() {
+        bNeedsParentParentSignUp = view.findViewById(R.id.bNeedsParentParentSignUp);
+        bNeedsParentParentSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ParseUser.logOut();
@@ -78,20 +81,20 @@ public class NeedsParentDialogFragment extends DialogFragment {
             }
         });
 
-        etParentCode = view.findViewById(R.id.etParentCode);
+        etNeedsParentParentCode = view.findViewById(R.id.etNeedsParentParentCode);
 
-        bSubmit = view.findViewById(R.id.bSubmit);
-        bSubmit.setOnClickListener(new View.OnClickListener() {
+        bNeedsParentSubmit = view.findViewById(R.id.bNeedsParentSubmit);
+        bNeedsParentSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentCode = etParentCode.getText().toString();
+                parentCode = etNeedsParentParentCode.getText().toString();
                 getParentFromCode(parentCode);
             }
         });
 
         String title = getArguments().getString("title", "Needs Parent");
         getDialog().setTitle(title);
-        tvChildCode.requestFocus();
+        tvNeedsParentChildCode.requestFocus();
         getDialog().setCanceledOnTouchOutside(false);
     }
 

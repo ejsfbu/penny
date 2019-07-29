@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -11,29 +11,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.Goal;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.Goal;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class CancelGoalDialogFragment extends DialogFragment {
@@ -47,9 +39,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
     List<BankAccount> bankAccounts;
 
     public CancelGoalDialogFragment() {
-        // Empty constructor is required for DialogFragment
-        // Make sure not to add arguments to the constructor
-        // Use `newInstance` instead as shown below
+
     }
 
     public static CancelGoalDialogFragment newInstance(String title, Goal goal) {
@@ -79,30 +69,23 @@ public class CancelGoalDialogFragment extends DialogFragment {
     }
 
     public void onResume() {
-        // Store access variables for window and blank point
         Window window = getDialog().getWindow();
         Point size = new Point();
-        // Store dimensions of the screen in `size`
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
-        // Set the width of the dialog proportional to 75% of the screen width
         window.setLayout((int) (size.x * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-        // Call super onResume after sizing
         super.onResume();
     }
 
 
-    public void setClickers(){
-        //cancel option
+    public void setClickers() {
         comp_cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //transfer money to your bank account
                 Double saved = cancelledGoal.getSaved();
 
 
-                //deletes the goal
                 Goal.Query query = new Goal.Query();
                 query.whereEqualTo("objectId", cancelledGoal.getObjectId());
                 query.findInBackground(new FindCallback<Goal>() {
@@ -117,14 +100,13 @@ public class CancelGoalDialogFragment extends DialogFragment {
                     }
                 });
 
-                //return to goals page
                 GoalsListFragment goalsListFragment = new GoalsListFragment();
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, goalsListFragment).commit();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.flMainContainer, goalsListFragment).commit();
                 dismiss();
             }
         });
 
-        //transfer to another goal option
         transfer_opt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,12 +114,12 @@ public class CancelGoalDialogFragment extends DialogFragment {
                 bundle.putParcelable("Cancelled Goal", cancelledGoal);
                 Fragment transferGoalFragment = new TransferGoalFragment();
                 transferGoalFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.flContainer, transferGoalFragment).commit();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.flMainContainer, transferGoalFragment).commit();
                 dismiss();
             }
         });
 
-        //exit the dialog fragment
         exit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,7 +127,6 @@ public class CancelGoalDialogFragment extends DialogFragment {
             }
         });
     }
-
 
     public static Goal getCancelledGoal() {
         return cancelledGoal;

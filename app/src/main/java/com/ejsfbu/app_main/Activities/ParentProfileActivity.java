@@ -21,7 +21,7 @@ import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -37,33 +37,33 @@ public class ParentProfileActivity extends AppCompatActivity
 
     public static final String TAG = "ParentProfileFragment";
 
-    @BindView(R.id.tvParentName)
-    TextView tvParentName;
-    @BindView(R.id.tvParentEmail)
-    TextView tvParentEmail;
-    @BindView(R.id.tvParentUsername)
-    TextView tvParentUsername;
-    @BindView(R.id.tvParentPassword)
-    TextView getTvParentPassword;
-    @BindView(R.id.tvParentAccountCode)
-    TextView tvParentCode;
+    @BindView(R.id.tvParentProfileName)
+    TextView tvParentProfileName;
+    @BindView(R.id.tvParentProfileEmail)
+    TextView tvParentProfileEmail;
+    @BindView(R.id.tvParentProfileUsername)
+    TextView tvParentProfileUsername;
+    @BindView(R.id.tvParentProfilePassword)
+    TextView tvParentProfilePassword;
+    @BindView(R.id.tvParentProfileAccountCode)
+    TextView tvParentProfileAccountCode;
     @BindView(R.id.tvParentProfileEdit)
     TextView tvParentProfileEdit;
 
-    @BindView(R.id.ibEditParentName)
-    ImageButton ibEditParentName;
-    @BindView(R.id.ibEditParentEmail)
-    ImageButton ibEditParentEmail;
-    @BindView(R.id.ibEditParentUsername)
-    ImageButton ibEditParentUsername;
-    @BindView(R.id.ibEditParentPassword)
-    ImageButton ibEditParentPassword;
+    @BindView(R.id.ibParentProfileEditName)
+    ImageButton ibParentProfileEditName;
+    @BindView(R.id.ibParentProfileEditEmail)
+    ImageButton ibParentProfileEditEmail;
+    @BindView(R.id.ibParentProfileEditUsername)
+    ImageButton ibParentProfileEditUsername;
+    @BindView(R.id.ibParentProfileEditPassword)
+    ImageButton ibParentProfileEditPassword;
 
-    @BindView(R.id.ivParentProfilePic)
-    ImageView ivParentProfilePic;
+    @BindView(R.id.ivParentProfileProfilePic)
+    ImageView ivParentProfileProfilePic;
 
-    @BindView(R.id.bParentLogout)
-    Button bParentLogout;
+    @BindView(R.id.bParentProfileLogout)
+    Button bParentProfileLogout;
 
     private User user;
     private static FragmentManager fragmentManager;
@@ -82,10 +82,10 @@ public class ParentProfileActivity extends AppCompatActivity
     }
 
     public void loadProfileData() {
-        tvParentName.setText(user.getName());
-        tvParentEmail.setText(user.getEmail());
-        tvParentUsername.setText(user.getUsername());
-        tvParentCode.setText(user.getObjectId());
+        tvParentProfileName.setText(user.getName());
+        tvParentProfileEmail.setText(user.getEmail());
+        tvParentProfileUsername.setText(user.getUsername());
+        tvParentProfileAccountCode.setText(user.getObjectId());
 
         ParseFile image = user.getProfilePic();
         if (image != null) {
@@ -101,11 +101,11 @@ public class ParentProfileActivity extends AppCompatActivity
             Glide.with(this)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivParentProfilePic);
+                    .into(ivParentProfileProfilePic);
         }
     }
 
-    @OnClick(R.id.ibEditParentName)
+    @OnClick(R.id.ibParentProfileEditName)
     public void onClickEditParentName() {
         showEditNameDialog();
     }
@@ -117,7 +117,7 @@ public class ParentProfileActivity extends AppCompatActivity
                 "fragment_edit_name");
     }
 
-    @OnClick(R.id.ibEditParentUsername)
+    @OnClick(R.id.ibParentProfileEditUsername)
     public void onClickEditParentUsername() {
         showEditUsernameDialog();
     }
@@ -129,7 +129,7 @@ public class ParentProfileActivity extends AppCompatActivity
                 "fragment_edit_username");
     }
 
-    @OnClick(R.id.ibEditParentEmail)
+    @OnClick(R.id.ibParentProfileEditEmail)
     public void onClickEditParentEmail() {
         showEditEmailDialog();
     }
@@ -141,7 +141,7 @@ public class ParentProfileActivity extends AppCompatActivity
                 "fragment_edit_email");
     }
 
-    @OnClick(R.id.ibEditParentPassword)
+    @OnClick(R.id.ibParentProfileEditPassword)
     public void onClickEditParentPassword() {
         showEditPasswordDialog();
     }
@@ -153,7 +153,7 @@ public class ParentProfileActivity extends AppCompatActivity
                 "fragment_edit_password");
     }
 
-    @OnClick(R.id.ivParentProfilePic)
+    @OnClick(R.id.ivParentProfileProfilePic)
     public void onClickParentProfilePic() {
         showEditImageDialog();
     }
@@ -167,10 +167,10 @@ public class ParentProfileActivity extends AppCompatActivity
         EditProfileImageDialogFragment editProfileImageDialogFragment
                 = EditProfileImageDialogFragment.newInstance("Edit Password");
         editProfileImageDialogFragment.show(ParentProfileActivity.fragmentManager,
-                "fragment_edit_profileimage");
+                "fragment_edit_profile_pic");
     }
 
-    @OnClick(R.id.bParentLogout)
+    @OnClick(R.id.bParentProfileLogout)
     public void onClickParentLogout() {
         ParseUser.logOut();
 

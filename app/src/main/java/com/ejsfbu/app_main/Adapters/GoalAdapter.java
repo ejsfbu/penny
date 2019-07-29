@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,15 +19,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
-import com.ejsfbu.app_main.EditFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
-import com.ejsfbu.app_main.Fragments.GoalsListFragment;
-import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
-import com.ejsfbu.app_main.models.Transaction;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Transaction;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -46,17 +43,20 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     private Context context;
     private Fragment purpose;
     private Goal cancelled;
+    private User user;
 
     public GoalAdapter(Context context, List<Goal> goals, CancelGoalDialogFragment purpose) {
         this.context = context;
         this.goalsList = goals;
         this.purpose = purpose;
         this.cancelled = purpose.getCancelledGoal();
+        this.user = (User) ParseUser.getCurrentUser();
     }
 
     public GoalAdapter(Context context, List<Goal> goals) {
         this.context = context;
         this.goalsList = goals;
+        this.user = (User) ParseUser.getCurrentUser();
     }
 
     @NonNull
@@ -82,18 +82,18 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivGoalImage;
         private TextView tvGoalName;
-        private TextView tvEndDate;
-        private TextView tvPercentDone;
-        private ProgressBar pbPercentDone;
+        private TextView tvGoalEndDate;
+        private TextView tvGoalPercentDone;
+        private ProgressBar pbGoalPercentDone;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivGoalImage = itemView.findViewById(R.id.ivGoalImage);
             tvGoalName = itemView.findViewById(R.id.tvGoalName);
-            tvEndDate = itemView.findViewById(R.id.tvEndDate);
-            tvPercentDone = itemView.findViewById(R.id.tvPercentDone);
-            pbPercentDone = itemView.findViewById(R.id.pbPercentDone);
+            tvGoalEndDate = itemView.findViewById(R.id.tvGoalEndDate);
+            tvGoalPercentDone = itemView.findViewById(R.id.tvGoalPercentDone);
+            pbGoalPercentDone = itemView.findViewById(R.id.pbGoalPercentDone);
 
         }
 
@@ -103,13 +103,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             Date endDate = goal.getEndDate();
             if (endDate != null) {
                 String endDateString = endDate.toString();
-                tvEndDate.setText("by " + formatDateString(endDateString));
+                tvGoalEndDate.setText("by " + formatDateString(endDateString));
             }
 
             Double percentDone = (goal.getSaved() / goal.getCost()) * 100;
-            tvPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
-            pbPercentDone.setProgress((int) percentDone.doubleValue());
-            pbPercentDone.getProgressDrawable().setTint(context.getResources().getColor(R.color.money_green));
+            tvGoalPercentDone.setText(String.format("%.1f", percentDone.floatValue()) + "%");
+            pbGoalPercentDone.setProgress((int) percentDone.doubleValue());
+            pbGoalPercentDone.getProgressDrawable().setTint(context.getResources()
+                    .getColor(R.color.money_green));
 
             ParseFile image = goal.getImage();
             if (image != null) {
@@ -127,62 +128,63 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         .apply(options) // Extra: round image corners
                         .into(ivGoalImage);
             }
+            setOnClick(goal);
+        }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("Clicked Goal", goal);
-                    //launch the details view
-                    if ((purpose == null) && (cancelled == null)) {
-                        Fragment fragment = new GoalDetailsFragment();
-                        fragment.setArguments(bundle);
-                        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+        private void setOnClick(Goal goal) {
+            itemView.setOnClickListener(view -> {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Clicked Goal", goal);
+                //launch the details view
+                if ((purpose == null) && (cancelled == null)) {
+                    Fragment fragment = new GoalDetailsFragment();
+                    fragment.setArguments(bundle);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.flMainContainer, fragment).commit();
+                } else {
+                    //transfers money to this goal
+                    Double saved = cancelled.getSaved();
+                    boolean approval;
+                    if (user.getRequiresApproval()) {
+                        approval = false;
+                    } else {
+                        approval = true;
                     }
-                    else {
-                        //transfers money to this goal
-                        Double saved = cancelled.getSaved();
-                        goal.setSaved(goal.getSaved() + saved);
-
-                        Transaction transfer = new Transaction();
-                        transfer.setAmount(saved);
-                        transfer.setGoal(goal);
-                        //TODO set up the bank that the transaction comes from
-                        transfer.setUser(ParseUser.getCurrentUser());
-                        transfer.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Toast.makeText(context, "Money Transferred",
-                                            Toast.LENGTH_SHORT).show();
-                                    //deletes the goal
-                                    Goal.Query query = new Goal.Query();
-                                    query.whereEqualTo("objectId", cancelled.getObjectId());
-                                    query.findInBackground(new FindCallback<Goal>() {
-                                        @Override
-                                        public void done(List<Goal> objects, ParseException e) {
-                                            if (e == null) {
-                                                objects.get(0).deleteInBackground();
-                                                objects.get(0).saveInBackground();
-                                            } else {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
-
-                                    //sends you to that detail goal
-                                    Fragment fragment = new GoalDetailsFragment();
-                                    fragment.setArguments(bundle);
-                                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                                } else {
-                                    Toast.makeText(context, "Transfer Failed",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                    Transaction transfer = new Transaction(user, cancelled.getName(), saved, goal, approval, false);
+                    transfer.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                handleCancelledGoal(goal, transfer);
+                                //sends you to that detail goal
+                                Fragment fragment = new GoalDetailsFragment();
+                                fragment.setArguments(bundle);
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.flMainContainer, fragment).commit();
+                            } else {
+                                Toast.makeText(context, "Transfer Failed",
+                                        Toast.LENGTH_SHORT).show();
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             });
+        }
+
+        private void handleCancelledGoal(Goal goal, Transaction transaction) {
+            if (transaction.getApproval()) {
+                goal.setSaved(goal.getSaved() + transaction.getAmount());
+                Toast.makeText(context, "Money Transferred",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Parent notified for approval",
+                        Toast.LENGTH_SHORT).show();
+            }
+            //deletes the goal
+            cancelled.deleteInBackground();
+            // might need to delay these for fragment change
+            goal.addTransaction(transaction);
+            goal.saveInBackground();
         }
 
         public String formatDateString(String date) {

@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.models;
+package com.ejsfbu.app_main.Models;
 
 import android.util.Log;
 
@@ -19,7 +19,14 @@ public class BankAccount extends ParseObject {
     private boolean depositSuccess = true;
 
     public String getBankName() {
-        return getString(KEY_BANK_NAME);
+        String name = "";
+        try {
+            name = fetchIfNeeded().getString(KEY_BANK_NAME);
+        } catch (ParseException e) {
+            Log.d("bank", e.toString());
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void setBankName(String name) {
@@ -39,7 +46,7 @@ public class BankAccount extends ParseObject {
         try {
             account = fetchIfNeeded().getString(KEY_ACCOUNT);
         } catch (ParseException e) {
-            Log.d("user", e.toString());
+            Log.d("bank", e.toString());
             e.printStackTrace();
         }
         return account;

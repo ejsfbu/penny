@@ -21,7 +21,7 @@
             android:id="@+id/etEditEndDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/end_date"
             android:inputType="date" />
 
@@ -49,7 +49,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/white_button_background"
+        android:background="@drawable/background_button_pig_pink"
         android:text="Confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vbEditGoalDate"
@@ -62,7 +62,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/white_button_background"
+        android:background="@drawable/background_button_coin_blue"
         android:text="@android:string/cancel"
         app:layout_constraintEnd_toStartOf="@+id/vbEditGoalDate"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +91,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/edit_end_date_layout"
         app:layout_constraintEnd_toEndOf="@+id/edit_end_date_layout"
         app:layout_constraintTop_toTopOf="@+id/edit_end_date_layout"
-        app:srcCompat="@drawable/calendar_color" />
+        app:srcCompat="@drawable/icon_calendar_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

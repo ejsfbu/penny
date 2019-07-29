@@ -20,7 +20,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -29,11 +29,11 @@ import java.util.ArrayList;
 
 public class EditNameDialogFragment extends DialogFragment {
     // View objects
-    private EditText etFirstName;
-    private EditText etMiddleInitial;
-    private EditText etLastName;
-    private Button bConfirm;
-    private Button bCancel;
+    private EditText etEditNameFirstName;
+    private EditText etEditNameMiddleInitial;
+    private EditText etEditNameLastName;
+    private Button bEditNameConfirm;
+    private Button bEditNameCancel;
     private Context context;
     private User user;
 
@@ -63,17 +63,17 @@ public class EditNameDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
         // Get field from view
-        etFirstName = view.findViewById(R.id.etFirstName);
-        etMiddleInitial = view.findViewById(R.id.etMiddleInitial);
-        etLastName = view.findViewById(R.id.etLastName);
-        bConfirm = view.findViewById(R.id.bConfirm);
-        bCancel = view.findViewById(R.id.bCancel);
+        etEditNameFirstName = view.findViewById(R.id.etEditNameFirstName);
+        etEditNameMiddleInitial = view.findViewById(R.id.etEditNameMiddleInitial);
+        etEditNameLastName = view.findViewById(R.id.etEditNameLastName);
+        bEditNameConfirm = view.findViewById(R.id.bEditNameConfirm);
+        bEditNameCancel = view.findViewById(R.id.bEditNameCancel);
         fillData();
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
-        etFirstName.requestFocus();
+        etEditNameFirstName.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
@@ -87,10 +87,10 @@ public class EditNameDialogFragment extends DialogFragment {
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(0).getTag();
-        int fragmentId = fragments.get(0).getId();
+        String fragmentTag = fragments.get(1).getTag();
+        int fragmentId = fragments.get(1).getId();
         EditNameDialogListener listener;
-        if (fragments.size() > 1) {
+        if (fragments.size() > 2) {
             listener = (EditNameDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {
@@ -116,20 +116,21 @@ public class EditNameDialogFragment extends DialogFragment {
     }
 
     private void setOnClick() {
-        bCancel.setOnClickListener(view -> {
+        bEditNameCancel.setOnClickListener(view -> {
             dismiss();
         });
 
-        bConfirm.setOnClickListener(view -> {
-            String name = etFirstName.getText().toString() + " "
-                    + etMiddleInitial.getText().toString() + " "
-                    + etLastName.getText().toString();
+        bEditNameConfirm.setOnClickListener(view -> {
+            String name = etEditNameFirstName.getText().toString() + " "
+                    + etEditNameMiddleInitial.getText().toString() + " "
+                    + etEditNameLastName.getText().toString();
             user.put("name", name);
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Name changed successfully.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Name changed successfully.",
+                                Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
                         e.printStackTrace();
@@ -145,16 +146,16 @@ public class EditNameDialogFragment extends DialogFragment {
         String arr[] = fullName.split(" ");
         switch (arr.length) {
             case 1:
-                etFirstName.setText(arr[0]);
+                etEditNameFirstName.setText(arr[0]);
                 break;
             case 2:
-                etFirstName.setText(arr[0]);
-                etLastName.setText(arr[1]);
+                etEditNameFirstName.setText(arr[0]);
+                etEditNameLastName.setText(arr[1]);
                 break;
             case 3:
-                etFirstName.setText(arr[0]);
-                etLastName.setText(arr[2]);
-                etMiddleInitial.setText(arr[1]);
+                etEditNameFirstName.setText(arr[0]);
+                etEditNameLastName.setText(arr[2]);
+                etEditNameMiddleInitial.setText(arr[1]);
                 break;
             default:
                 Log.d("Name", fullName);

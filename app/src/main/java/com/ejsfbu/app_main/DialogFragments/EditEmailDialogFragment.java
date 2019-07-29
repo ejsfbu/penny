@@ -21,7 +21,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -32,9 +32,10 @@ import java.util.List;
 
 public class EditEmailDialogFragment extends DialogFragment {
 
-    private EditText etEmail;
-    private Button bConfirm;
-    private Button bCancel;
+    private EditText etEditEmailEmail;
+    private Button bEditEmailConfirm;
+    private Button bEditEmailCancel;
+
     private Context context;
     private ParseUser user;
     private boolean emailUnique;
@@ -62,17 +63,17 @@ public class EditEmailDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         user = ParseUser.getCurrentUser();
-        etEmail = view.findViewById(R.id.etEmail);
-        bConfirm = view.findViewById(R.id.bConfirm);
-        bCancel = view.findViewById(R.id.bCancel);
-        etEmail.setText(user.getEmail());
+        etEditEmailEmail = view.findViewById(R.id.etEditEmailEmail);
+        bEditEmailConfirm = view.findViewById(R.id.bEditEmailConfirm);
+        bEditEmailCancel = view.findViewById(R.id.bEditEmailCancel);
+        etEditEmailEmail.setText(user.getEmail());
         String title = getArguments().getString("title", "Enter Email");
         getDialog().setTitle(title);
-        etEmail.requestFocus();
+        etEditEmailEmail.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setOnClick();
-        etEmail.addTextChangedListener(textChanged);
+        etEditEmailEmail.addTextChangedListener(textChanged);
     }
 
     public interface EditEmailDialogListener {
@@ -81,10 +82,10 @@ public class EditEmailDialogFragment extends DialogFragment {
 
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(0).getTag();
-        int fragmentId = fragments.get(0).getId();
+        String fragmentTag = fragments.get(1).getTag();
+        int fragmentId = fragments.get(1).getId();
         EditEmailDialogListener listener;
-        if (fragments.size() > 1) {
+        if (fragments.size() > 2) {
             listener = (EditEmailDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {
@@ -106,17 +107,17 @@ public class EditEmailDialogFragment extends DialogFragment {
     }
 
     private void setOnClick() {
-        bCancel.setOnClickListener(view -> {
+        bEditEmailCancel.setOnClickListener(view -> {
             dismiss();
         });
 
-        bConfirm.setOnClickListener(view -> {
+        bEditEmailConfirm.setOnClickListener(view -> {
             if (!emailUnique) {
                 Toast.makeText(getContext(), "Email is already associated with an account",
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            user.put("email", etEmail.getText().toString());
+            user.put("email", etEditEmailEmail.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -134,7 +135,7 @@ public class EditEmailDialogFragment extends DialogFragment {
     }
 
     public void checkEmailUnique() {
-        String email = etEmail.getText().toString();
+        String email = etEditEmailEmail.getText().toString();
         User.Query userQuery = new User.Query();
         userQuery.testEmail(email);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -142,17 +143,17 @@ public class EditEmailDialogFragment extends DialogFragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_dark));
+                        etEditEmailEmail.setTextColor(EditEmailDialogFragment.this
+                                .getResources().getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     } else {
                         if (email.equals(user.getEmail())) {
-                            etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
-                                    .getColor(android.R.color.holo_red_dark));
+                            etEditEmailEmail.setTextColor(EditEmailDialogFragment.this
+                                    .getResources().getColor(android.R.color.holo_red_dark));
                             emailUnique = false;
                         }
-                        etEmail.setTextColor(EditEmailDialogFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_dark));
+                        etEditEmailEmail.setTextColor(EditEmailDialogFragment.this
+                                .getResources().getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     }
                 } else {

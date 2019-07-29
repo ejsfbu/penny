@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.SignupFragments;
+package com.ejsfbu.app_main.SignUpFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
-import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
@@ -32,20 +31,20 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.SignUpActivity.user;
 
-public class SignupAccountInfoFragment extends Fragment {
+public class SignUpAccountInfoFragment extends Fragment {
 
-    public static final String TAG = "SignupAccountInfoFrag";
+    public static final String TAG = "SignUpAccountInfoFrag";
 
-    @BindView(R.id.etEmail)
-    EditText etEmail;
-    @BindView(R.id.etUsername)
-    EditText etUsername;
-    @BindView(R.id.etPassword)
-    EditText etPassword;
-    @BindView(R.id.etConfirmPassword)
-    EditText etConfirmPassword;
-    @BindView(R.id.bSignupParent)
-    Button bSignup;
+    @BindView(R.id.etSignUpAccountInfoEmail)
+    EditText etSignUpAccountInfoEmail;
+    @BindView(R.id.etSignUpAccountInfoUsername)
+    EditText etSignUpAccountInfoUsername;
+    @BindView(R.id.etSignUpAccountInfoPassword)
+    EditText etSignUpAccountInfoPassword;
+    @BindView(R.id.etSignUpAccountInfoConfirmPassword)
+    EditText etSignUpAccountInfoConfirmPassword;
+    @BindView(R.id.bSignUpChild)
+    Button bSignUpChild;
 
     private Unbinder unbinder;
     private boolean emailUnique;
@@ -64,10 +63,10 @@ public class SignupAccountInfoFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
     }
 
-    @OnClick(R.id.bSignupParent)
+    @OnClick(R.id.bSignUpChild)
     public void clickSignUp() {
 
-        final String email = etEmail.getText().toString();
+        final String email = etSignUpAccountInfoEmail.getText().toString();
         if (email.equals("")) {
             Toast.makeText(getContext(), "Please enter an email", Toast.LENGTH_LONG).show();
             return;
@@ -79,7 +78,7 @@ public class SignupAccountInfoFragment extends Fragment {
         }
         user.setEmail(email);
 
-        final String username = etUsername.getText().toString();
+        final String username = etSignUpAccountInfoUsername.getText().toString();
         if (username.equals("")) {
             Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_LONG).show();
             return;
@@ -90,8 +89,8 @@ public class SignupAccountInfoFragment extends Fragment {
         }
         user.setUsername(username);
 
-        final String password = etPassword.getText().toString();
-        final String confirmPassword = etConfirmPassword.getText().toString();
+        final String password = etSignUpAccountInfoPassword.getText().toString();
+        final String confirmPassword = etSignUpAccountInfoConfirmPassword.getText().toString();
         if (password.equals("") || confirmPassword.equals("")) {
             Toast.makeText(getContext(), "Please enter a password", Toast.LENGTH_LONG).show();
             return;
@@ -139,9 +138,9 @@ public class SignupAccountInfoFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnTextChanged(R.id.etEmail)
+    @OnTextChanged(R.id.etSignUpAccountInfoEmail)
     public void checkEmailUnique() {
-        String email = etEmail.getText().toString();
+        String email = etSignUpAccountInfoEmail.getText().toString();
         User.Query userQuery = new User.Query();
         userQuery.testEmail(email);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -149,12 +148,12 @@ public class SignupAccountInfoFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etEmail.setTextColor(SignupAccountInfoFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_dark));
+                        etSignUpAccountInfoEmail.setTextColor(SignUpAccountInfoFragment.this
+                                .getResources().getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     } else {
-                        etEmail.setTextColor(SignupAccountInfoFragment.this.getResources()
-                                .getColor(android.R.color.holo_red_dark));
+                        etSignUpAccountInfoEmail.setTextColor(SignUpAccountInfoFragment.this
+                                .getResources().getColor(android.R.color.holo_red_dark));
                         emailUnique = false;
                     }
                 } else {
@@ -164,9 +163,9 @@ public class SignupAccountInfoFragment extends Fragment {
         });
     }
 
-    @OnTextChanged(R.id.etUsername)
+    @OnTextChanged(R.id.etSignUpAccountInfoUsername)
     public void checkUsernameUnique() {
-        String username = etUsername.getText().toString();
+        String username = etSignUpAccountInfoUsername.getText().toString();
         User.Query userQuery = new User.Query();
         userQuery.testUsername(username);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -174,12 +173,12 @@ public class SignupAccountInfoFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etUsername.setTextColor(SignupAccountInfoFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_dark));
+                        etSignUpAccountInfoUsername.setTextColor(SignUpAccountInfoFragment.this
+                                .getResources().getColor(android.R.color.holo_green_dark));
                         usernameUnique = true;
                     } else {
-                        etUsername.setTextColor(SignupAccountInfoFragment.this.getResources()
-                                .getColor(android.R.color.holo_red_dark));
+                        etSignUpAccountInfoUsername.setTextColor(SignUpAccountInfoFragment.this
+                                .getResources().getColor(android.R.color.holo_red_dark));
                         usernameUnique = false;
                     }
                 } else {

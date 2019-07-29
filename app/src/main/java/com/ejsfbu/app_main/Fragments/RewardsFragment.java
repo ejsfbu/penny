@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BadgeRow;
-import com.ejsfbu.app_main.models.Goal;
-import com.ejsfbu.app_main.models.Reward;
+import com.ejsfbu.app_main.Models.BadgeRow;
+import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Reward;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
@@ -28,23 +28,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BadgesFragment extends Fragment {
+public class RewardsFragment extends Fragment {
 
-    public static final String TAG = "BadgesFragment";
+    public static final String TAG = "RewardsFragment";
 
-    @BindView(R.id.rvCompletedGoals)
-    RecyclerView rvCompletedGoals;
-    @BindView(R.id.rvCompletedBadges)
-    RecyclerView rvCompletedBadges;
-    @BindView(R.id.rvInProgressBadges)
-    RecyclerView rvInProgressBadges;
+    @BindView(R.id.rvRewardsCompletedGoals)
+    RecyclerView rvRewardsCompletedGoals;
+    @BindView(R.id.rvRewardsCompletedBadges)
+    RecyclerView rvRewardsCompletedBadges;
+    @BindView(R.id.rvRewardsInProgressBadges)
+    RecyclerView rvRewardsInProgressBadges;
 
-    // Butterknife for fragment
     private Unbinder unbinder;
     private Context context;
+
     protected GoalAdapter goalAdapter;
     protected BadgeRowAdapter completedBadgeRowAdapter;
     protected BadgeRowAdapter inProgressBadgeRowAdapter;
+
     protected List<Goal> goals;
     protected List<BadgeRow> completedBadgeRows;
     protected List<BadgeRow> inProgressBadgeRows;
@@ -69,13 +70,13 @@ public class BadgesFragment extends Fragment {
         completedBadgeRowAdapter = new BadgeRowAdapter(context, completedBadgeRows);
         inProgressBadgeRowAdapter = new BadgeRowAdapter(context, inProgressBadgeRows);
 
-        rvCompletedGoals.setAdapter(goalAdapter);
-        rvCompletedBadges.setAdapter(completedBadgeRowAdapter);
-        rvInProgressBadges.setAdapter(inProgressBadgeRowAdapter);
+        rvRewardsCompletedGoals.setAdapter(goalAdapter);
+        rvRewardsCompletedBadges.setAdapter(completedBadgeRowAdapter);
+        rvRewardsInProgressBadges.setAdapter(inProgressBadgeRowAdapter);
 
-        rvCompletedGoals.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvCompletedBadges.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvInProgressBadges.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvRewardsCompletedGoals.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvRewardsCompletedBadges.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvRewardsInProgressBadges.setLayoutManager(new LinearLayoutManager(getContext()));
 
         loadCompletedGoals();
         loadCompletedBadges();

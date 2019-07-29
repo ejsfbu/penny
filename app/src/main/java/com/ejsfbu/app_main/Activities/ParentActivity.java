@@ -14,9 +14,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
-import com.ejsfbu.app_main.PopupFragments.VerifyChildDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -37,10 +37,10 @@ public class ParentActivity extends AppCompatActivity {
 
     public static final String TAG = "ParentActivity";
 
-    @BindView(R.id.rvChildren)
-    RecyclerView rvChildren;
-    @BindView(R.id.ivProfilePic)
-    ImageView ivProfilePic;
+    @BindView(R.id.rvParentChildren)
+    RecyclerView rvParentChildren;
+    @BindView(R.id.ivParentProfilePic)
+    ImageView ivParentProfilePic;
 
     private ArrayList<User> children;
     private ChildAdapter adapter;
@@ -62,8 +62,8 @@ public class ParentActivity extends AppCompatActivity {
 
         children = new ArrayList<>();
         adapter = new ChildAdapter(this, children);
-        rvChildren.setAdapter(adapter);
-        rvChildren.setLayoutManager(new LinearLayoutManager(this));
+        rvParentChildren.setAdapter(adapter);
+        rvParentChildren.setLayoutManager(new LinearLayoutManager(this));
 
         ParseFile image = parent.getProfilePic();
         if (image != null) {
@@ -78,7 +78,7 @@ public class ParentActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(imageUrl)
                     .apply(options) // Extra: round image corners
-                    .into(ivProfilePic);
+                    .into(ivParentProfilePic);
         }
 
         loadChildren();
@@ -109,7 +109,7 @@ public class ParentActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.ivProfilePic)
+    @OnClick(R.id.ivParentProfilePic)
     public void onClickProfile() {
         Intent intent = new Intent(this, ParentProfileActivity.class);
         startActivity(intent);

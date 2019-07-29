@@ -1,20 +1,14 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Point;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
@@ -42,14 +36,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.BitmapScaler;
-import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
+import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -58,12 +49,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import butterknife.OnClick;
-
 import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.getPhotoFileUri;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.getRealPathFromURI;
 import static com.ejsfbu.app_main.Activities.AddGoalActivity.rotateBitmapOrientation;
+
 
 public class EditGoalImageDialogFragment extends DialogFragment {
 

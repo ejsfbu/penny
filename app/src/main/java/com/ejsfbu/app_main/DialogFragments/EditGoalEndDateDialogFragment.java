@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -24,19 +24,15 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
-import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
+import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import butterknife.OnClick;
 
 public class EditGoalEndDateDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 

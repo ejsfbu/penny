@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.models;
+package com.ejsfbu.app_main.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @ParseClassName("Goal")
 public class Goal extends ParseObject {
@@ -98,6 +99,8 @@ public class Goal extends ParseObject {
 
     public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
+    public List<Transaction> getTransactions() { return getList(KEY_TRANSACTIONS); }
+
     public static class Query extends ParseQuery<Goal> {
         public Query() {
             super(Goal.class);
@@ -141,7 +144,7 @@ public class Goal extends ParseObject {
             return this;
         }
 
-        public Query fromUser(User user) {
+        public Query fromUser(com.ejsfbu.app_main.Models.User user) {
             whereEqualTo(KEY_USER, user);
             return this;
         }

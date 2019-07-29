@@ -13,15 +13,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Fragments.BankDetailsFragment;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.Reward;
-import com.parse.ParseFile;
+import com.ejsfbu.app_main.Models.BankAccount;
 
 import java.util.List;
 
@@ -74,9 +68,8 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 
         public void bind(BankAccount bank) {
             // TODO encapsulate to hide bank
-            String bankAccount =  bank.getAccountNumber();
             tvBankName.setText(bank.getBankName());
-            tvAccountNumber.setText("****" + bankAccount.substring(bankAccount.length() - 4));
+            tvAccountNumber.setText(formatAccountNumber(bank.getAccountNumber()));
             if (bank.getVerified()) {
                 tvVerified.setText("Verified");
             } else {
@@ -88,7 +81,7 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("bank", bank);
                 fragment.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flMainContainer, fragment).commit();
             });
         }
 
@@ -110,6 +103,10 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 //                    .apply(options)
 //                    .into(ivBadge);
 //        }
+    }
+
+    public static String formatAccountNumber(String number) {
+        return "****" + number.substring(number.length() - 4);
     }
 }
 

@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.SignupFragments;
+package com.ejsfbu.app_main.SignUpFragments;
 
 
 import android.content.Intent;
@@ -16,9 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
-import com.ejsfbu.app_main.Activities.SignUpActivity;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
@@ -33,26 +32,26 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.SignUpActivity.user;
 
-public class SignupParentFragment extends Fragment {
+public class SignUpParentFragment extends Fragment {
 
-    public static final String TAG = "SignupParentFragment";
+    public static final String TAG = "SignUpParentFragment";
 
-    @BindView(R.id.etFirstName)
-    EditText etFirstName;
-    @BindView(R.id.etLastName)
-    EditText etLastName;
-    @BindView(R.id.etEmail)
-    EditText etEmail;
-    @BindView(R.id.etUsername)
-    EditText etUsername;
-    @BindView(R.id.etPassword)
-    EditText etPassword;
-    @BindView(R.id.etConfirmPassword)
-    EditText etConfirmPassword;
-    @BindView(R.id.etChildCode)
-    EditText etChildCode;
-    @BindView(R.id.bSignupParent)
-    Button bSignupParent;
+    @BindView(R.id.etSignUpParentFirstName)
+    EditText etSignUpParentFirstName;
+    @BindView(R.id.etSignUpParentLastName)
+    EditText etSignUpParentLastName;
+    @BindView(R.id.etSignUpParentEmail)
+    EditText etSignUpParentEmail;
+    @BindView(R.id.etSignUpParentUsername)
+    EditText etSignUpParentUsername;
+    @BindView(R.id.etSignUpParentPassword)
+    EditText etSignUpParentPassword;
+    @BindView(R.id.etSignUpParentConfirmPassword)
+    EditText etSignUpParentConfirmPassword;
+    @BindView(R.id.etSignUpParentChildCode)
+    EditText etSignUpParentChildCode;
+    @BindView(R.id.bSignUpParent)
+    Button bSignUpParent;
 
     private Unbinder unbinder;
     private boolean emailUnique;
@@ -77,17 +76,17 @@ public class SignupParentFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.bSignupParent)
+    @OnClick(R.id.bSignUpParent)
     public void clickSignupParent() {
 
-        final String firstName = etFirstName.getText().toString();
+        final String firstName = etSignUpParentFirstName.getText().toString();
         if (firstName.equals("")) {
             Toast.makeText(getContext(), "Please enter a first name",
                     Toast.LENGTH_LONG).show();
             return;
         }
 
-        final String lastName = etLastName.getText().toString();
+        final String lastName = etSignUpParentLastName.getText().toString();
 
         final String name;
         if (lastName.equals("")) {
@@ -97,7 +96,7 @@ public class SignupParentFragment extends Fragment {
         }
         user.setName(name);
 
-        final String childCode = etChildCode.getText().toString();
+        final String childCode = etSignUpParentChildCode.getText().toString();
         if (firstName.equals("")) {
             Toast.makeText(getContext(), "Please enter your child's code",
                     Toast.LENGTH_LONG).show();
@@ -108,7 +107,7 @@ public class SignupParentFragment extends Fragment {
             return;
         }
 
-        final String email = etEmail.getText().toString();
+        final String email = etSignUpParentEmail.getText().toString();
         if (email.equals("")) {
             Toast.makeText(getContext(), "Please enter an email", Toast.LENGTH_LONG).show();
             return;
@@ -120,7 +119,7 @@ public class SignupParentFragment extends Fragment {
         }
         user.setEmail(email);
 
-        final String username = etUsername.getText().toString();
+        final String username = etSignUpParentUsername.getText().toString();
         if (username.equals("")) {
             Toast.makeText(getContext(), "Please enter a username", Toast.LENGTH_LONG).show();
             return;
@@ -131,8 +130,8 @@ public class SignupParentFragment extends Fragment {
         }
         user.setUsername(username);
 
-        final String password = etPassword.getText().toString();
-        final String confirmPassword = etConfirmPassword.getText().toString();
+        final String password = etSignUpParentPassword.getText().toString();
+        final String confirmPassword = etSignUpParentConfirmPassword.getText().toString();
         if (password.equals("") || confirmPassword.equals("")) {
             Toast.makeText(getContext(), "Please enter a password", Toast.LENGTH_LONG).show();
             return;
@@ -147,11 +146,11 @@ public class SignupParentFragment extends Fragment {
                                 Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Sign Up Success");
 
-                        Intent intent = new Intent(SignupParentFragment.this.getContext(),
+                        Intent intent = new Intent(SignUpParentFragment.this.getContext(),
                                 ParentActivity.class);
                         intent.putExtra("isFirstLogin", true);
-                        SignupParentFragment.this.getContext().startActivity(intent);
-                        SignupParentFragment.this.getActivity().finish();
+                        SignUpParentFragment.this.getContext().startActivity(intent);
+                        SignUpParentFragment.this.getActivity().finish();
 
                     } else {
                         Toast.makeText(getActivity(), "Sign Up Failure",
@@ -175,9 +174,9 @@ public class SignupParentFragment extends Fragment {
         }
     }
 
-    @OnTextChanged(R.id.etEmail)
+    @OnTextChanged(R.id.etSignUpParentEmail)
     public void checkEmailUnique() {
-        String email = etEmail.getText().toString();
+        String email = etSignUpParentEmail.getText().toString();
         User.Query userQuery = new User.Query();
         userQuery.testEmail(email);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -185,11 +184,11 @@ public class SignupParentFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etEmail.setTextColor(SignupParentFragment.this.getResources()
+                        etSignUpParentEmail.setTextColor(SignUpParentFragment.this.getResources()
                                 .getColor(android.R.color.holo_green_dark));
                         emailUnique = true;
                     } else {
-                        etEmail.setTextColor(SignupParentFragment.this.getResources()
+                        etSignUpParentEmail.setTextColor(SignUpParentFragment.this.getResources()
                                 .getColor(android.R.color.holo_red_dark));
                         emailUnique = false;
                     }
@@ -200,9 +199,9 @@ public class SignupParentFragment extends Fragment {
         });
     }
 
-    @OnTextChanged(R.id.etUsername)
+    @OnTextChanged(R.id.etSignUpParentUsername)
     public void checkUsernameUnique() {
-        String username = etUsername.getText().toString();
+        String username = etSignUpParentUsername.getText().toString();
         User.Query userQuery = new User.Query();
         userQuery.testUsername(username);
         userQuery.findInBackground(new FindCallback<User>() {
@@ -210,12 +209,12 @@ public class SignupParentFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etUsername.setTextColor(SignupParentFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_dark));
+                        etSignUpParentUsername.setTextColor(SignUpParentFragment.this
+                                .getResources().getColor(android.R.color.holo_green_dark));
                         usernameUnique = true;
                     } else {
-                        etUsername.setTextColor(SignupParentFragment.this.getResources()
-                                .getColor(android.R.color.holo_red_dark));
+                        etSignUpParentUsername.setTextColor(SignUpParentFragment.this
+                                .getResources().getColor(android.R.color.holo_red_dark));
                         usernameUnique = false;
                     }
                 } else {
@@ -232,7 +231,7 @@ public class SignupParentFragment extends Fragment {
             @Override
             public void done(List<User> objects, ParseException e) {
                 if (objects.size() == 0) {
-                    Toast.makeText(SignupParentFragment.this.getContext(),
+                    Toast.makeText(SignUpParentFragment.this.getContext(),
                             "Child code is invalid", Toast.LENGTH_LONG).show();
                     child = null;
                 } else {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +8,7 @@
     tools:context=".Activities.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username_layout"
+        android:id="@+id/login_username_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -15,20 +16,20 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivAppLogo">
+        app:layout_constraintTop_toBottomOf="@+id/ivLoginAppLogo">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
+            android:id="@+id/etLoginUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/username"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_layout"
+        android:id="@+id/login_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -36,14 +37,14 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_layout"
+        app:layout_constraintTop_toBottomOf="@+id/login_username_layout"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_background"
+            android:background="@drawable/background_edit_text"
             android:hint="@string/password"
             android:inputType="textPassword" />
 
@@ -56,12 +57,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/login"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/login_password_layout" />
 
     <Button
         android:id="@+id/bSignUp"
@@ -70,12 +71,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/sign_up"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOr" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLoginOr" />
 
     <TextView
         android:id="@+id/tvAppName"
@@ -92,7 +93,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ivAppLogo"
+        android:id="@+id/ivLoginAppLogo"
         android:layout_width="0dp"
         android:layout_height="205dp"
         android:layout_marginStart="8dp"
@@ -101,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAppName"
-        app:srcCompat="@drawable/piggy_bank"
+        app:srcCompat="@drawable/logo_piggy_bank"
         tools:ignore="ContentDescription" />
 
     <View
@@ -111,10 +112,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@+id/tvOr"
-        app:layout_constraintEnd_toStartOf="@+id/tvOr"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLoginOr"
+        app:layout_constraintEnd_toStartOf="@+id/tvLoginOr"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvOr" />
+        app:layout_constraintTop_toTopOf="@id/tvLoginOr" />
 
     <View
         android:id="@+id/divider2"
@@ -123,13 +124,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@+id/tvOr"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLoginOr"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvOr"
-        app:layout_constraintTop_toTopOf="@id/tvOr" />
+        app:layout_constraintStart_toEndOf="@+id/tvLoginOr"
+        app:layout_constraintTop_toTopOf="@id/tvLoginOr" />
 
     <TextView
-        android:id="@+id/tvOr"
+        android:id="@+id/tvLoginOr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -139,13 +140,13 @@
         app:layout_constraintTop_toBottomOf="@+id/bLogin" />
 
     <Button
-        android:id="@+id/bParentSignUp"
+        android:id="@+id/bLoginParentSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/coin_blue"
+        android:background="@drawable/background_button_coin_blue"
         android:text="@string/parent_sign_up"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -160,7 +161,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/parent_question"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/bParentSignUp"
+        app:layout_constraintBottom_toTopOf="@+id/bLoginParentSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.EditFragments;
+package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -19,9 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
+import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.Goal;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
@@ -60,8 +59,8 @@ public class EditGoalNameDialogFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        title = view.findViewById(R.id.tvEditGoalName);
-        newName = view.findViewById(R.id.etNewGoalName);
+        title = view.findViewById(R.id.tvEditGoalNameTitle);
+        newName = view.findViewById(R.id.etEditGoalNameGoalName);
         bCancel = view.findViewById(R.id.bEditGoalNameCancel);
         bConfirm = view.findViewById(R.id.bEditGoalNameConfirm);
 

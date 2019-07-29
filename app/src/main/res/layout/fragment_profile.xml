@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,62 +8,62 @@
     tools:context=".Fragments.ProfileFragment">
 
     <Button
-        android:id="@+id/bChildLogout"
+        android:id="@+id/bProfileLogout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/pig_pink"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/log_out"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@id/tvChildAccountCode"
-        app:layout_constraintEnd_toEndOf="@id/cvChildProfilePic"
-        app:layout_constraintStart_toStartOf="@id/cvChildProfilePic" />
+        app:layout_constraintBottom_toBottomOf="@id/tvProfileAccountCode"
+        app:layout_constraintEnd_toEndOf="@id/cvProfileChildProfilePic"
+        app:layout_constraintStart_toStartOf="@id/cvProfileChildProfilePic" />
 
     <ImageButton
-        android:id="@+id/ibEditChildName"
+        android:id="@+id/ibProfileEditName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChildName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProfileName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvChildName"
+        app:layout_constraintTop_toTopOf="@+id/tvProfileName"
         app:srcCompat="@drawable/icon_edit" />
 
     <ImageButton
-        android:id="@+id/ibEditChildUsername"
+        android:id="@+id/ibProfileEditUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChildUsername"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProfileUsername"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvChildUsername"
+        app:layout_constraintTop_toTopOf="@+id/tvProfileUsername"
         app:srcCompat="@drawable/icon_edit" />
 
     <ImageButton
-        android:id="@+id/ibEditChildEmail"
+        android:id="@+id/ibProfileEditEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChildEmail"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProfileEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvChildEmail"
+        app:layout_constraintTop_toTopOf="@+id/tvProfileEmail"
         app:srcCompat="@drawable/icon_edit" />
 
     <ImageButton
-        android:id="@+id/ibEditChildPassword"
+        android:id="@+id/ibProfileEditPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/tvChildPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProfilePassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvChildPassword"
+        app:layout_constraintTop_toTopOf="@+id/tvProfilePassword"
         app:srcCompat="@drawable/icon_edit" />
 
     <TextView
-        android:id="@+id/tvChildName"
+        android:id="@+id/tvProfileName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -72,12 +73,12 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditChildName"
-        app:layout_constraintStart_toEndOf="@+id/cvChildProfilePic"
+        app:layout_constraintEnd_toStartOf="@+id/ibProfileEditName"
+        app:layout_constraintStart_toEndOf="@+id/cvProfileChildProfilePic"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvChildUsername"
+        android:id="@+id/tvProfileUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -85,12 +86,12 @@
         android:text="@string/username"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditChildUsername"
-        app:layout_constraintStart_toStartOf="@+id/tvChildName"
-        app:layout_constraintTop_toBottomOf="@+id/tvChildName" />
+        app:layout_constraintEnd_toStartOf="@+id/ibProfileEditUsername"
+        app:layout_constraintStart_toStartOf="@+id/tvProfileName"
+        app:layout_constraintTop_toBottomOf="@+id/tvProfileName" />
 
     <TextView
-        android:id="@+id/tvChildEmail"
+        android:id="@+id/tvProfileEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -98,12 +99,12 @@
         android:text="@string/email"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditChildEmail"
-        app:layout_constraintStart_toStartOf="@+id/tvChildName"
-        app:layout_constraintTop_toBottomOf="@+id/tvChildUsername" />
+        app:layout_constraintEnd_toStartOf="@+id/ibProfileEditEmail"
+        app:layout_constraintStart_toStartOf="@+id/tvProfileName"
+        app:layout_constraintTop_toBottomOf="@+id/tvProfileUsername" />
 
     <TextView
-        android:id="@+id/tvChildPassword"
+        android:id="@+id/tvProfilePassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -111,12 +112,12 @@
         android:text="@string/hidden_password"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/ibEditChildPassword"
-        app:layout_constraintStart_toStartOf="@+id/tvChildName"
-        app:layout_constraintTop_toBottomOf="@+id/tvChildEmail" />
+        app:layout_constraintEnd_toStartOf="@+id/ibProfileEditPassword"
+        app:layout_constraintStart_toStartOf="@+id/tvProfileName"
+        app:layout_constraintTop_toBottomOf="@+id/tvProfileEmail" />
 
     <TextView
-        android:id="@+id/tvChildAccountCodeTitle"
+        android:id="@+id/tvProfileAccountCodeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -124,89 +125,89 @@
         android:text="@string/account_code"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/tvChildName"
-        app:layout_constraintTop_toBottomOf="@id/tvChildPassword" />
+        app:layout_constraintStart_toStartOf="@id/tvProfileName"
+        app:layout_constraintTop_toBottomOf="@id/tvProfilePassword" />
 
     <TextView
-        android:id="@+id/tvChildAccountCode"
+        android:id="@+id/tvProfileAccountCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/hidden_password"
         android:textColor="@color/pig_pink"
-        android:textStyle="bold"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/tvChildAccountCodeTitle"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvChildPassword" />
+        app:layout_constraintStart_toEndOf="@id/tvProfileAccountCodeTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvProfilePassword" />
 
     <TextView
-        android:id="@+id/tvParentName1"
+        android:id="@+id/tvProfileParentName1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/name"
         android:textAlignment="center"
-        android:textColor="@color/Black"
+        android:textColor="@color/black"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/cvParentProfilePic1"
-        app:layout_constraintStart_toStartOf="@id/cvParentProfilePic1"
-        app:layout_constraintTop_toBottomOf="@id/cvParentProfilePic1" />
+        app:layout_constraintEnd_toEndOf="@id/cvProfileParentProfilePic1"
+        app:layout_constraintStart_toStartOf="@id/cvProfileParentProfilePic1"
+        app:layout_constraintTop_toBottomOf="@id/cvProfileParentProfilePic1" />
 
     <TextView
-        android:id="@+id/tvParentName2"
+        android:id="@+id/tvProfileParentName2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/name"
         android:textAlignment="center"
-        android:textColor="@color/Black"
+        android:textColor="@color/black"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/cvParentProfilePic2"
-        app:layout_constraintStart_toStartOf="@id/cvParentProfilePic2"
-        app:layout_constraintTop_toBottomOf="@id/cvParentProfilePic2" />
+        app:layout_constraintEnd_toEndOf="@id/cvProfileParentProfilePic2"
+        app:layout_constraintStart_toStartOf="@id/cvProfileParentProfilePic2"
+        app:layout_constraintTop_toBottomOf="@id/cvProfileParentProfilePic2" />
 
     <TextView
-        android:id="@+id/tvParentName3"
+        android:id="@+id/tvProfileParentName3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/name"
         android:textAlignment="center"
-        android:textColor="@color/Black"
+        android:textColor="@color/black"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/cvParentProfilePic3"
-        app:layout_constraintStart_toStartOf="@id/cvParentProfilePic3"
-        app:layout_constraintTop_toBottomOf="@id/cvParentProfilePic3" />
+        app:layout_constraintEnd_toEndOf="@id/cvProfileParentProfilePic3"
+        app:layout_constraintStart_toStartOf="@id/cvProfileParentProfilePic3"
+        app:layout_constraintTop_toBottomOf="@id/cvProfileParentProfilePic3" />
 
     <TextView
-        android:id="@+id/tvParentName4"
+        android:id="@+id/tvProfileParentName4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/name"
         android:textAlignment="center"
-        android:textColor="@color/Black"
+        android:textColor="@color/black"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@id/cvParentProfilePic4"
-        app:layout_constraintStart_toStartOf="@id/cvParentProfilePic4"
-        app:layout_constraintTop_toBottomOf="@id/cvParentProfilePic4" />
+        app:layout_constraintEnd_toEndOf="@id/cvProfileParentProfilePic4"
+        app:layout_constraintStart_toStartOf="@id/cvProfileParentProfilePic4"
+        app:layout_constraintTop_toBottomOf="@id/cvProfileParentProfilePic4" />
 
     <TextView
-        android:id="@+id/tvChildProfileEdit"
+        android:id="@+id/tvProfileEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/edit"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/cvChildProfilePic"
-        app:layout_constraintStart_toStartOf="@id/cvChildProfilePic"
-        app:layout_constraintTop_toBottomOf="@id/cvChildProfilePic" />
+        app:layout_constraintEnd_toEndOf="@id/cvProfileChildProfilePic"
+        app:layout_constraintStart_toStartOf="@id/cvProfileChildProfilePic"
+        app:layout_constraintTop_toBottomOf="@id/cvProfileChildProfilePic" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvChildProfilePic"
+        android:id="@+id/cvProfileChildProfilePic"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -219,7 +220,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/ivChildProfilePic"
+            android:id="@+id/ivProfileChildProfilePic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -229,7 +230,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvParentProfilePic1"
+        android:id="@+id/cvProfileParentProfilePic1"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -239,12 +240,12 @@
         android:elevation="12dp"
         android:visibility="invisible"
         app:cardCornerRadius="40dp"
-        app:layout_constraintEnd_toStartOf="@id/cvParentProfilePic2"
+        app:layout_constraintEnd_toStartOf="@id/cvProfileParentProfilePic2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvParentsTitle">
+        app:layout_constraintTop_toBottomOf="@id/tvProfileParentsTitle">
 
         <ImageView
-            android:id="@+id/ivParentProfilePic1"
+            android:id="@+id/ivProfileParentProfilePic1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -254,7 +255,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvParentProfilePic2"
+        android:id="@+id/cvProfileParentProfilePic2"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -264,12 +265,12 @@
         android:elevation="12dp"
         android:visibility="invisible"
         app:cardCornerRadius="40dp"
-        app:layout_constraintEnd_toStartOf="@id/cvParentProfilePic3"
-        app:layout_constraintStart_toEndOf="@id/cvParentProfilePic1"
-        app:layout_constraintTop_toBottomOf="@id/tvParentsTitle">
+        app:layout_constraintEnd_toStartOf="@id/cvProfileParentProfilePic3"
+        app:layout_constraintStart_toEndOf="@id/cvProfileParentProfilePic1"
+        app:layout_constraintTop_toBottomOf="@id/tvProfileParentsTitle">
 
         <ImageView
-            android:id="@+id/ivParentProfilePic2"
+            android:id="@+id/ivProfileParentProfilePic2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -279,7 +280,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvParentProfilePic3"
+        android:id="@+id/cvProfileParentProfilePic3"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -289,12 +290,12 @@
         android:elevation="12dp"
         android:visibility="invisible"
         app:cardCornerRadius="40dp"
-        app:layout_constraintEnd_toStartOf="@id/cvParentProfilePic4"
-        app:layout_constraintStart_toEndOf="@id/cvParentProfilePic2"
-        app:layout_constraintTop_toBottomOf="@id/tvParentsTitle">
+        app:layout_constraintEnd_toStartOf="@id/cvProfileParentProfilePic4"
+        app:layout_constraintStart_toEndOf="@id/cvProfileParentProfilePic2"
+        app:layout_constraintTop_toBottomOf="@id/tvProfileParentsTitle">
 
         <ImageView
-            android:id="@+id/ivParentProfilePic3"
+            android:id="@+id/ivProfileParentProfilePic3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -304,7 +305,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvParentProfilePic4"
+        android:id="@+id/cvProfileParentProfilePic4"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
@@ -315,11 +316,11 @@
         android:visibility="invisible"
         app:cardCornerRadius="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cvParentProfilePic3"
-        app:layout_constraintTop_toBottomOf="@id/tvParentsTitle">
+        app:layout_constraintStart_toEndOf="@id/cvProfileParentProfilePic3"
+        app:layout_constraintTop_toBottomOf="@id/tvProfileParentsTitle">
 
         <ImageView
-            android:id="@+id/ivParentProfilePic4"
+            android:id="@+id/ivProfileParentProfilePic4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
@@ -329,55 +330,57 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/bChildBankInfo"
+        android:id="@+id/bProfileBankInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@color/coin_blue"
+        android:background="@drawable/background_button_coin_blue"
         android:drawableTop="@drawable/icon_bank_outline"
         android:drawablePadding="4dp"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
         android:text="@string/bank_info"
         android:textAllCaps="false"
-        android:textColor="@color/Black"
-        app:layout_constraintEnd_toStartOf="@+id/bReferFriend"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/bProfileReferFriend"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bChildLogout" />
+        app:layout_constraintTop_toBottomOf="@id/bProfileLogout" />
 
     <Button
-        android:id="@+id/bReferFriend"
+        android:id="@+id/bProfileReferFriend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/coin_blue"
+        android:background="@drawable/background_button_coin_blue"
         android:drawableTop="@drawable/icon_refer_friend"
         android:drawablePadding="4dp"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
         android:text="@string/refer_friend"
         android:textAllCaps="false"
-        android:textColor="@color/Black"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bChildBankInfo"
-        app:layout_constraintTop_toBottomOf="@id/bChildLogout" />
+        app:layout_constraintStart_toEndOf="@+id/bProfileBankInfo"
+        app:layout_constraintTop_toBottomOf="@id/bProfileLogout" />
 
     <TextView
-        android:id="@+id/tvParentsTitle"
+        android:id="@+id/tvProfileParentsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/parents"
-        android:textColor="@color/Black"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bChildBankInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/bProfileBankInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,9 +2,7 @@ package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.lang.UScript;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +18,9 @@ import com.ejsfbu.app_main.Activities.AddBankActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.BankAdapter;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.models.BankAccount;
-import com.ejsfbu.app_main.models.Goal;
-import com.ejsfbu.app_main.models.User;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -36,16 +31,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class BankAccountsFragment extends Fragment {
+public class BanksListFragment extends Fragment {
 
-    @BindView(R.id.rvBanks)
-    RecyclerView rvBanks;
-    @BindView(R.id.tvNoBanks)
-    TextView tvNoBanks;
+    @BindView(R.id.rvBanksListBanks)
+    RecyclerView rvBanksListBanks;
+    @BindView(R.id.tvBanksListNoBanks)
+    TextView tvBanksListNoBanks;
     @BindView(R.id.fabAddBank)
-    FloatingActionButton fabAdd;
+    FloatingActionButton fabAddBank;
 
-    // Butterknife for fragment
     private Unbinder unbinder;
     private ParseUser user;
     private Context context;
@@ -58,7 +52,7 @@ public class BankAccountsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment98
         context = container.getContext();
-        return inflater.inflate(R.layout.fragment_banks, container, false);
+        return inflater.inflate(R.layout.fragment_banks_list, container, false);
     }
 
     @Override
@@ -67,9 +61,9 @@ public class BankAccountsFragment extends Fragment {
         user = ParseUser.getCurrentUser();
         bankList = new ArrayList<>();
         adapter = new BankAdapter(context, bankList);
-        rvBanks.setAdapter(adapter);
+        rvBanksListBanks.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
-        rvBanks.setLayoutManager(linearLayoutManager);
+        rvBanksListBanks.setLayoutManager(linearLayoutManager);
         loadBanks();
     }
 
@@ -83,10 +77,10 @@ public class BankAccountsFragment extends Fragment {
     private void loadBanks() {
         List<BankAccount> list = ((User) user).getBanks();
         if (list == null) {
-            tvNoBanks.setVisibility(View.VISIBLE);
+            tvBanksListNoBanks.setVisibility(View.VISIBLE);
             return;
         }
-        tvNoBanks.setVisibility(View.INVISIBLE);
+        tvBanksListNoBanks.setVisibility(View.INVISIBLE);
         bankList.addAll(((User) user).getBanks());
         adapter.notifyDataSetChanged();
     }
