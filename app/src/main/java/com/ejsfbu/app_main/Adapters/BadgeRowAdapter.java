@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.DialogFragments.RewardDetailDialogFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Reward;
@@ -82,26 +84,31 @@ public class BadgeRowAdapter extends RecyclerView.Adapter<BadgeRowAdapter.ViewHo
             if (badge1 != null) {
                 tvBadge1.setText(badge1.getName());
                 setImage(badge1, ivBadge1);
+                setOnClick(badge1, tvBadge1, ivBadge1);
             }
             Reward badge2 = badgeRow.getBadge2();
             if (badge2 != null) {
                 tvBadge2.setText(badge2.getName());
                 setImage(badge2, ivBadge2);
+                setOnClick(badge2, tvBadge2, ivBadge2);
             }
             Reward badge3 = badgeRow.getBadge3();
             if (badge3 != null) {
                 tvBadge3.setText(badge3.getName());
                 setImage(badge3, ivBadge3);
+                setOnClick(badge3, tvBadge3, ivBadge3);
             }
             Reward badge4 = badgeRow.getBadge4();
             if (badge4 != null) {
                 tvBadge4.setText(badge4.getName());
                 setImage(badge4, ivBadge4);
+                setOnClick(badge4, tvBadge4, ivBadge4);
             }
             Reward badge5 = badgeRow.getBadge5();
             if (badge5 != null) {
                 tvBadge5.setText(badge5.getName());
                 setImage(badge5, ivBadge5);
+                setOnClick(badge5, tvBadge5, ivBadge5);
             }
         }
 
@@ -119,6 +126,28 @@ public class BadgeRowAdapter extends RecyclerView.Adapter<BadgeRowAdapter.ViewHo
                     .load(imageUrl)
                     .apply(options)
                     .into(ivBadge);
+        }
+
+        public void setOnClick(Reward badge, TextView tvBadge, ImageView ivBadge) {
+            tvBadge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showRewardDetailDialogFragment(badge);
+                }
+            });
+            ivBadge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showRewardDetailDialogFragment(badge);
+                }
+            });
+        }
+
+        public void showRewardDetailDialogFragment(Reward badge) {
+            RewardDetailDialogFragment rewardDetailDialogFragment
+                    = RewardDetailDialogFragment.newInstance("Edit Name", badge);
+            rewardDetailDialogFragment.show(MainActivity.fragmentManager,
+                    "fragment_reward_detail");
         }
     }
 }

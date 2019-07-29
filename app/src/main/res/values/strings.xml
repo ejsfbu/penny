@@ -83,4 +83,8 @@
     <string name="status">Status:</string>
     <string name="edit_goal_name">Edit Goal Name</string>
     <string name="cancel_goal">Cancel Goal</string>
+    <string name="badge_name">Badge Name</string>
+    <string name="badge_description">Badge Description</string>
+    <string name="earned_on">Earned On:</string>
+    <string name="close">Close</string>
 </resources>
