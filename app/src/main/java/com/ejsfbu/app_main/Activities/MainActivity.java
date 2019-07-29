@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
             Fragment bankFragment = new BanksListFragment();
