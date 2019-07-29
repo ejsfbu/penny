@@ -21,6 +21,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Transaction;
@@ -41,17 +43,20 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
     private Context context;
     private Fragment purpose;
     private Goal cancelled;
+    private User user;
 
     public GoalAdapter(Context context, List<Goal> goals, CancelGoalDialogFragment purpose) {
         this.context = context;
         this.goalsList = goals;
         this.purpose = purpose;
         this.cancelled = purpose.getCancelledGoal();
+        this.user = (User) ParseUser.getCurrentUser();
     }
 
     public GoalAdapter(Context context, List<Goal> goals) {
         this.context = context;
         this.goalsList = goals;
+        this.user = (User) ParseUser.getCurrentUser();
     }
 
     @NonNull
@@ -123,7 +128,10 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         .apply(options) // Extra: round image corners
                         .into(ivGoalImage);
             }
-
+            setOnClick(goal);
+        }
+      
+        private void setOnClick(Goal goal) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -135,51 +143,50 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction()
                                 .replace(R.id.flMainContainer, fragment).commitAllowingStateLoss();
+                } else {
+                    //transfers money to this goal
+                    Double saved = cancelled.getSaved();
+                    boolean approval;
+                    if (user.getRequiresApproval()) {
+                        approval = false;
                     } else {
-                        //transfers money to this goal
-                        Double saved = cancelled.getSaved();
-                        goal.setSaved(goal.getSaved() + saved);
-
-                        Transaction transfer = new Transaction();
-                        transfer.setAmount(saved);
-                        transfer.setGoal(goal);
-                        //TODO set up the bank that the transaction comes from
-                        transfer.setUser(ParseUser.getCurrentUser());
-                        transfer.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e == null) {
-                                    Toast.makeText(context, "Money Transferred",
-                                            Toast.LENGTH_SHORT).show();
-                                    //deletes the goal
-                                    Goal.Query query = new Goal.Query();
-                                    query.whereEqualTo("objectId", cancelled.getObjectId());
-                                    query.findInBackground(new FindCallback<Goal>() {
-                                        @Override
-                                        public void done(List<Goal> objects, ParseException e) {
-                                            if (e == null) {
-                                                objects.get(0).deleteInBackground();
-                                                objects.get(0).saveInBackground();
-                                            } else {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
-
-                                    //sends you to that detail goal
-                                    Fragment fragment = new GoalDetailsFragment();
-                                    fragment.setArguments(bundle);
-                                    fragmentManager.beginTransaction()
-                                            .replace(R.id.flMainContainer, fragment).commit();
-                                } else {
-                                    Toast.makeText(context, "Transfer Failed",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                        approval = true;
                     }
+                    Transaction transfer = new Transaction(user, cancelled.getName(), saved, goal, approval, false);
+                    transfer.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                handleCancelledGoal(goal, transfer);
+                                //sends you to that detail goal
+                                Fragment fragment = new GoalDetailsFragment();
+                                fragment.setArguments(bundle);
+                                fragmentManager.beginTransaction()
+                                        .replace(R.id.flMainContainer, fragment).commit();
+                            } else {
+                                Toast.makeText(context, "Transfer Failed",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             });
+        }
+
+        private void handleCancelledGoal(Goal goal, Transaction transaction) {
+            if (transaction.getApproval()) {
+                goal.setSaved(goal.getSaved() + transaction.getAmount());
+                Toast.makeText(context, "Money Transferred",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Parent notified for approval",
+                        Toast.LENGTH_SHORT).show();
+            }
+            //deletes the goal
+            cancelled.deleteInBackground();
+            // might need to delay these for fragment change
+            goal.addTransaction(transaction);
+            goal.saveInBackground();
         }
 
         public String formatDateString(String date) {

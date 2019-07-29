@@ -201,23 +201,19 @@ public class GoalDetailsFragment extends Fragment
 
     @Override
     public void onFinishEditDialog(String bankName, Double amount) {
-        Transaction transaction = new Transaction();
+        BankAccount bankSet = null;
+        boolean approval;
         for (BankAccount bank : user.getVerifiedBanks()) {
             if (bankName.equals(bank.getBankName())) {
-                transaction.setBank(bank);
+                bankSet = bank;
             }
         }
-        transaction.setAmount(amount);
-        transaction.setUser(user);
-        transaction.setType(false);
-        transaction.setGoal(goal);
         if (user.getRequiresApproval()) {
-            transaction.setApproval(false);
+            approval = false;
         } else {
-            transaction.setApproval(true);
-            Date currentTime = Calendar.getInstance().getTime();
-            transaction.setTransactionCompleteDate(currentTime);
+            approval = true;
         }
+        Transaction transaction = new Transaction(user, bankSet, amount, goal, approval, false);
         transaction.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
