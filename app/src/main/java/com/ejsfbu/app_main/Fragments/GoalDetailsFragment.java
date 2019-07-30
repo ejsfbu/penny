@@ -274,7 +274,10 @@ public class GoalDetailsFragment extends Fragment implements
                     if (newSmallGoalsBadge != null) {
                         //TODO you want to show the user that they have earned a new badge
                     }
-                    checkSmallGoals(user, goal);
+                    Reward newSmallGoalsBadge = checkSmallGoals(user, goal);
+                    if (newSmallGoalsBadge != null) {
+                        //TODO you want to show the user that they have earned a new badge
+                    }
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
