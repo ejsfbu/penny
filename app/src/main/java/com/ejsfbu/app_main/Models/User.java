@@ -32,7 +32,7 @@ public class User extends ParseUser {
     public static final String KEY_REQUESTS = "pendingRequests";
     public static final String KEY_COMPLETED_BADGES = "completedBadges";
     public static final String KEY_IN_PROGRESS_BADGES = "inProgressBadges";
-    public static final String KEY_MAKING_MONEY_MOVES = "makingMoves";
+    public static final String KEY_SMALL_GOALS = "smallGoals";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -140,12 +140,12 @@ public class User extends ParseUser {
         removeAll(KEY_REQUESTS, Collections.singleton(request));
     }
 
-    public void setMakingMoves(Integer completed) {
-        put(KEY_MAKING_MONEY_MOVES, completed);
+    public void setSmallGoals(Integer completed) {
+        put(KEY_SMALL_GOALS, completed);
     }
 
-    public Integer getMakingMoves() {
-        return getNumber(KEY_MAKING_MONEY_MOVES).intValue();
+    public Integer getSmallGoals() {
+        return getNumber(KEY_SMALL_GOALS).intValue();
     }
 
     public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }

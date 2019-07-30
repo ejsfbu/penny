@@ -54,7 +54,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Models.Reward.checkMakingMoves;
+import static com.ejsfbu.app_main.Models.Reward.checkSmallGoals;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -253,7 +253,7 @@ public class GoalDetailsFragment extends Fragment implements
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                         checkCompleted(goal);
                     }
-                    checkMakingMoves(user, goal);
+                    checkSmallGoals(user, goal);
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
