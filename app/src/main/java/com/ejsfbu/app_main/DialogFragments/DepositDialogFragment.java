@@ -36,15 +36,17 @@ public class DepositDialogFragment extends DialogFragment {
     private User user;
     private Spinner spinner;
     private List<BankAccount> banks;
+    private Double amountLeft;
 
     public DepositDialogFragment() {
 
     }
 
-    public static DepositDialogFragment newInstance(String title) {
+    public static DepositDialogFragment newInstance(String title, Double amountLeft) {
         DepositDialogFragment frag = new DepositDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
+        args.putDouble("amount", amountLeft);
         frag.setArguments(args);
         return frag;
     }
@@ -66,6 +68,7 @@ public class DepositDialogFragment extends DialogFragment {
         spinner = view.findViewById(R.id.sBanks);
         fillData();
         String title = getArguments().getString("title", "Enter Name");
+        amountLeft = getArguments().getDouble("amount");
         getDialog().setTitle(title);
         etDepositAmount.requestFocus();
         getDialog().getWindow().setSoftInputMode(
@@ -110,6 +113,11 @@ public class DepositDialogFragment extends DialogFragment {
             Double amount = Double.valueOf(etDepositAmount.getText().toString());
             if (amount == 0.0) {
                 Toast.makeText(context, "Enter a value greater than 0.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (amount > amountLeft) {
+                Toast.makeText(context, "Amount exceeds remaining cost.",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
