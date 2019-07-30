@@ -53,6 +53,7 @@
     <string name="edit_password">Edit Password</string>
     <string name="bank_accounts">Bank Accounts</string>
     <string name="add_bank_info">Click the button below to link a bank account.</string>
+    <string name="add_goal_info">Click the button below to add a goal.</string>
     <string name="verification_status">Verification Status:</string>
     <string name="remove">Remove</string>
     <string name="bank_name">Bank Name</string>

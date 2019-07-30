@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,14 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,9 +44,12 @@ public class RewardsFragment extends Fragment {
     RecyclerView rvRewardsCompletedBadges;
     @BindView(R.id.rvRewardsInProgressBadges)
     RecyclerView rvRewardsInProgressBadges;
+    @BindView(R.id.tvNoCompletedGoalsText)
+    TextView tvNoCompletedGoalsText;
 
     private Unbinder unbinder;
     private Context context;
+    private User user;
 
     protected GoalAdapter goalAdapter;
     protected BadgeRowAdapter completedBadgeRowAdapter;
@@ -61,7 +70,7 @@ public class RewardsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-
+        user = (User) ParseUser.getCurrentUser();
         goals = new ArrayList<>();
         completedBadgeRows = new ArrayList<>();
         inProgressBadgeRows = new ArrayList<>();
@@ -91,20 +100,16 @@ public class RewardsFragment extends Fragment {
     }
 
     protected void loadCompletedGoals() {
-        final Goal.Query goalsQuery = new Goal.Query();
-        goalsQuery.getTopCompleted()
-                .areCompleted();
-        goalsQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    goals.addAll(objects);
-                    goalAdapter.notifyDataSetChanged();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Goal> completedGoals = user.getCompletedGoals();
+        if (completedGoals == null || completedGoals.size() == 0 ) {
+            tvNoCompletedGoalsText.setVisibility(View.VISIBLE);
+        } else {
+            tvNoCompletedGoalsText.setVisibility(View.GONE);
+            goals.addAll(completedGoals);
+            Collections.sort(goals);
+            Collections.reverse(goals);
+            goalAdapter.notifyDataSetChanged();
+        }
     }
 
     protected void loadCompletedBadges() {

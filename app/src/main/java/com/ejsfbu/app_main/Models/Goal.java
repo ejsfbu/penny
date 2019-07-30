@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @ParseClassName("Goal")
-public class Goal extends ParseObject {
+public class Goal extends ParseObject implements Comparable<Goal> {
     // Parse column names
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_IMAGE = "image";
@@ -26,8 +26,17 @@ public class Goal extends ParseObject {
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_TRANSACTIONS = "transactions";
 
+
+
+
     public String getName() {
-        return getString(KEY_NAME);
+        String name = "";
+        try {
+            name = fetchIfNeeded().getString(KEY_NAME);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void setName(String name) {
@@ -78,7 +87,14 @@ public class Goal extends ParseObject {
     }
 
     public Date getEndDate() {
-        return getDate(KEY_END_DATE);
+        Date date;
+        try {
+            date = fetchIfNeeded().getDate(KEY_END_DATE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = null;
+        }
+        return date;
     }
 
     public void setEndDate(Date endDate) {
@@ -108,6 +124,11 @@ public class Goal extends ParseObject {
     public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
     public List<Transaction> getTransactions() { return getList(KEY_TRANSACTIONS); }
+
+    @Override
+    public int compareTo(Goal goal) {
+        return this.getEndDate().compareTo(goal.getEndDate());
+    }
 
     public static class Query extends ParseQuery<Goal> {
         public Query() {
