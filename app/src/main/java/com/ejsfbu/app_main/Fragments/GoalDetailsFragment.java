@@ -248,6 +248,7 @@ public class GoalDetailsFragment extends Fragment implements
                     transactionsList.clear();
                     adapter.notifyDataSetChanged();
                     loadTransactions();
+                    setGoalInfo();
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                         checkCompleted(goal);

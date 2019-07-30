@@ -107,6 +107,7 @@ public class RewardsFragment extends Fragment {
             tvNoCompletedGoalsText.setVisibility(View.GONE);
             goals.addAll(completedGoals);
             Collections.sort(goals);
+            Collections.reverse(goals);
             goalAdapter.notifyDataSetChanged();
         }
     }
