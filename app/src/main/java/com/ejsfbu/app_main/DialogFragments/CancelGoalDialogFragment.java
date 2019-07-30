@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -18,11 +19,15 @@ import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
+import com.ejsfbu.app_main.Models.Transaction;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -30,13 +35,14 @@ import butterknife.Unbinder;
 
 public class CancelGoalDialogFragment extends DialogFragment {
 
-    Context context;
-    Button exit_btn;
-    Button comp_cancel_btn;
-    Button transfer_opt_btn;
-    Unbinder unbinder;
-    static Goal cancelledGoal;
-    List<BankAccount> bankAccounts;
+    private Context context;
+    private Button exit_btn;
+    private Button comp_cancel_btn;
+    private Button transfer_opt_btn;
+    private Unbinder unbinder;
+    private static Goal cancelledGoal;
+    private List<BankAccount> bankAccounts;
+    private User user;
 
     public CancelGoalDialogFragment() {
 
@@ -64,7 +70,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
         exit_btn = view.findViewById(R.id.exit_btn);
         comp_cancel_btn = view.findViewById(R.id.comp_cancel_btn);
         transfer_opt_btn = view.findViewById(R.id.transfer_opt_btn);
-
+        user = (User) ParseUser.getCurrentUser();
         setClickers();
     }
 
@@ -83,27 +89,26 @@ public class CancelGoalDialogFragment extends DialogFragment {
         comp_cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Double saved = cancelledGoal.getSaved();
-
-
-                Goal.Query query = new Goal.Query();
-                query.whereEqualTo("objectId", cancelledGoal.getObjectId());
-                query.findInBackground(new FindCallback<Goal>() {
+                user.removeInProgressGoal(cancelledGoal);
+                user.saveInBackground();
+                for (Transaction transaction: cancelledGoal.getTransactions()) {
+                    transaction.deleteInBackground();
+                }
+                cancelledGoal.deleteInBackground(new DeleteCallback() {
                     @Override
-                    public void done(List<Goal> objects, ParseException e) {
+                    public void done(ParseException e) {
                         if (e == null) {
-                            objects.get(0).deleteInBackground();
-                            objects.get(0).saveInBackground();
+                            GoalsListFragment goalsListFragment = new GoalsListFragment();
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.flMainContainer, goalsListFragment).commit();
+                            dismiss();
                         } else {
                             e.printStackTrace();
+                            Toast.makeText(context, e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
-                GoalsListFragment goalsListFragment = new GoalsListFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.flMainContainer, goalsListFragment).commit();
-                dismiss();
             }
         });
 
