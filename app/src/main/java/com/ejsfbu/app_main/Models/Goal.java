@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @ParseClassName("Goal")
-public class Goal extends ParseObject {
+public class Goal extends ParseObject implements Comparable<Goal> {
     // Parse column names
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_IMAGE = "image";
@@ -25,6 +25,9 @@ public class Goal extends ParseObject {
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_TRANSACTIONS = "transactions";
+
+
+
 
     public String getName() {
         return getString(KEY_NAME);
@@ -108,6 +111,11 @@ public class Goal extends ParseObject {
     public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
     public List<Transaction> getTransactions() { return getList(KEY_TRANSACTIONS); }
+
+    @Override
+    public int compareTo(Goal goal) {
+        return this.getEndDate().compareTo(goal.getEndDate());
+    }
 
     public static class Query extends ParseQuery<Goal> {
         public Query() {

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,6 +42,8 @@ public class GoalsListFragment extends Fragment {
     RecyclerView rvGoalsListGoals;
     @BindView(R.id.fabAddGoal)
     FloatingActionButton fabAddGoal;
+    @BindView(R.id.tvNoGoalText)
+    TextView tvNoGoalText;
 
     private Unbinder unbinder;
     private Context context;
@@ -46,6 +52,7 @@ public class GoalsListFragment extends Fragment {
     private int goalsLoaded;
     protected GoalAdapter adapter;
     protected List<Goal> goalList;
+    private User user;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -57,6 +64,7 @@ public class GoalsListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        user = (User) ParseUser.getCurrentUser();
         goalList = new ArrayList<>();
         adapter = new GoalAdapter(context, goalList);
         rvGoalsListGoals.setAdapter(adapter);
@@ -75,22 +83,32 @@ public class GoalsListFragment extends Fragment {
     }
 
     protected void loadGoals() {
-        final Goal.Query goalsQuery = new Goal.Query();
-        goalsQuery.getTopByEndDate()
-                .areNotCompleted()
-                .fromCurrentUser();
-        goalsQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    goalList.addAll(objects);
-                    goalsLoaded = 20;
-                    adapter.notifyDataSetChanged();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Goal> goals = user.getInProgressGoals();
+        if (goals.size() == 0 || goals == null) {
+            tvNoGoalText.setVisibility(View.VISIBLE);
+        } else {
+            tvNoGoalText.setVisibility(View.GONE);
+            goalList.addAll(goals);
+            Collections.sort(goalList);
+            adapter.notifyDataSetChanged();
+            goalsLoaded = 20;
+        }
+//        final Goal.Query goalsQuery = new Goal.Query();
+//        goalsQuery.getTopByEndDate()
+//                .areNotCompleted()
+//                .fromCurrentUser();
+//        goalsQuery.findInBackground(new FindCallback<Goal>() {
+//            @Override
+//            public void done(List<Goal> objects, ParseException e) {
+//                if (e == null) {
+//                    goalList.addAll(objects);
+//                    goalsLoaded = 20;
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     private void setListeners() {
@@ -108,26 +126,26 @@ public class GoalsListFragment extends Fragment {
     }
 
     public void loadNextDataFromApi(int offset) {
-        if (adapter.getItemCount() < goalsLoaded) {
-            return;
-        }
-        Log.d("data", String.valueOf(offset));
-        final Goal.Query goalQuery = new Goal.Query();
-        goalQuery.setTop(goalsLoaded + 20)
-                .areNotCompleted()
-                .fromCurrentUser();
-        goalQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    goalList.clear();
-                    goalList.addAll(objects);
-                    adapter.notifyDataSetChanged();
-                    goalsLoaded += objects.size();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        if (adapter.getItemCount() < goalsLoaded) {
+//            return;
+//        }
+//        Log.d("data", String.valueOf(offset));
+//        final Goal.Query goalQuery = new Goal.Query();
+//        goalQuery.setTop(goalsLoaded + 20)
+//                .areNotCompleted()
+//                .fromCurrentUser();
+//        goalQuery.findInBackground(new FindCallback<Goal>() {
+//            @Override
+//            public void done(List<Goal> objects, ParseException e) {
+//                if (e == null) {
+//                    goalList.clear();
+//                    goalList.addAll(objects);
+//                    adapter.notifyDataSetChanged();
+//                    goalsLoaded += objects.size();
+//                } else {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 }
