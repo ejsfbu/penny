@@ -566,6 +566,7 @@ public class Reward extends ParseObject {
                     }
                 });
             }
+            user.saveInBackground();
         }
     }
 }
