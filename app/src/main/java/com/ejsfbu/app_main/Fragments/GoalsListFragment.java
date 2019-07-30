@@ -84,7 +84,7 @@ public class GoalsListFragment extends Fragment {
 
     protected void loadGoals() {
         List<Goal> goals = user.getInProgressGoals();
-        if (goals.size() == 0 || goals == null) {
+        if (goals == null || goals.size() == 0 ) {
             tvNoGoalText.setVisibility(View.VISIBLE);
         } else {
             tvNoGoalText.setVisibility(View.GONE);
@@ -93,22 +93,6 @@ public class GoalsListFragment extends Fragment {
             adapter.notifyDataSetChanged();
             goalsLoaded = 20;
         }
-//        final Goal.Query goalsQuery = new Goal.Query();
-//        goalsQuery.getTopByEndDate()
-//                .areNotCompleted()
-//                .fromCurrentUser();
-//        goalsQuery.findInBackground(new FindCallback<Goal>() {
-//            @Override
-//            public void done(List<Goal> objects, ParseException e) {
-//                if (e == null) {
-//                    goalList.addAll(objects);
-//                    goalsLoaded = 20;
-//                    adapter.notifyDataSetChanged();
-//                } else {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
     }
 
     private void setListeners() {
@@ -125,6 +109,7 @@ public class GoalsListFragment extends Fragment {
         });
     }
 
+    // TODO decide whether we want endless scroll
     public void loadNextDataFromApi(int offset) {
 //        if (adapter.getItemCount() < goalsLoaded) {
 //            return;

@@ -30,7 +30,13 @@ public class Goal extends ParseObject implements Comparable<Goal> {
 
 
     public String getName() {
-        return getString(KEY_NAME);
+        String name = "";
+        try {
+            name = fetchIfNeeded().getString(KEY_NAME);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void setName(String name) {
@@ -81,7 +87,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public Date getEndDate() {
-        return getDate(KEY_END_DATE);
+        Date date;
+        try {
+            date = fetchIfNeeded().getDate(KEY_END_DATE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            date = null;
+        }
+        return date;
     }
 
     public void setEndDate(Date endDate) {

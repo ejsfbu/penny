@@ -33,6 +33,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
 import com.parse.ParseException;
@@ -78,6 +79,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private FragmentManager fragmentManager;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         setContentView(R.layout.activity_add_goal);
         ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
+        user = (User) ParseUser.getCurrentUser();
     }
 
     @OnClick(R.id.bAddGoalDate)
@@ -200,7 +203,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         goal.setCost(goalPrice);
         goal.setEndDate(endDate);
         goal.setImage(image);
-        goal.setUser(ParseUser.getCurrentUser());
+        goal.setUser(user);
         goal.setSaved(0.0);
         goal.setCompleted(false);
 
@@ -211,10 +214,22 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                     Toast.makeText(AddGoalActivity.this, "Goal Created",
                             Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Goal Created");
+                    user.addInProgressGoal(goal);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Intent intent = new Intent(AddGoalActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                e.printStackTrace();
+                                Toast.makeText(AddGoalActivity.this, "Error Creating Goal",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
-                    Intent intent = new Intent(AddGoalActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
                 } else {
                     Toast.makeText(AddGoalActivity.this, "Error Creating Goal",
                             Toast.LENGTH_SHORT).show();

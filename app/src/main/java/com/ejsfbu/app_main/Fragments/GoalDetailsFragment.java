@@ -43,6 +43,8 @@ import com.parse.SaveCallback;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -328,11 +330,16 @@ public class GoalDetailsFragment extends Fragment implements
     public void checkCompleted(Goal goal) {
         if (goal.getSaved() >= goal.getCost()) {
             goal.setCompleted(true);
+            Date currentTime = Calendar.getInstance().getTime();
+            goal.setDateCompleted(currentTime);
+            goal.setEndDate(currentTime);
             goal.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
+                        user.addCompletedGoal(goal);
+                        user.saveInBackground();
                         setGoalInfo();
                     } else {
                         e.printStackTrace();
