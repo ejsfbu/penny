@@ -141,6 +141,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     @Override
     public int compareTo(Goal goal) {
         return this.getEndDate().compareTo(goal.getEndDate());
+
     }
 
     public static class Query extends ParseQuery<Goal> {
@@ -191,4 +192,6 @@ public class Goal extends ParseObject implements Comparable<Goal> {
             return this;
         }
     }
+
 }
+
