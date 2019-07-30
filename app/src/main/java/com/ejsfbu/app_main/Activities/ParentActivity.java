@@ -113,6 +113,7 @@ public class ParentActivity extends AppCompatActivity {
     public void onClickProfile() {
         Intent intent = new Intent(this, ParentProfileActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void showVerifyChildDialog() {

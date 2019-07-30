@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
-import com.ejsfbu.app_main.Models.User;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -114,11 +114,15 @@ public class RewardsFragment extends Fragment {
 
     protected void loadCompletedBadges() {
         List<Reward> completedBadges = user.getCompletedBadges();
-        makeBadgeRows(completedBadges, completedBadgeRowAdapter, completedBadgeRows);
+        if (completedBadges != null) {
+            makeBadgeRows(completedBadges, completedBadgeRowAdapter, completedBadgeRows);
+        }
     }
 
     protected void loadInProgressBadges() {
         List<Reward> inProgressBadges = user.getInProgressBadges();
-        makeBadgeRows(inProgressBadges, inProgressBadgeRowAdapter, inProgressBadgeRows);
+        if (inProgressBadges != null) {
+            makeBadgeRows(inProgressBadges, inProgressBadgeRowAdapter, inProgressBadgeRows);
+        }
     }
 }

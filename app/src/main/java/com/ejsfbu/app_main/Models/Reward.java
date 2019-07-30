@@ -22,15 +22,7 @@ public class Reward extends ParseObject {
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_GROUP = "group";
-
-    public enum TotalSaved {
-        NONE,
-        LEVEL_1,
-        LEVEL_2,
-        LEVEL_3,
-        LEVEL_4,
-        LEVEL_5
-    }
+    public static final String KEY_IS_LEVEL_1 = "isLevel1";
 
     public String getName() {
         String name;
@@ -67,40 +59,39 @@ public class Reward extends ParseObject {
         put(KEY_COMPLETED, completed);
     }
 
-    public static Reward checkEarnedTotalSavedBadge(User user) {
+    public static Reward checkEarnedTotalSavedBadge(User user, Double oldTotalSaved) {
         Double totalSaved = user.getTotalSaved();
-        ArrayList<Reward> totalSavedBadges = new Reward().getTotalSavedBadges();
+        ArrayList<Reward> totalSavedBadges = getTotalSavedBadges();
         Reward earnedBadge;
-        if (totalSaved >= 1000) {
+        if (totalSaved >= 1000 && oldTotalSaved < 1000) {
             user.addCompletedBadge(totalSavedBadges.get(4));
             user.removeCompletedBadge(totalSavedBadges.get(3));
             user.removeInProgressBadge(totalSavedBadges.get(4));
             earnedBadge = totalSavedBadges.get(4);
-        } else if (totalSaved >= 500) {
+        } else if (totalSaved >= 500 && oldTotalSaved < 500) {
             user.addCompletedBadge(totalSavedBadges.get(3));
             user.addInProgressBadge(totalSavedBadges.get(4));
             user.removeCompletedBadge(totalSavedBadges.get(2));
             user.removeInProgressBadge(totalSavedBadges.get(3));
             earnedBadge = totalSavedBadges.get(3);
-        } else if (totalSaved >= 250) {
+        } else if (totalSaved >= 250 && oldTotalSaved < 250) {
             user.addCompletedBadge(totalSavedBadges.get(2));
             user.addInProgressBadge(totalSavedBadges.get(3));
             user.removeCompletedBadge(totalSavedBadges.get(1));
             user.removeInProgressBadge(totalSavedBadges.get(2));
             earnedBadge = totalSavedBadges.get(2);
-        } else if (totalSaved >= 100) {
+        } else if (totalSaved >= 100 && oldTotalSaved < 100) {
             user.addCompletedBadge(totalSavedBadges.get(1));
             user.addInProgressBadge(totalSavedBadges.get(2));
             user.removeCompletedBadge(totalSavedBadges.get(0));
             user.removeInProgressBadge(totalSavedBadges.get(1));
             earnedBadge = totalSavedBadges.get(1);
-        } else if (totalSaved >= 50) {
+        } else if (totalSaved >= 50 && oldTotalSaved < 50) {
             user.addCompletedBadge(totalSavedBadges.get(0));
             user.addInProgressBadge(totalSavedBadges.get(1));
             user.removeInProgressBadge(totalSavedBadges.get(0));
             earnedBadge = totalSavedBadges.get(0);
         } else {
-            user.addInProgressBadge(totalSavedBadges.get(0));
             earnedBadge = null;
         }
         user.saveInBackground(new SaveCallback() {
@@ -114,10 +105,22 @@ public class Reward extends ParseObject {
         return earnedBadge;
     }
 
-    public ArrayList<Reward> getTotalSavedBadges() {
+    public static ArrayList<Reward> getTotalSavedBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Query query = new Query();
         query.getGroup("Total Saved");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
+    }
+
+    public static ArrayList<Reward> getLevel1Badges() {
+        ArrayList<Reward> badges = new ArrayList<>();
+        Query query = new Query();
+        query.getLevel1();
         try {
             badges.addAll(query.find());
         } catch (ParseException e) {
@@ -132,30 +135,14 @@ public class Reward extends ParseObject {
             super(Reward.class);
         }
 
-        public Query getTopCompleted() {
-            setLimit(20);
-            orderByAscending(KEY_NAME);
-            return this;
-        }
-
-        public Query getTopInProgress() {
-            setLimit(20);
-            orderByAscending(KEY_NAME);
-            return this;
-        }
-
-        public Query areCompleted() {
-            whereEqualTo(KEY_COMPLETED, true);
-            return this;
-        }
-
-        public Query areInProgress() {
-            whereEqualTo(KEY_IN_PROGRESS, true);
-            return this;
-        }
-
         public Query getGroup(String groupName) {
             whereEqualTo(KEY_GROUP, groupName);
+            orderByAscending(KEY_NAME);
+            return this;
+        }
+
+        public Query getLevel1() {
+            whereEqualTo(KEY_IS_LEVEL_1, true);
             orderByAscending(KEY_NAME);
             return this;
         }

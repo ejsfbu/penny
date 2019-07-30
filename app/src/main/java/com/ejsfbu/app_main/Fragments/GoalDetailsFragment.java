@@ -236,8 +236,9 @@ public class GoalDetailsFragment extends Fragment implements
         if (transaction.getApproval()) {
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
+            Double oldTotalSaved = user.getTotalSaved();
             user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
-            Reward totalSavedBadge = Reward.checkEarnedTotalSavedBadge(user);
+            Reward totalSavedBadge = Reward.checkEarnedTotalSavedBadge(user, oldTotalSaved);
             if (totalSavedBadge != null) {
                 earnedBadges.add(totalSavedBadge);
             }
