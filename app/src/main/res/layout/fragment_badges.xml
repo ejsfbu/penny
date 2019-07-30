@@ -18,6 +18,19 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tvNoCompletedGoalsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="8dp"
+                android:text="No completed goals yet"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/rvRewardsCompletedGoals"
+                app:layout_constraintHorizontal_bias="0.512"
+                app:layout_constraintStart_toStartOf="@+id/rvRewardsCompletedGoals"
+                app:layout_constraintTop_toTopOf="@+id/rvRewardsCompletedGoals" />
+
+            <TextView
                 android:id="@+id/tvRewardsCompletedGoalsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +97,9 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRewardsInProgressBadgesTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsInProgressBadgesTitle" >
+
+            </androidx.recyclerview.widget.RecyclerView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

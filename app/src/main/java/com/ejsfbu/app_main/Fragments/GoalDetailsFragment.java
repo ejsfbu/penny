@@ -45,6 +45,8 @@ import com.parse.SaveCallback;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -127,6 +129,9 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     public void setGoalInfo() {
+        if (goal.getCompleted()) {
+            // change how completed goal is shown
+        }
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal.getEndDate().toString());
         tvGoalDetailsCompletionDate.setText(goalEndDate);
@@ -199,7 +204,7 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void showDepositDialog() {
         DepositDialogFragment depositDialogFragment
-                = DepositDialogFragment.newInstance("Deposit");
+                = DepositDialogFragment.newInstance("Deposit", goal.getCost() - goal.getSaved());
         depositDialogFragment.show(MainActivity.fragmentManager,
                 "fragment_deposit");
     }
@@ -253,11 +258,13 @@ public class GoalDetailsFragment extends Fragment implements
                     transactionsList.clear();
                     adapter.notifyDataSetChanged();
                     loadTransactions();
+                    setGoalInfo();
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                         if (earnedBadges.size() != 0) {
                             showEarnedBadgeDialogFragment();
                         }
+                        checkCompleted(goal);
                     }
                 } else {
                     e.printStackTrace();
@@ -338,6 +345,29 @@ public class GoalDetailsFragment extends Fragment implements
     @Override
     public void onFinishEditThisDialog() {
         setGoalInfo();
+    }
+
+    public void checkCompleted(Goal goal) {
+        if (goal.getSaved() >= goal.getCost()) {
+            goal.setCompleted(true);
+            Date currentTime = Calendar.getInstance().getTime();
+            goal.setDateCompleted(currentTime);
+            goal.setEndDate(currentTime);
+            goal.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
+                        user.addCompletedGoal(goal);
+                        user.saveInBackground();
+                        setGoalInfo();
+                    } else {
+                        e.printStackTrace();
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 }
 

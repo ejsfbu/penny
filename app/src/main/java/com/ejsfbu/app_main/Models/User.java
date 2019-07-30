@@ -30,6 +30,8 @@ public class User extends ParseUser {
     public static final String KEY_COMPLETED_BADGES = "completedBadges";
     public static final String KEY_IN_PROGRESS_BADGES = "inProgressBadges";
     public static final String KEY_TOTAL_SAVED = "totalSaved";
+    public static final String KEY_COMPLETED_GOALS = "completedGoals";
+    public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -178,6 +180,19 @@ public class User extends ParseUser {
     public void removeInProgressBadge(Reward reward) {
         removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
     }
+
+    public void addCompletedGoal(Goal goal) {
+        removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
+        addAllUnique(KEY_COMPLETED_GOALS, Collections.singleton(goal));
+    }
+
+    public List<Goal> getCompletedGoals() { return getList(KEY_COMPLETED_GOALS); }
+
+    public void addInProgressGoal(Goal goal) { addAllUnique(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal)); }
+
+    public void removeInProgressGoal(Goal goal) { removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal)); }
+
+    public List<Goal> getInProgressGoals() { return getList(KEY_IN_PROGRESS_GOALS); }
 
     public static class Query extends ParseQuery<User> {
         public Query() {
