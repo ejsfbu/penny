@@ -32,11 +32,12 @@ public class SignUpActivity extends AppCompatActivity
 
         if (getIntent().getBooleanExtra("isParent", false)) {
             user.setIsParent(true);
-            Fragment parentSignupFragment = new SignUpParentFragment();
+            Fragment parentSignUpFragment = new SignUpParentFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
-                    parentSignupFragment).commit();
+                    parentSignUpFragment).commit();
         } else {
             user.setIsParent(false);
+            user.setTotalSaved(0.0);
             Fragment personalInfoFragment = new SignUpPersonalInfoFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
                     personalInfoFragment).commit();

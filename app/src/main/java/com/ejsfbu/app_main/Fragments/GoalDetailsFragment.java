@@ -26,6 +26,7 @@ import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.EarnedBadgeDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalEndDateDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalNameDialogFragment;
@@ -33,6 +34,7 @@ import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
+import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -99,6 +101,7 @@ public class GoalDetailsFragment extends Fragment implements
     private Goal goal;
     private User user;
     private Context context;
+    private ArrayList<Reward> earnedBadges;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -106,6 +109,7 @@ public class GoalDetailsFragment extends Fragment implements
         goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
         transactionsList = new ArrayList<>();
+        earnedBadges = new ArrayList<>();
         adapter = new TransactionAdapter(getContext(), transactionsList);
         rvTransactions.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(getContext());
@@ -232,6 +236,11 @@ public class GoalDetailsFragment extends Fragment implements
         if (transaction.getApproval()) {
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
+            user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
+            Reward totalSavedBadge = Reward.checkEarnedTotalSavedBadge(user);
+            if (totalSavedBadge != null) {
+                earnedBadges.add(totalSavedBadge);
+            }
         } else {
             createRequest(transaction);
         }
@@ -245,6 +254,9 @@ public class GoalDetailsFragment extends Fragment implements
                     loadTransactions();
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                        if (earnedBadges.size() != 0) {
+                            showEarnedBadgeDialogFragment();
+                        }
                     }
                 } else {
                     e.printStackTrace();
@@ -314,6 +326,12 @@ public class GoalDetailsFragment extends Fragment implements
     private void showEditGoalEndDateDialog() {
         EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
         editDate.show(fragmentManager, "fragment_edit_goal_end_date");
+    }
+
+    private void showEarnedBadgeDialogFragment() {
+        EarnedBadgeDialogFragment earnedBadge
+                = EarnedBadgeDialogFragment.newInstance("Earned Badge", earnedBadges);
+        earnedBadge.show(fragmentManager, "fragment_earned_badge");
     }
 
     @Override

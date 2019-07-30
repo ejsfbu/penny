@@ -1,11 +1,16 @@
 package com.ejsfbu.app_main.Models;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @ParseClassName("Reward")
 public class Reward extends ParseObject {
@@ -16,9 +21,26 @@ public class Reward extends ParseObject {
     public static final String KEY_IN_PROGRESS = "inProgress";
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_GROUP = "group";
+
+    public enum TotalSaved {
+        NONE,
+        LEVEL_1,
+        LEVEL_2,
+        LEVEL_3,
+        LEVEL_4,
+        LEVEL_5
+    }
 
     public String getName() {
-        return getString(KEY_NAME);
+        String name;
+        try {
+            name = fetchIfNeeded().getString(KEY_NAME);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            name = null;
+        }
+        return name;
     }
 
     public ParseFile getBadgeImage() {
@@ -43,6 +65,65 @@ public class Reward extends ParseObject {
 
     public void setCompleted(boolean completed) {
         put(KEY_COMPLETED, completed);
+    }
+
+    public static Reward checkEarnedTotalSavedBadge(User user) {
+        Double totalSaved = user.getTotalSaved();
+        ArrayList<Reward> totalSavedBadges = new Reward().getTotalSavedBadges();
+        Reward earnedBadge;
+        if (totalSaved >= 1000) {
+            user.addCompletedBadge(totalSavedBadges.get(4));
+            user.removeCompletedBadge(totalSavedBadges.get(3));
+            user.removeInProgressBadge(totalSavedBadges.get(4));
+            earnedBadge = totalSavedBadges.get(4);
+        } else if (totalSaved >= 500) {
+            user.addCompletedBadge(totalSavedBadges.get(3));
+            user.addInProgressBadge(totalSavedBadges.get(4));
+            user.removeCompletedBadge(totalSavedBadges.get(2));
+            user.removeInProgressBadge(totalSavedBadges.get(3));
+            earnedBadge = totalSavedBadges.get(3);
+        } else if (totalSaved >= 250) {
+            user.addCompletedBadge(totalSavedBadges.get(2));
+            user.addInProgressBadge(totalSavedBadges.get(3));
+            user.removeCompletedBadge(totalSavedBadges.get(1));
+            user.removeInProgressBadge(totalSavedBadges.get(2));
+            earnedBadge = totalSavedBadges.get(2);
+        } else if (totalSaved >= 100) {
+            user.addCompletedBadge(totalSavedBadges.get(1));
+            user.addInProgressBadge(totalSavedBadges.get(2));
+            user.removeCompletedBadge(totalSavedBadges.get(0));
+            user.removeInProgressBadge(totalSavedBadges.get(1));
+            earnedBadge = totalSavedBadges.get(1);
+        } else if (totalSaved >= 50) {
+            user.addCompletedBadge(totalSavedBadges.get(0));
+            user.addInProgressBadge(totalSavedBadges.get(1));
+            user.removeInProgressBadge(totalSavedBadges.get(0));
+            earnedBadge = totalSavedBadges.get(0);
+        } else {
+            user.addInProgressBadge(totalSavedBadges.get(0));
+            earnedBadge = null;
+        }
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return earnedBadge;
+    }
+
+    public ArrayList<Reward> getTotalSavedBadges() {
+        ArrayList<Reward> badges = new ArrayList<>();
+        Query query = new Query();
+        query.getGroup("Total Saved");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
     }
 
     public static class Query extends ParseQuery<Reward> {
@@ -70,6 +151,12 @@ public class Reward extends ParseObject {
 
         public Query areInProgress() {
             whereEqualTo(KEY_IN_PROGRESS, true);
+            return this;
+        }
+
+        public Query getGroup(String groupName) {
+            whereEqualTo(KEY_GROUP, groupName);
+            orderByAscending(KEY_NAME);
             return this;
         }
     }

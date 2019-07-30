@@ -29,9 +29,9 @@ public class User extends ParseUser {
     public static final String KEY_NEEDS_PARENT = "needsParent";
     public static final String KEY_REQUIRES_APPROVAL = "requireApproval";
     public static final String KEY_PROFILE_PIC = "profileImage";
-    public static final String KEY_REQUESTS = "pendingRequests";
     public static final String KEY_COMPLETED_BADGES = "completedBadges";
     public static final String KEY_IN_PROGRESS_BADGES = "inProgressBadges";
+    public static final String KEY_TOTAL_SAVED = "totalSaved";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -114,7 +114,6 @@ public class User extends ParseUser {
     public List<BankAccount> getBanks() {
         return getList(KEY_BANK);
     }
-
     public List<BankAccount> getVerifiedBanks() {
         List<BankAccount> newList = new ArrayList<>();
         List<BankAccount> list = getList(KEY_BANK);
@@ -125,27 +124,33 @@ public class User extends ParseUser {
         }
         return newList;
     }
-
     public void addBank(BankAccount bank) {
         addAllUnique(KEY_BANK, Collections.singleton(bank));
     }
-
     public void removeBank(BankAccount bank) { removeAll(KEY_BANK, Collections.singleton(bank));}
 
-    public void addRequest(Request request) {
-        addAllUnique(KEY_REQUESTS, Collections.singleton(request));
+    public Double getTotalSaved() {
+        return getDouble(KEY_TOTAL_SAVED);
     }
-    public void removeRequest(Request request) {
-        removeAll(KEY_REQUESTS, Collections.singleton(request));
+    public void setTotalSaved(Double totalSaved) {
+        put(KEY_TOTAL_SAVED, totalSaved);
     }
 
     public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }
-
     public List<Reward> getCompletedBadges() { return getList(KEY_COMPLETED_BADGES); }
+    public void removeCompletedBadge(Reward reward) {
+        if (getCompletedBadges().contains(reward)) {
+            removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
+        }
+    }
 
     public void addInProgressBadge(Reward reward) { addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward)); }
-
     public List<Reward> getInProgressBadges() { return getList(KEY_IN_PROGRESS_BADGES); }
+    public void removeInProgressBadge(Reward reward) {
+        if (getInProgressBadges().contains(reward)) {
+            removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
+        }
+    }
 
     public static class Query extends ParseQuery<User> {
         public Query() {
