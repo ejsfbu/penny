@@ -25,6 +25,7 @@ public class Goal extends ParseObject {
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_TRANSACTIONS = "transactions";
+    public static final String KEY_UPDATES_MADE = "updatesMade";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -108,6 +109,14 @@ public class Goal extends ParseObject {
     public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
     public List<Transaction> getTransactions() { return getList(KEY_TRANSACTIONS); }
+
+    public void setUpdatesMade(Boolean update) {
+        put(KEY_UPDATES_MADE, update);
+    }
+
+    public Boolean getUpdatesMade() {
+        return getBoolean(KEY_UPDATES_MADE);
+    }
 
     public static class Query extends ParseQuery<Goal> {
         public Query() {
