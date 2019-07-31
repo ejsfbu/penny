@@ -20,6 +20,8 @@ import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -33,6 +35,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.ejsfbu.app_main.Models.BadgeRow.makeBadgeRows;
 
 public class RewardsFragment extends Fragment {
 
@@ -63,7 +67,7 @@ public class RewardsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
-        // Inflate the layout for this fragment
+        user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_badges, container, false);
     }
 
@@ -113,78 +117,16 @@ public class RewardsFragment extends Fragment {
     }
 
     protected void loadCompletedBadges() {
-        final Reward.Query rewardsQuery = new Reward.Query();
-        rewardsQuery.getTopCompleted()
-                .areCompleted();
-        rewardsQuery.findInBackground(new FindCallback<Reward>() {
-            @Override
-            public void done(List<Reward> rewards, ParseException e) {
-                if (e == null) {
-                    makeBadgeRows(rewards, completedBadgeRowAdapter, completedBadgeRows);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Reward> completedBadges = user.getCompletedBadges();
+        if (completedBadges != null) {
+            makeBadgeRows(completedBadges, completedBadgeRowAdapter, completedBadgeRows);
+        }
     }
 
     protected void loadInProgressBadges() {
-        final Reward.Query rewardsQuery = new Reward.Query();
-        rewardsQuery.getTopInProgress()
-                .areInProgress();
-        rewardsQuery.findInBackground(new FindCallback<Reward>() {
-            @Override
-            public void done(List<Reward> rewards, ParseException e) {
-                if (e == null) {
-                    makeBadgeRows(rewards, inProgressBadgeRowAdapter, inProgressBadgeRows);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void makeBadgeRows(List<Reward> rewards, BadgeRowAdapter badgeRowAdapter,
-                               List<BadgeRow> badgeRows) {
-        for (int i = 0; i < rewards.size() - (rewards.size() % 5); i += 5) {
-            BadgeRow badgeRow = new BadgeRow();
-            badgeRow.setBadge1(rewards.get(i));
-            badgeRow.setBadge2(rewards.get(i + 1));
-            badgeRow.setBadge3(rewards.get(i + 2));
-            badgeRow.setBadge4(rewards.get(i + 3));
-            badgeRow.setBadge5(rewards.get(i + 4));
-            badgeRows.add(badgeRow);
-            badgeRowAdapter.notifyItemInserted(completedBadgeRows.size() - 1);
-        }
-        if (rewards.size() % 5 == 1) {
-            BadgeRow badgeRow = new BadgeRow();
-            badgeRow.setBadge1(rewards.get(rewards.size() - 1));
-            badgeRows.add(badgeRow);
-            badgeRowAdapter.notifyItemInserted(completedBadgeRows.size() - 1);
-        }
-        if (rewards.size() % 5 == 2) {
-            BadgeRow badgeRow = new BadgeRow();
-            badgeRow.setBadge1(rewards.get(rewards.size() - 2));
-            badgeRow.setBadge2(rewards.get(rewards.size() - 1));
-            badgeRows.add(badgeRow);
-            badgeRowAdapter.notifyItemInserted(completedBadgeRows.size() - 1);
-        }
-        if (rewards.size() % 5 == 3) {
-            BadgeRow badgeRow = new BadgeRow();
-            badgeRow.setBadge1(rewards.get(rewards.size() - 3));
-            badgeRow.setBadge2(rewards.get(rewards.size() - 2));
-            badgeRow.setBadge3(rewards.get(rewards.size() - 1));
-            badgeRows.add(badgeRow);
-            badgeRowAdapter.notifyItemInserted(completedBadgeRows.size() - 1);
-        }
-        if (rewards.size() % 5 == 4) {
-            BadgeRow badgeRow = new BadgeRow();
-            badgeRow.setBadge1(rewards.get(rewards.size() - 4));
-            badgeRow.setBadge2(rewards.get(rewards.size() - 3));
-            badgeRow.setBadge3(rewards.get(rewards.size() - 2));
-            badgeRow.setBadge4(rewards.get(rewards.size() - 1));
-            badgeRows.add(badgeRow);
-            badgeRowAdapter.notifyItemInserted(completedBadgeRows.size() - 1);
+        List<Reward> inProgressBadges = user.getInProgressBadges();
+        if (inProgressBadges != null) {
+            makeBadgeRows(inProgressBadges, inProgressBadgeRowAdapter, inProgressBadgeRows);
         }
     }
 }

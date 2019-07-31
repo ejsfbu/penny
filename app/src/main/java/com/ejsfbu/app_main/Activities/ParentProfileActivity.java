@@ -179,6 +179,13 @@ public class ParentProfileActivity extends AppCompatActivity
         finish();
     }
 
+    @OnClick(R.id.ibParentProfileBack)
+    public void onClickBack() {
+        Intent intent = new Intent(this, ParentActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -92,4 +92,7 @@
     <string name="request_details">Request Details</string>
     <string name="approve">Approve</string>
     <string name="deny">Deny</string>
+    <string name="congrats">Congratulations!</string>
+    <string name="earned_badges_info">You earned the following badges:</string>
+    <string name="great">Great!</string>
 </resources>
