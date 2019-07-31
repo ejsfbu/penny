@@ -229,15 +229,15 @@ public class User extends ParseUser {
                     goal.saveInBackground();
                     if (goal.getCompleted()) {
                         addCompletedGoal(goal);
-                        List<Transaction> transactions = goal.getTransactions();
-                        Double addAmount = 0.0;
-                        for (int j = 0; j < transactions.size(); j ++) {
-                            if (transactions.get(j).getRecentlyApproved()) {
-                                addAmount += transactions.get(j).getAmount();
-                            }
-                        }
-                        setTotalSaved(getTotalSaved() + addAmount);
                     }
+                    List<Transaction> transactions = goal.getTransactions();
+                    Double addAmount = 0.0;
+                    for (int j = 0; j < transactions.size(); j ++) {
+                        if (transactions.get(j).getRecentlyApproved()) {
+                            addAmount += transactions.get(j).getAmount();
+                        }
+                    }
+                    setTotalSaved(getTotalSaved() + addAmount);
                     hasUpdatedGoals = true;
                 }
             }

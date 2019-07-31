@@ -54,9 +54,13 @@ public class MainActivity extends AppCompatActivity {
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    earnedRewards.addAll(Reward.checkEarnedRewards(user));
-                    if (earnedRewards.size() != 0) {
-                        showEarnedBadgeDialogFragment();
+                    if (e == null) {
+                        earnedRewards.addAll(Reward.checkEarnedRewards(user));
+                        if (earnedRewards.size() != 0) {
+                            showEarnedBadgeDialogFragment();
+                        }
+                    } else {
+                        e.printStackTrace();
                     }
                 }
             });
