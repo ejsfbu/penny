@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -126,35 +127,22 @@ public class ChildDetailActivity extends AppCompatActivity {
     }
 
     public void loadCompletedGoals() {
-        final Goal.Query goalQuery = new Goal.Query();
-        goalQuery.getTopCompleted().areCompleted().fromUser(child);
-        goalQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    completedGoals.addAll(objects);
-                    completedGoalsAdapter.notifyDataSetChanged();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Goal> goals = child.getCompletedGoals();
+        if (goals != null) {
+            completedGoals.addAll(goals);
+            Collections.sort(completedGoals);
+            Collections.reverse(completedGoals);
+            completedGoalsAdapter.notifyDataSetChanged();
+        }
     }
 
     public void loadInProgressGoals() {
-        final Goal.Query goalQuery = new Goal.Query();
-        goalQuery.getTopByEndDate().areNotCompleted().fromUser(child);
-        goalQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    inProgressGoals.addAll(objects);
-                    inProgressGoalsAdapter.notifyDataSetChanged();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Goal> goals = child.getInProgressGoals();
+        if (goals != null) {
+            inProgressGoals.addAll(goals);
+            Collections.sort(completedGoals);
+            inProgressGoalsAdapter.notifyDataSetChanged();
+        }
     }
 
     public void loadPendingRequests() {
