@@ -57,6 +57,7 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
+import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -243,10 +244,6 @@ public class GoalDetailsFragment extends Fragment implements
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
             user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
-            Reward totalSavedBadge = Reward.checkEarnedTotalSavedBadge(user);
-            if (totalSavedBadge != null) {
-                earnedBadges.add(totalSavedBadge);
-            }
         } else {
             createRequest(transaction);
         }
@@ -261,10 +258,13 @@ public class GoalDetailsFragment extends Fragment implements
                     setGoalInfo();
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                        checkCompleted(goal);
+
+                        earnedBadges.addAll(checkEarnedRewards(user));
                         if (earnedBadges.size() != 0) {
                             showEarnedBadgeDialogFragment();
                         }
-                        checkCompleted(goal);
+
                     }
                 } else {
                     e.printStackTrace();
@@ -361,7 +361,6 @@ public class GoalDetailsFragment extends Fragment implements
                         user.addCompletedGoal(goal);
                         user.saveInBackground();
                         setGoalInfo();
-                        Reward reward = checkCompletedGoals(user);
                     } else {
                         e.printStackTrace();
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
