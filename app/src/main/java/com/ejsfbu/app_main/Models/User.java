@@ -234,6 +234,7 @@ public class User extends ParseUser {
                     Double addAmount = 0.0;
                     for (int j = 0; j < transactions.size(); j ++) {
                         if (transactions.get(j).getRecentlyApproved()) {
+                            transactions.get(i).setRecentlyApproved(false);
                             addAmount += transactions.get(j).getAmount();
                         }
                     }

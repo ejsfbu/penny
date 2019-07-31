@@ -81,6 +81,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                     Transaction transaction = request.getTransaction();
                     transaction.setApproval(true);
                     transaction.setTransactionCompleteDate(new Date(System.currentTimeMillis()));
+                    transaction.setRecentlyApproved(true);
                     transaction.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
