@@ -50,22 +50,6 @@ public class Reward extends ParseObject {
         return getString(KEY_DESCRIPTION);
     }
 
-    public boolean getInProgress() {
-        return getBoolean(KEY_IN_PROGRESS);
-    }
-
-    public void setInProgress(boolean inProgress) {
-        put(KEY_IN_PROGRESS, inProgress);
-    }
-
-    public boolean getCompleted() {
-        return getBoolean(KEY_COMPLETED);
-    }
-
-    public void setCompleted(boolean completed) {
-        put(KEY_COMPLETED, completed);
-    }
-
     // check to see if they have completed enough goals for a reward.
     public static Reward checkCompletedGoals(User user) {
         int numberCompleted = user.getNumberGoalsCompleted();
@@ -290,15 +274,6 @@ public class Reward extends ParseObject {
         public Query getLevel1() {
             whereEqualTo(KEY_IS_LEVEL_1, true);
             orderByAscending(KEY_NAME);
-            return this;
-        }
-        public Query areCompleted() {
-            whereEqualTo(KEY_COMPLETED, true);
-            return this;
-        }
-
-        public Query areInProgress() {
-            whereEqualTo(KEY_IN_PROGRESS, true);
             return this;
         }
     }
