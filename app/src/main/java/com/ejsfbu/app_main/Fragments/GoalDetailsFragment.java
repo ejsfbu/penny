@@ -56,6 +56,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -361,6 +362,7 @@ public class GoalDetailsFragment extends Fragment implements
                         user.addCompletedGoal(goal);
                         user.saveInBackground();
                         setGoalInfo();
+                        Reward reward = checkCompletedGoals(user);
                     } else {
                         e.printStackTrace();
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
