@@ -178,7 +178,7 @@ public class Reward extends ParseObject {
         });
         return earnedReward;
     }
-  
+
     public static Reward checkEarnedTotalSavedBadge(User user) {
         Double totalSaved = user.getTotalSaved();
         ArrayList<Reward> totalSavedBadges = getTotalSavedBadges();
@@ -406,7 +406,6 @@ public class Reward extends ParseObject {
                         }
                     }
                 });
-                earnedBadge = smallGoalBadges.get(3);
             }
 
             //when the user gets their third Making Money Moves badge (20th)
@@ -428,7 +427,7 @@ public class Reward extends ParseObject {
         return earnedBadge;
     }
 
-    public ArrayList<Reward> getSmallGoalsBadges(){
+    public ArrayList<Reward> getSmallGoalsBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Small Goals");
@@ -440,7 +439,7 @@ public class Reward extends ParseObject {
         return badges;
     }
 
-    public ArrayList<Reward> getMediumGoalsBadges(){
+    public ArrayList<Reward> getMediumGoalsBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Medium Goals");
@@ -452,7 +451,7 @@ public class Reward extends ParseObject {
         return badges;
     }
 
-    public ArrayList<Reward> getBigGoalsBadges(){
+    public ArrayList<Reward> getBigGoalsBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Big Goals");
@@ -463,5 +462,6 @@ public class Reward extends ParseObject {
         }
         return badges;
     }
-
 }
+
+
