@@ -156,6 +156,11 @@ public class User extends ParseUser {
 
     public List<Reward> getInProgressBadges() { return getList(KEY_IN_PROGRESS_BADGES); }
 
+    public void removeCompletedBadge(Reward reward) { removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));}
+
+    public void removeInProgressBadge(Reward reward) { removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));}
+
+
     public static class Query extends ParseQuery<User> {
         public Query() {
             super(User.class);
