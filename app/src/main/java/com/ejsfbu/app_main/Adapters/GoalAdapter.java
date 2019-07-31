@@ -142,11 +142,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     bundle.putParcelable("Clicked Goal", goal);
                     //launch the details view
                     if ((purpose == null) && (cancelled == null)) {
-                        if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
-                            ibGoalDetailsBack.setVisibility(View.VISIBLE);
-                        } else if (bottomNavigationView.getSelectedItemId() == R.id.miRewards) {
-                            ibRewardGoalDetailsBack.setVisibility(View.VISIBLE);
-                        }
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction()

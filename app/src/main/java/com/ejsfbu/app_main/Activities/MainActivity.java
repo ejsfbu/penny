@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static BottomNavigationView bottomNavigationView;
     public static ImageButton ibGoalDetailsBack;
     public static ImageButton ibRewardGoalDetailsBack;
+    public static ImageButton ibBanksListBack;
 
     public static FragmentManager fragmentManager;
 
@@ -46,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         ibGoalDetailsBack = findViewById(R.id.ibGoalDetailsBack);
         ibRewardGoalDetailsBack = findViewById(R.id.ibRewardGoalDetailsBack);
+        ibBanksListBack = findViewById(R.id.ibBanksListBack);
 
         ibGoalDetailsBack.setVisibility(View.GONE);
         ibRewardGoalDetailsBack.setVisibility(View.GONE);
+        ibBanksListBack.setVisibility(View.GONE);
 
         fragmentManager = getSupportFragmentManager();
         setNavigationClick();
@@ -65,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 bottomNavigationView.setSelectedItemId(R.id.miRewards);
                 ibRewardGoalDetailsBack.setVisibility(View.GONE);
+            }
+        });
+        ibBanksListBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.setSelectedItemId(R.id.miProfile);
+                ibBanksListBack.setVisibility(View.GONE);
             }
         });
 
