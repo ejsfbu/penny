@@ -371,7 +371,6 @@ public class Reward extends ParseObject {
                         }
                     }
                 });
-
                 earnedBadge = smallGoalBadges.get(1);
             }
 
@@ -406,6 +405,7 @@ public class Reward extends ParseObject {
                         }
                     }
                 });
+                earnedBadge = smallGoalBadges.get(3);
             }
 
             //when the user gets their third Making Money Moves badge (20th)
