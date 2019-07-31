@@ -70,4 +70,16 @@
         app:srcCompat="@drawable/icon_back"
         tools:visibility="gone" />
 
+    <ImageButton
+        android:id="@+id/ibRewardGoalDetailsBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_button_pig_pink"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_back"
+        tools:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

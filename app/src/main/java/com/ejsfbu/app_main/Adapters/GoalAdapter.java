@@ -39,6 +39,7 @@ import java.util.List;
 import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
@@ -143,6 +144,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     if ((purpose == null) && (cancelled == null)) {
                         if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
                             ibGoalDetailsBack.setVisibility(View.VISIBLE);
+                        } else if (bottomNavigationView.getSelectedItemId() == R.id.miRewards) {
+                            ibRewardGoalDetailsBack.setVisibility(View.VISIBLE);
                         }
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);

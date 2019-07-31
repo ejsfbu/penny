@@ -28,11 +28,11 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    // Request codes
     public final static int BANK_REQUEST_CODE = 20;
 
     public static BottomNavigationView bottomNavigationView;
     public static ImageButton ibGoalDetailsBack;
+    public static ImageButton ibRewardGoalDetailsBack;
 
     public static FragmentManager fragmentManager;
 
@@ -40,10 +40,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
-        ibGoalDetailsBack = findViewById(R.id.ibGoalDetailsBack);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        ibGoalDetailsBack = findViewById(R.id.ibGoalDetailsBack);
+        ibRewardGoalDetailsBack = findViewById(R.id.ibRewardGoalDetailsBack);
+
         ibGoalDetailsBack.setVisibility(View.GONE);
+        ibRewardGoalDetailsBack.setVisibility(View.GONE);
+
         fragmentManager = getSupportFragmentManager();
         setNavigationClick();
 
@@ -52,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 bottomNavigationView.setSelectedItemId(R.id.miGoals);
                 ibGoalDetailsBack.setVisibility(View.GONE);
+            }
+        });
+        ibRewardGoalDetailsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.setSelectedItemId(R.id.miRewards);
+                ibRewardGoalDetailsBack.setVisibility(View.GONE);
             }
         });
 
