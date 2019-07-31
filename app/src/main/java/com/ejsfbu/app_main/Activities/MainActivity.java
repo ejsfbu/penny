@@ -9,15 +9,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.ejsfbu.app_main.DialogFragments.EarnedBadgeDialogFragment;
 import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.Fragments.RewardsFragment;
 import com.ejsfbu.app_main.DialogFragments.NeedsParentDialogFragment;
+import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     public static FragmentManager fragmentManager;
+    private ArrayList<Reward> earnedRewards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
         setNavigationClick();
 
         User user = (User) ParseUser.getCurrentUser();
+        earnedRewards = new ArrayList<>();
+        if (user.hasUpdatedGoals()) {
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    earnedRewards.addAll(Reward.checkEarnedRewards(user));
+                    if (earnedRewards.size() != 0) {
+                        showEarnedBadgeDialogFragment();
+                    }
+                }
+            });
+        }
         if (user.getNeedsParent()) {
             showConnectParentDialog();
         }
@@ -72,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // REQUEST_CODE is defined above
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
             Fragment bankFragment = new BanksListFragment();
@@ -86,6 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 NeedsParentDialogFragment.newInstance("Needs Parent");
         needsParentDialogFragment.show(MainActivity.fragmentManager, "fragment_needs_parent");
 
+    }
+
+    private void showEarnedBadgeDialogFragment() {
+        EarnedBadgeDialogFragment earnedBadge
+                = EarnedBadgeDialogFragment.newInstance("Earned Badge", earnedRewards);
+        earnedBadge.show(fragmentManager, "fragment_earned_badge");
     }
 
 }
