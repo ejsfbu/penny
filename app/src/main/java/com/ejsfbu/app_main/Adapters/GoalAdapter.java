@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
@@ -85,7 +87,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         private TextView tvGoalEndDate;
         private TextView tvGoalPercentDone;
         private ProgressBar pbGoalPercentDone;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +140,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     bundle.putParcelable("Clicked Goal", goal);
                     //launch the details view
                     if ((purpose == null) && (cancelled == null)) {
+                        ibGoalDetailsBack.setVisibility(View.VISIBLE);
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction()

@@ -3,6 +3,8 @@ package com.ejsfbu.app_main.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import com.parse.ParseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
 
+    public static ImageButton ibGoalDetailsBack;
+
     public static FragmentManager fragmentManager;
 
     @Override
@@ -38,8 +43,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        ibGoalDetailsBack = findViewById(R.id.ibGoalDetailsBack);
+        ibGoalDetailsBack.setVisibility(View.GONE);
         fragmentManager = getSupportFragmentManager();
         setNavigationClick();
+
+        ibGoalDetailsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.setSelectedItemId(R.id.miGoals);
+                ibGoalDetailsBack.setVisibility(View.GONE);
+            }
+        });
 
         User user = (User) ParseUser.getCurrentUser();
         if (user.getNeedsParent()) {
