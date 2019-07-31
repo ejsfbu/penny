@@ -88,7 +88,7 @@ public class AddBankActivity extends AppCompatActivity {
         newBank.setLegalName(legalName);
         newBank.setRoutingtNumber(routing);
         newBank.setAccountNumber(accountNumber);
-        newBank.setVerified(false);
+        newBank.setVerified(true);
         newBank.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
