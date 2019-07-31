@@ -270,6 +270,7 @@ public class User extends ParseUser {
         return hasUpdatedGoals;
     }
 
+
     public static class Query extends ParseQuery<User> {
         public Query() {
             super(User.class);

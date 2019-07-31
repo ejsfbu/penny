@@ -371,6 +371,7 @@ public class Reward extends ParseObject {
                         }
                     }
                 });
+
                 earnedBadge = smallGoalBadges.get(1);
             }
 
