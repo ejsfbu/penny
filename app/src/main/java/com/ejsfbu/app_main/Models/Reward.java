@@ -371,7 +371,23 @@ public class Reward extends ParseObject {
                 earnedBadge = smallGoalBadges.get(2);
                 user.addCompletedBadge(earnedBadge);
                 user.addInProgressBadge(smallGoalBadges.get(3));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 user.removeInProgressBadge(earnedBadge);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
             //when the user gets their third Making Money Moves badge (15th)
@@ -379,14 +395,46 @@ public class Reward extends ParseObject {
                 earnedBadge = smallGoalBadges.get(3);
                 user.addCompletedBadge(earnedBadge);
                 user.addInProgressBadge(smallGoalBadges.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 user.removeInProgressBadge(earnedBadge);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
             //when the user gets their third Making Money Moves badge (20th)
             if (user.getSmallGoals() == 20) {
                 earnedBadge = smallGoalBadges.get(4);
                 user.addCompletedBadge(earnedBadge);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 user.removeInProgressBadge(earnedBadge);
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
             user.saveInBackground(new SaveCallback() {
