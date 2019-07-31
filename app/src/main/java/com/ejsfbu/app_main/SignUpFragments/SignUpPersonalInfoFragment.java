@@ -100,6 +100,9 @@ public class SignUpPersonalInfoFragment extends Fragment {
                 if (diffInYears < 18) {
                     user.setNeedsParent(true);
                     user.setRequiresApproval(true);
+                } else {
+                    user.setNeedsParent(false);
+                    user.setRequiresApproval(false);
                 }
                 user.setBirthday(birthday);
                 Fragment email = new SignUpAccountInfoFragment();

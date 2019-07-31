@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.SignUpFragments.SignUpParentFragment;
 import com.ejsfbu.app_main.SignUpFragments.SignUpPersonalInfoFragment;
@@ -32,11 +33,13 @@ public class SignUpActivity extends AppCompatActivity
 
         if (getIntent().getBooleanExtra("isParent", false)) {
             user.setIsParent(true);
-            Fragment parentSignupFragment = new SignUpParentFragment();
+            Fragment parentSignUpFragment = new SignUpParentFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
-                    parentSignupFragment).commit();
+                    parentSignUpFragment).commit();
         } else {
             user.setIsParent(false);
+            user.setTotalSaved(0.0);
+            user.addInProgressBadges(Reward.getLevel1Badges());
             Fragment personalInfoFragment = new SignUpPersonalInfoFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
                     personalInfoFragment).commit();

@@ -5,9 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-
 import org.json.JSONArray;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,15 +27,16 @@ public class User extends ParseUser {
     public static final String KEY_NEEDS_PARENT = "needsParent";
     public static final String KEY_REQUIRES_APPROVAL = "requireApproval";
     public static final String KEY_PROFILE_PIC = "profileImage";
-    public static final String KEY_REQUESTS = "pendingRequests";
     public static final String KEY_COMPLETED_BADGES = "completedBadges";
     public static final String KEY_IN_PROGRESS_BADGES = "inProgressBadges";
+    public static final String KEY_TOTAL_SAVED = "totalSaved";
     public static final String KEY_COMPLETED_GOALS = "completedGoals";
     public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
 
     public String getName() {
         return getString(KEY_NAME);
     }
+
     public void setName(String name) {
         put(KEY_NAME, name);
     }
@@ -45,6 +44,7 @@ public class User extends ParseUser {
     public String getEmail() {
         return getString(KEY_EMAIL);
     }
+
     public void setEmail(String email) {
         put(KEY_EMAIL, email);
     }
@@ -52,6 +52,7 @@ public class User extends ParseUser {
     public String getUsername() {
         return getString(KEY_USERNAME);
     }
+
     public void setUsername(String username) {
         put(KEY_USERNAME, username);
     }
@@ -59,6 +60,7 @@ public class User extends ParseUser {
     public String getPassword() {
         return getString(KEY_PASSWORD);
     }
+
     public void setPassword(String password) {
         put(KEY_PASSWORD, password);
     }
@@ -66,6 +68,7 @@ public class User extends ParseUser {
     public String getBirthday() {
         return getDate(KEY_BIRTHDAY).toString();
     }
+
     public void setBirthday(Date date) {
         put(KEY_BIRTHDAY, date);
     }
@@ -73,6 +76,7 @@ public class User extends ParseUser {
     public Boolean getIsParent() {
         return getBoolean(KEY_IS_PARENT);
     }
+
     public void setIsParent(Boolean isParent) {
         put(KEY_IS_PARENT, isParent);
     }
@@ -80,6 +84,7 @@ public class User extends ParseUser {
     public boolean getNeedsParent() {
         return getBoolean(KEY_NEEDS_PARENT);
     }
+
     public void setNeedsParent(boolean needsParent) {
         put(KEY_NEEDS_PARENT, needsParent);
     }
@@ -88,6 +93,7 @@ public class User extends ParseUser {
         boolean requiresApproval = getBoolean(KEY_REQUIRES_APPROVAL);
         return requiresApproval;
     }
+
     public void setRequiresApproval(boolean requiresApproval) {
         put(KEY_REQUIRES_APPROVAL, requiresApproval);
     }
@@ -95,6 +101,7 @@ public class User extends ParseUser {
     public ParseFile getProfilePic() {
         return getParseFile(KEY_PROFILE_PIC);
     }
+
     public void setProfilePic(ParseFile image) {
         put(KEY_PROFILE_PIC, image);
     }
@@ -102,6 +109,7 @@ public class User extends ParseUser {
     public void addChild(User child) {
         addAllUnique(KEY_CHILDREN, Collections.singleton(child));
     }
+
     public JSONArray getChildren() {
         return getJSONArray(KEY_CHILDREN);
     }
@@ -109,6 +117,7 @@ public class User extends ParseUser {
     public void addParent(User parent) {
         addAllUnique(KEY_PARENTS, Collections.singleton(parent));
     }
+
     public JSONArray getParents() {
         return getJSONArray(KEY_PARENTS);
     }
@@ -135,26 +144,44 @@ public class User extends ParseUser {
         addAllUnique(KEY_BANK, Collections.singleton(bank));
     }
 
-    public void removeBank(BankAccount bank) { removeAll(KEY_BANK, Collections.singleton(bank));}
-
-    public void addRequest(Request request) {
-        addAllUnique(KEY_REQUESTS, Collections.singleton(request));
-    }
-    public void removeRequest(Request request) {
-        removeAll(KEY_REQUESTS, Collections.singleton(request));
+    public void removeBank(BankAccount bank) {
+        removeAll(KEY_BANK, Collections.singleton(bank));
     }
 
-    public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }
+    public Double getTotalSaved() {
+        return getDouble(KEY_TOTAL_SAVED);
+    }
 
-    public void removeCompletedBadge(Reward reward) { removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));}
+    public void setTotalSaved(Double totalSaved) {
+        put(KEY_TOTAL_SAVED, totalSaved);
+    }
 
-    public List<Reward> getCompletedBadges() { return getList(KEY_COMPLETED_BADGES); }
+    public void addCompletedBadge(Reward reward) {
+        addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward));
+    }
 
-    public void addInProgressBadge(Reward reward) { addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward)); }
+    public List<Reward> getCompletedBadges() {
+        return getList(KEY_COMPLETED_BADGES);
+    }
+
+    public void removeCompletedBadge(Reward reward) {
+        removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
+    }
+
+    public void addInProgressBadge(Reward reward) {
+        addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
+    }
+  
+    public void addInProgressBadges(List<Reward> rewards) {
+        addAllUnique(KEY_IN_PROGRESS_BADGES, rewards);
+    }
+
+
+    public List<Reward> getInProgressBadges() {
+        return getList(KEY_IN_PROGRESS_BADGES);
+    }
 
     public void removeInProgressBadge(Reward reward) { removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));}
-
-    public List<Reward> getInProgressBadges() { return getList(KEY_IN_PROGRESS_BADGES); }
 
     public void addCompletedGoal(Goal goal) {
         removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
