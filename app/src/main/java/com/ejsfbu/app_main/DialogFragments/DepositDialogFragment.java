@@ -128,8 +128,10 @@ public class DepositDialogFragment extends DialogFragment {
     private void fillData() {
         banks = user.getVerifiedBanks();
         ArrayList<String> array = new ArrayList<>();
-        for (BankAccount bank : banks) {
-            array.add(bank.getBankName());
+        if (banks != null) {
+            for (BankAccount bank : banks) {
+                array.add(bank.getBankName());
+            }
         }
         if (array.size() == 0) {
             array.add("No verified banks available");

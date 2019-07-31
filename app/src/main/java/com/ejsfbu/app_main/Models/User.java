@@ -120,6 +120,9 @@ public class User extends ParseUser {
     public List<BankAccount> getVerifiedBanks() {
         List<BankAccount> newList = new ArrayList<>();
         List<BankAccount> list = getList(KEY_BANK);
+        if (list == null) {
+            return null;
+        }
         for (BankAccount bank: list){
             if (bank.getVerified()) {
                 newList.add(bank);
@@ -143,9 +146,13 @@ public class User extends ParseUser {
 
     public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }
 
+    public void removeCompletedBadge(Reward reward) { removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));}
+
     public List<Reward> getCompletedBadges() { return getList(KEY_COMPLETED_BADGES); }
 
     public void addInProgressBadge(Reward reward) { addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward)); }
+
+    public void removeInProgressBadge(Reward reward) { removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));}
 
     public List<Reward> getInProgressBadges() { return getList(KEY_IN_PROGRESS_BADGES); }
 
@@ -161,6 +168,15 @@ public class User extends ParseUser {
     public void removeInProgressGoal(Goal goal) { removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal)); }
 
     public List<Goal> getInProgressGoals() { return getList(KEY_IN_PROGRESS_GOALS); }
+
+    public int getNumberGoalsCompleted() {
+        List<Goal> goals = getCompletedGoals();
+        if (goals == null) {
+            return 0;
+        } else {
+            return goals.size();
+        }
+    }
 
     public static class Query extends ParseQuery<User> {
         public Query() {
