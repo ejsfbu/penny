@@ -24,7 +24,9 @@ import android.widget.Button;
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +72,7 @@ public class EarnedBadgeDialogFragment extends DialogFragment {
 
         badgeRows = new ArrayList<>();
 
-        badgeRowAdapter = new BadgeRowAdapter(context, badgeRows);
+        badgeRowAdapter = new BadgeRowAdapter(context, badgeRows, (User) ParseUser.getCurrentUser());
 
         rvEarnedBadgedBadges.setAdapter(badgeRowAdapter);
         rvEarnedBadgedBadges.setLayoutManager(new LinearLayoutManager(context));

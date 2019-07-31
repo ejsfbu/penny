@@ -176,6 +176,15 @@ public class User extends ParseUser {
         addAllUnique(KEY_IN_PROGRESS_BADGES, rewards);
     }
 
+    public boolean hasInProgressBadge(String badgeId) {
+        List<Reward> inProgressBadges = getInProgressBadges();
+        for (int i = 0; i < inProgressBadges.size(); i ++) {
+            if (inProgressBadges.get(i).getObjectId().equals(badgeId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public List<Reward> getInProgressBadges() {
         return getList(KEY_IN_PROGRESS_BADGES);

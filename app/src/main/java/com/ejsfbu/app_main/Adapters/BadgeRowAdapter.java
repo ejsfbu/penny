@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.DialogFragments.RewardDetailDialogFragment;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Reward;
@@ -27,10 +28,12 @@ public class BadgeRowAdapter extends RecyclerView.Adapter<BadgeRowAdapter.ViewHo
 
     private List<BadgeRow> badgeRows;
     private Context context;
+    private User user;
 
-    public BadgeRowAdapter(Context context, List<BadgeRow> badgeRows) {
+    public BadgeRowAdapter(Context context, List<BadgeRow> badgeRows, User user) {
         this.context = context;
         this.badgeRows = badgeRows;
+        this.user = user;
     }
 
     @NonNull
@@ -145,7 +148,7 @@ public class BadgeRowAdapter extends RecyclerView.Adapter<BadgeRowAdapter.ViewHo
 
         public void showRewardDetailDialogFragment(Reward badge) {
             RewardDetailDialogFragment rewardDetailDialogFragment
-                    = RewardDetailDialogFragment.newInstance("Edit Name", badge);
+                    = RewardDetailDialogFragment.newInstance("Edit Name", badge, user);
             rewardDetailDialogFragment.show(MainActivity.fragmentManager,
                     "fragment_reward_detail");
         }
