@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     // Request codes
     public final static int BANK_REQUEST_CODE = 20;
 
-    @BindView(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigationView;
-
+    public static BottomNavigationView bottomNavigationView;
     public static ImageButton ibGoalDetailsBack;
 
     public static FragmentManager fragmentManager;
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ibGoalDetailsBack = findViewById(R.id.ibGoalDetailsBack);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         ibGoalDetailsBack.setVisibility(View.GONE);
         fragmentManager = getSupportFragmentManager();
         setNavigationClick();

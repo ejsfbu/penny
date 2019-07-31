@@ -36,6 +36,7 @@ import com.parse.SaveCallback;
 import java.util.Date;
 import java.util.List;
 
+import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
 
@@ -140,7 +141,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                     bundle.putParcelable("Clicked Goal", goal);
                     //launch the details view
                     if ((purpose == null) && (cancelled == null)) {
-                        ibGoalDetailsBack.setVisibility(View.VISIBLE);
+                        if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
+                            ibGoalDetailsBack.setVisibility(View.VISIBLE);
+                        }
                         Fragment fragment = new GoalDetailsFragment();
                         fragment.setArguments(bundle);
                         fragmentManager.beginTransaction()
