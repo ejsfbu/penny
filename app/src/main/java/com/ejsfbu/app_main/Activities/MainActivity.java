@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         User user = (User) ParseUser.getCurrentUser();
         if (user.getNeedsParent()) {
-            showConnectParentDialog();
+            Intent intent = new Intent(this, NeedsParentActivity.class);
+            this.startActivity(intent);
+            finish();
         }
     }
 
