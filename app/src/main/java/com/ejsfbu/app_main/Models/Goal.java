@@ -108,8 +108,15 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         put(KEY_COMPLETED, completed);
     }
 
-    public String getDateCompleted() {
-        return getDate(KEY_DATE_COMPLETED).toString();
+    public Date getDateCompleted() {
+        Date dateCompleted;
+        try {
+            dateCompleted = fetchIfNeeded().getDate(KEY_DATE_COMPLETED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            dateCompleted = null;
+        }
+        return dateCompleted;
     }
 
     public void setDateCompleted(Date date) {
@@ -149,7 +156,11 @@ public class Goal extends ParseObject implements Comparable<Goal> {
 
     @Override
     public int compareTo(Goal goal) {
-        return this.getEndDate().compareTo(goal.getEndDate());
+        if (goal.getCompleted()) {
+            return goal.getDateCompleted().compareTo(this.getDateCompleted());
+        } else {
+            return this.getEndDate().compareTo(goal.getEndDate());
+        }
     }
 
     public static class Query extends ParseQuery<Goal> {
