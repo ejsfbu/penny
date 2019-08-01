@@ -164,7 +164,11 @@ public class User extends ParseUser {
     }
 
     public List<Reward> getCompletedBadges() {
-        return getList(KEY_COMPLETED_BADGES);
+        List<Reward> rewards =  getList(KEY_COMPLETED_BADGES);
+        if (rewards == null) {
+            rewards = new ArrayList<>();
+        }
+        return rewards;
     }
 
     public void removeCompletedBadge(Reward reward) {
