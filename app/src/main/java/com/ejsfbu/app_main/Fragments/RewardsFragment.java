@@ -68,7 +68,6 @@ public class RewardsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
-        user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_badges, container, false);
     }
 
