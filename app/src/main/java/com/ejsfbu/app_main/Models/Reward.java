@@ -286,6 +286,16 @@ public class Reward extends ParseObject {
         return false;
     }
 
+    public static boolean userHasClaimedBadge(User user, String rewardId) {
+        List<Reward> completedBadges = user.getClaimedRewards();
+        for (int i = 0; i < completedBadges.size(); i++) {
+            if (completedBadges.get(i).getObjectId().equals(rewardId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static List<Reward> getGoalGroupBadges() {
         List<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();

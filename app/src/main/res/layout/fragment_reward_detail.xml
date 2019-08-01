@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivAmazonGiftCard" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDiscountCode" />
 
     <ImageView
         android:id="@+id/ivAmazonGiftCard"
@@ -86,7 +86,7 @@
         android:layout_height="277dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle"
@@ -106,4 +106,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle"
         tools:text="$10" />
+
+    <TextView
+        android:id="@+id/tvDiscountCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_edit_text"
+        android:text="code"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDiscountText" />
+
+    <ImageView
+        android:id="@+id/ivAmazonLogo"
+        android:layout_width="154dp"
+        android:layout_height="78dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAmazonGiftCard"
+        app:srcCompat="@drawable/amazon_logo" />
+
+    <TextView
+        android:id="@+id/tvDiscountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="Use this code for 10% off one item on Amazon:"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAmazonLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
