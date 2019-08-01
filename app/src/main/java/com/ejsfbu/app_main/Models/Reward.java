@@ -3,6 +3,8 @@ package com.ejsfbu.app_main.Models;
 import com.ejsfbu.app_main.R;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -10,6 +12,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+
 
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -429,6 +432,7 @@ public class Reward extends ParseObject {
         }
         return badges;
     }
+
 
     public ArrayList<Reward> getBigGoalsBadges(){
         ArrayList<Reward> badges = new ArrayList<>();

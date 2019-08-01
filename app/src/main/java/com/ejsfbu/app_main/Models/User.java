@@ -35,7 +35,6 @@ public class User extends ParseUser {
     public static final String KEY_TOTAL_SAVED = "totalSaved";
     public static final String KEY_COMPLETED_GOALS = "completedGoals";
     public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
-    public static final String KEY_MAKING_MONEY_MOVES = "makingMoves";
     public static final String KEY_SMALL_GOALS = "smallGoals";
 
     public String getName() {
@@ -161,20 +160,18 @@ public class User extends ParseUser {
         put(KEY_TOTAL_SAVED, totalSaved);
     }
 
-    public void addCompletedBadge(Reward reward) {
-        addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward));
-    }
-
-    public List<Reward> getCompletedBadges() {
-        return getList(KEY_COMPLETED_BADGES);
-    }
-
     public void setSmallGoals(Integer completed) {
         put(KEY_SMALL_GOALS, completed);
     }
 
     public Integer getSmallGoals() {
         return getNumber(KEY_SMALL_GOALS).intValue();
+    }
+
+    public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }
+
+    public List<Reward> getCompletedBadges() {
+        return getList(KEY_COMPLETED_BADGES);
     }
 
 
