@@ -26,6 +26,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_TRANSACTIONS = "transactions";
     public static final String KEY_UPDATES_MADE = "updatesMade";
+    public static final String KEY_COMPLETED_EARLY = "completedEarly";
 
     public String getName() {
         String name = "";
@@ -136,6 +137,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
 
     public void setUpdatesMade(boolean updatesMade) {
         put(KEY_UPDATES_MADE, updatesMade);
+    }
+
+    public boolean getCompletedEarly() {
+        return getBoolean(KEY_COMPLETED_EARLY);
+    }
+
+    public void setCompletedEarly(boolean completedEarly) {
+        put(KEY_COMPLETED_EARLY, completedEarly);
     }
 
     @Override
