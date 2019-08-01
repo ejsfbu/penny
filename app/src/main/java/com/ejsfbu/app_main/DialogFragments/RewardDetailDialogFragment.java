@@ -39,6 +39,8 @@ public class RewardDetailDialogFragment extends DialogFragment {
     private TextView tvRewardDetailBadgeDescription;
     private TextView tvRewardDetailStatus;
     private Button bRewardDetailClose;
+    private ImageView ivAmazonGiftCard;
+    private TextView tvGiftCardAmount;
 
     public RewardDetailDialogFragment() {
 
@@ -71,6 +73,8 @@ public class RewardDetailDialogFragment extends DialogFragment {
         tvRewardDetailBadgeDescription = view.findViewById(R.id.tvRewardDetailBadgeDescription);
         tvRewardDetailStatus = view.findViewById(R.id.tvRewardDetailStatus);
         bRewardDetailClose = view.findViewById(R.id.bRewardDetailClose);
+        tvGiftCardAmount = view.findViewById(R.id.tvGiftCardAmount);
+        ivAmazonGiftCard = view.findViewById(R.id.ivAmazonGiftCard);
 
         badge = getArguments().getParcelable("badge");
         user = getArguments().getParcelable("user");
@@ -99,6 +103,14 @@ public class RewardDetailDialogFragment extends DialogFragment {
             tvRewardDetailStatus.setText("Completed");
         }
 
+        if (badge.hasGiftCard()) {
+            tvGiftCardAmount.setVisibility(View.VISIBLE);
+            ivAmazonGiftCard.setVisibility(View.VISIBLE);
+            bRewardDetailClose.setText("Claim");
+        } else {
+            tvGiftCardAmount.setVisibility(View.GONE);
+            ivAmazonGiftCard.setVisibility(View.GONE);
+        }
         bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

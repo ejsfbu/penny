@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp">
 
     <ImageView
         android:id="@+id/ivRewardDetailBadgeImage"
@@ -77,5 +78,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/ivAmazonGiftCard" />
+
+    <ImageView
+        android:id="@+id/ivAmazonGiftCard"
+        android:layout_width="386dp"
+        android:layout_height="277dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle"
+        app:srcCompat="@drawable/amazongiftcard" />
+
+    <TextView
+        android:id="@+id/tvGiftCardAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="$10"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailStatusTitle"
+        tools:text="$10" />
 </androidx.constraintlayout.widget.ConstraintLayout>
