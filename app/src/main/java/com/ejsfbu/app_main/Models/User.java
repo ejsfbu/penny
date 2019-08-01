@@ -177,6 +177,14 @@ public class User extends ParseUser {
         removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
     }
 
+    public void setSmallGoals(Integer completed) {
+        put(KEY_SMALL_GOALS, completed);
+    }
+
+    public Integer getSmallGoals() {
+        return getNumber(KEY_SMALL_GOALS).intValue();
+    }
+
 
     public void addInProgressBadge(Reward reward) {
         addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
@@ -221,14 +229,6 @@ public class User extends ParseUser {
         removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
     }
 
-    public void setSmallGoals(Integer completed) {
-        put(KEY_SMALL_GOALS, completed);
-    }
-
-    public Integer getSmallGoals() {
-        return getNumber(KEY_SMALL_GOALS).intValue();
-    }
-
     public List<Goal> getInProgressGoals() {
         return getList(KEY_IN_PROGRESS_GOALS);
     }
@@ -269,7 +269,6 @@ public class User extends ParseUser {
         }
         return hasUpdatedGoals;
     }
-
 
     public static class Query extends ParseQuery<User> {
         public Query() {
