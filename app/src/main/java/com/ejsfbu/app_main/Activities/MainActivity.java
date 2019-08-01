@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 ibGoalDetailsBack.setVisibility(View.GONE);
             }
         });
+
         ibRewardGoalDetailsBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -64,6 +64,11 @@ public class Reward extends ParseObject {
             earnedRewards.add(totalSavedReward);
         }
 
+        Reward smallGoalReward = checkSmallGoals(user);
+        if (smallGoalReward != null) {
+            earnedRewards.add(smallGoalReward);
+        }
+
         return earnedRewards;
     }
 
