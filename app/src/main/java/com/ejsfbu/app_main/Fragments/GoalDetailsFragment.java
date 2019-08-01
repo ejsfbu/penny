@@ -38,6 +38,7 @@ import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -61,6 +62,7 @@ import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
+import static com.ejsfbu.app_main.Models.Reward.checkMakingMoves;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -268,6 +270,7 @@ public class GoalDetailsFragment extends Fragment implements
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                         checkCompleted(goal);
                     }
+                    checkMakingMoves(user, goal);
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

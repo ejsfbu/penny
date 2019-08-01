@@ -35,6 +35,7 @@ public class User extends ParseUser {
     public static final String KEY_TOTAL_SAVED = "totalSaved";
     public static final String KEY_COMPLETED_GOALS = "completedGoals";
     public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
+    public static final String KEY_MAKING_MONEY_MOVES = "makingMoves";
 
     public String getName() {
         return getString(KEY_NAME);
@@ -216,6 +217,14 @@ public class User extends ParseUser {
 
     public void removeInProgressGoal(Goal goal) {
         removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
+    }
+
+    public void setMakingMoves(Integer completed) {
+        put(KEY_MAKING_MONEY_MOVES, completed);
+    }
+
+    public Integer getMakingMoves() {
+        return getNumber(KEY_MAKING_MONEY_MOVES).intValue();
     }
 
     public List<Goal> getInProgressGoals() {
