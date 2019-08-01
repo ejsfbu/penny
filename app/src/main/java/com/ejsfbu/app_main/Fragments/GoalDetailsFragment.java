@@ -62,7 +62,7 @@ import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
-import static com.ejsfbu.app_main.Models.Reward.checkMakingMoves;
+import static com.ejsfbu.app_main.Models.Reward.checkSmallGoals;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -276,7 +276,7 @@ public class GoalDetailsFragment extends Fragment implements
                         }
 
                     }
-                    checkMakingMoves(user, goal);
+                    checkSmallGoals(user, goal);
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
