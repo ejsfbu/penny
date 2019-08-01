@@ -55,8 +55,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
+import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -109,6 +113,11 @@ public class GoalDetailsFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
+            ibGoalDetailsBack.setVisibility(View.VISIBLE);
+        } else if (bottomNavigationView.getSelectedItemId() == R.id.miRewards) {
+            ibRewardGoalDetailsBack.setVisibility(View.VISIBLE);
+        }
         goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
         transactionsList = new ArrayList<>();
@@ -242,12 +251,7 @@ public class GoalDetailsFragment extends Fragment implements
         if (transaction.getApproval()) {
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
-            Double oldTotalSaved = user.getTotalSaved();
             user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
-            Reward totalSavedBadge = Reward.checkEarnedTotalSavedBadge(user, oldTotalSaved);
-            if (totalSavedBadge != null) {
-                earnedBadges.add(totalSavedBadge);
-            }
         } else {
             createRequest(transaction);
         }
@@ -262,10 +266,13 @@ public class GoalDetailsFragment extends Fragment implements
                     setGoalInfo();
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                        checkCompleted(goal);
+
+                        earnedBadges.addAll(checkEarnedRewards(user));
                         if (earnedBadges.size() != 0) {
                             showEarnedBadgeDialogFragment();
                         }
-                        checkCompleted(goal);
+
                     }
                 } else {
                     e.printStackTrace();
@@ -362,7 +369,6 @@ public class GoalDetailsFragment extends Fragment implements
                         user.addCompletedGoal(goal);
                         user.saveInBackground();
                         setGoalInfo();
-                        Reward reward = checkCompletedGoals(user);
                     } else {
                         e.printStackTrace();
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

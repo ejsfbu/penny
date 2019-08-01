@@ -80,8 +80,8 @@ public class RewardsFragment extends Fragment {
         inProgressBadgeRows = new ArrayList<>();
 
         goalAdapter = new GoalAdapter(context, goals);
-        completedBadgeRowAdapter = new BadgeRowAdapter(context, completedBadgeRows);
-        inProgressBadgeRowAdapter = new BadgeRowAdapter(context, inProgressBadgeRows);
+        completedBadgeRowAdapter = new BadgeRowAdapter(context, completedBadgeRows, user);
+        inProgressBadgeRowAdapter = new BadgeRowAdapter(context, inProgressBadgeRows, user);
 
         rvRewardsCompletedGoals.setAdapter(goalAdapter);
         rvRewardsCompletedBadges.setAdapter(completedBadgeRowAdapter);

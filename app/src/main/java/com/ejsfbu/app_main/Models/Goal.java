@@ -25,9 +25,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_COMPLETED = "completed";
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_TRANSACTIONS = "transactions";
-
-
-
+    public static final String KEY_UPDATES_MADE = "updatesMade";
 
     public String getName() {
         String name = "";
@@ -124,6 +122,21 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
     public List<Transaction> getTransactions() { return getList(KEY_TRANSACTIONS); }
+
+    public boolean getUpdatesMade() {
+        boolean updatesMade;
+        try {
+            updatesMade = fetchIfNeeded().getBoolean(KEY_UPDATES_MADE);
+        } catch (ParseException e) {
+            updatesMade = false;
+            e.printStackTrace();
+        }
+        return updatesMade;
+    }
+
+    public void setUpdatesMade(boolean updatesMade) {
+        put(KEY_UPDATES_MADE, updatesMade);
+    }
 
     @Override
     public int compareTo(Goal goal) {

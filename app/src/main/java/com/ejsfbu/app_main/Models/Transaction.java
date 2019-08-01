@@ -23,6 +23,7 @@ public class Transaction extends ParseObject {
     public static final String KEY_TYPE = "isWithdraw";
     public static final String KEY_COMPLETED_DATE = "completedDate";
     public static final String KEY_FROM_GOAL = "fromGoal";
+    public static final String KEY_RECENTLY_APPROVED = "recentlyApproved";
 
     public Transaction() {
         super();
@@ -127,6 +128,21 @@ public class Transaction extends ParseObject {
     public boolean getType() { return getBoolean(KEY_TYPE); }
 
     public void setType(boolean bool) { put(KEY_TYPE, bool); }
+
+    public boolean getRecentlyApproved() {
+        boolean recentlyApproved;
+        try {
+            recentlyApproved = fetchIfNeeded().getBoolean(KEY_RECENTLY_APPROVED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            recentlyApproved = false;
+        }
+        return recentlyApproved;
+    }
+
+    public void setRecentlyApproved(boolean recentlyApproved) {
+        put(KEY_RECENTLY_APPROVED, recentlyApproved);
+    }
 
     public static class Query extends ParseQuery<Transaction> {
         public Query() {

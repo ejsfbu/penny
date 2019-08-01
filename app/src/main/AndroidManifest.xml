@@ -13,13 +13,24 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ChildDetailActivity"></activity>
-        <activity android:name=".Activities.ParentProfileActivity" />
-        <activity android:name=".Activities.AddBankActivity"></activity>
-        <activity android:name=".Activities.ParentActivity" />
-
+        <activity
+            android:name=".Activities.NeedsParentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ChildDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ParentProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.AddBankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ParentActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -30,9 +41,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fileprovider" />
         </provider>
-
-        <activity android:name=".Activities.AddGoalActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.AddGoalActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.MainActivity"
             android:screenOrientation="portrait" />

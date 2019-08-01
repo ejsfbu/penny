@@ -23,12 +23,14 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
 
 public class RewardDetailDialogFragment extends DialogFragment {
 
     private Reward badge;
+    private User user;
 
     private Context context;
 
@@ -42,11 +44,12 @@ public class RewardDetailDialogFragment extends DialogFragment {
 
     }
 
-    public static RewardDetailDialogFragment newInstance(String title, Reward badge) {
+    public static RewardDetailDialogFragment newInstance(String title, Reward badge, User user) {
         RewardDetailDialogFragment rewardDetailDialogFragment = new RewardDetailDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putParcelable("badge", badge);
+        args.putParcelable("user", user);
         rewardDetailDialogFragment.setArguments(args);
         return rewardDetailDialogFragment;
     }
@@ -70,6 +73,7 @@ public class RewardDetailDialogFragment extends DialogFragment {
         bRewardDetailClose = view.findViewById(R.id.bRewardDetailClose);
 
         badge = getArguments().getParcelable("badge");
+        user = getArguments().getParcelable("user");
 
         ParseFile image = badge.getBadgeImage();
         String imageUrl = image.getUrl();
@@ -89,10 +93,10 @@ public class RewardDetailDialogFragment extends DialogFragment {
         tvRewardDetailBadgeDescription.setText(badge.getDescription());
 
 
-        if (badge.getCompleted()) {
-            tvRewardDetailStatus.setText("Completed");
-        } else if (badge.getInProgress()) {
+        if (user.hasInProgressBadge(badge.getObjectId())) {
             tvRewardDetailStatus.setText("In Progress");
+        } else {
+            tvRewardDetailStatus.setText("Completed");
         }
 
         bRewardDetailClose.setOnClickListener(new View.OnClickListener() {

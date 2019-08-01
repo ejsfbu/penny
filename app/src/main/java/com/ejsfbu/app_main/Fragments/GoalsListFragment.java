@@ -106,6 +106,7 @@ public class GoalsListFragment extends Fragment {
         fabAddGoal.setOnClickListener(view -> {
             Intent i = new Intent(getContext(), AddGoalActivity.class);
             startActivity(i);
+            getActivity().finish();
         });
     }
 

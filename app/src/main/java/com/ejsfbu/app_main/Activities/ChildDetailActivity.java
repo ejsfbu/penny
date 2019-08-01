@@ -1,6 +1,8 @@
 package com.ejsfbu.app_main.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,10 +25,12 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ChildDetailActivity extends AppCompatActivity {
 
@@ -46,6 +50,9 @@ public class ChildDetailActivity extends AppCompatActivity {
     RecyclerView rvChildDetailInProgressGoals;
     @BindView(R.id.rvChildDetailPendingRequests)
     RecyclerView rvChildDetailPendingRequests;
+
+    @BindView(R.id.ibChildDetailBack)
+    ImageButton ibChildDetailBack;
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
@@ -80,6 +87,13 @@ public class ChildDetailActivity extends AppCompatActivity {
 
         String childCode = getIntent().getStringExtra("childCode");
         getChildFromCode(childCode);
+    }
+
+    @OnClick(R.id.ibChildDetailBack)
+    public void onClickChildDetailBack() {
+        Intent intent = new Intent(this, ParentActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void getChildFromCode(String childCode) {
@@ -126,35 +140,22 @@ public class ChildDetailActivity extends AppCompatActivity {
     }
 
     public void loadCompletedGoals() {
-        final Goal.Query goalQuery = new Goal.Query();
-        goalQuery.getTopCompleted().areCompleted().fromUser(child);
-        goalQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    completedGoals.addAll(objects);
-                    completedGoalsAdapter.notifyDataSetChanged();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Goal> goals = child.getCompletedGoals();
+        if (goals != null) {
+            completedGoals.addAll(goals);
+            Collections.sort(completedGoals);
+            Collections.reverse(completedGoals);
+            completedGoalsAdapter.notifyDataSetChanged();
+        }
     }
 
     public void loadInProgressGoals() {
-        final Goal.Query goalQuery = new Goal.Query();
-        goalQuery.getTopByEndDate().areNotCompleted().fromUser(child);
-        goalQuery.findInBackground(new FindCallback<Goal>() {
-            @Override
-            public void done(List<Goal> objects, ParseException e) {
-                if (e == null) {
-                    inProgressGoals.addAll(objects);
-                    inProgressGoalsAdapter.notifyDataSetChanged();
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        List<Goal> goals = child.getInProgressGoals();
+        if (goals != null) {
+            inProgressGoals.addAll(goals);
+            Collections.sort(completedGoals);
+            inProgressGoalsAdapter.notifyDataSetChanged();
+        }
     }
 
     public void loadPendingRequests() {
