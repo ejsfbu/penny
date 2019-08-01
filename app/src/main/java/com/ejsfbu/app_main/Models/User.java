@@ -169,10 +169,6 @@ public class User extends ParseUser {
         return getList(KEY_COMPLETED_BADGES);
     }
 
-    public void removeCompletedBadge(Reward reward) {
-        removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
-    }
-
     public void setSmallGoals(Integer completed) {
         put(KEY_SMALL_GOALS, completed);
     }
@@ -267,8 +263,6 @@ public class User extends ParseUser {
     }
 
     public void removeCompletedBadge(Reward reward) { removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));}
-
-    public void removeInProgressBadge(Reward reward) { removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));}
 
 
     public static class Query extends ParseQuery<User> {
