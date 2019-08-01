@@ -37,9 +37,7 @@ public class SignUpActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
                     parentSignUpFragment).commit();
         } else {
-            user.setIsParent(false);
-            user.setTotalSaved(0.0);
-            user.addInProgressBadges(Reward.getLevel1Badges());
+            user.setChildDefaults();
             Fragment personalInfoFragment = new SignUpPersonalInfoFragment();
             fragmentManager.beginTransaction().replace(R.id.flSignUpContainer,
                     personalInfoFragment).commit();

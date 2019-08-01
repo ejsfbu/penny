@@ -352,7 +352,13 @@ public class GoalDetailsFragment extends Fragment implements
     public void checkCompleted(Goal goal) {
         if (goal.getSaved() >= goal.getCost()) {
             goal.setCompleted(true);
+            Date endDate = goal.getEndDate();
             Date currentTime = Calendar.getInstance().getTime();
+            if (endDate.compareTo(currentTime) > 0) {
+                goal.setCompletedEarly(true);
+            } else {
+                goal.setCompletedEarly(false);
+            }
             goal.setDateCompleted(currentTime);
             goal.setEndDate(currentTime);
             goal.saveInBackground(new SaveCallback() {
@@ -360,6 +366,9 @@ public class GoalDetailsFragment extends Fragment implements
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
+                        if (goal.getCompletedEarly()) {
+                            user.setEarlyGoals(user.getEarlyGoals() + 1);
+                        }
                         user.addCompletedGoal(goal);
                         user.saveInBackground(new SaveCallback() {
                             @Override
