@@ -38,7 +38,6 @@ public class User extends ParseUser {
     public static final String KEY_MAKING_MONEY_MOVES = "makingMoves";
     public static final String KEY_SMALL_GOALS = "smallGoals";
 
-
     public String getName() {
         return getString(KEY_NAME);
     }
@@ -176,14 +175,6 @@ public class User extends ParseUser {
 
     public void removeCompletedBadge(Reward reward) {
         removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
-    }
-
-    public void setMakingMoves(Integer completed) {
-        put(KEY_MAKING_MONEY_MOVES, completed);
-    }
-
-    public Integer getMakingMoves() {
-        return getNumber(KEY_MAKING_MONEY_MOVES).intValue();
     }
 
 

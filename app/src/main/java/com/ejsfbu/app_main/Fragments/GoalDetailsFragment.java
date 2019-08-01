@@ -63,7 +63,6 @@ import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBac
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
 import static com.ejsfbu.app_main.Models.Reward.checkSmallGoals;
-import static com.ejsfbu.app_main.Models.Reward.checkMakingMoves;
 
 public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
@@ -275,7 +274,7 @@ public class GoalDetailsFragment extends Fragment implements
                     if (newSmallGoalsBadge != null) {
                         //TODO you want to show the user that they have earned a new badge
                     }
-                    checkMakingMoves(user, goal);
+                    checkSmallGoals(user, goal);
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

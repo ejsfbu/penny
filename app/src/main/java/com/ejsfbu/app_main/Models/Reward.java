@@ -3,7 +3,6 @@ package com.ejsfbu.app_main.Models;
 import com.ejsfbu.app_main.R;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -12,8 +11,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.parse.ParseUser;
-
-
 import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -310,7 +307,6 @@ public class Reward extends ParseObject {
     }
 
     public static class Query extends ParseQuery<Reward> {
-
         public Query() {
             super(Reward.class);
         }
@@ -467,106 +463,4 @@ public class Reward extends ParseObject {
         return badges;
     }
 
-    public static void checkMakingMoves(User user, Goal goal) {
-        if (goal.getCompleted() && (goal.getCost() <= 10.00)) {
-            user.setMakingMoves(user.getMakingMoves() + 1);
-            user.saveInBackground();
-            //when the user gets their first Making Money Moves badge (1st)
-            if (user.getMakingMoves() == 1) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 1");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 2");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
-            }
-
-            //when the user gets their second Making Money Moves badge (5th)
-            if (user.getMakingMoves() == 5) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 2");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 3");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
-            }
-
-            //when the user gets their third Making Money Moves badge (10th)
-            if (user.getMakingMoves() == 10) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 3");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 4");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
-            }
-
-            //when the user gets their third Making Money Moves badge (15th)
-            if (user.getMakingMoves() == 15) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 4");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 5");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
-            }
-
-            //when the user gets their third Making Money Moves badge (20th)
-            if (user.getMakingMoves() == 20) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 5");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-            }
-            user.saveInBackground();
-        }
-    }
 }
