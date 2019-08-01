@@ -366,6 +366,7 @@ public class Reward extends ParseObject {
                     public void done(ParseException e) {
                         if (e == null) {
                             user.removeInProgressBadge(smallGoalBadges.get(1));
+                            user.removeCompletedBadge(smallGoalBadges.get(0));
                         } else {
                             e.printStackTrace();
                         }
@@ -383,6 +384,7 @@ public class Reward extends ParseObject {
                     public void done(ParseException e) {
                         if (e == null) {
                             user.removeInProgressBadge(smallGoalBadges.get(2));
+                            user.removeCompletedBadge(smallGoalBadges.get(1));
                         } else {
                             e.printStackTrace();
                         }
@@ -400,6 +402,7 @@ public class Reward extends ParseObject {
                     public void done(ParseException e) {
                         if (e == null) {
                             user.removeInProgressBadge(smallGoalBadges.get(3));
+                            user.removeCompletedBadge(smallGoalBadges.get(2));
                         } else {
                             e.printStackTrace();
                         }
@@ -416,6 +419,7 @@ public class Reward extends ParseObject {
                     public void done(ParseException e) {
                         if (e == null) {
                             user.removeInProgressBadge(smallGoalBadges.get(4));
+                            user.removeCompletedBadge(smallGoalBadges.get(3));
                         } else {
                             e.printStackTrace();
                         }
