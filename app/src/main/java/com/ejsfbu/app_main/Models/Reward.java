@@ -325,6 +325,12 @@ public class Reward extends ParseObject {
             return this;
         }
 
+        public Query getGroup(String groupName) {
+            whereEqualTo(KEY_GROUP, groupName);
+            orderByAscending(KEY_NAME);
+            return this;
+        }
+
         public Query areCompleted() {
             whereEqualTo(KEY_COMPLETED, true);
             return this;
@@ -332,12 +338,6 @@ public class Reward extends ParseObject {
 
         public Query areInProgress() {
             whereEqualTo(KEY_IN_PROGRESS, true);
-            return this;
-        }
-
-        public Query getGroup(String groupName) {
-            whereEqualTo(KEY_GROUP, groupName);
-            orderByAscending(KEY_NAME);
             return this;
         }
     }

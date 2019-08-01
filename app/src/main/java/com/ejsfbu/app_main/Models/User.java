@@ -161,9 +161,7 @@ public class User extends ParseUser {
         put(KEY_TOTAL_SAVED, totalSaved);
     }
 
-    public void addCompletedBadge(Reward reward) {
-        addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward));
-    }
+    public void addCompletedBadge(Reward reward) { addAllUnique(KEY_COMPLETED_BADGES, Collections.singleton(reward)); }
 
     public List<Reward> getCompletedBadges() {
         List<Reward> rewards =  getList(KEY_COMPLETED_BADGES);
@@ -173,9 +171,6 @@ public class User extends ParseUser {
         return rewards;
     }
 
-    public void removeCompletedBadge(Reward reward) {
-        removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
-    }
 
     public void setSmallGoals(Integer completed) {
         put(KEY_SMALL_GOALS, completed);
@@ -269,6 +264,9 @@ public class User extends ParseUser {
         }
         return hasUpdatedGoals;
     }
+
+    public void removeCompletedBadge(Reward reward) { removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));}
+
 
     public static class Query extends ParseQuery<User> {
         public Query() {

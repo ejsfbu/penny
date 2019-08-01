@@ -271,10 +271,11 @@ public class GoalDetailsFragment extends Fragment implements
                         checkCompleted(goal);
                     }
                     earnedBadges.addAll(checkEarnedRewards(user));
-                    if (earnedBadges.size() != 0) {
-                        showEarnedBadgeDialogFragment();
+                        if (earnedBadges.size() != 0) {
+                            showEarnedBadgeDialogFragment();
+                        }
                     }
-                } else {
+                 else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
