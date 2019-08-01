@@ -97,15 +97,15 @@ public class SignUpParentFragment extends Fragment {
         user.setName(name);
 
         final String childCode = etSignUpParentChildCode.getText().toString();
-        if (firstName.equals("")) {
+        if (childCode.equals("")) {
             Toast.makeText(getContext(), "Please enter your child's code",
                     Toast.LENGTH_LONG).show();
             return;
         }
         getChildFromCode(childCode);
-        if (child == null) {
-            return;
-        }
+    }
+
+    private void finishSignUp() {
 
         final String email = etSignUpParentEmail.getText().toString();
         if (email.equals("")) {
@@ -233,10 +233,10 @@ public class SignUpParentFragment extends Fragment {
                 if (objects.size() == 0) {
                     Toast.makeText(SignUpParentFragment.this.getContext(),
                             "Child code is invalid", Toast.LENGTH_LONG).show();
-                    child = null;
                 } else {
                     child = objects.get(0);
                     user.addChild(child);
+                    finishSignUp();
                 }
             }
         });
