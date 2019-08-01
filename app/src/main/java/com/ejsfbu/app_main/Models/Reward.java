@@ -50,6 +50,22 @@ public class Reward extends ParseObject {
         return getString(KEY_DESCRIPTION);
     }
 
+    public static List<Reward> checkEarnedRewards(User user) {
+        ArrayList<Reward> earnedRewards = new ArrayList<>();
+
+        Reward completedGoalsReward = checkCompletedGoals(user);
+        if (completedGoalsReward != null) {
+            earnedRewards.add(completedGoalsReward);
+        }
+
+        Reward totalSavedReward = checkEarnedTotalSavedBadge(user);
+        if (totalSavedReward != null) {
+            earnedRewards.add(totalSavedReward);
+        }
+
+        return earnedRewards;
+    }
+
     // check to see if they have completed enough goals for a reward.
     public static Reward checkCompletedGoals(User user) {
         int numberCompleted = user.getNumberGoalsCompleted();
@@ -142,11 +158,11 @@ public class Reward extends ParseObject {
         return earnedReward;
     }
   
-    public static Reward checkEarnedTotalSavedBadge(User user, Double oldTotalSaved) {
+    public static Reward checkEarnedTotalSavedBadge(User user) {
         Double totalSaved = user.getTotalSaved();
         ArrayList<Reward> totalSavedBadges = getTotalSavedBadges();
         Reward earnedBadge;
-        if (totalSaved >= 1000 && oldTotalSaved < 1000) {
+        if (totalSaved >= 1000 && !userHasBadge(user, totalSavedBadges.get(4).getObjectId())) {
             user.addCompletedBadge(totalSavedBadges.get(4));
             user.saveInBackground(new SaveCallback() {
                 @Override
@@ -158,7 +174,7 @@ public class Reward extends ParseObject {
                 }
             });
             earnedBadge = totalSavedBadges.get(4);
-        } else if (totalSaved >= 500 && oldTotalSaved < 500) {
+        } else if (totalSaved >= 500 && !userHasBadge(user, totalSavedBadges.get(3).getObjectId())) {
             user.addCompletedBadge(totalSavedBadges.get(3));
             user.addInProgressBadge(totalSavedBadges.get(4));
             user.saveInBackground(new SaveCallback() {
@@ -171,7 +187,7 @@ public class Reward extends ParseObject {
                 }
             });
             earnedBadge = totalSavedBadges.get(3);
-        } else if (totalSaved >= 250 && oldTotalSaved < 250) {
+        } else if (totalSaved >= 250 && !userHasBadge(user, totalSavedBadges.get(2).getObjectId())) {
             user.addCompletedBadge(totalSavedBadges.get(2));
             user.addInProgressBadge(totalSavedBadges.get(3));
             user.saveInBackground(new SaveCallback() {
@@ -184,7 +200,7 @@ public class Reward extends ParseObject {
                 }
             });
             earnedBadge = totalSavedBadges.get(2);
-        } else if (totalSaved >= 100 && oldTotalSaved < 100) {
+        } else if (totalSaved >= 100 && !userHasBadge(user, totalSavedBadges.get(1).getObjectId())) {
             user.addCompletedBadge(totalSavedBadges.get(1));
             user.addInProgressBadge(totalSavedBadges.get(2));
             user.saveInBackground(new SaveCallback() {
@@ -197,7 +213,7 @@ public class Reward extends ParseObject {
                 }
             });
             earnedBadge = totalSavedBadges.get(1);
-        } else if (totalSaved >= 50 && oldTotalSaved < 50) {
+        } else if (totalSaved >= 50 && !userHasBadge(user, totalSavedBadges.get(0).getObjectId())) {
             user.addCompletedBadge(totalSavedBadges.get(0));
             user.addInProgressBadge(totalSavedBadges.get(1));
             user.saveInBackground(new SaveCallback() {
@@ -221,6 +237,16 @@ public class Reward extends ParseObject {
             }
         });
         return earnedBadge;
+    }
+
+    public static boolean userHasBadge(User user, String rewardId) {
+        List<Reward> completedBadges = user.getCompletedBadges();
+        for (int i = 0; i < completedBadges.size(); i++) {
+            if (completedBadges.get(i).getObjectId().equals(rewardId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static List<Reward> getGoalGroupBadges() {

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,17 +20,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
+import com.ejsfbu.app_main.Adapters.ShortBadgeRowAdapter;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.Models.ShortBadgeRow;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.ButterKnife;
 
 public class EarnedBadgeDialogFragment extends DialogFragment {
 
@@ -40,8 +38,8 @@ public class EarnedBadgeDialogFragment extends DialogFragment {
     private RecyclerView rvEarnedBadgedBadges;
     private Button bEarnedBadgesGreat;
 
-    private BadgeRowAdapter badgeRowAdapter;
-    private List<BadgeRow> badgeRows;
+    private ShortBadgeRowAdapter shortBadgeRowAdapter;
+    private List<ShortBadgeRow> shortBadgeRows;
 
     private EarnedBadgeDialogFragment() {
 
@@ -70,15 +68,15 @@ public class EarnedBadgeDialogFragment extends DialogFragment {
         rvEarnedBadgedBadges = view.findViewById(R.id.rvEarnedBadgesBadgesList);
         bEarnedBadgesGreat = view.findViewById(R.id.bEarnedBadgesGreat);
 
-        badgeRows = new ArrayList<>();
+        shortBadgeRows = new ArrayList<>();
 
-        badgeRowAdapter = new BadgeRowAdapter(context, badgeRows, (User) ParseUser.getCurrentUser());
+        shortBadgeRowAdapter = new ShortBadgeRowAdapter(context, shortBadgeRows);
 
-        rvEarnedBadgedBadges.setAdapter(badgeRowAdapter);
+        rvEarnedBadgedBadges.setAdapter(shortBadgeRowAdapter);
         rvEarnedBadgedBadges.setLayoutManager(new LinearLayoutManager(context));
 
-        BadgeRow.makeBadgeRows(getArguments().getParcelableArrayList("earnedBadges"),
-                badgeRowAdapter, badgeRows);
+        ShortBadgeRow.makeShortBadgeRows(getArguments().getParcelableArrayList("earnedBadges"),
+                shortBadgeRowAdapter, shortBadgeRows);
 
         bEarnedBadgesGreat.setOnClickListener(new View.OnClickListener() {
             @Override
