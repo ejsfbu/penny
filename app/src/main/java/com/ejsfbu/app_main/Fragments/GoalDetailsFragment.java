@@ -270,9 +270,21 @@ public class GoalDetailsFragment extends Fragment implements
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                         checkCompleted(goal);
                     }
-                    Reward newSmallGoalsBadge = checkSmallGoals(user, goal);
+                    Reward newSmallGoalsBadge = checkSmallGoals(user);
                     if (newSmallGoalsBadge != null) {
-                        //TODO you want to show the user that they have earned a new badge
+                        if (goal.getCompleted() && (goal.getCost() <= 10.00)) {
+                            user.setSmallGoals(user.getSmallGoals() + 1);
+                            user.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    earnedBadges.add(checkSmallGoals(user));
+                                }
+                            });
+                        }
+                        earnedBadges.addAll(checkEarnedRewards(user));
+                        if (earnedBadges.size() != 0) {
+                            showEarnedBadgeDialogFragment();
+                        }
                     }
                 } else {
                     e.printStackTrace();
