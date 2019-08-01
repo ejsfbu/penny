@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
+import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.Models.User;
@@ -64,6 +65,10 @@ public class GoalsListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        MainActivity.ibGoalDetailsBack.setVisibility(View.GONE);
+        MainActivity.ibBankDetailsBack.setVisibility(View.GONE);
+        MainActivity.ibBanksListBack.setVisibility(View.GONE);
+        MainActivity.ibRewardGoalDetailsBack.setVisibility(View.GONE);
         user = (User) ParseUser.getCurrentUser();
         goalList = new ArrayList<>();
         adapter = new GoalAdapter(context, goalList);
