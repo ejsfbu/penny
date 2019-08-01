@@ -23,8 +23,10 @@ import android.widget.Button;
 import com.ejsfbu.app_main.Adapters.ShortBadgeRowAdapter;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.Models.ShortBadgeRow;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
