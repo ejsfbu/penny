@@ -1,6 +1,8 @@
 package com.ejsfbu.app_main.Models;
 
 import com.ejsfbu.app_main.R;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
@@ -8,12 +10,11 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
+import com.parse.SaveCallback;
 import com.parse.ParseUser;
 
 
 import com.parse.SaveCallback;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,6 @@ public class Reward extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_GROUP = "group";
     public static final String KEY_IS_LEVEL_1 = "isLevel1";
-
 
     public String getName() {
         String name;
@@ -314,119 +314,114 @@ public class Reward extends ParseObject {
             super(Reward.class);
         }
 
-        public Query getGroup(String groupName) {
-            whereEqualTo(KEY_GROUP, groupName);
-            orderByAscending(KEY_NAME);
-            return this;
-        }
-
         public Query getLevel1() {
             whereEqualTo(KEY_IS_LEVEL_1, true);
             orderByAscending(KEY_NAME);
             return this;
         }
+
+        public Query areCompleted() {
+            whereEqualTo(KEY_COMPLETED, true);
+            return this;
+        }
+
+        public Query areInProgress() {
+            whereEqualTo(KEY_IN_PROGRESS, true);
+            return this;
+        }
+
+        public Query getGroup(String groupName) {
+            whereEqualTo(KEY_GROUP, groupName);
+            orderByAscending(KEY_NAME);
+            return this;
+        }
     }
 
-    public static void checkMakingMoves(User user, Goal goal) {
+    public static Reward checkSmallGoals(User user, Goal goal) {
+        ArrayList<Reward> smallGoalBadges = new Reward().getSmallGoalsBadges();
+        Reward earnedBadge = null;
         if (goal.getCompleted() && (goal.getCost() <= 10.00)) {
-            user.setMakingMoves(user.getMakingMoves() + 1);
-            user.saveInBackground();
+            user.setSmallGoals(user.getSmallGoals() + 1);
             //when the user gets their first Making Money Moves badge (1st)
-            if (user.getMakingMoves() == 1) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 1");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 2");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
+            if (user.getSmallGoals() == 1) {
+                user.addCompletedBadge(smallGoalBadges.get(0));
+                user.addInProgressBadge(smallGoalBadges.get(1));
+                earnedBadge = smallGoalBadges.get(0);
             }
 
             //when the user gets their second Making Money Moves badge (5th)
-            if (user.getMakingMoves() == 5) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 2");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 3");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
+            if (user.getSmallGoals() == 5) {
+                user.addCompletedBadge(smallGoalBadges.get(1));
+                user.addInProgressBadge(smallGoalBadges.get(2));
+                earnedBadge = smallGoalBadges.get(1);
             }
 
             //when the user gets their third Making Money Moves badge (10th)
-            if (user.getMakingMoves() == 10) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 3");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 4");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
+            if (user.getSmallGoals() == 10) {
+                user.addCompletedBadge(smallGoalBadges.get(2));
+                user.addInProgressBadge(smallGoalBadges.get(3));
+                earnedBadge = smallGoalBadges.get(2);
             }
 
             //when the user gets their third Making Money Moves badge (15th)
-            if (user.getMakingMoves() == 15) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 4");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
-
-                Reward.Query makingMovesIP = new Reward.Query();
-                makingMovesIP.whereEqualTo("rewardName", "Making Money Moves: Level 5");
-                makingMovesIP.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addInProgressBadge(objects.get(0));
-                    }
-                });
+            if (user.getSmallGoals() == 15) {
+                user.addCompletedBadge(smallGoalBadges.get(3));
+                user.addInProgressBadge(smallGoalBadges.get(4));
+                earnedBadge = smallGoalBadges.get(3);
             }
 
             //when the user gets their third Making Money Moves badge (20th)
-            if (user.getMakingMoves() == 20) {
-                Reward.Query makingMoves = new Reward.Query();
-                makingMoves.whereEqualTo("rewardName", "Making Money Moves: Level 5");
-                makingMoves.findInBackground(new FindCallback<Reward>() {
-                    @Override
-                    public void done(List<Reward> objects, ParseException e) {
-                        user.addCompletedBadge(objects.get(0));
-                    }
-                });
+            if (user.getSmallGoals() == 20) {
+                user.addCompletedBadge(smallGoalBadges.get(4));
+                earnedBadge = smallGoalBadges.get(4);
             }
-            user.saveInBackground();
+
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
+        return earnedBadge;
     }
+
+    public ArrayList<Reward> getSmallGoalsBadges(){
+        ArrayList<Reward> badges = new ArrayList<>();
+        Reward.Query query = new Reward.Query();
+        query.getGroup("Small Goals");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
+    }
+
+    public ArrayList<Reward> getMediumGoalsBadges(){
+        ArrayList<Reward> badges = new ArrayList<>();
+        Reward.Query query = new Reward.Query();
+        query.getGroup("Medium Goals");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
+    }
+
+    public ArrayList<Reward> getBigGoalsBadges(){
+        ArrayList<Reward> badges = new ArrayList<>();
+        Reward.Query query = new Reward.Query();
+        query.getGroup("Big Goals");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
+    }
+
 }
