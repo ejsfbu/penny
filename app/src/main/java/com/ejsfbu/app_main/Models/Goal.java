@@ -26,6 +26,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_DATE_COMPLETED = "dateCompleted";
     public static final String KEY_TRANSACTIONS = "transactions";
     public static final String KEY_UPDATES_MADE = "updatesMade";
+    public static final String KEY_COMPLETED_EARLY = "completedEarly";
 
     public String getName() {
         String name = "";
@@ -107,8 +108,15 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         put(KEY_COMPLETED, completed);
     }
 
-    public String getDateCompleted() {
-        return getDate(KEY_DATE_COMPLETED).toString();
+    public Date getDateCompleted() {
+        Date dateCompleted;
+        try {
+            dateCompleted = fetchIfNeeded().getDate(KEY_DATE_COMPLETED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            dateCompleted = null;
+        }
+        return dateCompleted;
     }
 
     public void setDateCompleted(Date date) {
@@ -138,9 +146,21 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         put(KEY_UPDATES_MADE, updatesMade);
     }
 
+    public boolean getCompletedEarly() {
+        return getBoolean(KEY_COMPLETED_EARLY);
+    }
+
+    public void setCompletedEarly(boolean completedEarly) {
+        put(KEY_COMPLETED_EARLY, completedEarly);
+    }
+
     @Override
     public int compareTo(Goal goal) {
-        return this.getEndDate().compareTo(goal.getEndDate());
+        if (goal.getCompleted()) {
+            return goal.getDateCompleted().compareTo(this.getDateCompleted());
+        } else {
+            return this.getEndDate().compareTo(goal.getEndDate());
+        }
     }
 
     public static class Query extends ParseQuery<Goal> {

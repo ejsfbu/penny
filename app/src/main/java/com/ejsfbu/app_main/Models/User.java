@@ -37,6 +37,8 @@ public class User extends ParseUser {
     public static final String KEY_COMPLETED_GOALS = "completedGoals";
     public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
     public static final String KEY_CLAIMED_REWARDS = "claimedRewards";
+    public static final String KEY_EARLY_GOALS = "earlyGoals";
+
 
     public String getName() {
         return getString(KEY_NAME);
@@ -205,7 +207,16 @@ public class User extends ParseUser {
 
     public void addCompletedGoal(Goal goal) {
         removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
-        addAllUnique(KEY_COMPLETED_GOALS, Collections.singleton(goal));
+        List<Goal> completedGoals = getCompletedGoals();
+        removeAll(KEY_COMPLETED_GOALS, completedGoals);
+        saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                completedGoals.add(0, goal);
+                Collections.sort(completedGoals);
+                addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
+            }
+        });
     }
 
     public List<Goal> getCompletedGoals() {
@@ -255,6 +266,9 @@ public class User extends ParseUser {
                     goal.setUpdatesMade(false);
                     goal.saveInBackground();
                     if (goal.getCompleted()) {
+                        if (goal.getCompletedEarly()) {
+                            setEarlyGoals(getEarlyGoals() + 1);
+                        }
                         addCompletedGoal(goal);
                     }
                     List<Transaction> transactions = goal.getTransactions();
@@ -271,6 +285,21 @@ public class User extends ParseUser {
             }
         }
         return hasUpdatedGoals;
+    }
+
+    public int getEarlyGoals() {
+        return getInt(KEY_EARLY_GOALS);
+    }
+
+    public void setEarlyGoals(int earlyGoals) {
+        put(KEY_EARLY_GOALS, earlyGoals);
+    }
+
+    public void setChildDefaults() {
+        setIsParent(false);
+        setTotalSaved(0.0);
+        setEarlyGoals(0);
+        addInProgressBadges(Reward.getLevel1Badges());
     }
 
     public static class Query extends ParseQuery<User> {
