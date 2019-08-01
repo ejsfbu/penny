@@ -55,7 +55,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
 
@@ -110,6 +113,11 @@ public class GoalDetailsFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
+            ibGoalDetailsBack.setVisibility(View.VISIBLE);
+        } else if (bottomNavigationView.getSelectedItemId() == R.id.miRewards) {
+            ibRewardGoalDetailsBack.setVisibility(View.VISIBLE);
+        }
         goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
         transactionsList = new ArrayList<>();

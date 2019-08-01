@@ -73,6 +73,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     EditText etAddGoalEndDate;
     @BindView(R.id.bAddGoalDate)
     ImageButton bAddGoalDate;
+    @BindView(R.id.ibAddGoalBack)
+    ImageButton ibAddGoalBack;
 
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -88,6 +90,13 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
         user = (User) ParseUser.getCurrentUser();
+    }
+
+    @OnClick(R.id.ibAddGoalBack)
+    public void onClickAddGoalBack() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @OnClick(R.id.bAddGoalDate)

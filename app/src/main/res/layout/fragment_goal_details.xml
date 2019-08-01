@@ -136,6 +136,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/auto_pay"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
                 app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsDeposit"
                 app:layout_constraintStart_toStartOf="@+id/bGoalDetailsDeposit"

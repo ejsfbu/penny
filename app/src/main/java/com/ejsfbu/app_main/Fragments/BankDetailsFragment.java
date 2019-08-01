@@ -30,6 +30,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibBankDetailsBack;
 
 public class BankDetailsFragment extends Fragment implements RemoveBankDialogFragment.RemoveBankDialogListener {
 
@@ -59,6 +60,7 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        ibBankDetailsBack.setVisibility(View.VISIBLE);
         user = (User) ParseUser.getCurrentUser();
         Bundle bundle = this.getArguments();
         bank = bundle.getParcelable("bank");

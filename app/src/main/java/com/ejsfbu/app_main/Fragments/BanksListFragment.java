@@ -58,6 +58,7 @@ public class BanksListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        MainActivity.ibBanksListBack.setVisibility(View.VISIBLE);
         user = ParseUser.getCurrentUser();
         bankList = new ArrayList<>();
         adapter = new BankAdapter(context, bankList);

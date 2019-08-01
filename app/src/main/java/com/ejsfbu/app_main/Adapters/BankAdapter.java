@@ -20,6 +20,7 @@ import com.ejsfbu.app_main.Models.BankAccount;
 import java.util.List;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Activities.MainActivity.ibBanksListBack;
 
 public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 
@@ -77,6 +78,7 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
             }
 
             root.setOnClickListener(view -> {
+                ibBanksListBack.setVisibility(View.GONE);
                 Fragment fragment = new BankDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("bank", bank);

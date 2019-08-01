@@ -3,6 +3,8 @@ package com.ejsfbu.app_main.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,15 +29,18 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    // Request codes
     public final static int BANK_REQUEST_CODE = 20;
 
-    @BindView(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigationView;
+    public static BottomNavigationView bottomNavigationView;
+    public static ImageButton ibGoalDetailsBack;
+    public static ImageButton ibRewardGoalDetailsBack;
+    public static ImageButton ibBanksListBack;
+    public static ImageButton ibBankDetailsBack;
 
     public static FragmentManager fragmentManager;
     private ArrayList<Reward> earnedRewards;
@@ -44,9 +49,53 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        ibGoalDetailsBack = findViewById(R.id.ibGoalDetailsBack);
+        ibRewardGoalDetailsBack = findViewById(R.id.ibRewardGoalDetailsBack);
+        ibBanksListBack = findViewById(R.id.ibBanksListBack);
+        ibBankDetailsBack = findViewById(R.id.ibBankDetailsBack);
+
+        ibGoalDetailsBack.setVisibility(View.GONE);
+        ibRewardGoalDetailsBack.setVisibility(View.GONE);
+        ibBanksListBack.setVisibility(View.GONE);
+        ibBankDetailsBack.setVisibility(View.GONE);
+
         fragmentManager = getSupportFragmentManager();
         setNavigationClick();
+
+        ibGoalDetailsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.setSelectedItemId(R.id.miGoals);
+                ibGoalDetailsBack.setVisibility(View.GONE);
+            }
+        });
+        ibRewardGoalDetailsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.setSelectedItemId(R.id.miRewards);
+                ibRewardGoalDetailsBack.setVisibility(View.GONE);
+            }
+        });
+        ibBanksListBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.setSelectedItemId(R.id.miProfile);
+                ibBanksListBack.setVisibility(View.GONE);
+            }
+        });
+        ibBankDetailsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new BanksListFragment();
+                MainActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.flMainContainer, fragment).commit();
+                ibBankDetailsBack.setVisibility(View.GONE);
+            }
+        });
 
         User user = (User) ParseUser.getCurrentUser();
         earnedRewards = new ArrayList<>();

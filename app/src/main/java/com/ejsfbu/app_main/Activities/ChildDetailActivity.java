@@ -1,6 +1,8 @@
 package com.ejsfbu.app_main.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ChildDetailActivity extends AppCompatActivity {
 
@@ -47,6 +50,9 @@ public class ChildDetailActivity extends AppCompatActivity {
     RecyclerView rvChildDetailInProgressGoals;
     @BindView(R.id.rvChildDetailPendingRequests)
     RecyclerView rvChildDetailPendingRequests;
+
+    @BindView(R.id.ibChildDetailBack)
+    ImageButton ibChildDetailBack;
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
@@ -81,6 +87,13 @@ public class ChildDetailActivity extends AppCompatActivity {
 
         String childCode = getIntent().getStringExtra("childCode");
         getChildFromCode(childCode);
+    }
+
+    @OnClick(R.id.ibChildDetailBack)
+    public void onClickChildDetailBack() {
+        Intent intent = new Intent(this, ParentActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void getChildFromCode(String childCode) {
