@@ -267,12 +267,6 @@ public class GoalDetailsFragment extends Fragment implements
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                         checkCompleted(goal);
-
-                        earnedBadges.addAll(checkEarnedRewards(user));
-                        if (earnedBadges.size() != 0) {
-                            showEarnedBadgeDialogFragment();
-                        }
-
                     }
                 } else {
                     e.printStackTrace();
@@ -367,7 +361,19 @@ public class GoalDetailsFragment extends Fragment implements
                     if (e == null) {
                         Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
                         user.addCompletedGoal(goal);
-                        user.saveInBackground();
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    earnedBadges.addAll(checkEarnedRewards(user));
+                                    if (earnedBadges.size() != 0) {
+                                        showEarnedBadgeDialogFragment();
+                                    }
+                                } else {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                         setGoalInfo();
                     } else {
                         e.printStackTrace();
