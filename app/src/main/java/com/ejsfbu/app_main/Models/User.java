@@ -1,9 +1,12 @@
 package com.ejsfbu.app_main.Models;
 
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 
@@ -132,7 +135,7 @@ public class User extends ParseUser {
         if (list == null) {
             return null;
         }
-        for (BankAccount bank: list){
+        for (BankAccount bank : list) {
             if (bank.getVerified()) {
                 newList.add(bank);
             }
@@ -171,7 +174,7 @@ public class User extends ParseUser {
     public void addInProgressBadge(Reward reward) {
         addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
     }
-  
+
     public void addInProgressBadges(List<Reward> rewards) {
         addAllUnique(KEY_IN_PROGRESS_BADGES, rewards);
     }
@@ -181,20 +184,30 @@ public class User extends ParseUser {
         return getList(KEY_IN_PROGRESS_BADGES);
     }
 
-    public void removeInProgressBadge(Reward reward) { removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));}
+    public void removeInProgressBadge(Reward reward) {
+        removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
+    }
 
     public void addCompletedGoal(Goal goal) {
         removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
         addAllUnique(KEY_COMPLETED_GOALS, Collections.singleton(goal));
     }
 
-    public List<Goal> getCompletedGoals() { return getList(KEY_COMPLETED_GOALS); }
+    public List<Goal> getCompletedGoals() {
+        return getList(KEY_COMPLETED_GOALS);
+    }
 
-    public void addInProgressGoal(Goal goal) { addAllUnique(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal)); }
+    public void addInProgressGoal(Goal goal) {
+        addAllUnique(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
+    }
 
-    public void removeInProgressGoal(Goal goal) { removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal)); }
+    public void removeInProgressGoal(Goal goal) {
+        removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
+    }
 
-    public List<Goal> getInProgressGoals() { return getList(KEY_IN_PROGRESS_GOALS); }
+    public List<Goal> getInProgressGoals() {
+        return getList(KEY_IN_PROGRESS_GOALS);
+    }
 
     public int getNumberGoalsCompleted() {
         List<Goal> goals = getCompletedGoals();
@@ -203,6 +216,34 @@ public class User extends ParseUser {
         } else {
             return goals.size();
         }
+    }
+
+    public boolean hasUpdatedGoals() {
+        List<Goal> goals = getInProgressGoals();
+        boolean hasUpdatedGoals = false;
+        if (goals != null) {
+            for (int i = 0; i < goals.size(); i++) {
+                Goal goal = goals.get(i);
+                if (goal.getUpdatesMade()) {
+                    goal.setUpdatesMade(false);
+                    goal.saveInBackground();
+                    if (goal.getCompleted()) {
+                        addCompletedGoal(goal);
+                    }
+                    List<Transaction> transactions = goal.getTransactions();
+                    Double addAmount = 0.0;
+                    for (int j = 0; j < transactions.size(); j ++) {
+                        if (transactions.get(j).getRecentlyApproved()) {
+                            transactions.get(i).setRecentlyApproved(false);
+                            addAmount += transactions.get(j).getAmount();
+                        }
+                    }
+                    setTotalSaved(getTotalSaved() + addAmount);
+                    hasUpdatedGoals = true;
+                }
+            }
+        }
+        return hasUpdatedGoals;
     }
 
     public static class Query extends ParseQuery<User> {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
+import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -20,8 +21,11 @@ import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
 
@@ -77,6 +81,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                     Transaction transaction = request.getTransaction();
                     transaction.setApproval(true);
                     transaction.setTransactionCompleteDate(new Date(System.currentTimeMillis()));
+                    transaction.setRecentlyApproved(true);
                     transaction.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -84,6 +89,22 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                 transaction.getBank().withdraw(transaction.getAmount());
                                 Goal goal = transaction.getGoal();
                                 goal.addSaved(transaction.getAmount());
+                                goal.setUpdatesMade(true);
+                                if (goal.getSaved() >= goal.getCost()) {
+                                    goal.setCompleted(true);
+                                    Date currentTime = Calendar.getInstance().getTime();
+                                    goal.setDateCompleted(currentTime);
+                                    goal.setEndDate(currentTime);
+                                    goal.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e != null) {
+                                                e.printStackTrace();
+                                                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
                                 goal.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
