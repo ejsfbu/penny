@@ -248,6 +248,9 @@ public class User extends ParseUser {
                     goal.saveInBackground();
                     if (goal.getCompleted()) {
                         addCompletedGoal(goal);
+                        if (goal.getCost() <= 10.00) {
+                            setSmallGoals(getSmallGoals() + 1);
+                        }
                     }
                     List<Transaction> transactions = goal.getTransactions();
                     Double addAmount = 0.0;

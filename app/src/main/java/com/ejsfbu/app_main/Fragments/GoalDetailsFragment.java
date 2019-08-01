@@ -368,6 +368,9 @@ public class GoalDetailsFragment extends Fragment implements
                     if (e == null) {
                         Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
                         user.addCompletedGoal(goal);
+                        if (goal.getCost() <= 10.00) {
+                            user.setSmallGoals(user.getSmallGoals() + 1);
+                        }
                         user.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
