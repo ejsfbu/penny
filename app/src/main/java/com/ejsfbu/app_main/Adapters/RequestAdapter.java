@@ -92,7 +92,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                 goal.setUpdatesMade(true);
                                 if (goal.getSaved() >= goal.getCost()) {
                                     goal.setCompleted(true);
+                                    Date endDate = goal.getEndDate();
                                     Date currentTime = Calendar.getInstance().getTime();
+                                    if (endDate.compareTo(currentTime) > 0) {
+                                        goal.setCompletedEarly(true);
+                                    } else {
+                                        goal.setCompletedEarly(false);
+                                    }
                                     goal.setDateCompleted(currentTime);
                                     goal.setEndDate(currentTime);
                                     goal.saveInBackground(new SaveCallback() {
