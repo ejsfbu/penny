@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -28,11 +29,13 @@
 
             <TextView
                 android:id="@+id/tvGoalDetailsName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/goal_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalName"
                 app:layout_constraintStart_toEndOf="@+id/ivGoalDetailsImage"
                 app:layout_constraintTop_toTopOf="@+id/ivGoalDetailsImage" />
 
@@ -61,40 +64,48 @@
                 android:id="@+id/bGoalDetailsDeposit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/background_button_pig_pink"
                 android:text="@string/deposit"
-                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsCancelGoal"
-                app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsCancelGoal"
-                app:layout_constraintStart_toStartOf="@+id/bGoalDetailsCancelGoal" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/bGoalDetailsCancelGoal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/borderBot" />
 
             <Button
                 android:id="@+id/bGoalDetailsCancelGoal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:background="@drawable/background_button_coin_blue"
                 android:text="@string/cancel_goal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/bGoalDetailsDeposit"
+                app:layout_constraintTop_toBottomOf="@+id/borderBot" />
 
             <TextView
                 android:id="@+id/tvGoalDetailsDateCompletedTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/date_completed"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsDateCompleted"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTotalCostTitle" />
 
             <TextView
                 android:id="@+id/tvGoalDetailsDateCompleted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsDateCompletedTitle"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
             <TextView
@@ -102,17 +113,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/total_cost"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsTotalCost"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsAmountSavedTitle" />
 
             <TextView
                 android:id="@+id/tvGoalDetailsTotalCost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsTotalCostTitle"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsTotalCostTitle" />
 
             <TextView
@@ -125,6 +137,7 @@
                 android:gravity="center"
                 android:text="@string/transaction_history"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
@@ -147,27 +160,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/amount_saved"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsAmountSaved"
                 app:layout_constraintTop_toBottomOf="@+id/ivGoalDetailsImage" />
 
             <TextView
                 android:id="@+id/tvGoalDetailsAmountSaved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsAmountSavedTitle"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsAmountSavedTitle" />
 
             <ImageButton
                 android:id="@+id/ivEditGoalName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
                 android:background="#00FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsName"
-                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsName"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsName"
                 app:srcCompat="@drawable/icon_edit" />
 
@@ -175,10 +189,10 @@
                 android:id="@+id/ivEditGoalDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
                 android:background="#00FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsDateCompleted"
-                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsDateCompleted"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompleted"
                 app:srcCompat="@drawable/icon_edit" />
 
@@ -249,6 +263,17 @@
                 app:layout_constraintEnd_toStartOf="@+id/verticalborderRight"
                 app:layout_constraintStart_toEndOf="@+id/verticalborderLeft"
                 app:layout_constraintTop_toBottomOf="@+id/borderTop" />
+
+            <View
+                android:id="@+id/divider8"
+                android:layout_width="395dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintBottom_toTopOf="@+id/tvGoalDetailsTransactionHistoryTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle"
+                tools:layout_editor_absoluteX="8dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
