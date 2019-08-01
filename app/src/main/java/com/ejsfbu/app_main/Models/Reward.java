@@ -1,10 +1,12 @@
 package com.ejsfbu.app_main.Models;
 
 import com.ejsfbu.app_main.R;
+
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -16,6 +18,7 @@ import com.parse.SaveCallback;
 
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -159,7 +162,7 @@ public class Reward extends ParseObject {
         });
         return earnedReward;
     }
-  
+
     public static Reward checkEarnedTotalSavedBadge(User user) {
         Double totalSaved = user.getTotalSaved();
         ArrayList<Reward> totalSavedBadges = getTotalSavedBadges();
@@ -316,104 +319,100 @@ public class Reward extends ParseObject {
         }
     }
 
-    public static Reward checkSmallGoals(User user, Goal goal) {
+    public static Reward checkSmallGoals(User user) {
         ArrayList<Reward> smallGoalBadges = new Reward().getSmallGoalsBadges();
         Reward earnedBadge = null;
-        if (goal.getCompleted() && (goal.getCost() <= 10.00)) {
-            user.setSmallGoals(user.getSmallGoals() + 1);
-
-            //when the user gets their first Making Money Moves badge (1st)
-            if (user.getSmallGoals() == 1) {
-                user.addCompletedBadge(smallGoalBadges.get(0));
-                user.addInProgressBadge(smallGoalBadges.get(1));
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            user.removeInProgressBadge(smallGoalBadges.get(0));
-                        } else {
-                            e.printStackTrace();
-                        }
+        //when the user gets their first Making Money Moves badge (1st)
+        if (user.getSmallGoals() == 1) {
+            user.addCompletedBadge(smallGoalBadges.get(0));
+            user.addInProgressBadge(smallGoalBadges.get(1));
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        user.removeInProgressBadge(smallGoalBadges.get(0));
+                    } else {
+                        e.printStackTrace();
                     }
-                });
-                earnedBadge = smallGoalBadges.get(0);
-            }
+                }
+            });
+            earnedBadge = smallGoalBadges.get(0);
+        }
 
-            //when the user gets their second Making Money Moves badge (5th)
-            if (user.getSmallGoals() == 5) {
-                user.addCompletedBadge(smallGoalBadges.get(1));
-                user.addInProgressBadge(smallGoalBadges.get(2));
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            user.removeInProgressBadge(smallGoalBadges.get(1));
-                            user.removeCompletedBadge(smallGoalBadges.get(0));
-                        } else {
-                            e.printStackTrace();
-                        }
+        //when the user gets their second Making Money Moves badge (5th)
+        if (user.getSmallGoals() == 5) {
+            user.addCompletedBadge(smallGoalBadges.get(1));
+            user.addInProgressBadge(smallGoalBadges.get(2));
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        user.removeInProgressBadge(smallGoalBadges.get(1));
+                        user.removeCompletedBadge(smallGoalBadges.get(0));
+                    } else {
+                        e.printStackTrace();
                     }
-                });
-                earnedBadge = smallGoalBadges.get(1);
-            }
+                }
+            });
+            earnedBadge = smallGoalBadges.get(1);
+        }
 
-            //when the user gets their third Making Money Moves badge (10th)
-            if (user.getSmallGoals() == 10) {
-                user.addCompletedBadge(smallGoalBadges.get(2));
-                user.addInProgressBadge(smallGoalBadges.get(3));
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            user.removeInProgressBadge(smallGoalBadges.get(2));
-                            user.removeCompletedBadge(smallGoalBadges.get(1));
-                        } else {
-                            e.printStackTrace();
-                        }
+        //when the user gets their third Making Money Moves badge (10th)
+        if (user.getSmallGoals() == 10) {
+            user.addCompletedBadge(smallGoalBadges.get(2));
+            user.addInProgressBadge(smallGoalBadges.get(3));
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        user.removeInProgressBadge(smallGoalBadges.get(2));
+                        user.removeCompletedBadge(smallGoalBadges.get(1));
+                    } else {
+                        e.printStackTrace();
                     }
-                });
-                earnedBadge = smallGoalBadges.get(2);
-            }
+                }
+            });
+            earnedBadge = smallGoalBadges.get(2);
+        }
 
-            //when the user gets their third Making Money Moves badge (15th)
-            if (user.getSmallGoals() == 15) {
-                user.addCompletedBadge(smallGoalBadges.get(3));
-                user.addInProgressBadge(smallGoalBadges.get(4));
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            user.removeInProgressBadge(smallGoalBadges.get(3));
-                            user.removeCompletedBadge(smallGoalBadges.get(2));
-                        } else {
-                            e.printStackTrace();
-                        }
+        //when the user gets their third Making Money Moves badge (15th)
+        if (user.getSmallGoals() == 15) {
+            user.addCompletedBadge(smallGoalBadges.get(3));
+            user.addInProgressBadge(smallGoalBadges.get(4));
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        user.removeInProgressBadge(smallGoalBadges.get(3));
+                        user.removeCompletedBadge(smallGoalBadges.get(2));
+                    } else {
+                        e.printStackTrace();
                     }
-                });
-                earnedBadge = smallGoalBadges.get(3);
-            }
+                }
+            });
+            earnedBadge = smallGoalBadges.get(3);
+        }
 
-            //when the user gets their third Making Money Moves badge (20th)
-            if (user.getSmallGoals() == 20) {
-                user.addCompletedBadge(smallGoalBadges.get(4));
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            user.removeInProgressBadge(smallGoalBadges.get(4));
-                            user.removeCompletedBadge(smallGoalBadges.get(3));
-                        } else {
-                            e.printStackTrace();
-                        }
+        //when the user gets their third Making Money Moves badge (20th)
+        if (user.getSmallGoals() == 20) {
+            user.addCompletedBadge(smallGoalBadges.get(4));
+            user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        user.removeInProgressBadge(smallGoalBadges.get(4));
+                        user.removeCompletedBadge(smallGoalBadges.get(3));
+                    } else {
+                        e.printStackTrace();
                     }
-                });
-                earnedBadge = smallGoalBadges.get(4);
-            }
+                }
+            });
+            earnedBadge = smallGoalBadges.get(4);
         }
         return earnedBadge;
     }
 
-    public ArrayList<Reward> getSmallGoalsBadges(){
+    public ArrayList<Reward> getSmallGoalsBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Small Goals");
@@ -425,7 +424,7 @@ public class Reward extends ParseObject {
         return badges;
     }
 
-    public ArrayList<Reward> getMediumGoalsBadges(){
+    public ArrayList<Reward> getMediumGoalsBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Medium Goals");
@@ -438,7 +437,7 @@ public class Reward extends ParseObject {
     }
 
 
-    public ArrayList<Reward> getBigGoalsBadges(){
+    public ArrayList<Reward> getBigGoalsBadges() {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Big Goals");
