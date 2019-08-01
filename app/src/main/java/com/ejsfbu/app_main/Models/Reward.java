@@ -70,80 +70,103 @@ public class Reward extends ParseObject {
     public static Reward checkCompletedGoals(User user) {
         int numberCompleted = user.getNumberGoalsCompleted();
         List<Reward> rewards = getGoalGroupBadges();
+        List<Reward> completed = user.getCompletedBadges();
         Reward earnedReward;
-        if (numberCompleted == 1) {
-            user.addInProgressBadge(rewards.get(1));
-            user.addCompletedBadge(rewards.get(0));
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        user.removeInProgressBadge(rewards.get(0));
-                    } else {
-                        e.printStackTrace();
+        if (numberCompleted >= 50 && !userHasBadge(user, rewards.get(4).getObjectId())) {
+            return null;
+        } else if (numberCompleted >= 50) {
+            if (!userHasBadge(user, rewards.get(4).getObjectId())) {
+                user.addCompletedBadge(rewards.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(3));
+                            user.removeInProgressBadge(rewards.get(4));
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            earnedReward = rewards.get(0);
-        } else if (numberCompleted == 5) {
-            user.addCompletedBadge(rewards.get(1));
-            user.addInProgressBadge(rewards.get(2));
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        user.removeCompletedBadge(rewards.get(0));
-                        user.removeInProgressBadge(rewards.get(1));
-                    } else {
-                        e.printStackTrace();
+                });
+                earnedReward = rewards.get(4);
+            } else {
+                earnedReward = null;
+            }
+        } else if (numberCompleted >= 25) {
+            if (!userHasBadge(user, rewards.get(3).getObjectId())) {
+                user.addCompletedBadge(rewards.get(3));
+                user.addInProgressBadge(rewards.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(2));
+                            user.removeInProgressBadge(rewards.get(3));
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            earnedReward = rewards.get(1);
-        } else if (numberCompleted == 10) {
-            user.addCompletedBadge(rewards.get(2));
-            user.addInProgressBadge(rewards.get(3));
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        user.removeCompletedBadge(rewards.get(1));
-                        user.removeInProgressBadge(rewards.get(2));
-                    } else {
-                        e.printStackTrace();
+                });
+                earnedReward = rewards.get(3);
+            } else {
+                earnedReward = null;
+            }
+        } else if (numberCompleted >= 10) {
+            if (!userHasBadge(user, rewards.get(2).getObjectId())) {
+                user.addCompletedBadge(rewards.get(2));
+                user.addInProgressBadge(rewards.get(3));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(1));
+                            user.removeInProgressBadge(rewards.get(2));
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            earnedReward = rewards.get(2);
-        } else if (numberCompleted == 25) {
-            user.addCompletedBadge(rewards.get(3));
-            user.addInProgressBadge(rewards.get(4));
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        user.removeCompletedBadge(rewards.get(2));
-                        user.removeInProgressBadge(rewards.get(3));
-                    } else {
-                        e.printStackTrace();
+                });
+                earnedReward = rewards.get(2);
+            } else {
+                earnedReward = null;
+            }
+        } else if (numberCompleted >= 5) {
+            if (!userHasBadge(user, rewards.get(1).getObjectId())) {
+                user.addCompletedBadge(rewards.get(1));
+                user.addInProgressBadge(rewards.get(2));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(0));
+                            user.removeInProgressBadge(rewards.get(1));
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            earnedReward = rewards.get(3);
-        } else if (numberCompleted == 50) {
-            user.addCompletedBadge(rewards.get(4));
-            user.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        user.removeCompletedBadge(rewards.get(3));
-                        user.removeInProgressBadge(rewards.get(4));
-                    } else {
-                        e.printStackTrace();
+                });
+                earnedReward = rewards.get(1);
+            } else {
+                earnedReward = null;
+            }
+        } else if (numberCompleted >= 1) {
+            if (!userHasBadge(user, rewards.get(0).getObjectId())) {
+                user.addInProgressBadge(rewards.get(1));
+                user.addCompletedBadge(rewards.get(0));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(rewards.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            earnedReward = rewards.get(4);
+                });
+                earnedReward = rewards.get(0);
+            } else {
+                earnedReward = null;
+            }
         } else {
             earnedReward = null;
         }
