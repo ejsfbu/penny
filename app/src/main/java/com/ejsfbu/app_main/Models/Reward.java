@@ -296,6 +296,117 @@ public class Reward extends ParseObject {
         });
         return earnedReward;
     }
+
+    public static Reward checkEarlyBadges(User user) {
+        int numEarly = user.getEarlyGoals();
+        List<Reward> rewards = getCompletedEarlyBadges();
+        Reward earnedReward;
+        if (numEarly >= 50) {
+            if (userHasBadge(user, rewards.get(4).getObjectId())) {
+                earnedReward = null;
+            } else {
+                user.addCompletedBadge(rewards.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(3));
+                            user.removeInProgressBadge(rewards.get(4));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedReward = rewards.get(4);
+            }
+        } else if (numEarly >= 25) {
+            if (userHasBadge(user, rewards.get(3).getObjectId())) {
+                earnedReward = null;
+            } else {
+                user.addCompletedBadge(rewards.get(3));
+                user.addInProgressBadge(rewards.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(2));
+                            user.removeInProgressBadge(rewards.get(3));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedReward = rewards.get(3);
+            }
+        } else if (numEarly >= 10) {
+            if (userHasBadge(user, rewards.get(2).getObjectId())) {
+                earnedReward = null;
+            } else {
+                user.addCompletedBadge(rewards.get(2));
+                user.addInProgressBadge(rewards.get(3));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(1));
+                            user.removeInProgressBadge(rewards.get(2));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedReward = rewards.get(2);
+            }
+        } else if (numEarly >= 5) {
+            if (userHasBadge(user, rewards.get(1).getObjectId())) {
+                earnedReward = null;
+            } else {
+                user.addCompletedBadge(rewards.get(1));
+                user.addInProgressBadge(rewards.get(2));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeCompletedBadge(rewards.get(0));
+                            user.removeInProgressBadge(rewards.get(1));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedReward = rewards.get(1);
+            }
+        } else if (numEarly >= 1) {
+            if (userHasBadge(user, rewards.get(0).getObjectId())) {
+                earnedReward = null;
+            } else {
+                user.addCompletedBadge(rewards.get(0));
+                user.addInProgressBadge(rewards.get(1));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(rewards.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedReward = rewards.get(0);
+            }
+        } else {
+            earnedReward = null;
+        }
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return earnedReward;
+    }
   
     public static Reward checkEarnedTotalSavedBadge(User user) {
         Double totalSaved = user.getTotalSaved();
