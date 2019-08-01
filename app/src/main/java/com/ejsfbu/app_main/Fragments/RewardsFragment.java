@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Models.User;
@@ -78,6 +79,11 @@ public class RewardsFragment extends Fragment {
         goals = new ArrayList<>();
         completedBadgeRows = new ArrayList<>();
         inProgressBadgeRows = new ArrayList<>();
+
+        MainActivity.ibGoalDetailsBack.setVisibility(View.GONE);
+        MainActivity.ibBankDetailsBack.setVisibility(View.GONE);
+        MainActivity.ibBanksListBack.setVisibility(View.GONE);
+        MainActivity.ibRewardGoalDetailsBack.setVisibility(View.GONE);
 
         goalAdapter = new GoalAdapter(context, goals);
         completedBadgeRowAdapter = new BadgeRowAdapter(context, completedBadgeRows, user);

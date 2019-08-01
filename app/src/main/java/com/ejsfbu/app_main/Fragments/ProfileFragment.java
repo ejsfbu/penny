@@ -117,6 +117,10 @@ public class ProfileFragment extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
+        MainActivity.ibGoalDetailsBack.setVisibility(View.GONE);
+        MainActivity.ibBankDetailsBack.setVisibility(View.GONE);
+        MainActivity.ibBanksListBack.setVisibility(View.GONE);
+        MainActivity.ibRewardGoalDetailsBack.setVisibility(View.GONE);
         user = (User) ParseUser.getCurrentUser();
         parents = new ArrayList<>();
         loadProfileData();
