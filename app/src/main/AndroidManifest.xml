@@ -41,7 +41,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fileprovider" />
         </provider>
-
         <activity
             android:name=".Activities.AddGoalActivity"
             android:screenOrientation="portrait" />

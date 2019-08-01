@@ -256,7 +256,14 @@ public class EditGoalImageDialogFragment extends DialogFragment {
             if (resultCode == RESULT_OK) {
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName, context));
                 Bitmap rotatedBitmap = rotateBitmapOrientation(takenPhotoUri.getPath());
-                Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(rotatedBitmap, 200);
+                int width = rotatedBitmap.getWidth();
+                int height = rotatedBitmap.getHeight();
+                Bitmap resizedBitmap;
+                if (width <= height) {
+                    resizedBitmap = BitmapScaler.scaleToFitWidth(rotatedBitmap, 200);
+                } else {
+                    resizedBitmap = BitmapScaler.scaleToFitHeight(rotatedBitmap, 200);
+                }
                 Bitmap cropImg = Bitmap.createBitmap(resizedBitmap,
                         0, 0, 200, 200);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
