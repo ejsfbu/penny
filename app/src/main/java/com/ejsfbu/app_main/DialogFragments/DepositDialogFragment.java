@@ -110,7 +110,14 @@ public class DepositDialogFragment extends DialogFragment {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            Double amount = Double.valueOf(etDepositAmount.getText().toString());
+            String amountString = etDepositAmount.getText().toString();
+            Double amount;
+            if (amountString.equals("")) {
+                Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                amount = Double.valueOf(amountString);
+            }
             if (amount == 0.0) {
                 Toast.makeText(context, "Enter a value greater than 0.",
                         Toast.LENGTH_SHORT).show();
