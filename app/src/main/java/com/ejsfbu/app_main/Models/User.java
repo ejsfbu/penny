@@ -38,6 +38,7 @@ public class User extends ParseUser {
     public static final String KEY_MAKING_MONEY_MOVES = "makingMoves";
     public static final String KEY_SMALL_GOALS = "smallGoals";
 
+
     public String getName() {
         return getString(KEY_NAME);
     }
@@ -177,6 +178,15 @@ public class User extends ParseUser {
         removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));
     }
 
+    public void setMakingMoves(Integer completed) {
+        put(KEY_MAKING_MONEY_MOVES, completed);
+    }
+
+    public Integer getMakingMoves() {
+        return getNumber(KEY_MAKING_MONEY_MOVES).intValue();
+    }
+
+
     public void addInProgressBadge(Reward reward) {
         addAllUnique(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));
     }
@@ -268,11 +278,6 @@ public class User extends ParseUser {
         }
         return hasUpdatedGoals;
     }
-
-    public void removeCompletedBadge(Reward reward) { removeAll(KEY_COMPLETED_BADGES, Collections.singleton(reward));}
-
-    public void removeInProgressBadge(Reward reward) { removeAll(KEY_IN_PROGRESS_BADGES, Collections.singleton(reward));}
-
 
     public static class Query extends ParseQuery<User> {
         public Query() {
