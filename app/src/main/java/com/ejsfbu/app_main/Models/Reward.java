@@ -251,7 +251,7 @@ public class Reward extends ParseObject {
 
     public static List<Reward> getGoalGroupBadges() {
         List<Reward> badges = new ArrayList<>();
-        final Reward.Query query = new Reward.Query();
+        Reward.Query query = new Reward.Query();
         query.getGroup("Goals Completed");
         try {
             badges.addAll(query.find());
