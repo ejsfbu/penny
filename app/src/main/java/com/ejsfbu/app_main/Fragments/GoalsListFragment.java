@@ -3,7 +3,6 @@ package com.ejsfbu.app_main.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,10 @@ import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
+import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.Models.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -89,7 +86,7 @@ public class GoalsListFragment extends Fragment {
 
     protected void loadGoals() {
         List<Goal> goals = user.getInProgressGoals();
-        if (goals == null || goals.size() == 0 ) {
+        if (goals == null || goals.size() == 0) {
             tvNoGoalText.setVisibility(View.VISIBLE);
         } else {
             tvNoGoalText.setVisibility(View.GONE);

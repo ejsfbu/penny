@@ -1,13 +1,20 @@
 package com.ejsfbu.app_main.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +27,7 @@ import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
+import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
 import com.parse.ParseFile;
@@ -28,8 +36,9 @@ import com.parse.ParseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class ParentProfileActivity extends AppCompatActivity
+public class ParentProfileFragment extends Fragment
         implements EditNameDialogFragment.EditNameDialogListener,
         EditUsernameDialogFragment.EditUsernameDialogListener,
         EditEmailDialogFragment.EditEmailDialogListener,
@@ -66,17 +75,24 @@ public class ParentProfileActivity extends AppCompatActivity
     Button bParentProfileLogout;
 
     private User user;
-    private static FragmentManager fragmentManager;
+    private Unbinder unbinder;
+    private Context context;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = container.getContext();
+        user = (User) ParseUser.getCurrentUser();
+        return inflater.inflate(R.layout.fragment_parent_profile, container, false);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parent_profile);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        unbinder = ButterKnife.bind(this, view);
 
-        ButterKnife.bind(this);
-
-        user = (User) ParseUser.getCurrentUser();
-        fragmentManager = getSupportFragmentManager();
+        ParentActivity.ibParentProfileBack.setVisibility(View.VISIBLE);
+        ParentActivity.ivParentProfilePic.setVisibility(View.GONE);
+        ParentActivity.cvParentProfilePic.setVisibility(View.GONE);
 
         loadProfileData();
     }
@@ -93,14 +109,13 @@ public class ParentProfileActivity extends AppCompatActivity
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(this)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivParentProfileProfilePic);
         }
     }
@@ -113,7 +128,7 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditNameDialog() {
         EditNameDialogFragment editNameDialogFragment
                 = EditNameDialogFragment.newInstance("Edit Name");
-        editNameDialogFragment.show(ParentProfileActivity.fragmentManager,
+        editNameDialogFragment.show(ParentActivity.fragmentManager,
                 "fragment_edit_name");
     }
 
@@ -125,7 +140,7 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditUsernameDialog() {
         EditUsernameDialogFragment editUsernameDialogFragment
                 = EditUsernameDialogFragment.newInstance("Edit Username");
-        editUsernameDialogFragment.show(ParentProfileActivity.fragmentManager,
+        editUsernameDialogFragment.show(ParentActivity.fragmentManager,
                 "fragment_edit_username");
     }
 
@@ -137,7 +152,7 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditEmailDialog() {
         EditEmailDialogFragment editEmailDialogFragment
                 = EditEmailDialogFragment.newInstance("Edit Email");
-        editEmailDialogFragment.show(ParentProfileActivity.fragmentManager,
+        editEmailDialogFragment.show(ParentActivity.fragmentManager,
                 "fragment_edit_email");
     }
 
@@ -149,7 +164,7 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditPasswordDialog() {
         EditPasswordDialogFragment editPasswordDialogFragment
                 = EditPasswordDialogFragment.newInstance("Edit Password");
-        editPasswordDialogFragment.show(ParentProfileActivity.fragmentManager,
+        editPasswordDialogFragment.show(ParentActivity.fragmentManager,
                 "fragment_edit_password");
     }
 
@@ -166,7 +181,7 @@ public class ParentProfileActivity extends AppCompatActivity
     private void showEditImageDialog() {
         EditProfileImageDialogFragment editProfileImageDialogFragment
                 = EditProfileImageDialogFragment.newInstance("Edit Password");
-        editProfileImageDialogFragment.show(ParentProfileActivity.fragmentManager,
+        editProfileImageDialogFragment.show(ParentActivity.fragmentManager,
                 "fragment_edit_profile_pic");
     }
 
@@ -174,16 +189,9 @@ public class ParentProfileActivity extends AppCompatActivity
     public void onClickParentLogout() {
         ParseUser.logOut();
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         startActivity(intent);
-        finish();
-    }
-
-    @OnClick(R.id.ibParentProfileBack)
-    public void onClickBack() {
-        Intent intent = new Intent(this, ParentActivity.class);
-        startActivity(intent);
-        finish();
+        getActivity().finish();
     }
 
     @Override
