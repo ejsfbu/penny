@@ -82,6 +82,11 @@ public class Reward extends ParseObject {
             earnedRewards.add(completedEarlyReward);
         }
 
+        Reward smallGoalReward = checkSmallGoals(user);
+        if (smallGoalReward != null) {
+            earnedRewards.add(smallGoalReward);
+        }
+
         return earnedRewards;
     }
 
@@ -497,5 +502,51 @@ public class Reward extends ParseObject {
             orderByAscending(KEY_NAME);
             return this;
         }
+    }
+
+    public static Reward checkSmallGoals(User user) {
+        ArrayList<Reward> smallGoalBadges = new Reward().getSmallGoalsBadges();
+        Reward earnedBadge = null;
+
+        if (user.getSmallGoals() >= 1) {
+            if (userHasBadge(user, smallGoalBadges.get(0).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(0));
+                user.addInProgressBadge(smallGoalBadges.get(1));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(0);
+            }
+        }
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return earnedBadge;
+    }
+
+    public ArrayList<Reward> getSmallGoalsBadges() {
+        ArrayList<Reward> badges = new ArrayList<>();
+        Reward.Query query = new Reward.Query();
+        query.getGroup("Small Goals");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
     }
 }

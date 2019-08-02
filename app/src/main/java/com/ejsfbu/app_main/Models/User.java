@@ -38,6 +38,7 @@ public class User extends ParseUser {
     public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
     public static final String KEY_CLAIMED_REWARDS = "claimedRewards";
     public static final String KEY_EARLY_GOALS = "earlyGoals";
+    public static final String KEY_SMALL_GOALS = "smallGoals";
 
 
     public String getName() {
@@ -320,5 +321,13 @@ public class User extends ParseUser {
             whereEqualTo(KEY_EMAIL, email);
             return this;
         }
+    }
+
+    public int getSmallGoals() {
+        return getInt(KEY_SMALL_GOALS);
+    }
+
+    public void setSmallGoals(Integer amount){
+        put(KEY_SMALL_GOALS, amount);
     }
 }
