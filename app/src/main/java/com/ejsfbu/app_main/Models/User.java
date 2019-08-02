@@ -303,7 +303,21 @@ public class User extends ParseUser {
         setIsParent(false);
         setTotalSaved(0.0);
         setEarlyGoals(0);
+        // setSmallGoals(0);
+        // setMediumGoals(0);
+        // setLargeGoals(0);
         addInProgressBadges(Reward.getLevel1Badges());
+        put(KEY_CLAIMED_REWARDS, new ArrayList<>());
+        put(KEY_COMPLETED_BADGES, new ArrayList<>());
+        put(KEY_COMPLETED_GOALS, new ArrayList<>());
+        put(KEY_BANK, new ArrayList<>());
+        put(KEY_PARENTS, new ArrayList<>());
+    }
+
+    public void setParentDefaults() {
+        setIsParent(true);
+        put(KEY_BANK, new ArrayList<>());
+        put(KEY_CHILDREN, new ArrayList<>());
     }
 
     public static class Query extends ParseQuery<User> {

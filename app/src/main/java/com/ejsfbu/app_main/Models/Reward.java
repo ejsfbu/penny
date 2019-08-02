@@ -87,10 +87,26 @@ public class Reward extends ParseObject {
         }
         return code;
     }
-     // TODO LEFT HERE
-    public boolean hasGiftCard() { return getBoolean(KEY_HAS_GIFT_CARD); }
 
-    public String getGiftCardCode() { return getString(KEY_GIFT_CARD_CODE); }
+    public boolean hasGiftCard() {
+        boolean has = false;
+        try {
+            has = fetchIfNeeded().getBoolean(KEY_HAS_GIFT_CARD);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return has;
+    }
+
+    public String getGiftCardCode() {
+        String code = "";
+        try {
+            code = fetchIfNeeded().getString(KEY_GIFT_CARD_CODE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
 
     public static List<Reward> checkEarnedRewards(User user) {
         ArrayList<Reward> earnedRewards = new ArrayList<>();
