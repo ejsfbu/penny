@@ -119,7 +119,7 @@ public class Transaction extends ParseObject {
     public void setFromGoal(String name) { put(KEY_FROM_GOAL, name);}
 
     public Double getAmount() {
-        Double amount= 0.0;
+        Double amount = 0.0;
         try {
             amount = fetchIfNeeded().getDouble(KEY_AMOUNT);
         } catch (ParseException e) {

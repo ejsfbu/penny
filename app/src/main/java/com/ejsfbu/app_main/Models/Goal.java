@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -163,7 +164,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
             list = fetchIfNeeded().getList(KEY_TRANSACTIONS);
         } catch (ParseException e) {
             e.printStackTrace();
-            list = null;
+            list = new ArrayList<>();;
         }
         return list;
     }
