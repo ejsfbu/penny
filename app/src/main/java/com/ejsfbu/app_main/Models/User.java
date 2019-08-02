@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
+import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -12,6 +13,7 @@ import com.parse.SaveCallback;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -208,16 +210,20 @@ public class User extends ParseUser {
 
     public void addCompletedGoal(Goal goal) {
         removeAll(KEY_IN_PROGRESS_GOALS, Collections.singleton(goal));
-        List<Goal> completedGoals = getCompletedGoals();
-        removeAll(KEY_COMPLETED_GOALS, completedGoals);
-        saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                completedGoals.add(0, goal);
-                Collections.sort(completedGoals);
-                addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
-            }
-        });
+        final List<Goal> completedGoals = getCompletedGoals();
+        if (completedGoals != null) {
+            removeAll(KEY_COMPLETED_GOALS, completedGoals);
+            saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    completedGoals.add(0, goal);
+                    Collections.sort(completedGoals);
+                    addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
+                }
+            });
+        } else {
+            addAll(KEY_COMPLETED_GOALS, Collections.singleton(goal));
+        }
     }
 
     public List<Goal> getCompletedGoals() {
@@ -278,8 +284,9 @@ public class User extends ParseUser {
                     List<Transaction> transactions = goal.getTransactions();
                     Double addAmount = 0.0;
                     for (int j = 0; j < transactions.size(); j ++) {
-                        if (transactions.get(j).getRecentlyApproved()) {
-                            transactions.get(i).setRecentlyApproved(false);
+                        Transaction transaction = transactions.get(j);
+                        if (transaction.getRecentlyApproved()) {
+                            transaction.setRecentlyApproved(false);
                             addAmount += transactions.get(j).getAmount();
                         }
                     }
