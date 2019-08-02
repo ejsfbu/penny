@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.ejsfbu.app_main.Activities.AddBankActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
@@ -26,6 +28,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ejsfbu.app_main.Fragments.GoalDetailsFragment.BANK_REQUEST_CODE;
 
 public class DepositDialogFragment extends DialogFragment {
 
@@ -66,6 +70,7 @@ public class DepositDialogFragment extends DialogFragment {
         bDepositConfirm = view.findViewById(R.id.bDepositConfirm);
         bDepositCancel = view.findViewById(R.id.bDepositCancel);
         spinner = view.findViewById(R.id.sBanks);
+        setOnClick();
         fillData();
         String title = getArguments().getString("title", "Enter Name");
         amountLeft = getArguments().getDouble("amount");
@@ -73,7 +78,7 @@ public class DepositDialogFragment extends DialogFragment {
         etDepositAmount.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        setOnClick();
+
     }
 
     public interface DepositDialogListener {
@@ -142,10 +147,18 @@ public class DepositDialogFragment extends DialogFragment {
         }
         if (array.size() == 0) {
             array.add("No verified banks available");
+            bDepositConfirm.setText("Add bank");
+            bDepositConfirm.setOnClickListener(view -> {
+                Intent intent = new Intent(context, AddBankActivity.class);
+                startActivityForResult(intent, BANK_REQUEST_CODE);
+                dismiss();
+            });
         }
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
+
+
 }
