@@ -387,6 +387,9 @@ public class GoalDetailsFragment extends Fragment implements
                         if (goal.getCompletedEarly()) {
                             user.setEarlyGoals(user.getEarlyGoals() + 1);
                         }
+                        if (goal.getCost() <= 10.00) {
+                            user.setSmallGoals(user.getSmallGoals() + 1);
+                        }
                         user.addCompletedGoal(goal);
                         user.saveInBackground(new SaveCallback() {
                             @Override
