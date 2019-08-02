@@ -87,10 +87,10 @@ public class EditNameDialogFragment extends DialogFragment {
     // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(1).getTag();
-        int fragmentId = fragments.get(1).getId();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
         EditNameDialogListener listener;
-        if (fragments.size() > 2) {
+        if (fragments.size() > 1) {
             listener = (EditNameDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {

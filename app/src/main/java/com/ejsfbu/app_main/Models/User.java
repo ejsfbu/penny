@@ -1,7 +1,5 @@
 package com.ejsfbu.app_main.Models;
 
-import com.ejsfbu.app_main.Activities.ParentActivity;
-import com.ejsfbu.app_main.R;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -175,7 +173,7 @@ public class User extends ParseUser {
     }
 
     public List<Reward> getCompletedBadges() {
-        List<Reward> rewards =  getList(KEY_COMPLETED_BADGES);
+        List<Reward> rewards = getList(KEY_COMPLETED_BADGES);
         if (rewards == null) {
             rewards = new ArrayList<>();
         }
@@ -196,7 +194,7 @@ public class User extends ParseUser {
 
     public boolean hasInProgressBadge(String badgeId) {
         List<Reward> inProgressBadges = getInProgressBadges();
-        for (int i = 0; i < inProgressBadges.size(); i ++) {
+        for (int i = 0; i < inProgressBadges.size(); i++) {
             if (inProgressBadges.get(i).getObjectId().equals(badgeId)) {
                 return true;
             }
@@ -243,7 +241,7 @@ public class User extends ParseUser {
     }
 
     public List<Reward> getClaimedRewards() {
-        List<Reward> rewards =  getList(KEY_CLAIMED_REWARDS);
+        List<Reward> rewards = getList(KEY_CLAIMED_REWARDS);
         if (rewards == null) {
             rewards = new ArrayList<>();
         }
@@ -280,7 +278,7 @@ public class User extends ParseUser {
                     }
                     List<Transaction> transactions = goal.getTransactions();
                     Double addAmount = 0.0;
-                    for (int j = 0; j < transactions.size(); j ++) {
+                    for (int j = 0; j < transactions.size(); j++) {
                         if (transactions.get(j).getRecentlyApproved()) {
                             transactions.get(i).setRecentlyApproved(false);
                             addAmount += transactions.get(j).getAmount();

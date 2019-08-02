@@ -28,8 +28,8 @@ import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -237,7 +237,7 @@ public class ProfileFragment extends Fragment
 
         JSONArray jsonParents = user.getParents();
         if (jsonParents == null) {
-            numParents  = 0;
+            numParents = 0;
             tvProfileParentsTitle.setVisibility(View.INVISIBLE);
         } else {
             numParents = jsonParents.length();

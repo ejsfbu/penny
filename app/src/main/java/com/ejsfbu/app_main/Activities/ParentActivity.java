@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -17,22 +18,26 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
+import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.ChildListFragment;
-import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.Fragments.ParentProfileFragment;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
-
-import butterknife.OnClick;
 
 public class ParentActivity extends AppCompatActivity {
 
     public static final String TAG = "ParentActivity";
+    public final static int BANK_REQUEST_CODE = 20;
 
     public static ImageView ivParentProfilePic;
     public static CardView cvParentProfilePic;
     public static FrameLayout flParentContainer;
     public static ImageButton ibParentProfileBack;
+    public static ImageButton ibChildDetailBack;
+    public static ImageButton ibParentBanksListBack;
+    public static ImageButton ibParentBankDetailsBack;
 
     public static FragmentManager fragmentManager;
 
@@ -47,6 +52,9 @@ public class ParentActivity extends AppCompatActivity {
         cvParentProfilePic = findViewById(R.id.cvParentProfilePic);
         flParentContainer = findViewById(R.id.flParentContainer);
         ibParentProfileBack = findViewById(R.id.ibParentProfileBack);
+        ibChildDetailBack = findViewById(R.id.ibChildDetailBack);
+        ibParentBanksListBack = findViewById(R.id.ibParentBanksListBack);
+        ibParentBankDetailsBack = findViewById(R.id.ibParentBankDetailsBack);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -70,6 +78,36 @@ public class ParentActivity extends AppCompatActivity {
                 Fragment childListFragment = new ChildListFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.flParentContainer, childListFragment)
+                        .commit();
+            }
+        });
+        ibChildDetailBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ibChildDetailBack.setVisibility(View.GONE);
+                Fragment childListFragment = new ChildListFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flParentContainer, childListFragment)
+                        .commit();
+            }
+        });
+        ibParentBanksListBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ibParentBanksListBack.setVisibility(View.GONE);
+                Fragment parentProfileFragment = new ParentProfileFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flParentContainer, parentProfileFragment)
+                        .commit();
+            }
+        });
+        ibParentBankDetailsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ibParentBankDetailsBack.setVisibility(View.GONE);
+                Fragment bankListFragment = new BanksListFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flParentContainer, bankListFragment)
                         .commit();
             }
         });
@@ -97,6 +135,16 @@ public class ParentActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.flParentContainer, childListFragment)
                 .commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
+            Fragment bankFragment = new BanksListFragment();
+            fragmentManager.beginTransaction().replace(R.id.flParentContainer, bankFragment)
+                    .commitAllowingStateLoss();
+        }
     }
 
     public void showVerifyChildDialog() {

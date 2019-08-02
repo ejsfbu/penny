@@ -1,14 +1,16 @@
-package com.ejsfbu.app_main.Activities;
+package com.ejsfbu.app_main.Fragments;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,12 +18,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
-import com.ejsfbu.app_main.Models.Request;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -32,16 +35,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.Unbinder;
 
 import static android.view.View.GONE;
 
-public class ChildDetailActivity extends AppCompatActivity {
-
-    private User child;
-
-    @BindView(R.id.ibChildDetailBack)
-    ImageButton ibChildDetailBack;
+public class ChildDetailFragment extends Fragment {
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
@@ -111,38 +109,62 @@ public class ChildDetailActivity extends AppCompatActivity {
     private GoalAdapter inProgressGoalsAdapter;
     private RequestAdapter pendingRequestsAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_child_detail);
+    private Context context;
+    private User child;
+    private Unbinder unbinder;
 
-        ButterKnife.bind(this);
+    public static ChildDetailFragment newInstance(String title, User child) {
+        ChildDetailFragment frag = new ChildDetailFragment();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putParcelable("child", child);
+        frag.setArguments(args);
+        return frag;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = container.getContext();
+        return inflater.inflate(R.layout.fragment_child_detail, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        unbinder = ButterKnife.bind(this, view);
+
+        ParentActivity.ibParentProfileBack.setVisibility(View.GONE);
+        ParentActivity.ibChildDetailBack.setVisibility(View.VISIBLE);
+        ParentActivity.ibParentBanksListBack.setVisibility(View.GONE);
+        ParentActivity.ibParentBankDetailsBack.setVisibility(View.GONE);
+        ParentActivity.ivParentProfilePic.setVisibility(View.GONE);
+        ParentActivity.cvParentProfilePic.setVisibility(View.GONE);
+
+        child = getArguments().getParcelable("child");
 
         completedGoals = new ArrayList<>();
         inProgressGoals = new ArrayList<>();
         pendingRequests = new ArrayList<>();
 
-        completedGoalsAdapter = new GoalAdapter(this, completedGoals);
-        inProgressGoalsAdapter = new GoalAdapter(this, inProgressGoals);
-        pendingRequestsAdapter = new RequestAdapter(this, pendingRequests);
+        completedGoalsAdapter = new GoalAdapter(context, completedGoals);
+        inProgressGoalsAdapter = new GoalAdapter(context, inProgressGoals);
+        pendingRequestsAdapter = new RequestAdapter(context, pendingRequests);
 
         rvChildDetailCompletedGoals.setAdapter(completedGoalsAdapter);
         rvChildDetailInProgressGoals.setAdapter(inProgressGoalsAdapter);
         rvChildDetailPendingRequests.setAdapter(pendingRequestsAdapter);
 
-        rvChildDetailCompletedGoals.setLayoutManager(new LinearLayoutManager(this));
-        rvChildDetailInProgressGoals.setLayoutManager(new LinearLayoutManager(this));
-        rvChildDetailPendingRequests.setLayoutManager(new LinearLayoutManager(this));
+        rvChildDetailCompletedGoals.setLayoutManager(new LinearLayoutManager(context));
+        rvChildDetailInProgressGoals.setLayoutManager(new LinearLayoutManager(context));
+        rvChildDetailPendingRequests.setLayoutManager(new LinearLayoutManager(context));
 
-        String childCode = getIntent().getStringExtra("childCode");
-        getChildFromCode(childCode);
+        fillData();
     }
 
-    @OnClick(R.id.ibChildDetailBack)
-    public void onClickChildDetailBack() {
-        Intent intent = new Intent(this, ParentActivity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public void getChildFromCode(String childCode) {
@@ -172,13 +194,12 @@ public class ChildDetailActivity extends AppCompatActivity {
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
-            Glide.with(ChildDetailActivity.this)
+            Glide.with(ChildDetailFragment.this)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivChildDetailProfilePic);
         }
 

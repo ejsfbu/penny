@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -49,7 +50,12 @@ public class ChildListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
 
-
+        ParentActivity.ibParentProfileBack.setVisibility(View.GONE);
+        ParentActivity.ibChildDetailBack.setVisibility(View.GONE);
+        ParentActivity.ibParentBanksListBack.setVisibility(View.GONE);
+        ParentActivity.ibParentBankDetailsBack.setVisibility(View.GONE);
+        ParentActivity.ivParentProfilePic.setVisibility(View.VISIBLE);
+        ParentActivity.cvParentProfilePic.setVisibility(View.VISIBLE);
 
         children = new ArrayList<>();
         adapter = new ChildAdapter(context, children);
@@ -58,6 +64,12 @@ public class ChildListFragment extends Fragment {
         rvChildListChildren.setLayoutManager(new LinearLayoutManager(context));
 
         loadChildren();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     protected void loadChildren() {
