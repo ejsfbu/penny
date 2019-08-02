@@ -12,7 +12,7 @@
     <string name="goal_cost">Cost</string>
     <string name="add_goal">Add Goal</string>
     <string name="birthday">Birthday (mm/dd/yyyy)</string>
-    <string name="end_date">End Date (mm/dd/yyyy)</string>
+    <string name="end_date_hint">End Date (mm/dd/yyyy)</string>
     <string name="completed_goals">Completed Goals</string>
     <string name="completed_badges">Completed Badges</string>
     <string name="in_progress_badges">In Progress Badges</string>
@@ -96,4 +96,5 @@
     <string name="earned_badges_info">You earned the following badges:</string>
     <string name="great">Great!</string>
     <string name="what_now">What do I do now?</string>
+    <string name="end_date">End Date:</string>
 </resources>

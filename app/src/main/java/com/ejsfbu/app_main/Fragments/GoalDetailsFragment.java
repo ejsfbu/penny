@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -98,6 +99,10 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailsAmountSaved;
     @BindView(R.id.noTransactionsText)
     TextView noTransactionText;
+    @BindView(R.id.ivEditGoalName)
+    ImageButton ivEditGoalName;
+    @BindView(R.id.ivEditGoalDate)
+    ImageButton ivEditGoalDate;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
@@ -144,9 +149,22 @@ public class GoalDetailsFragment extends Fragment implements
         }
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal.getEndDate().toString());
-        tvGoalDetailsCompletionDate.setText(goalEndDate);
 
-        tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
+        if(goal.getCompleted()) {
+            tvGoalDetailsDateCompletedTitle.setText("Date Completed:");
+            tvGoalDetailsCompletionDate.setText(goalEndDate);
+            tvGoalDetailsAmountSavedTitle.setVisibility(View.GONE);
+            tvGoalDetailsAmountSaved.setVisibility(View.GONE);
+            bGoalDetailsCancelGoal.setVisibility(View.GONE);
+            bGoalDetailsDeposit.setVisibility(View.GONE);
+            ivEditGoalDate.setVisibility(View.GONE);
+            ivEditGoalName.setVisibility(View.GONE);
+
+        } else {
+            tvGoalDetailsCompletionDate.setText(goalEndDate);
+            tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
+        }
+
         tvGoalDetailsTotalCost.setText(formatCurrency(goal.getCost()));
 
         Double percentDone = (goal.getSaved() / goal.getCost()) * 100;

@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_edit_text"
-                    android:hint="@string/end_date"
+                    android:hint="@string/end_date_hint"
                     android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
