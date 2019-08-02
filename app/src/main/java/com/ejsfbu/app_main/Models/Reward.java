@@ -552,7 +552,26 @@ public class Reward extends ParseObject {
         ArrayList<Reward> smallGoalBadges = new Reward().getSmallGoalsBadges();
         Reward earnedBadge = null;
 
-        if (user.getSmallGoals() >= 1) {
+        if (user.getSmallGoals() >= 5) {
+            if (userHasBadge(user, smallGoalBadges.get(1).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(1));
+                user.addInProgressBadge(smallGoalBadges.get(2));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(1));
+                            user.removeCompletedBadge(smallGoalBadges.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(1);
+            }
+        } else if (user.getSmallGoals() >= 1) {
             if (userHasBadge(user, smallGoalBadges.get(0).getObjectId())) {
                 earnedBadge = null;
             } else {
