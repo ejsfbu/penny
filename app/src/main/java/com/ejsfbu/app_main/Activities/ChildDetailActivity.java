@@ -2,6 +2,8 @@ package com.ejsfbu.app_main.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,27 +34,74 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+
 public class ChildDetailActivity extends AppCompatActivity {
 
     private User child;
+
+    @BindView(R.id.ibChildDetailBack)
+    ImageButton ibChildDetailBack;
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
     @BindView(R.id.tvChildDetailAccountCode)
     TextView tvChildDetailAccountCode;
-
     @BindView(R.id.ivChildDetailProfilePic)
     ImageView ivChildDetailProfilePic;
 
     @BindView(R.id.rvChildDetailCompletedGoals)
     RecyclerView rvChildDetailCompletedGoals;
+    @BindView(R.id.vChildDetailsCompletedGoalsTop)
+    View vChildDetailsCompletedGoalsTop;
+    @BindView(R.id.vChildDetailsCompletedGoalsBottom)
+    View vChildDetailsCompletedGoalsBottom;
+    @BindView(R.id.vChildDetailsCompletedGoalsLeft)
+    View vChildDetailsCompletedGoalsLeft;
+    @BindView(R.id.vChildDetailsCompletedGoalsRight)
+    View vChildDetailsCompletedGoalsRight;
+    @BindView(R.id.tvChildDetailsNoCompletedGoals)
+    TextView tvChildDetailsNoCompletedGoals;
+
+    @BindView(R.id.vChildDetailsDoubleDivider2_1)
+    View vChildDetailsDoubleDivider2_1;
+    @BindView(R.id.vChildDetailsDoubleDivider2_2)
+    View vChildDetailsDoubleDivider2_2;
+
+    @BindView(R.id.tvChildDetailInProgressGoals)
+    TextView tvChildDetailInProgressGoals;
     @BindView(R.id.rvChildDetailInProgressGoals)
     RecyclerView rvChildDetailInProgressGoals;
+    @BindView(R.id.vChildDetailsInProgressGoalsTop)
+    View vChildDetailsInProgressGoalsTop;
+    @BindView(R.id.vChildDetailsInProgressGoalsBottom)
+    View vChildDetailsInProgressGoalsBottom;
+    @BindView(R.id.vChildDetailsInProgressGoalsLeft)
+    View vChildDetailsInProgressGoalsLeft;
+    @BindView(R.id.vChildDetailsInProgressGoalsRight)
+    View vChildDetailsInProgressGoalsRight;
+    @BindView(R.id.tvChildDetailsNoInProgressGoals)
+    TextView tvChildDetailsNoInProgressGoals;
+
+    @BindView(R.id.vChildDetailsDoubleDivider3_1)
+    View vChildDetailsDoubleDivider3_1;
+    @BindView(R.id.vChildDetailsDoubleDivider3_2)
+    View vChildDetailsDoubleDivider3_2;
+
+    @BindView(R.id.tvChildDetailPendingRequests)
+    TextView tvChildDetailPendingRequests;
     @BindView(R.id.rvChildDetailPendingRequests)
     RecyclerView rvChildDetailPendingRequests;
-
-    @BindView(R.id.ibChildDetailBack)
-    ImageButton ibChildDetailBack;
+    @BindView(R.id.vChildDetailsPendingRequestsTop)
+    View vChildDetailsPendingRequestsTop;
+    @BindView(R.id.vChildDetailsPendingRequestsBottom)
+    View vChildDetailsPendingRequestsBottom;
+    @BindView(R.id.vChildDetailsPendingRequestsLeft)
+    View vChildDetailsPendingRequestsLeft;
+    @BindView(R.id.vChildDetailsPendingRequestsRight)
+    View vChildDetailsPendingRequestsRight;
+    @BindView(R.id.tvChildDetailsNoPendingRequests)
+    TextView tvChildDetailsNoPendingRequests;
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
@@ -115,8 +164,7 @@ public class ChildDetailActivity extends AppCompatActivity {
     public void fillData() {
         tvChildDetailName.setText(child.getName());
 
-        String accountCode = "Account Code: " + child.getObjectId();
-        tvChildDetailAccountCode.setText(accountCode);
+        tvChildDetailAccountCode.setText(child.getObjectId());
 
         ParseFile image = child.getProfilePic();
         if (image != null) {
@@ -141,7 +189,14 @@ public class ChildDetailActivity extends AppCompatActivity {
 
     public void loadCompletedGoals() {
         List<Goal> goals = child.getCompletedGoals();
-        if (goals != null) {
+        if (goals == null || goals.size() == 0) {
+            rvChildDetailCompletedGoals.setMinimumHeight(20);
+            vChildDetailsCompletedGoalsBottom.setVisibility(GONE);
+            vChildDetailsCompletedGoalsLeft.setVisibility(GONE);
+            vChildDetailsCompletedGoalsRight.setVisibility(GONE);
+            vChildDetailsCompletedGoalsTop.setVisibility(GONE);
+            tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
+        } else {
             completedGoals.addAll(goals);
             Collections.sort(completedGoals);
             Collections.reverse(completedGoals);
@@ -151,7 +206,14 @@ public class ChildDetailActivity extends AppCompatActivity {
 
     public void loadInProgressGoals() {
         List<Goal> goals = child.getInProgressGoals();
-        if (goals != null) {
+        if (goals == null || goals.size() == 0) {
+            rvChildDetailInProgressGoals.setMinimumHeight(20);
+            vChildDetailsInProgressGoalsBottom.setVisibility(GONE);
+            vChildDetailsInProgressGoalsLeft.setVisibility(GONE);
+            vChildDetailsInProgressGoalsRight.setVisibility(GONE);
+            vChildDetailsInProgressGoalsTop.setVisibility(GONE);
+            tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
+        } else {
             inProgressGoals.addAll(goals);
             Collections.sort(completedGoals);
             inProgressGoalsAdapter.notifyDataSetChanged();
@@ -165,8 +227,17 @@ public class ChildDetailActivity extends AppCompatActivity {
             @Override
             public void done(List<Request> objects, ParseException e) {
                 if (e == null) {
-                    pendingRequests.addAll(objects);
-                    pendingRequestsAdapter.notifyDataSetChanged();
+                    if (objects.size() == 0) {
+                        rvChildDetailPendingRequests.setMinimumHeight(20);
+                        vChildDetailsPendingRequestsBottom.setVisibility(GONE);
+                        vChildDetailsPendingRequestsLeft.setVisibility(GONE);
+                        vChildDetailsPendingRequestsRight.setVisibility(GONE);
+                        vChildDetailsPendingRequestsTop.setVisibility(GONE);
+                        tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
+                    } else {
+                        pendingRequests.addAll(objects);
+                        pendingRequestsAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     e.printStackTrace();
                 }
