@@ -270,6 +270,9 @@ public class User extends ParseUser {
                         if (goal.getCompletedEarly()) {
                             setEarlyGoals(getEarlyGoals() + 1);
                         }
+                        if (goal.getCost() <= 10.00) {
+                            setSmallGoals(getSmallGoals() + 1);
+                        }
                         addCompletedGoal(goal);
                     }
                     List<Transaction> transactions = goal.getTransactions();
