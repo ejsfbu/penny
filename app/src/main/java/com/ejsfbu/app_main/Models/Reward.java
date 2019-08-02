@@ -43,26 +43,70 @@ public class Reward extends ParseObject {
             name = fetchIfNeeded().getString(KEY_NAME);
         } catch (ParseException e) {
             e.printStackTrace();
-            name = null;
+            name = "";
         }
         return name;
     }
 
     public ParseFile getBadgeImage() {
-        return getParseFile(KEY_BADGE_IMAGE);
+        ParseFile image = null;
+        try {
+            image = fetchIfNeeded().getParseFile(KEY_BADGE_IMAGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
     public String getDescription() {
-        return getString(KEY_DESCRIPTION);
+        String description = "";
+        try {
+            description = fetchIfNeeded().getString(KEY_DESCRIPTION);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return description;
     }
 
-    public boolean hasDiscount() { return getBoolean(KEY_HAS_DISCOUNT); }
+    public boolean hasDiscount() {
+        boolean has = false;
+        try {
+            has = fetchIfNeeded().getBoolean(KEY_HAS_DISCOUNT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return has;
+    }
 
-    public String getDiscountCode() { return getString(KEY_DISCOUNT_CODE); }
+    public String getDiscountCode() {
+        String code = "";
+        try {
+            code = fetchIfNeeded().getString(KEY_DISCOUNT_CODE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
 
-    public boolean hasGiftCard() { return getBoolean(KEY_HAS_GIFT_CARD); }
+    public boolean hasGiftCard() {
+        boolean has = false;
+        try {
+            has = fetchIfNeeded().getBoolean(KEY_HAS_GIFT_CARD);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return has;
+    }
 
-    public String getGiftCardCode() { return getString(KEY_GIFT_CARD_CODE); }
+    public String getGiftCardCode() {
+        String code = "";
+        try {
+            code = fetchIfNeeded().getString(KEY_GIFT_CARD_CODE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
 
     public static List<Reward> checkEarnedRewards(User user) {
         ArrayList<Reward> earnedRewards = new ArrayList<>();
@@ -80,6 +124,11 @@ public class Reward extends ParseObject {
         Reward completedEarlyReward = checkEarlyBadges(user);
         if (completedEarlyReward != null) {
             earnedRewards.add(completedEarlyReward);
+        }
+
+        Reward smallGoalReward = checkSmallGoals(user);
+        if (smallGoalReward != null) {
+            earnedRewards.add(smallGoalReward);
         }
 
         return earnedRewards;
@@ -497,5 +546,125 @@ public class Reward extends ParseObject {
             orderByAscending(KEY_NAME);
             return this;
         }
+    }
+
+    public static Reward checkSmallGoals(User user) {
+        ArrayList<Reward> smallGoalBadges = new Reward().getSmallGoalsBadges();
+        Reward earnedBadge = null;
+        if (user.getSmallGoals() >= 20) {
+            if (userHasBadge(user, smallGoalBadges.get(4).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(4));
+                            user.removeCompletedBadge(smallGoalBadges.get(3));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(4);
+            }
+        } else if (user.getSmallGoals() >= 15) {
+            if (userHasBadge(user, smallGoalBadges.get(3).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(3));
+                user.addInProgressBadge(smallGoalBadges.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(3));
+                            user.removeCompletedBadge(smallGoalBadges.get(2));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(3);
+            }
+        } else if (user.getSmallGoals() >= 10) {
+            if (userHasBadge(user, smallGoalBadges.get(2).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(2));
+                user.addInProgressBadge(smallGoalBadges.get(3));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(2));
+                            user.removeCompletedBadge(smallGoalBadges.get(1));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(2);
+            }
+        } else if (user.getSmallGoals() >= 5) {
+            if (userHasBadge(user, smallGoalBadges.get(1).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(1));
+                user.addInProgressBadge(smallGoalBadges.get(2));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(1));
+                            user.removeCompletedBadge(smallGoalBadges.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(1);
+            }
+        } else if (user.getSmallGoals() >= 1) {
+            if (userHasBadge(user, smallGoalBadges.get(0).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(smallGoalBadges.get(0));
+                user.addInProgressBadge(smallGoalBadges.get(1));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(smallGoalBadges.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = smallGoalBadges.get(0);
+            }
+        }
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return earnedBadge;
+    }
+
+    public ArrayList<Reward> getSmallGoalsBadges() {
+        ArrayList<Reward> badges = new ArrayList<>();
+        Reward.Query query = new Reward.Query();
+        query.getGroup("Small Goals");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
     }
 }

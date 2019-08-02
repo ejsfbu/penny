@@ -223,6 +223,5 @@ public class ParentProfileFragment extends Fragment
     public void onFinishEditDialog() {
         loadProfileData();
     }
-
-
+    
 }

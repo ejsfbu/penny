@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
@@ -114,6 +116,7 @@ public class GoalDetailsFragment extends Fragment implements
     private User user;
     private Context context;
     private ArrayList<Reward> earnedBadges;
+    public static int BANK_REQUEST_CODE = 321;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -386,6 +389,9 @@ public class GoalDetailsFragment extends Fragment implements
                         Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
                         if (goal.getCompletedEarly()) {
                             user.setEarlyGoals(user.getEarlyGoals() + 1);
+                        }
+                        if (goal.getCost() <= 10.00) {
+                            user.setSmallGoals(user.getSmallGoals() + 1);
                         }
                         user.addCompletedGoal(goal);
                         user.saveInBackground(new SaveCallback() {
