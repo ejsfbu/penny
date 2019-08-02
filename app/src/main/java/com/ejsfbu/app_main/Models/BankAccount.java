@@ -34,7 +34,14 @@ public class BankAccount extends ParseObject {
     }
 
     public String getLegalName() {
-        return getString(KEY_LEGAL_NAME);
+        String name = "";
+        try {
+            name = fetchIfNeeded().getString(KEY_LEGAL_NAME);
+        } catch (ParseException e) {
+            Log.d("bank", e.toString());
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void setLegalName(String name) {
@@ -57,7 +64,14 @@ public class BankAccount extends ParseObject {
     }
 
     public String getRoutingNumber() {
-        return getString(KEY_ROUTING);
+        String routing = "";
+        try {
+            routing = fetchIfNeeded().getString(KEY_ROUTING);
+        } catch (ParseException e) {
+            Log.d("bank", e.toString());
+            e.printStackTrace();
+        }
+        return routing;
     }
 
     public void setRoutingtNumber(String number) {
