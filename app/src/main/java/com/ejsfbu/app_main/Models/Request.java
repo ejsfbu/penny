@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -14,7 +15,14 @@ public class Request extends ParseObject {
     public static final String KEY_TRANSACTION = "transaction";
 
     public User getUser() {
-        return (User) getParseUser(KEY_USER);
+        User user;
+        try {
+            user = (User) fetchIfNeeded().getParseUser(KEY_USER);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            user = null;
+        }
+        return user;
     }
 
     public void setUser(ParseUser user) {
@@ -22,7 +30,13 @@ public class Request extends ParseObject {
     }
 
     public String getRequestType() {
-        return getString(KEY_REQUEST_TYPE);
+        String request = "";
+        try {
+            request = fetchIfNeeded().getString(KEY_REQUEST_TYPE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return request;
     }
 
     public void setRequestType(String requestType) {
@@ -30,7 +44,13 @@ public class Request extends ParseObject {
     }
 
     public String getRequestDetails() {
-        return getString(KEY_REQUEST_DETAILS);
+        String request = "";
+        try {
+            request = fetchIfNeeded().getString(KEY_REQUEST_DETAILS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return request;
     }
 
     public void setRequestDetails(String requestDetails) {
@@ -38,7 +58,14 @@ public class Request extends ParseObject {
     }
 
     public Transaction getTransaction() {
-        return (Transaction) get(KEY_TRANSACTION);
+        Transaction transaction;
+        try {
+            transaction = (Transaction) fetchIfNeeded().get(KEY_TRANSACTION);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            transaction = null;
+        }
+        return transaction;
     }
 
     public void setTransaction(ParseObject transaction) {
