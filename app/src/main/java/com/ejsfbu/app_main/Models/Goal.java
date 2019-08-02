@@ -101,7 +101,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public boolean getCompleted() {
-        return getBoolean(KEY_COMPLETED);
+        boolean isCompleted;
+        try {
+            isCompleted = fetchIfNeeded().getBoolean(KEY_COMPLETED);
+        } catch (ParseException e) {
+            isCompleted = false;
+            e.printStackTrace();
+        }
+        return isCompleted;
     }
 
     public void setCompleted(boolean completed) {
@@ -157,7 +164,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     @Override
     public int compareTo(Goal goal) {
         if (goal.getCompleted()) {
-            return goal.getDateCompleted().compareTo(this.getDateCompleted());
+            return goal.getEndDate().compareTo(this.getEndDate());
         } else {
             return this.getEndDate().compareTo(goal.getEndDate());
         }
