@@ -1,7 +1,6 @@
 package com.ejsfbu.app_main.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +8,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Activities.ChildDetailActivity;
-import com.ejsfbu.app_main.R;
+import com.ejsfbu.app_main.Activities.ParentActivity;
+import com.ejsfbu.app_main.Fragments.ChildDetailFragment;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -89,13 +90,12 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
                 imageUrl = imageUrl.substring(4);
                 imageUrl = "https" + imageUrl;
                 RequestOptions options = new RequestOptions();
-                options.placeholder(R.drawable.icon_user)
-                        .error(R.drawable.icon_user)
-                        .transform(new CenterCrop())
-                        .transform(new CircleCrop());
                 Glide.with(context)
                         .load(imageUrl)
-                        .apply(options) // Extra: round image corners
+                        .apply(options.placeholder(R.drawable.icon_user)
+                                .error(R.drawable.icon_user)
+                                .transform(new CenterCrop())
+                                .transform(new CircleCrop())) // Extra: round image corners
                         .into(ivChildProfilePic);
             }
         }
@@ -150,10 +150,12 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildAdapter.ViewHolder> 
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 User child = children.get(position);
-                String childCode = child.getObjectId();
-                Intent intent = new Intent(context, ChildDetailActivity.class);
-                intent.putExtra("childCode", childCode);
-                context.startActivity(intent);
+
+                Fragment childDetailFragment =
+                        ChildDetailFragment.newInstance("Child Detail", child);
+                ParentActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.flParentContainer, childDetailFragment)
+                        .commit();
             }
         }
     }

@@ -15,10 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.DialogFragments.RemoveBankDialogFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -30,7 +31,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Activities.MainActivity.ibBankDetailsBack;
 
 public class BankDetailsFragment extends Fragment implements RemoveBankDialogFragment.RemoveBankDialogListener {
 
@@ -54,14 +54,18 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
+        user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_bank_details, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        ibBankDetailsBack.setVisibility(View.VISIBLE);
-        user = (User) ParseUser.getCurrentUser();
+        if (user.getIsParent()) {
+            ParentActivity.ibParentBankDetailsBack.setVisibility(View.VISIBLE);
+        } else {
+            MainActivity.ibBankDetailsBack.setVisibility(View.VISIBLE);
+        }
         Bundle bundle = this.getArguments();
         bank = bundle.getParcelable("bank");
         tvBankDetailsBankName.setText(bank.getBankName());

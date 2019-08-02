@@ -12,14 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.DialogFragments.EarnedBadgeDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.ProfileFragment;
 import com.ejsfbu.app_main.Fragments.RewardsFragment;
-import com.ejsfbu.app_main.DialogFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.Models.Reward;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -27,9 +27,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -145,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {
             Fragment bankFragment = new BanksListFragment();

@@ -1,4 +1,4 @@
-package com.ejsfbu.app_main.Activities;
+package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,23 +13,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.LoginActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.DialogFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
-import com.ejsfbu.app_main.Fragments.ChildListFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -73,6 +72,10 @@ public class ParentProfileFragment extends Fragment
 
     @BindView(R.id.bParentProfileLogout)
     Button bParentProfileLogout;
+    @BindView(R.id.bParentProfileBankInfo)
+    Button bParentProfileBankInfo;
+    @BindView(R.id.bParentProfileAddChild)
+    Button bParentProfileAddChild;
 
     private User user;
     private Unbinder unbinder;
@@ -91,10 +94,19 @@ public class ParentProfileFragment extends Fragment
         unbinder = ButterKnife.bind(this, view);
 
         ParentActivity.ibParentProfileBack.setVisibility(View.VISIBLE);
+        ParentActivity.ibChildDetailBack.setVisibility(View.GONE);
+        ParentActivity.ibParentBanksListBack.setVisibility(View.GONE);
+        ParentActivity.ibParentBankDetailsBack.setVisibility(View.GONE);
         ParentActivity.ivParentProfilePic.setVisibility(View.GONE);
         ParentActivity.cvParentProfilePic.setVisibility(View.GONE);
 
         loadProfileData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public void loadProfileData() {
@@ -192,6 +204,14 @@ public class ParentProfileFragment extends Fragment
         Intent intent = new Intent(context, LoginActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    @OnClick(R.id.bParentProfileBankInfo)
+    public void onClickParentProfileBankInfo() {
+        Fragment bankFragment = new BanksListFragment();
+        ParentActivity.fragmentManager.beginTransaction()
+                .replace(R.id.flParentContainer, bankFragment)
+                .commit();
     }
 
     @Override
