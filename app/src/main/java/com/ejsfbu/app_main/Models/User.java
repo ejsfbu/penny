@@ -44,7 +44,13 @@ public class User extends ParseUser {
 
 
     public String getName() {
-        return getString(KEY_NAME);
+        String name = "";
+        try {
+            name = fetchIfNeeded().getString(KEY_NAME);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return name;
     }
 
     public void setName(String name) {
@@ -52,7 +58,13 @@ public class User extends ParseUser {
     }
 
     public String getEmail() {
-        return getString(KEY_EMAIL);
+        String email = "";
+        try {
+            email = fetchIfNeeded().getString(KEY_EMAIL);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return email;
     }
 
     public void setEmail(String email) {
@@ -60,7 +72,13 @@ public class User extends ParseUser {
     }
 
     public String getUsername() {
-        return getString(KEY_USERNAME);
+        String user = "";
+        try {
+            user = fetchIfNeeded().getString(KEY_USERNAME);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     public void setUsername(String username) {
@@ -68,7 +86,13 @@ public class User extends ParseUser {
     }
 
     public String getPassword() {
-        return getString(KEY_PASSWORD);
+        String pass = "";
+        try {
+            pass = fetchIfNeeded().getString(KEY_PASSWORD);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return pass;
     }
 
     public void setPassword(String password) {
@@ -76,7 +100,13 @@ public class User extends ParseUser {
     }
 
     public String getBirthday() {
-        return getDate(KEY_BIRTHDAY).toString();
+        String date = "";
+        try {
+            date = fetchIfNeeded().getDate(KEY_BIRTHDAY).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public void setBirthday(Date date) {
@@ -84,7 +114,13 @@ public class User extends ParseUser {
     }
 
     public Boolean getIsParent() {
-        return getBoolean(KEY_IS_PARENT);
+        boolean bool = false;
+        try {
+            bool = fetchIfNeeded().getBoolean(KEY_IS_PARENT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return bool;
     }
 
     public void setIsParent(Boolean isParent) {
@@ -92,7 +128,13 @@ public class User extends ParseUser {
     }
 
     public boolean getNeedsParent() {
-        return getBoolean(KEY_NEEDS_PARENT);
+        boolean bool = false;
+        try {
+            bool = fetchIfNeeded().getBoolean(KEY_NEEDS_PARENT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return bool;
     }
 
     public void setNeedsParent(boolean needsParent) {
@@ -100,8 +142,13 @@ public class User extends ParseUser {
     }
 
     public boolean getRequiresApproval() {
-        boolean requiresApproval = getBoolean(KEY_REQUIRES_APPROVAL);
-        return requiresApproval;
+        boolean bool = false;
+        try {
+            bool = fetchIfNeeded().getBoolean(KEY_REQUIRES_APPROVAL);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return bool;
     }
 
     public void setRequiresApproval(boolean requiresApproval) {
@@ -109,7 +156,14 @@ public class User extends ParseUser {
     }
 
     public ParseFile getProfilePic() {
-        return getParseFile(KEY_PROFILE_PIC);
+        ParseFile image;
+        try {
+            image = fetchIfNeeded().getParseFile(KEY_PROFILE_PIC);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            image = null;
+        }
+        return image;
     }
 
     public void setProfilePic(ParseFile image) {
@@ -121,7 +175,14 @@ public class User extends ParseUser {
     }
 
     public JSONArray getChildren() {
-        return getJSONArray(KEY_CHILDREN);
+        JSONArray children;
+        try {
+            children = fetchIfNeeded().getJSONArray(KEY_CHILDREN);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            children = null;
+        }
+        return children;
     }
 
     public void addParent(User parent) {
@@ -129,18 +190,32 @@ public class User extends ParseUser {
     }
 
     public JSONArray getParents() {
-        return getJSONArray(KEY_PARENTS);
+        JSONArray parents;
+        try {
+            parents = fetchIfNeeded().getJSONArray(KEY_PARENTS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            parents = null;
+        }
+        return parents;
     }
 
     public List<BankAccount> getBanks() {
-        return getList(KEY_BANK);
+        List<BankAccount> banks;
+        try {
+            banks = fetchIfNeeded().getList(KEY_BANK);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            banks = new ArrayList<>();;
+        }
+        return banks;
     }
 
     public List<BankAccount> getVerifiedBanks() {
         List<BankAccount> newList = new ArrayList<>();
-        List<BankAccount> list = getList(KEY_BANK);
+        List<BankAccount> list = getBanks();
         if (list == null) {
-            return null;
+            return new ArrayList<>();
         }
         for (BankAccount bank : list) {
             if (bank.getVerified()) {
@@ -159,7 +234,13 @@ public class User extends ParseUser {
     }
 
     public Double getTotalSaved() {
-        return getDouble(KEY_TOTAL_SAVED);
+        Double amount = 0.0;
+        try {
+            amount = fetchIfNeeded().getDouble(KEY_TOTAL_SAVED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return amount;
     }
 
     public void setTotalSaved(Double totalSaved) {
@@ -171,8 +252,11 @@ public class User extends ParseUser {
     }
 
     public List<Reward> getCompletedBadges() {
-        List<Reward> rewards =  getList(KEY_COMPLETED_BADGES);
-        if (rewards == null) {
+        List<Reward> rewards;
+        try {
+            rewards = fetchIfNeeded().getList(KEY_COMPLETED_BADGES);
+        } catch (ParseException e) {
+            e.printStackTrace();
             rewards = new ArrayList<>();
         }
         return rewards;
@@ -201,7 +285,14 @@ public class User extends ParseUser {
     }
 
     public List<Reward> getInProgressBadges() {
-        return getList(KEY_IN_PROGRESS_BADGES);
+        List<Reward> rewards;
+        try {
+            rewards = fetchIfNeeded().getList(KEY_IN_PROGRESS_BADGES);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            rewards = new ArrayList<>();
+        }
+        return rewards;
     }
 
     public void removeInProgressBadge(Reward reward) {
@@ -227,7 +318,14 @@ public class User extends ParseUser {
     }
 
     public List<Goal> getCompletedGoals() {
-        return getList(KEY_COMPLETED_GOALS);
+        List<Goal> goals;
+        try {
+            goals = fetchIfNeeded().getList(KEY_COMPLETED_GOALS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            goals = new ArrayList<>();
+        }
+        return goals;
     }
 
     public void addInProgressGoal(Goal goal) {
@@ -239,12 +337,22 @@ public class User extends ParseUser {
     }
 
     public List<Goal> getInProgressGoals() {
-        return getList(KEY_IN_PROGRESS_GOALS);
+        List<Goal> goals;
+        try {
+            goals = fetchIfNeeded().getList(KEY_IN_PROGRESS_GOALS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            goals = new ArrayList<>();
+        }
+        return goals;
     }
 
     public List<Reward> getClaimedRewards() {
-        List<Reward> rewards =  getList(KEY_CLAIMED_REWARDS);
-        if (rewards == null) {
+        List<Reward> rewards;
+        try {
+            rewards = fetchIfNeeded().getList(KEY_CLAIMED_REWARDS);
+        } catch (ParseException e) {
+            e.printStackTrace();
             rewards = new ArrayList<>();
         }
         return rewards;
@@ -299,7 +407,14 @@ public class User extends ParseUser {
     }
 
     public int getEarlyGoals() {
-        return getInt(KEY_EARLY_GOALS);
+        int num;
+        try {
+            num = fetchIfNeeded().getInt(KEY_EARLY_GOALS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            num = 0;
+        }
+        return num;
     }
 
     public void setEarlyGoals(int earlyGoals) {
@@ -310,7 +425,21 @@ public class User extends ParseUser {
         setIsParent(false);
         setTotalSaved(0.0);
         setEarlyGoals(0);
+        // setSmallGoals(0);
+        // setMediumGoals(0);
+        // setLargeGoals(0);
         addInProgressBadges(Reward.getLevel1Badges());
+        put(KEY_CLAIMED_REWARDS, new ArrayList<>());
+        put(KEY_COMPLETED_BADGES, new ArrayList<>());
+        put(KEY_COMPLETED_GOALS, new ArrayList<>());
+        put(KEY_BANK, new ArrayList<>());
+        put(KEY_PARENTS, new ArrayList<>());
+    }
+
+    public void setParentDefaults() {
+        setIsParent(true);
+        put(KEY_BANK, new ArrayList<>());
+        put(KEY_CHILDREN, new ArrayList<>());
     }
 
     public static class Query extends ParseQuery<User> {

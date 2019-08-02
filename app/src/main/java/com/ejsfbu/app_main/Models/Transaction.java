@@ -59,7 +59,14 @@ public class Transaction extends ParseObject {
 
 
     public ParseUser getUser() {
-        return getParseUser(KEY_USER);
+        ParseUser user;
+        try {
+            user = fetchIfNeeded().getParseUser(KEY_USER);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            user = null;
+        }
+        return user;
     }
 
     public void setUser(ParseUser user) {
@@ -99,12 +106,20 @@ public class Transaction extends ParseObject {
         return bank;
     }
 
-    public String getFromGoal() { return getString(KEY_FROM_GOAL); }
+    public String getFromGoal() {
+        String fromGoal = "";
+        try {
+            fromGoal = fetchIfNeeded().getString(KEY_FROM_GOAL);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return fromGoal;
+    }
 
     public void setFromGoal(String name) { put(KEY_FROM_GOAL, name);}
 
     public Double getAmount() {
-        Double amount;
+        Double amount = 0.0;
         try {
             amount = fetchIfNeeded().getDouble(KEY_AMOUNT);
         } catch (ParseException e) {
@@ -129,12 +144,28 @@ public class Transaction extends ParseObject {
 
     public void setGoal(com.ejsfbu.app_main.Models.Goal goal) { put(KEY_GOAL, goal);}
 
-    public boolean getApproval() { return getBoolean(KEY_APPROVED); }
+    public boolean getApproval() {
+        boolean approval = false;
+        try {
+            approval = fetchIfNeeded().getBoolean(KEY_APPROVED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return approval;
+    }
 
     public void setApproval(boolean bool) { put(KEY_APPROVED, bool); }
 
-    // Get whether its a deposit or withdraw
-    public boolean getType() { return getBoolean(KEY_TYPE); }
+    // Get whether its a deposit or withdraw: false is deposit
+    public boolean getType() {
+        boolean type = false;
+        try {
+            type = fetchIfNeeded().getBoolean(KEY_TYPE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return type;
+    }
 
     public void setType(boolean bool) { put(KEY_TYPE, bool); }
 
