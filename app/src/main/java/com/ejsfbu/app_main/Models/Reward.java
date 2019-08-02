@@ -49,17 +49,45 @@ public class Reward extends ParseObject {
     }
 
     public ParseFile getBadgeImage() {
-        return getParseFile(KEY_BADGE_IMAGE);
+        ParseFile image = null;
+        try {
+            image = fetchIfNeeded().getParseFile(KEY_BADGE_IMAGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
     public String getDescription() {
-        return getString(KEY_DESCRIPTION);
+        String description = "";
+        try {
+            description = fetchIfNeeded().getString(KEY_DESCRIPTION);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return description;
     }
 
-    public boolean hasDiscount() { return getBoolean(KEY_HAS_DISCOUNT); }
+    public boolean hasDiscount() {
+        boolean has = false;
+        try {
+            has = fetchIfNeeded().getBoolean(KEY_HAS_DISCOUNT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return has;
+    }
 
-    public String getDiscountCode() { return getString(KEY_DISCOUNT_CODE); }
-
+    public String getDiscountCode() {
+        String code = "";
+        try {
+            code = fetchIfNeeded().getString(KEY_DISCOUNT_CODE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+     // TODO LEFT HERE
     public boolean hasGiftCard() { return getBoolean(KEY_HAS_GIFT_CARD); }
 
     public String getGiftCardCode() { return getString(KEY_GIFT_CARD_CODE); }
