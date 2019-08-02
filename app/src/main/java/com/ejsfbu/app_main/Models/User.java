@@ -326,4 +326,6 @@ public class User extends ParseUser {
     public void setSmallGoals(Integer amount){
         put(KEY_SMALL_GOALS, amount);
     }
+
+
 }
