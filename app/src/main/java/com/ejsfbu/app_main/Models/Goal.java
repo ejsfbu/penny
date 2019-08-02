@@ -101,14 +101,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public boolean getCompleted() {
-        boolean isCompleted;
+        boolean completed;
         try {
-            isCompleted = fetchIfNeeded().getBoolean(KEY_COMPLETED);
+            completed = fetchIfNeeded().getBoolean(KEY_COMPLETED);
         } catch (ParseException e) {
-            isCompleted = false;
             e.printStackTrace();
+            completed = false;
         }
-        return isCompleted;
+        return completed;
     }
 
     public void setCompleted(boolean completed) {
