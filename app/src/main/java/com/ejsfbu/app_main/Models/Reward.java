@@ -1,5 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
+import android.widget.ScrollView;
+
 import com.ejsfbu.app_main.R;
 
 import com.parse.FindCallback;
@@ -29,6 +31,10 @@ public class Reward extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_GROUP = "group";
     public static final String KEY_IS_LEVEL_1 = "isLevel1";
+    public static final String KEY_HAS_DISCOUNT = "hasDiscount";
+    public static final String KEY_HAS_GIFT_CARD = "hasGiftCard";
+    public static final String KEY_DISCOUNT_CODE = "discountCode";
+    public static final String KEY_GIFT_CARD_CODE = "giftCardCode";
 
 
     public String getName() {
@@ -49,6 +55,14 @@ public class Reward extends ParseObject {
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
     }
+
+    public boolean hasDiscount() { return getBoolean(KEY_HAS_DISCOUNT); }
+
+    public String getDiscountCode() { return getString(KEY_DISCOUNT_CODE); }
+
+    public boolean hasGiftCard() { return getBoolean(KEY_HAS_GIFT_CARD); }
+
+    public String getGiftCardCode() { return getString(KEY_GIFT_CARD_CODE); }
 
     public static List<Reward> checkEarnedRewards(User user) {
         ArrayList<Reward> earnedRewards = new ArrayList<>();
@@ -400,6 +414,16 @@ public class Reward extends ParseObject {
 
     public static boolean userHasBadge(User user, String rewardId) {
         List<Reward> completedBadges = user.getCompletedBadges();
+        for (int i = 0; i < completedBadges.size(); i++) {
+            if (completedBadges.get(i).getObjectId().equals(rewardId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean userHasClaimedBadge(User user, String rewardId) {
+        List<Reward> completedBadges = user.getClaimedRewards();
         for (int i = 0; i < completedBadges.size(); i++) {
             if (completedBadges.get(i).getObjectId().equals(rewardId)) {
                 return true;

@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -35,7 +36,9 @@ public class User extends ParseUser {
     public static final String KEY_TOTAL_SAVED = "totalSaved";
     public static final String KEY_COMPLETED_GOALS = "completedGoals";
     public static final String KEY_IN_PROGRESS_GOALS = "inProgressGoals";
+    public static final String KEY_CLAIMED_REWARDS = "claimedRewards";
     public static final String KEY_EARLY_GOALS = "earlyGoals";
+
 
     public String getName() {
         return getString(KEY_NAME);
@@ -230,6 +233,18 @@ public class User extends ParseUser {
 
     public List<Goal> getInProgressGoals() {
         return getList(KEY_IN_PROGRESS_GOALS);
+    }
+
+    public List<Reward> getClaimedRewards() {
+        List<Reward> rewards =  getList(KEY_CLAIMED_REWARDS);
+        if (rewards == null) {
+            rewards = new ArrayList<>();
+        }
+        return rewards;
+    }
+
+    public void claimReward(Reward reward) {
+        addAllUnique(KEY_CLAIMED_REWARDS, Collections.singleton(reward));
     }
 
     public int getNumberGoalsCompleted() {

@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +26,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
+
+import static com.ejsfbu.app_main.Models.Reward.userHasClaimedBadge;
 
 public class RewardDetailDialogFragment extends DialogFragment {
 
@@ -39,6 +44,11 @@ public class RewardDetailDialogFragment extends DialogFragment {
     private TextView tvRewardDetailBadgeDescription;
     private TextView tvRewardDetailStatus;
     private Button bRewardDetailClose;
+    private ImageView ivAmazonGiftCard;
+    private TextView tvGiftCardAmount;
+    private TextView tvDiscountCode;
+    private ImageView ivAmazonLogo;
+    private TextView tvDiscountText;
 
     public RewardDetailDialogFragment() {
 
@@ -71,6 +81,11 @@ public class RewardDetailDialogFragment extends DialogFragment {
         tvRewardDetailBadgeDescription = view.findViewById(R.id.tvRewardDetailBadgeDescription);
         tvRewardDetailStatus = view.findViewById(R.id.tvRewardDetailStatus);
         bRewardDetailClose = view.findViewById(R.id.bRewardDetailClose);
+        tvGiftCardAmount = view.findViewById(R.id.tvGiftCardAmount);
+        ivAmazonGiftCard = view.findViewById(R.id.ivAmazonGiftCard);
+        tvDiscountCode = view.findViewById(R.id.tvDiscountCode);
+        ivAmazonLogo = view.findViewById(R.id.ivAmazonLogo);
+        tvDiscountText = view.findViewById(R.id.tvDiscountText);
 
         badge = getArguments().getParcelable("badge");
         user = getArguments().getParcelable("user");
@@ -99,16 +114,82 @@ public class RewardDetailDialogFragment extends DialogFragment {
             tvRewardDetailStatus.setText("Completed");
         }
 
-        bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+        if (tvRewardDetailStatus.getText().toString().equals("Completed")) {
+            checkSpecialReward();
+        } else {
+            tvGiftCardAmount.setVisibility(View.GONE);
+            ivAmazonGiftCard.setVisibility(View.GONE);
+            tvDiscountCode.setVisibility(View.GONE);
+            ivAmazonLogo.setVisibility(View.GONE);
+            tvDiscountText.setVisibility(View.GONE);
+            bRewardDetailClose.setText("Close");
+            bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
 
         String title = getArguments().getString("title", "Reward Detail");
         getDialog().setTitle(title);
         tvRewardDetailBadgeName.requestFocus();
+    }
+
+    public void checkSpecialReward() {
+        if (badge.hasGiftCard() && !userHasClaimedBadge(user, badge.getObjectId())) {
+            tvGiftCardAmount.setVisibility(View.VISIBLE);
+            ivAmazonGiftCard.setVisibility(View.VISIBLE);
+            ivAmazonLogo.setVisibility(View.GONE);
+            tvDiscountText.setVisibility(View.GONE);
+            tvDiscountCode.setVisibility(View.GONE);
+            bRewardDetailClose.setText("Claim");
+            bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    user.claimReward(badge);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Toast.makeText(context, "Reward claimed!", Toast.LENGTH_LONG).show();
+                                dismiss();
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                }
+            });
+        } else if (badge.hasDiscount()) {
+            tvGiftCardAmount.setVisibility(View.GONE);
+            ivAmazonGiftCard.setVisibility(View.GONE);
+            ivAmazonLogo.setVisibility(View.VISIBLE);
+            tvDiscountText.setVisibility(View.VISIBLE);
+            tvDiscountCode.setText(badge.getDiscountCode());
+            tvDiscountCode.setVisibility(View.VISIBLE);
+            bRewardDetailClose.setText("Close");
+            bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        } else {
+            tvGiftCardAmount.setVisibility(View.GONE);
+            ivAmazonGiftCard.setVisibility(View.GONE);
+            tvDiscountCode.setVisibility(View.GONE);
+            ivAmazonLogo.setVisibility(View.GONE);
+            tvDiscountText.setVisibility(View.GONE);
+            bRewardDetailClose.setText("Close");
+            bRewardDetailClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+        }
     }
 
     public String formatDate(String dateString) {
