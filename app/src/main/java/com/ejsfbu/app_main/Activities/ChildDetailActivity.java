@@ -190,7 +190,6 @@ public class ChildDetailActivity extends AppCompatActivity {
     public void loadCompletedGoals() {
         List<Goal> goals = child.getCompletedGoals();
         if (goals == null || goals.size() == 0) {
-            rvChildDetailCompletedGoals.setMinimumHeight(20);
             vChildDetailsCompletedGoalsBottom.setVisibility(GONE);
             vChildDetailsCompletedGoalsLeft.setVisibility(GONE);
             vChildDetailsCompletedGoalsRight.setVisibility(GONE);

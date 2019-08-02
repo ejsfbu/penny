@@ -100,4 +100,5 @@
     <string name="no_pending_requests">No Pending Requests to Display</string>
     <string name="no_in_progress_goals">No In Progress Goals to Display</string>
     <string name="no_completed_goals">No Completed Goals to Display</string>
+    <string name="add_child">Link Another Child</string>
 </resources>

@@ -24,7 +24,7 @@
             android:name=".Activities.ChildDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.ParentProfileActivity"
+            android:name=".Activities.ParentProfileFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.AddBankActivity"

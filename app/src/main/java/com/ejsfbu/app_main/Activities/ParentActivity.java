@@ -2,68 +2,81 @@ package com.ejsfbu.app_main.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
-import com.ejsfbu.app_main.Adapters.ChildAdapter;
 import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
+import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ParentActivity extends AppCompatActivity {
 
     public static final String TAG = "ParentActivity";
 
-    @BindView(R.id.rvParentChildren)
-    RecyclerView rvParentChildren;
-    @BindView(R.id.ivParentProfilePic)
-    ImageView ivParentProfilePic;
+    public static ImageView ivParentProfilePic;
+    public static CardView cvParentProfilePic;
+    public static FrameLayout flParentContainer;
+    public static ImageButton ibParentProfileBack;
 
-    private ArrayList<User> children;
-    private ChildAdapter adapter;
     public static FragmentManager fragmentManager;
+
+    private User parent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent);
 
-        ButterKnife.bind(this);
+        ivParentProfilePic = findViewById(R.id.ivParentProfilePic);
+        cvParentProfilePic = findViewById(R.id.cvParentProfilePic);
+        flParentContainer = findViewById(R.id.flParentContainer);
+        ibParentProfileBack = findViewById(R.id.ibParentProfileBack);
 
-        User parent = (User) ParseUser.getCurrentUser();
         fragmentManager = getSupportFragmentManager();
+
+        parent = (User) ParseUser.getCurrentUser();
+
+        ivParentProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment parentProfileFragment = new ParentProfileFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flParentContainer, parentProfileFragment)
+                        .commit();
+            }
+        });
+        ibParentProfileBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ibParentProfileBack.setVisibility(View.GONE);
+                ivParentProfilePic.setVisibility(View.VISIBLE);
+                cvParentProfilePic.setVisibility(View.VISIBLE);
+                Fragment childListFragment = new ChildListFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flParentContainer, childListFragment)
+                        .commit();
+            }
+        });
 
         if (getIntent().getBooleanExtra("isFirstLogin", false)) {
             showVerifyChildDialog();
         }
-
-        children = new ArrayList<>();
-        adapter = new ChildAdapter(this, children);
-        rvParentChildren.setAdapter(adapter);
-        rvParentChildren.setLayoutManager(new LinearLayoutManager(this));
 
         ParseFile image = parent.getProfilePic();
         if (image != null) {
@@ -71,49 +84,19 @@ public class ParentActivity extends AppCompatActivity {
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(this)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivParentProfilePic);
         }
 
-        loadChildren();
-    }
-
-    protected void loadChildren() {
-        User parent = (User) ParseUser.getCurrentUser();
-        JSONArray jsonChildren = parent.getChildren();
-        for (int i = 0; i < jsonChildren.length(); i++) {
-            try {
-                JSONObject jsonChild = (JSONObject) jsonChildren.get(i);
-                String childUserId = jsonChild.getString("objectId");
-                User.Query userQuery = new User.Query();
-                userQuery.whereEqualTo("objectId", childUserId);
-                userQuery.findInBackground(new FindCallback<User>() {
-                    @Override
-                    public void done(List<User> objects, ParseException e) {
-                        if (e == null) {
-                            User child = objects.get(0);
-                            children.add(child);
-                            adapter.notifyItemInserted(children.size() - 1);
-                        }
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @OnClick(R.id.ivParentProfilePic)
-    public void onClickProfile() {
-        Intent intent = new Intent(this, ParentProfileActivity.class);
-        startActivity(intent);
-        finish();
+        Fragment childListFragment = new ChildListFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flParentContainer, childListFragment)
+                .commit();
     }
 
     public void showVerifyChildDialog() {

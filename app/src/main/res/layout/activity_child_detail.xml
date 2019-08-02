@@ -25,8 +25,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/ivChildDetailAppLogo"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/ivChildDetailAppLogo" />
 
     <ImageButton
         android:id="@+id/ibChildDetailBack"
@@ -41,9 +40,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vChildDetailTopDivider">
+        app:layout_constraintTop_toBottomOf="@+id/vChildDetailTopDivider"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="@string/name"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cvChildDetailProfilePic"
@@ -125,9 +125,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailCompletedGoals"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxHeight="200dp"
-                android:minHeight="24dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -164,9 +162,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailInProgressGoals"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxHeight="200dp"
-                android:minHeight="24dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -203,9 +199,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailPendingRequests"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxHeight="200dp"
-                android:minHeight="24dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
