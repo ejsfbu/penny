@@ -43,7 +43,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public ParseFile getImage() {
-        return getParseFile(KEY_IMAGE);
+        ParseFile image;
+        try {
+            image = fetchIfNeeded().getParseFile(KEY_IMAGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            image = null;
+        }
+        return image;
     }
 
     public void setImage(ParseFile image) {
@@ -70,7 +77,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public Double getCost() {
-        return getDouble(KEY_COST);
+        Double cost;
+        try {
+            cost = fetchIfNeeded().getDouble(KEY_COST);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            cost = 0.0;
+        }
+        return cost;
     }
 
     public void setCost(Double cost) {
@@ -78,7 +92,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public ParseUser getUser() {
-        return getParseUser(KEY_USER);
+        ParseUser user;
+        try {
+            user = fetchIfNeeded().getParseUser(KEY_USER);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            user = null;
+        }
+        return user;
     }
 
     public void setUser(ParseUser user) {
@@ -136,7 +157,16 @@ public class Goal extends ParseObject implements Comparable<Goal> {
 
     public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
 
-    public List<Transaction> getTransactions() { return getList(KEY_TRANSACTIONS); }
+    public List<Transaction> getTransactions() {
+        List<Transaction> list;
+        try {
+            list = fetchIfNeeded().getList(KEY_TRANSACTIONS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            list = null;
+        }
+        return list;
+    }
 
     public boolean getUpdatesMade() {
         boolean updatesMade;
@@ -154,7 +184,14 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public boolean getCompletedEarly() {
-        return getBoolean(KEY_COMPLETED_EARLY);
+        boolean bool;
+        try {
+            bool = fetchIfNeeded().getBoolean(KEY_COMPLETED_EARLY);
+        } catch (ParseException e) {
+            bool = false;
+            e.printStackTrace();
+        }
+        return bool;
     }
 
     public void setCompletedEarly(boolean completedEarly) {
