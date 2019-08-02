@@ -202,7 +202,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     @Override
     public int compareTo(Goal goal) {
         if (goal.getCompleted()) {
-            return goal.getDateCompleted().compareTo(this.getDateCompleted());
+            return goal.getEndDate().compareTo(this.getEndDate());
         } else {
             return this.getEndDate().compareTo(goal.getEndDate());
         }

@@ -195,6 +195,5 @@ public class ParentProfileActivity extends AppCompatActivity
     public void onFinishEditDialog() {
         loadProfileData();
     }
-
-
+    
 }

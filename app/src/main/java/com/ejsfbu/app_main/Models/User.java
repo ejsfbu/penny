@@ -1,6 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
+import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -12,6 +13,7 @@ import com.parse.SaveCallback;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -382,13 +384,17 @@ public class User extends ParseUser {
                         if (goal.getCompletedEarly()) {
                             setEarlyGoals(getEarlyGoals() + 1);
                         }
+                        if (goal.getCost() <= 10.00) {
+                            setSmallGoals(getSmallGoals() + 1);
+                        }
                         addCompletedGoal(goal);
                     }
                     List<Transaction> transactions = goal.getTransactions();
                     Double addAmount = 0.0;
                     for (int j = 0; j < transactions.size(); j ++) {
-                        if (transactions.get(j).getRecentlyApproved()) {
-                            transactions.get(i).setRecentlyApproved(false);
+                        Transaction transaction = transactions.get(j);
+                        if (transaction.getRecentlyApproved()) {
+                            transaction.setRecentlyApproved(false);
                             addAmount += transactions.get(j).getAmount();
                         }
                     }

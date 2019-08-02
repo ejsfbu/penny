@@ -124,6 +124,7 @@ public class Transaction extends ParseObject {
             amount = fetchIfNeeded().getDouble(KEY_AMOUNT);
         } catch (ParseException e) {
             e.printStackTrace();
+            amount = 0.0;
         }
         return amount;
     }
