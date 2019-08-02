@@ -43,7 +43,7 @@ public class Reward extends ParseObject {
             name = fetchIfNeeded().getString(KEY_NAME);
         } catch (ParseException e) {
             e.printStackTrace();
-            name = null;
+            name = "";
         }
         return name;
     }

@@ -99,7 +99,7 @@ public class BankAccount extends ParseObject {
         if (hasEnoughMoney) {
             return amount;
         } else {
-            return null;
+            return 0.0;
         }
     }
 
