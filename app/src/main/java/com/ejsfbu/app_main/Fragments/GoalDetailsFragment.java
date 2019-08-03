@@ -405,6 +405,9 @@ public class GoalDetailsFragment extends Fragment implements
                         if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00) ) {
                             user.setMediumGoals(user.getMediumGoals() + 1);
                         }
+                        if (goal.getCost() >= 100.00) {
+                            user.setBigGoals(user.getBigGoals() + 1);
+                        }
                         user.addCompletedGoal(goal);
                         user.saveInBackground(new SaveCallback() {
                             @Override

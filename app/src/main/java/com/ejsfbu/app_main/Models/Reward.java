@@ -136,6 +136,11 @@ public class Reward extends ParseObject {
             earnedRewards.add(mediumGoalReward);
         }
 
+        Reward bigGoalReward = checkBigGoals(user);
+        if (bigGoalReward != null) {
+            earnedRewards.add(bigGoalReward);
+        }
+
         return earnedRewards;
     }
 
@@ -791,6 +796,40 @@ public class Reward extends ParseObject {
             e.printStackTrace();
         }
         return badges;
+    }
+
+
+    public static Reward checkBigGoals(User user) {
+        ArrayList<Reward> bigGoalBadges = new Reward().getBigGoalsBadges();
+        Reward earnedBadge = null;
+        if (user.getBigGoals() >= 1) {
+            if (userHasBadge(user, bigGoalBadges.get(0).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(bigGoalBadges.get(0));
+                user.addInProgressBadge(bigGoalBadges.get(1));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(bigGoalBadges.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = bigGoalBadges.get(0);
+            }
+        }
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return earnedBadge;
     }
 
     public ArrayList<Reward> getBigGoalsBadges() {
