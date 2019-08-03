@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Activities.AddBankActivity;
+import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Fragments.AddBankFragment;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
@@ -149,8 +151,9 @@ public class DepositDialogFragment extends DialogFragment {
             array.add("No verified banks available");
             bDepositConfirm.setText("Add bank");
             bDepositConfirm.setOnClickListener(view -> {
-                Intent intent = new Intent(context, AddBankActivity.class);
-                startActivityForResult(intent, BANK_REQUEST_CODE);
+                Fragment addBankFragment = new AddBankFragment();
+                MainActivity.fragmentManager.beginTransaction()
+                        .replace(R.id.flMainContainer, addBankFragment);
                 dismiss();
             });
         }

@@ -340,12 +340,14 @@ public class User extends ParseUser {
     }
 
     public List<Reward> getClaimedRewards() {
-        List<Reward> rewards;
+        List<Reward> rewards = new ArrayList<>();
         try {
             rewards = fetchIfNeeded().getList(KEY_CLAIMED_REWARDS);
+            if (rewards == null) {
+                rewards = new ArrayList<>();
+            }
         } catch (ParseException e) {
             e.printStackTrace();
-            rewards = new ArrayList<>();
         }
         return rewards;
     }

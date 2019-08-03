@@ -38,6 +38,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.BitmapScaler;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -60,7 +61,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private Context context;
-    private ParseUser user;
+    private User user;
 
     private Button bEditProfilePicConfirm;
     private Button bEditProfilePicCancel;
@@ -90,7 +91,7 @@ public class EditProfileImageDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        user = ParseUser.getCurrentUser();
+        user = (User) ParseUser.getCurrentUser();
 
         ivEditProfilePicProfilePic = view.findViewById(R.id.ivEditProfilePicProfilePic);
         ibEditProfilePicPhotos = view.findViewById(R.id.ibEditProfilePicPhotos);
@@ -113,15 +114,22 @@ public class EditProfileImageDialogFragment extends DialogFragment {
 
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(0).getTag();
-        int fragmentId = fragments.get(0).getId();
-        EditProfileImageDialogListener listener;
-        if (fragments.size() > 1) {
-            listener = (EditProfileImageDialogListener) getFragmentManager()
-                    .findFragmentById(fragmentId);
+        String fragmentTag;
+        int fragmentId;
+        if (user.getIsParent()) {
+            fragmentTag = fragments.get(1).getTag();
+            fragmentId = fragments.get(1).getId();
         } else {
+            fragmentTag = fragments.get(0).getTag();
+            fragmentId = fragments.get(0).getId();
+        }
+        EditProfileImageDialogListener listener;
+        if (fragmentTag != null) {
             listener = (EditProfileImageDialogListener) getFragmentManager()
                     .findFragmentByTag(fragmentTag).getContext();
+        } else {
+            listener = (EditProfileImageDialogListener) getFragmentManager()
+                    .findFragmentById(fragmentId);
         }
         listener.onFinishEditDialog();
         dismiss();
