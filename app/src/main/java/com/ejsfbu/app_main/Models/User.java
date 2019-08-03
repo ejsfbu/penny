@@ -1,8 +1,5 @@
 package com.ejsfbu.app_main.Models;
 
-import com.ejsfbu.app_main.Activities.ParentActivity;
-import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
-import com.ejsfbu.app_main.R;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -175,15 +172,8 @@ public class User extends ParseUser {
         addAllUnique(KEY_CHILDREN, Collections.singleton(child));
     }
 
-    public JSONArray getChildren() {
-        JSONArray children;
-        try {
-            children = fetchIfNeeded().getJSONArray(KEY_CHILDREN);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            children = null;
-        }
-        return children;
+    public List<User> getChildren() {
+        return getList(KEY_CHILDREN);
     }
 
     public void addParent(User parent) {
@@ -207,7 +197,8 @@ public class User extends ParseUser {
             banks = fetchIfNeeded().getList(KEY_BANK);
         } catch (ParseException e) {
             e.printStackTrace();
-            banks = new ArrayList<>();;
+            banks = new ArrayList<>();
+            ;
         }
         return banks;
     }
@@ -277,7 +268,7 @@ public class User extends ParseUser {
 
     public boolean hasInProgressBadge(String badgeId) {
         List<Reward> inProgressBadges = getInProgressBadges();
-        for (int i = 0; i < inProgressBadges.size(); i ++) {
+        for (int i = 0; i < inProgressBadges.size(); i++) {
             if (inProgressBadges.get(i).getObjectId().equals(badgeId)) {
                 return true;
             }
@@ -395,7 +386,7 @@ public class User extends ParseUser {
                     }
                     List<Transaction> transactions = goal.getTransactions();
                     Double addAmount = 0.0;
-                    for (int j = 0; j < transactions.size(); j ++) {
+                    for (int j = 0; j < transactions.size(); j++) {
                         Transaction transaction = transactions.get(j);
                         if (transaction.getRecentlyApproved()) {
                             transaction.setRecentlyApproved(false);
@@ -466,7 +457,7 @@ public class User extends ParseUser {
         return getInt(KEY_SMALL_GOALS);
     }
 
-    public void setSmallGoals(Integer amount){
+    public void setSmallGoals(Integer amount) {
         put(KEY_SMALL_GOALS, amount);
     }
 

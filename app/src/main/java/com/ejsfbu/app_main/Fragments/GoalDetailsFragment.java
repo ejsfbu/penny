@@ -105,6 +105,8 @@ public class GoalDetailsFragment extends Fragment implements
     ImageButton ivEditGoalName;
     @BindView(R.id.ivEditGoalDate)
     ImageButton ivEditGoalDate;
+    @BindView(R.id.tvGoalDetailEdit)
+    TextView tvGoalDetailEdit;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
@@ -162,6 +164,7 @@ public class GoalDetailsFragment extends Fragment implements
             bGoalDetailsDeposit.setVisibility(View.GONE);
             ivEditGoalDate.setVisibility(View.GONE);
             ivEditGoalName.setVisibility(View.GONE);
+            tvGoalDetailEdit.setVisibility(View.GONE);
 
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
@@ -338,10 +341,16 @@ public class GoalDetailsFragment extends Fragment implements
         editName.show(fragmentManager, "fragment_edit_goal_name");
     }
 
+    @OnClick(R.id.tvGoalDetailEdit)
+    public void onClickEdit() {
+        showEditGoalImageDialog();
+    }
 
     @OnClick(R.id.ivGoalDetailsImage)
     public void onClickImage() {
-        showEditGoalImageDialog();
+        if (!goal.getCompleted()) {
+            showEditGoalImageDialog();
+        }
     }
 
     private void showEditGoalImageDialog() {

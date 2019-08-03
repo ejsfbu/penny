@@ -13,34 +13,37 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Fragments.BankDetailsFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
+import com.parse.ParseUser;
 
 import java.util.List;
-
-import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Activities.MainActivity.ibBanksListBack;
 
 public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
 
     private List<BankAccount> bankRows;
     private Context context;
+    private User user;
 
     public BankAdapter(Context context, List<BankAccount> bankRows) {
         this.context = context;
         this.bankRows = bankRows;
+        user = (User) ParseUser.getCurrentUser();
     }
 
     @NonNull
     @Override
-    public BankAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_bank, parent, false);
         return new BankAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BankAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BankAccount bankAccount = bankRows.get(position);
         holder.bind(bankAccount);
     }
@@ -78,33 +81,42 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
             }
 
             root.setOnClickListener(view -> {
-                ibBanksListBack.setVisibility(View.GONE);
                 Fragment fragment = new BankDetailsFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("bank", bank);
                 fragment.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.flMainContainer, fragment).commit();
+                if (user.getIsParent()) {
+                    ParentActivity.ibParentBanksListBack.setVisibility(View.GONE);
+                    ParentActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.flParentContainer, fragment)
+                            .commit();
+                } else {
+                    MainActivity.ibBanksListBack.setVisibility(View.GONE);
+                    MainActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.flMainContainer, fragment)
+                            .commit();
+                }
             });
         }
 
 
+        /*set up when we can get bank picture
 
-// set up when we can get bank picture
-//        public void setImage() {
-//            ParseFile image = badge.getBadgeImage();
-//            String imageUrl = image.getUrl();
-//            imageUrl = imageUrl.substring(4);
-//            imageUrl = "https" + imageUrl;
-//            RequestOptions options = new RequestOptions()
-//                    .placeholder(R.mipmap.ic_launcher)
-//                    .error(R.mipmap.ic_launcher)
-//                    .transform(new CenterCrop())
-//                    .transform(new CircleCrop());
-//            Glide.with(context)
-//                    .load(imageUrl)
-//                    .apply(options)
-//                    .into(ivBadge);
-//        }
+        public void setImage() {
+            ParseFile image = badge.getBadgeImage();
+            String imageUrl = image.getUrl();
+            imageUrl = imageUrl.substring(4);
+            imageUrl = "https" + imageUrl;
+            RequestOptions options = new RequestOptions()
+                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.ic_launcher)
+                    .transform(new CenterCrop())
+                    .transform(new CircleCrop());
+            Glide.with(context)
+                    .load(imageUrl)
+                    .apply(options)
+                    .into(ivBadge);
+        }*/
     }
 
     public static String formatAccountNumber(String number) {

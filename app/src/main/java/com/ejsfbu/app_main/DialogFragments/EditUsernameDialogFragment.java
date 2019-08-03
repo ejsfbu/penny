@@ -20,8 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -81,10 +81,10 @@ public class EditUsernameDialogFragment extends DialogFragment {
 
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
-        String fragmentTag = fragments.get(1).getTag();
-        int fragmentId = fragments.get(1).getId();
+        String fragmentTag = fragments.get(0).getTag();
+        int fragmentId = fragments.get(0).getId();
         EditUsernameDialogListener listener;
-        if (fragments.size() > 2) {
+        if (fragments.size() > 1) {
             listener = (EditUsernameDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {

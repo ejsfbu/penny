@@ -97,4 +97,10 @@
     <string name="great">Great!</string>
     <string name="what_now">What do I do now?</string>
     <string name="end_date">End Date:</string>
+    <string name="no_pending_requests">No Pending Requests to Display</string>
+    <string name="no_in_progress_goals">No In Progress Goals to Display</string>
+    <string name="no_completed_goals">No Completed Goals to Display</string>
+    <string name="add_child">Link Another Child</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_bank">Delete Bank</string>
 </resources>

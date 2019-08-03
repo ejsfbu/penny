@@ -28,8 +28,8 @@ import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -91,6 +91,8 @@ public class ProfileFragment extends Fragment
     TextView tvProfileEmail;
     @BindView(R.id.tvProfileAccountCode)
     TextView tvProfileAccountCode;
+    @BindView(R.id.tvProfileParentsTitle)
+    TextView tvProfileParentsTitle;
     @BindView(R.id.tvProfileParentName1)
     TextView tvProfileParentName1;
     @BindView(R.id.tvProfileParentName2)
@@ -136,7 +138,7 @@ public class ProfileFragment extends Fragment
     public void onClickLogOut() {
         ParseUser.logOut();
 
-        Intent intent = new Intent(getContext(), LoginActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         startActivity(intent);
         getActivity().finish();
     }
@@ -235,7 +237,8 @@ public class ProfileFragment extends Fragment
 
         JSONArray jsonParents = user.getParents();
         if (jsonParents == null) {
-            numParents  = 0;
+            numParents = 0;
+            tvProfileParentsTitle.setVisibility(View.INVISIBLE);
         } else {
             numParents = jsonParents.length();
         }
@@ -297,14 +300,13 @@ public class ProfileFragment extends Fragment
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(context)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivParentProfilePic);
         }
         tvParentName.setText(parent.getName());
@@ -315,7 +317,6 @@ public class ProfileFragment extends Fragment
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    // This is called when the dialog is completed and the results have been passed
     @Override
     public void onFinishEditDialog() {
         loadProfileData();
