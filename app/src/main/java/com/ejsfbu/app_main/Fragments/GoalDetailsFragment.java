@@ -164,6 +164,7 @@ public class GoalDetailsFragment extends Fragment implements
             bGoalDetailsDeposit.setVisibility(View.GONE);
             ivEditGoalDate.setVisibility(View.GONE);
             ivEditGoalName.setVisibility(View.GONE);
+            tvGoalDetailEdit.setVisibility(View.GONE);
 
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
@@ -347,7 +348,9 @@ public class GoalDetailsFragment extends Fragment implements
 
     @OnClick(R.id.ivGoalDetailsImage)
     public void onClickImage() {
-        showEditGoalImageDialog();
+        if (!goal.getCompleted()) {
+            showEditGoalImageDialog();
+        }
     }
 
     private void showEditGoalImageDialog() {
