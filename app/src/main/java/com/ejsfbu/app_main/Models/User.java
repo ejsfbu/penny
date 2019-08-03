@@ -39,6 +39,7 @@ public class User extends ParseUser {
     public static final String KEY_EARLY_GOALS = "earlyGoals";
     public static final String KEY_SMALL_GOALS = "smallGoals";
     public static final String KEY_MEDIUM_GOALS = "mediumGoals";
+    public static final String KEY_BIG_GOALS = "bigGoals";
 
 
     public String getName() {
@@ -384,6 +385,9 @@ public class User extends ParseUser {
                         if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00) ) {
                             setMediumGoals(getMediumGoals() + 1);
                         }
+                        if (goal.getCost() >= 100.00) {
+                            setBigGoals(getBigGoals()+ 1);
+                        }
                         addCompletedGoal(goal);
                     }
                     List<Transaction> transactions = goal.getTransactions();
@@ -469,6 +473,14 @@ public class User extends ParseUser {
 
     public void setMediumGoals(Integer amount){
         put(KEY_MEDIUM_GOALS, amount);
+    }
+
+    public int getBigGoals() {
+        return getInt(KEY_BIG_GOALS);
+    }
+
+    public void setBigGoals(Integer amount){
+        put(KEY_BIG_GOALS, amount);
     }
 
 }
