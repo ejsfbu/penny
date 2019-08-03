@@ -676,7 +676,82 @@ public class Reward extends ParseObject {
     public static Reward checkMediumGoals(User user) {
         ArrayList<Reward> mediumGoalBadges = new Reward().getMediumGoalsBadges();
         Reward earnedBadge = null;
-        if (user.getMediumGoals() >= 1) {
+        if (user.getMediumGoals() >= 20) {
+            if (userHasBadge(user, mediumGoalBadges.get(4).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(mediumGoalBadges.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(mediumGoalBadges.get(4));
+                            user.removeCompletedBadge(mediumGoalBadges.get(3));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = mediumGoalBadges.get(4);
+            }
+        } else if (user.getMediumGoals() >= 15) {
+            if (userHasBadge(user, mediumGoalBadges.get(3).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(mediumGoalBadges.get(3));
+                user.addInProgressBadge(mediumGoalBadges.get(4));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(mediumGoalBadges.get(3));
+                            user.removeCompletedBadge(mediumGoalBadges.get(2));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = mediumGoalBadges.get(3);
+            }
+        } else if (user.getMediumGoals() >= 10) {
+            if (userHasBadge(user, mediumGoalBadges.get(2).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(mediumGoalBadges.get(2));
+                user.addInProgressBadge(mediumGoalBadges.get(3));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(mediumGoalBadges.get(2));
+                            user.removeCompletedBadge(mediumGoalBadges.get(1));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = mediumGoalBadges.get(2);
+            }
+        } else if (user.getMediumGoals() >= 5) {
+            if (userHasBadge(user, mediumGoalBadges.get(1).getObjectId())) {
+                earnedBadge = null;
+            } else {
+                user.addCompletedBadge(mediumGoalBadges.get(1));
+                user.addInProgressBadge(mediumGoalBadges.get(2));
+                user.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            user.removeInProgressBadge(mediumGoalBadges.get(1));
+                            user.removeCompletedBadge(mediumGoalBadges.get(0));
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                earnedBadge = mediumGoalBadges.get(1);
+            }
+        } else if (user.getMediumGoals() >= 1) {
             if (userHasBadge(user, mediumGoalBadges.get(0).getObjectId())) {
                 earnedBadge = null;
             } else {
@@ -710,6 +785,18 @@ public class Reward extends ParseObject {
         ArrayList<Reward> badges = new ArrayList<>();
         Reward.Query query = new Reward.Query();
         query.getGroup("Medium Goals");
+        try {
+            badges.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return badges;
+    }
+
+    public ArrayList<Reward> getBigGoalsBadges() {
+        ArrayList<Reward> badges = new ArrayList<>();
+        Reward.Query query = new Reward.Query();
+        query.getGroup("Big Goals");
         try {
             badges.addAll(query.find());
         } catch (ParseException e) {
