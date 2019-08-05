@@ -297,14 +297,14 @@ public class User extends ParseUser {
         final List<Goal> completedGoals = getCompletedGoals();
         if (completedGoals != null) {
             removeAll(KEY_COMPLETED_GOALS, completedGoals);
-            saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    completedGoals.add(0, goal);
-                    Collections.sort(completedGoals);
-                    addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
-                }
-            });
+            try {
+                save();
+                completedGoals.add(0, goal);
+                Collections.sort(completedGoals);
+                addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         } else {
             addAll(KEY_COMPLETED_GOALS, Collections.singleton(goal));
         }

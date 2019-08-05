@@ -53,6 +53,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
+
 public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "AddGoalActivity";
@@ -223,6 +225,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                     Toast.makeText(AddGoalActivity.this, "Goal Created",
                             Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Goal Created");
+                    goal.setDailySavings(calculateDailySaving(goal));
+                    goal.saveInBackground();
                     user.addInProgressGoal(goal);
                     user.saveInBackground(new SaveCallback() {
                         @Override

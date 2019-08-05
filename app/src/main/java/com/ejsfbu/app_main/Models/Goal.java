@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @ParseClassName("Goal")
 public class Goal extends ParseObject implements Comparable<Goal> {
@@ -28,6 +29,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_TRANSACTIONS = "transactions";
     public static final String KEY_UPDATES_MADE = "updatesMade";
     public static final String KEY_COMPLETED_EARLY = "completedEarly";
+    public static final String KEY_DAILY_SAVING = "dailySaving";
 
     public String getName() {
         String name = "";
@@ -162,9 +164,12 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         List<Transaction> list;
         try {
             list = fetchIfNeeded().getList(KEY_TRANSACTIONS);
+            if (list == null) {
+                list = new ArrayList<>();
+            }
         } catch (ParseException e) {
             e.printStackTrace();
-            list = new ArrayList<>();;
+            list = new ArrayList<>();
         }
         return list;
     }
@@ -206,6 +211,31 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         } else {
             return this.getEndDate().compareTo(goal.getEndDate());
         }
+    }
+
+    public void setDailySavings(Double savings) {
+        put(KEY_DAILY_SAVING, savings);
+    }
+
+    public Double getDailySavings() {
+        Double saving;
+        try {
+            saving = fetchIfNeeded().getDouble(KEY_DAILY_SAVING);
+        } catch (ParseException e) {
+            saving = 0.0;
+            e.printStackTrace();
+        }
+        return saving;
+    }
+
+    public static Double calculateDailySaving(Goal goal) {
+        long startdiffInMillies = Math.abs(goal.getEndDate().getTime() - goal.getCreatedAt().getTime());
+        long startdiffInDays = TimeUnit.DAYS.convert(startdiffInMillies, TimeUnit.MILLISECONDS);
+        Double dailySaving = (goal.getCost() / startdiffInDays);
+        if (dailySaving > goal.getCost()) {
+            dailySaving = goal.getCost();
+        }
+        return dailySaving;
     }
 
     public static class Query extends ParseQuery<Goal> {

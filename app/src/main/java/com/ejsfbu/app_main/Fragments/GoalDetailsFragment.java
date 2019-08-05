@@ -51,6 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,11 +108,16 @@ public class GoalDetailsFragment extends Fragment implements
     ImageButton ivEditGoalDate;
     @BindView(R.id.tvGoalDetailEdit)
     TextView tvGoalDetailEdit;
+    @BindView(R.id.tvGoalDetailStatus)
+    TextView tvGoalDetailStatus;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
     TransactionAdapter adapter;
     private int transactionsLoaded;
+    private Double dailySavingGoal;
+    private Double weeklySavingGoal;
+    private Double monthlySavingGoal;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerViewScrollListener scrollListener;
     private Goal goal;
@@ -195,6 +201,7 @@ public class GoalDetailsFragment extends Fragment implements
                     .apply(options) // Extra: round image corners
                     .into(ivGoalDetailsImage);
         }
+        calculateSavings();
     }
 
     public static String formatDate(String date) {
@@ -429,6 +436,35 @@ public class GoalDetailsFragment extends Fragment implements
                     }
                 }
             });
+        }
+    }
+
+    public void calculateSavings() {
+        long today = System.currentTimeMillis();
+        long diffInMillies = Math.abs(today - goal.getCreatedAt().getTime());
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long diffInWeeks = diffInDays / 7;
+        long diffInMonths = diffInDays / 30;
+        dailySavingGoal = goal.getDailySavings();
+        weeklySavingGoal = dailySavingGoal * 7;
+        if (weeklySavingGoal > goal.getCost()) { weeklySavingGoal = goal.getCost(); }
+        monthlySavingGoal = dailySavingGoal * 30;
+        if (monthlySavingGoal > goal.getCost()) { monthlySavingGoal = goal.getCost(); }
+        Double onTrackAmount = diffInDays * dailySavingGoal;
+        if(goal.getSaved() >= onTrackAmount) {
+            if (goal.getCompleted()) {
+                tvGoalDetailStatus.setText("Completed");
+                tvGoalDetailStatus.setTextColor(context
+                        .getResources().getColor(R.color.money_green));
+            } else {
+                tvGoalDetailStatus.setText("On Track");
+                tvGoalDetailStatus.setTextColor(context
+                        .getResources().getColor(R.color.money_green));
+            }
+        } else {
+            tvGoalDetailStatus.setText("Behind Schedule");
+            tvGoalDetailStatus.setTextColor(context
+                    .getResources().getColor(R.color.colorAccent));
         }
     }
 }

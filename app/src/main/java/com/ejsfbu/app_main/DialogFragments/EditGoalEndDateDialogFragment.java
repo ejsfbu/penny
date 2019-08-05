@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
+
 public class EditGoalEndDateDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     Context context;
@@ -104,6 +106,7 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
                     Toast.makeText(context, "This is the same goal completion date. Please enter a new goal completion date", Toast.LENGTH_LONG).show();
                 } else {
                     selectedGoal.setEndDate(endDate);
+                    selectedGoal.setDailySavings(calculateDailySaving(selectedGoal));
                     selectedGoal.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
