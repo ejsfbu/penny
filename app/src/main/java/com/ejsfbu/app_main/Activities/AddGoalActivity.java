@@ -36,6 +36,7 @@ import com.ejsfbu.app_main.Fragments.DatePickerFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -92,6 +93,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
         user = (User) ParseUser.getCurrentUser();
+        user.setACL(new ParseACL(user));
+        user.saveInBackground();
     }
 
     @OnClick(R.id.ibAddGoalBack)
@@ -217,7 +220,11 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         goal.setUser(user);
         goal.setSaved(0.0);
         goal.setCompleted(false);
-
+        // TODO SET ACL CHANGE LATER
+        ParseACL acl = new ParseACL(user);
+        acl.setPublicWriteAccess(true);
+        acl.setPublicReadAccess(true);
+        goal.setACL(acl);
         goal.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

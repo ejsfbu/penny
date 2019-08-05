@@ -19,6 +19,7 @@ import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -54,6 +55,8 @@ public class AddBankFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         user = (User) ParseUser.getCurrentUser();
+        user.setACL(new ParseACL(user));
+        user.saveInBackground();
         return inflater.inflate(R.layout.fragment_add_bank, container, false);
     }
 
@@ -126,6 +129,11 @@ public class AddBankFragment extends Fragment {
         newBank.setRoutingtNumber(routing);
         newBank.setAccountNumber(accountNumber);
         newBank.setVerified(true);
+        // TODO SET ACL CHANGE LATER
+        ParseACL acl = new ParseACL(user);
+        acl.setPublicWriteAccess(true);
+        acl.setPublicReadAccess(true);
+        newBank.setACL(acl);
         newBank.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

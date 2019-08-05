@@ -40,6 +40,7 @@ import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -150,6 +151,8 @@ public class GoalDetailsFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         user = (User) ParseUser.getCurrentUser();
+        user.setACL(new ParseACL(user));
+        user.saveInBackground();
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
@@ -265,6 +268,11 @@ public class GoalDetailsFragment extends Fragment implements
             approval = true;
         }
         Transaction transaction = new Transaction(user, bankSet, amount, goal, approval, false);
+        // TODO SET ACL CHANGE LATER
+        ParseACL acl = new ParseACL(user);
+        acl.setPublicWriteAccess(true);
+        acl.setPublicReadAccess(true);
+        transaction.setACL(acl);
         transaction.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -315,6 +323,11 @@ public class GoalDetailsFragment extends Fragment implements
                 + String.format("%.2f", transaction.getAmount()) + " towards " + goal.getName()
                 + " from " + transaction.getBank().getBankName());
         request.setTransaction(transaction);
+        // TODO SET ACL CHANGE LATER
+        ParseACL acl = new ParseACL(user);
+        acl.setPublicWriteAccess(true);
+        acl.setPublicReadAccess(true);
+        request.setACL(acl);
         request.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
