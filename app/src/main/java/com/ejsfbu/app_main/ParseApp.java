@@ -21,7 +21,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(User.class);
         final Parse.Configuration configurationUser = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
-                .clientKey("money-makes-the-world-go-around")
+                .clientKey(getResources().getString(R.string.master_key))
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationUser);
@@ -29,7 +29,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(Goal.class);
         final Parse.Configuration configurationGoal = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
-                .clientKey("money-makes-the-world-go-around")
+                .clientKey(getResources().getString(R.string.master_key))
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationGoal);
@@ -37,7 +37,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(Reward.class);
         final Parse.Configuration configurationReward = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
-                .clientKey("money-makes-the-world-go-around")
+                .clientKey(getResources().getString(R.string.master_key))
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationReward);
@@ -45,7 +45,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(BankAccount.class);
         final Parse.Configuration configurationBank = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
-                .clientKey("money-makes-the-world-go-around")
+                .clientKey(getResources().getString(R.string.master_key))
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationBank);
@@ -53,7 +53,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(Transaction.class);
         final Parse.Configuration configurationTransaction = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
-                .clientKey("money-makes-the-world-go-around")
+                .clientKey(getResources().getString(R.string.master_key))
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationTransaction);
@@ -61,7 +61,7 @@ public class ParseApp extends Application {
         ParseObject.registerSubclass(Request.class);
         final Parse.Configuration configurationRequest = new Parse.Configuration.Builder(this)
                 .applicationId("ejsfbu-money")
-                .clientKey("money-makes-the-world-go-around")
+                .clientKey(getResources().getString(R.string.master_key))
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationRequest);

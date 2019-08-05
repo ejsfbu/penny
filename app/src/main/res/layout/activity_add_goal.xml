@@ -112,14 +112,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="24dp"
                 android:background="@drawable/background_button_pig_pink"
                 android:text="@string/add_goal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivAddGoalGoalImage" />
+                app:layout_constraintTop_toBottomOf="@+id/ivAddGoalGoalImageHolder" />
 
             <View
                 android:id="@+id/verticalborder"
@@ -159,21 +158,28 @@
                 app:layout_constraintTop_toTopOf="@+id/verticalborder"
                 app:srcCompat="@drawable/icon_photo" />
 
-            <ImageView
-                android:id="@+id/ivAddGoalGoalImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ivAddGoalGoalImageHolder"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:visibility="gone"
+                android:elevation="12dp"
+                app:cardCornerRadius="75dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/verticalborder"
-                app:srcCompat="@color/grey_7_75_transparent" />
+                app:layout_constraintTop_toBottomOf="@+id/verticalborder">
+
+                <ImageView
+                    android:id="@+id/ivAddGoalGoalImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/icon_target" />
+
+            </androidx.cardview.widget.CardView>
 
             <ImageButton
                 android:id="@+id/bAddGoalDate"
