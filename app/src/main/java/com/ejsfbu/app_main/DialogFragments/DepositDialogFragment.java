@@ -43,16 +43,18 @@ public class DepositDialogFragment extends DialogFragment {
     private Spinner spinner;
     private List<BankAccount> banks;
     private Double amountLeft;
+    private Double depositLimit;
 
     public DepositDialogFragment() {
 
     }
 
-    public static DepositDialogFragment newInstance(String title, Double amountLeft) {
+    public static DepositDialogFragment newInstance(String title, Double amountLeft, Double depositLimit) {
         DepositDialogFragment frag = new DepositDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putDouble("amount", amountLeft);
+        args.putDouble("limit", depositLimit);
         frag.setArguments(args);
         return frag;
     }
@@ -76,6 +78,7 @@ public class DepositDialogFragment extends DialogFragment {
         fillData();
         String title = getArguments().getString("title", "Enter Name");
         amountLeft = getArguments().getDouble("amount");
+        depositLimit = getArguments().getDouble("limit");
         getDialog().setTitle(title);
         etDepositAmount.requestFocus();
         getDialog().getWindow().setSoftInputMode(
@@ -135,6 +138,11 @@ public class DepositDialogFragment extends DialogFragment {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (amount > depositLimit) {
+                Toast.makeText(context, "Amount exceeds remaining cost including pending transactions.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             sendBackResult(bankName, amount);
         });
     }
@@ -162,6 +170,5 @@ public class DepositDialogFragment extends DialogFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
-
 
 }

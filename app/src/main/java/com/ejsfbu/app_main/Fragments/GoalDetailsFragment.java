@@ -247,8 +247,18 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     private void showDepositDialog() {
+        Double limit = 0.0;
+        if (goal.getTransactions().size() == 0) {
+            limit = Double.MAX_VALUE;
+        } else {
+            for (Transaction transaction: goal.getTransactions()) {
+                limit += transaction.getAmount();
+            }
+            limit = goal.getCost() - limit;
+        }
+
         DepositDialogFragment depositDialogFragment
-                = DepositDialogFragment.newInstance("Deposit", goal.getCost() - goal.getSaved());
+                = DepositDialogFragment.newInstance("Deposit", goal.getCost() - goal.getSaved(), limit);
         depositDialogFragment.show(MainActivity.fragmentManager,
                 "fragment_deposit");
     }
