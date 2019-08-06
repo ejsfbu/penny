@@ -34,6 +34,7 @@ import com.ejsfbu.app_main.DialogFragments.EarnedBadgeDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalEndDateDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditGoalNameDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.SetUpAutoPaymentDialogFragment;
 import com.ejsfbu.app_main.EndlessRecyclerViewScrollListener;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
@@ -73,7 +74,8 @@ public class GoalDetailsFragment extends Fragment implements
         EditGoalNameDialogFragment.EditGoalNameDialogListener,
         EditGoalEndDateDialogFragment.EditGoalDateDialogListener,
         DepositDialogFragment.DepositDialogListener,
-        EditGoalImageDialogFragment.EditGoalImageDialogListener {
+        EditGoalImageDialogFragment.EditGoalImageDialogListener,
+        SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener {
 
     @BindView(R.id.ivGoalDetailsImage)
     ImageView ivGoalDetailsImage;
@@ -121,6 +123,8 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailSavingText;
     @BindView(R.id.bGoalDetailsPurchaseGoal)
     Button bGoalDetailsPurchaseGoal;
+    @BindView(R.id.bAutoPay)
+    Button bAutoPay;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
@@ -299,6 +303,12 @@ public class GoalDetailsFragment extends Fragment implements
                 "fragment_deposit");
     }
 
+
+    @Override
+    public void onFinishEditDialog(String frequency) {
+        setGoalInfo();
+    }
+
     @Override
     public void onFinishEditDialog(String bankName, Double amount) {
         BankAccount bankSet = null;
@@ -406,6 +416,16 @@ public class GoalDetailsFragment extends Fragment implements
     private void showEditGoalNameDialog() {
         EditGoalNameDialogFragment editName = EditGoalNameDialogFragment.newInstance("Edit Goal Name", goal);
         editName.show(fragmentManager, "fragment_edit_goal_name");
+    }
+
+    @OnClick(R.id.bAutoPay)
+    public void onClickAutoPay(){
+        showSetUpAutoPaymentDialogFragment();
+    }
+
+    private void showSetUpAutoPaymentDialogFragment() {
+        SetUpAutoPaymentDialogFragment fragment = SetUpAutoPaymentDialogFragment.newInstance(goal, user);
+        fragment.show(fragmentManager, "fragment_automatic_payment");
     }
 
     @OnClick(R.id.tvGoalDetailEdit)
