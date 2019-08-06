@@ -13,7 +13,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +39,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
     static User currentUser;
     Button bSetUpAutoPaymentConfirm;
     Button bSetUpAutoPaymentCancel;
+    EditText etAutoPaymentAmount;
     Spinner spFrequency;
     Spinner spTimesRepeated;
     Spinner spAutoPayBanks;
@@ -71,6 +74,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         spFrequency = view.findViewById(R.id.spFrequency);
         spTimesRepeated = view.findViewById(R.id.spTimesRepeated);
         spAutoPayBanks = view.findViewById(R.id.spAutoPayBanks);
+        etAutoPaymentAmount = view.findViewById(R.id.etAutoPaymentAmount);
 
         setOnClickListeners();
         setAdapters();
@@ -80,7 +84,23 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         bSetUpAutoPaymentConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String bankName = spAutoPayBanks.getSelectedItem().toString();
 
+                String amountString = etAutoPaymentAmount.getText().toString();
+                Double amount;
+                if (amountString.equals("")) {
+                    Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    amount = Double.valueOf(amountString);
+                }
+
+                String timesRepeated = spTimesRepeated.getSelectedItem().toString();
+                String frequency = spFrequency.getSelectedItem().toString();
+
+                Toast.makeText(context, "Automatic Recurring Payment Created", Toast.LENGTH_LONG).show();
+                dismiss();
+                return;
             }
         });
 
