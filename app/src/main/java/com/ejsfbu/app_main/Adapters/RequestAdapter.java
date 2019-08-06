@@ -89,6 +89,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                 transaction.getBank().withdraw(transaction.getAmount());
                                 Goal goal = transaction.getGoal();
                                 goal.addSaved(transaction.getAmount());
+                                goal.setDailySavings(Goal.calculateDailySaving(goal));
                                 goal.setUpdatesMade(true);
                                 if (goal.getSaved() >= goal.getCost()) {
                                     goal.setCompleted(true);

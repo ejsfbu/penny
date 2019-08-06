@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,6 +115,14 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailEdit;
     @BindView(R.id.tvGoalDetailStatus)
     TextView tvGoalDetailStatus;
+    @BindView(R.id.spinTimeOptions)
+    Spinner spinner;
+    @BindView(R.id.tvGoalDetailReccomendedSaving)
+    TextView tvGoalDetailReccomendedSaving;
+    @BindView(R.id.tvGoalDetailSavingText)
+    TextView tvGoalDetailSavingText;
+    @BindView(R.id.bGoalDetailsPurchaseGoal)
+    Button bGoalDetailsPurchaseGoal;
     @BindView(R.id.bAutoPay)
     Button bAutoPay;
 
@@ -148,6 +158,7 @@ public class GoalDetailsFragment extends Fragment implements
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvTransactions.setLayoutManager(linearLayoutManager);
         loadTransactions();
+        setSpinnerOnClick();
     }
 
     @Nullable
@@ -173,12 +184,21 @@ public class GoalDetailsFragment extends Fragment implements
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSavedTitle.setVisibility(View.GONE);
             tvGoalDetailsAmountSaved.setVisibility(View.GONE);
-            bGoalDetailsCancelGoal.setVisibility(View.GONE);
-            bGoalDetailsDeposit.setVisibility(View.GONE);
+            bGoalDetailsCancelGoal.setVisibility(View.INVISIBLE);
+            bGoalDetailsDeposit.setVisibility(View.INVISIBLE);
             ivEditGoalDate.setVisibility(View.GONE);
             ivEditGoalName.setVisibility(View.GONE);
             tvGoalDetailEdit.setVisibility(View.GONE);
-
+            tvGoalDetailReccomendedSaving.setVisibility(View.GONE);
+            tvGoalDetailSavingText.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
+            if (goal.getPurchased()) {
+                bGoalDetailsCancelGoal.setVisibility(View.GONE);
+                bGoalDetailsDeposit.setVisibility(View.GONE);
+                bGoalDetailsPurchaseGoal.setVisibility(View.GONE);
+            } else {
+                bGoalDetailsPurchaseGoal.setVisibility(View.VISIBLE);
+            }
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
@@ -250,6 +270,22 @@ public class GoalDetailsFragment extends Fragment implements
         showDepositDialog();
     }
 
+    @OnClick(R.id.bGoalDetailsPurchaseGoal)
+    public void onClickPurchase() {
+        goal.setPurchased(true);
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(context, "Money transferred to bank for purchase.", Toast.LENGTH_LONG).show();
+                    setGoalInfo();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private void showDepositDialog() {
         Double limit = 0.0;
         if (goal.getTransactions().size() == 0) {
@@ -310,6 +346,7 @@ public class GoalDetailsFragment extends Fragment implements
         if (transaction.getApproval()) {
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
+            goal.setDailySavings(Goal.calculateDailySaving(goal));
             user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
         } else {
             createRequest(transaction);
@@ -490,9 +527,9 @@ public class GoalDetailsFragment extends Fragment implements
         long diffInMonths = diffInDays / 30;
         dailySavingGoal = goal.getDailySavings();
         weeklySavingGoal = dailySavingGoal * 7;
-        if (weeklySavingGoal > goal.getCost()) { weeklySavingGoal = goal.getCost(); }
+        if (weeklySavingGoal > (goal.getCost() - goal.getSaved())) { weeklySavingGoal = goal.getCost() - goal.getSaved(); }
         monthlySavingGoal = dailySavingGoal * 30;
-        if (monthlySavingGoal > goal.getCost()) { monthlySavingGoal = goal.getCost(); }
+        if (monthlySavingGoal > (goal.getCost() - goal.getSaved())) { monthlySavingGoal = goal.getCost() - goal.getSaved(); }
         Double onTrackAmount = diffInDays * dailySavingGoal;
         if(goal.getSaved() >= onTrackAmount) {
             if (goal.getCompleted()) {
@@ -509,6 +546,32 @@ public class GoalDetailsFragment extends Fragment implements
             tvGoalDetailStatus.setTextColor(context
                     .getResources().getColor(R.color.colorAccent));
         }
+        String amount = formatCurrency(dailySavingGoal) + " per day";
+        tvGoalDetailReccomendedSaving.setText(amount);
+    }
+
+    private void setSpinnerOnClick() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 0) {
+                    String amount = formatCurrency(dailySavingGoal) + " per day";
+                    tvGoalDetailReccomendedSaving.setText(amount);
+                } else if (position == 1) {
+                    String amount = formatCurrency(weeklySavingGoal) + " per week";
+                    tvGoalDetailReccomendedSaving.setText(amount);
+                } else {
+                    String amount = formatCurrency(monthlySavingGoal) + " per month";
+                    tvGoalDetailReccomendedSaving.setText(amount);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // no action
+            }
+
+        });
     }
 }
 

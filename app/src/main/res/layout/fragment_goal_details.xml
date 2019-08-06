@@ -14,64 +14,73 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">-->
 
-    <ImageView
-        android:id="@+id/ivGoalDetailsImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_target" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/goal_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toStartOf="@+id/ivEditGoalName"
-        app:layout_constraintStart_toEndOf="@+id/ivGoalDetailsImage"
-        app:layout_constraintTop_toTopOf="@+id/ivGoalDetailsImage" />
+            <ImageView
+                android:id="@+id/ivGoalDetailsImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_target" />
 
-    <ProgressBar
-        android:id="@+id/pbGoalDetailsPercentDone"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivGoalDetailsImage"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsPercentDone"
-        app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsName"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsName" />
+            <TextView
+                android:id="@+id/tvGoalDetailsName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/goal_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalName"
+                app:layout_constraintStart_toEndOf="@+id/ivGoalDetailsImage"
+                app:layout_constraintTop_toTopOf="@+id/ivGoalDetailsImage" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsPercentDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pbGoalDetailsPercentDone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pbGoalDetailsPercentDone" />
+            <ProgressBar
+                android:id="@+id/pbGoalDetailsPercentDone"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivGoalDetailsImage"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsPercentDone"
+                app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsName"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsName" />
+
+            <TextView
+                android:id="@+id/tvGoalDetailsPercentDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/pbGoalDetailsPercentDone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/pbGoalDetailsPercentDone" />
 
     <Button
         android:id="@+id/bGoalDetailsDeposit"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/background_button_pig_pink"
+        android:text="@string/deposit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bGoalDetailsCancelGoal" />
+
+    <Button
+        android:id="@+id/bGoalDetailsPurchaseGoal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/background_button_pig_pink"
-        android:text="@string/deposit"
-        app:layout_constraintBottom_toTopOf="@+id/bAutoPay"
-        app:layout_constraintEnd_toStartOf="@+id/bGoalDetailsCancelGoal"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/purchase_goal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/bGoalDetailsCancelGoal"
@@ -79,84 +88,210 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/background_button_coin_blue"
         android:text="@string/cancel_goal"
-        app:layout_constraintBottom_toBottomOf="@+id/bGoalDetailsDeposit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bGoalDetailsDeposit" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bGoalDetailsDeposit"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsDateCompletedTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/end_date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsDateCompleted"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTotalCostTitle" />
+            <TextView
+                android:id="@+id/tvGoalDetailsDateCompletedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/end_date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsDateCompleted"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTotalCostTitle" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsStatusTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/status"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
+            <TextView
+                android:id="@+id/tvGoalDetailsStatusTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/status"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsStatusTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsStatusTitle" />
+            <TextView
+                android:id="@+id/tvGoalDetailStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="TextView"
+                app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsStatusTitle"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsStatusTitle" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsDateCompleted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
+            <TextView
+                android:id="@+id/tvGoalDetailsDateCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsTotalCostTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/total_cost"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsTotalCost"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsAmountSavedTitle" />
+            <TextView
+                android:id="@+id/tvGoalDetailsTotalCostTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/total_cost"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsTotalCost"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsAmountSavedTitle" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsTotalCost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsTotalCostTitle" />
+            <TextView
+                android:id="@+id/tvGoalDetailsTotalCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsTotalCostTitle" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsTransactionHistoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="@string/transaction_history"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider9" />
+            <TextView
+                android:id="@+id/tvGoalDetailsTransactionHistoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:text="@string/transaction_history"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider9" />
 
+            <Button
+                android:id="@+id/bGoalDetailsAutoPay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/auto_pay"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintEnd_toEndOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintStart_toStartOf="@+id/bGoalDetailsDeposit"
+                app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
+
+            <TextView
+                android:id="@+id/tvGoalDetailsAmountSavedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/amount_saved"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsAmountSaved"
+                app:layout_constraintTop_toBottomOf="@+id/ivGoalDetailsImage" />
+
+            <TextView
+                android:id="@+id/tvGoalDetailsAmountSaved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsAmountSavedTitle" />
+
+            <ImageButton
+                android:id="@+id/ivEditGoalName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="#00FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsName"
+                app:srcCompat="@drawable/icon_edit" />
+
+            <ImageButton
+                android:id="@+id/ivEditGoalDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="#00FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsDateCompleted"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompleted"
+                app:srcCompat="@drawable/icon_edit" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvGoalTransactionHistory"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTransactionHistoryTitle" />
+
+            <View
+                android:id="@+id/borderTop"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#CCCCCCCC"
+                app:layout_constraintBottom_toTopOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/rvGoalTransactionHistory" />
+
+            <View
+                android:id="@+id/borderBot"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#CCCCCCCC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
+
+            <View
+                android:id="@+id/verticalborderLeft"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#CCCCCCCC"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintStart_toStartOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintTop_toTopOf="@+id/rvGoalTransactionHistory" />
+
+            <View
+                android:id="@+id/verticalborderRight"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="#CCCCCCCC"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintStart_toEndOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintTop_toTopOf="@+id/rvGoalTransactionHistory" />
+
+            <TextView
+                android:id="@+id/noTransactionsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="No transactions available"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
+                app:layout_constraintEnd_toStartOf="@+id/verticalborderRight"
+                app:layout_constraintStart_toEndOf="@+id/verticalborderLeft"
+                app:layout_constraintTop_toBottomOf="@+id/borderTop" />
+
+ 
     <Button
         android:id="@+id/bGoalDetailsAutoPay"
         android:layout_width="0dp"
@@ -170,116 +305,6 @@
         app:layout_constraintStart_toStartOf="@+id/bGoalDetailsDeposit"
         app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
 
-    <TextView
-        android:id="@+id/tvGoalDetailsAmountSavedTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/amount_saved"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsAmountSaved"
-        app:layout_constraintTop_toBottomOf="@+id/ivGoalDetailsImage" />
-
-    <TextView
-        android:id="@+id/tvGoalDetailsAmountSaved"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsAmountSavedTitle" />
-
-    <ImageButton
-        android:id="@+id/ivEditGoalName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsName"
-        app:srcCompat="@drawable/icon_edit" />
-
-    <ImageButton
-        android:id="@+id/ivEditGoalDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailsDateCompleted"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompleted"
-        app:srcCompat="@drawable/icon_edit" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvGoalTransactionHistory"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/bGoalDetailsDeposit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsTransactionHistoryTitle" />
-
-    <View
-        android:id="@+id/borderTop"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="#CCCCCCCC"
-        app:layout_constraintBottom_toTopOf="@+id/rvGoalTransactionHistory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rvGoalTransactionHistory" />
-
-    <View
-        android:id="@+id/borderBot"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="#CCCCCCCC"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvGoalTransactionHistory" />
-
-    <View
-        android:id="@+id/verticalborderLeft"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="#CCCCCCCC"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
-        app:layout_constraintStart_toStartOf="@+id/rvGoalTransactionHistory"
-        app:layout_constraintTop_toTopOf="@+id/rvGoalTransactionHistory" />
-
-    <View
-        android:id="@+id/verticalborderRight"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="#CCCCCCCC"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
-        app:layout_constraintStart_toEndOf="@+id/rvGoalTransactionHistory"
-        app:layout_constraintTop_toTopOf="@+id/rvGoalTransactionHistory" />
-
-    <TextView
-        android:id="@+id/noTransactionsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="No transactions available"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/rvGoalTransactionHistory"
-        app:layout_constraintEnd_toStartOf="@+id/verticalborderRight"
-        app:layout_constraintStart_toEndOf="@+id/verticalborderLeft"
-        app:layout_constraintTop_toBottomOf="@+id/borderTop" />
 
     <View
         android:id="@+id/divider8"
@@ -287,30 +312,63 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle"
-        tools:layout_editor_absoluteX="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/spinTimeOptions"
+        tools:layout_editor_absoluteX="0dp" />
 
-    <View
-        android:id="@+id/divider9"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="2dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/divider8"
-        tools:layout_editor_absoluteX="16dp" />
+            <View
+                android:id="@+id/divider9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@+id/divider8"
+                tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/tvGoalDetailEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:text="@string/edit"
         app:layout_constraintEnd_toEndOf="@+id/ivGoalDetailsImage"
         app:layout_constraintStart_toStartOf="@+id/ivGoalDetailsImage"
         app:layout_constraintTop_toBottomOf="@+id/ivGoalDetailsImage" />
 
+    <Spinner
+        android:id="@+id/spinTimeOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:entries="@array/time_array"
+        app:layout_constraintEnd_toEndOf="@+id/tvGoalDetailSavingText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailSavingText" />
+
+    <TextView
+        android:id="@+id/tvGoalDetailSavingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Reccomended Saving:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
+
+    <TextView
+        android:id="@+id/tvGoalDetailReccomendedSaving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/spinTimeOptions"
+        app:layout_constraintStart_toEndOf="@+id/spinTimeOptions"
+        app:layout_constraintTop_toTopOf="@+id/spinTimeOptions" />
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:id="@+id/tvAutoPaymentText"
         android:layout_width="wrap_content"

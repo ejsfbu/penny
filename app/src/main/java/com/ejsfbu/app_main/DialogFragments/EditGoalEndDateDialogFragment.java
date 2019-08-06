@@ -97,6 +97,13 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
                         Toast.makeText(context, "Enter new end date as mm/dd/yyyy", Toast.LENGTH_LONG).show();
                         return;
                     }
+                    long today = System.currentTimeMillis();
+                    long diffInMillies = endDate.getTime() - today;
+                    if (diffInMillies < 0) {
+                        Toast.makeText(context, "Enter a valid end date later than today",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 } else {
                     Toast.makeText(context, "Enter new end date as mm/dd/yyyy", Toast.LENGTH_LONG).show();
                     return;
