@@ -143,6 +143,13 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                         Toast.LENGTH_LONG).show();
                 return;
             }
+            long today = System.currentTimeMillis();
+            long diffInMillies = endDate.getTime() - today;
+            if (diffInMillies < 0) {
+                Toast.makeText(this, "Enter a valid end date later than today",
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
         } else {
             Toast.makeText(this, "Enter end date as mm/dd/yyyy",
                     Toast.LENGTH_LONG).show();

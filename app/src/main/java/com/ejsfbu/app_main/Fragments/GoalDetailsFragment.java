@@ -515,10 +515,10 @@ public class GoalDetailsFragment extends Fragment implements
                     tvGoalDetailReccomendedSaving.setText(amount);
                 } else if (position == 1) {
                     String amount = formatCurrency(weeklySavingGoal) + " per week";
-                    tvGoalDetailReccomendedSaving.setText(formatCurrency(weeklySavingGoal));
+                    tvGoalDetailReccomendedSaving.setText(amount);
                 } else {
                     String amount = formatCurrency(monthlySavingGoal) + " per month";
-                    tvGoalDetailReccomendedSaving.setText(formatCurrency(monthlySavingGoal));
+                    tvGoalDetailReccomendedSaving.setText(amount);
                 }
             }
 

@@ -94,7 +94,12 @@ public class SignUpPersonalInfoFragment extends Fragment {
                 return;
             } else {
                 long today = System.currentTimeMillis();
-                long diffInMillies = Math.abs(birthday.getTime() - today);
+                long diffInMillies = today - birthday.getTime();
+                if (diffInMillies < 0) {
+                    Toast.makeText(getContext(), "Enter a valid birthday",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
                 long diffInYears = diffInDays / 365;
                 if (diffInYears < 18) {
