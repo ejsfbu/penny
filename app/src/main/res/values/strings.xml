@@ -107,4 +107,5 @@
     <string name="delete_bank">Delete Bank</string>
     <string name="per_day"> per day</string>
     <string name="purchase_goal">Purchase Goal</string>
+    <string name="auto_pay_amount">Payment Amount</string>
 </resources>

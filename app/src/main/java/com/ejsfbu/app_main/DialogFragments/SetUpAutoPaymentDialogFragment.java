@@ -113,7 +113,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         Point size = new Point();
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
-        window.setLayout((int) (size.x * 0.90), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout((int) (size.x * 0.99), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         super.onResume();
     }
