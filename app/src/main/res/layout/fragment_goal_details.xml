@@ -282,14 +282,14 @@
                 app:layout_constraintStart_toEndOf="@+id/verticalborderLeft"
                 app:layout_constraintTop_toBottomOf="@+id/borderTop" />
 
-            <View
-                android:id="@+id/divider8"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle"
-                tools:layout_editor_absoluteX="8dp" />
+    <View
+        android:id="@+id/divider8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/spinTimeOptions"
+        tools:layout_editor_absoluteX="0dp" />
 
             <View
                 android:id="@+id/divider9"
@@ -316,10 +316,33 @@
         android:id="@+id/spinTimeOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:entries="@array/time_array"
-        app:layout_constraintBottom_toTopOf="@+id/tvGoalDetailsStatusTitle"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/tvGoalDetailSavingText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailSavingText" />
+
+    <TextView
+        android:id="@+id/tvGoalDetailSavingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Reccomended Saving:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
+
+    <TextView
+        android:id="@+id/tvGoalDetailReccomendedSaving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/spinTimeOptions"
+        app:layout_constraintStart_toEndOf="@+id/spinTimeOptions"
+        app:layout_constraintTop_toTopOf="@+id/spinTimeOptions" />
 
     <!--</androidx.constraintlayout.widget.ConstraintLayout>
 

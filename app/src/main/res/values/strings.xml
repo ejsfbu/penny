@@ -103,4 +103,5 @@
     <string name="add_child">Link Another Child</string>
     <string name="cancel">Cancel</string>
     <string name="delete_bank">Delete Bank</string>
+    <string name="per_day"> per day</string>
 </resources>

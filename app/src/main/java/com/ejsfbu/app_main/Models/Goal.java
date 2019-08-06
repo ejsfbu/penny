@@ -231,7 +231,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static Double calculateDailySaving(Goal goal) {
         long startdiffInMillies = Math.abs(goal.getEndDate().getTime() - goal.getCreatedAt().getTime());
         long startdiffInDays = TimeUnit.DAYS.convert(startdiffInMillies, TimeUnit.MILLISECONDS);
-        Double dailySaving = (goal.getCost() / startdiffInDays);
+        Double dailySaving = ((goal.getCost() - goal.getSaved()) / startdiffInDays);
         if (dailySaving > goal.getCost()) {
             dailySaving = goal.getCost();
         }

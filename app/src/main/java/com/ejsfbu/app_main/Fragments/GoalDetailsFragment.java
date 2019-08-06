@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,6 +113,12 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailEdit;
     @BindView(R.id.tvGoalDetailStatus)
     TextView tvGoalDetailStatus;
+    @BindView(R.id.spinTimeOptions)
+    Spinner spinner;
+    @BindView(R.id.tvGoalDetailReccomendedSaving)
+    TextView tvGoalDetailReccomendedSaving;
+    @BindView(R.id.tvGoalDetailSavingText)
+    TextView tvGoalDetailSavingText;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
@@ -144,6 +152,7 @@ public class GoalDetailsFragment extends Fragment implements
         linearLayoutManager = new LinearLayoutManager(getContext());
         rvTransactions.setLayoutManager(linearLayoutManager);
         loadTransactions();
+        setSpinnerOnClick();
     }
 
     @Nullable
@@ -174,6 +183,9 @@ public class GoalDetailsFragment extends Fragment implements
             ivEditGoalDate.setVisibility(View.GONE);
             ivEditGoalName.setVisibility(View.GONE);
             tvGoalDetailEdit.setVisibility(View.GONE);
+            tvGoalDetailReccomendedSaving.setVisibility(View.GONE);
+            tvGoalDetailSavingText.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
 
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
@@ -300,6 +312,7 @@ public class GoalDetailsFragment extends Fragment implements
         if (transaction.getApproval()) {
             transaction.getBank().withdraw(transaction.getAmount());
             goal.addSaved(transaction.getAmount());
+            goal.setDailySavings(Goal.calculateDailySaving(goal));
             user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
         } else {
             createRequest(transaction);
@@ -470,9 +483,9 @@ public class GoalDetailsFragment extends Fragment implements
         long diffInMonths = diffInDays / 30;
         dailySavingGoal = goal.getDailySavings();
         weeklySavingGoal = dailySavingGoal * 7;
-        if (weeklySavingGoal > goal.getCost()) { weeklySavingGoal = goal.getCost(); }
+        if (weeklySavingGoal > goal.getCost()) { weeklySavingGoal = goal.getCost() - goal.getSaved(); }
         monthlySavingGoal = dailySavingGoal * 30;
-        if (monthlySavingGoal > goal.getCost()) { monthlySavingGoal = goal.getCost(); }
+        if (monthlySavingGoal > goal.getCost()) { monthlySavingGoal = goal.getCost() - goal.getSaved(); }
         Double onTrackAmount = diffInDays * dailySavingGoal;
         if(goal.getSaved() >= onTrackAmount) {
             if (goal.getCompleted()) {
@@ -489,6 +502,32 @@ public class GoalDetailsFragment extends Fragment implements
             tvGoalDetailStatus.setTextColor(context
                     .getResources().getColor(R.color.colorAccent));
         }
+        String amount = formatCurrency(dailySavingGoal) + " per day";
+        tvGoalDetailReccomendedSaving.setText(amount);
+    }
+
+    private void setSpinnerOnClick() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 0) {
+                    String amount = formatCurrency(dailySavingGoal) + " per day";
+                    tvGoalDetailReccomendedSaving.setText(amount);
+                } else if (position == 1) {
+                    String amount = formatCurrency(weeklySavingGoal) + " per week";
+                    tvGoalDetailReccomendedSaving.setText(formatCurrency(weeklySavingGoal));
+                } else {
+                    String amount = formatCurrency(monthlySavingGoal) + " per month";
+                    tvGoalDetailReccomendedSaving.setText(formatCurrency(monthlySavingGoal));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // no action
+            }
+
+        });
     }
 }
 
