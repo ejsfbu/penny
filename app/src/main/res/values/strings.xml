@@ -105,4 +105,5 @@
     <string name="set_up_payment">Set Up Recurring Payments</string>
     <string name="repeat">Repeat payment every</string>
     <string name="delete_bank">Delete Bank</string>
+    <string name="auto_pay_amount">Payment Amount</string>
 </resources>
