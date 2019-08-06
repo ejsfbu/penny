@@ -227,6 +227,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         goal.setUser(user);
         goal.setSaved(0.0);
         goal.setCompleted(false);
+        goal.setPurchased(false);
         // TODO SET ACL CHANGE LATER
         ParseACL acl = new ParseACL(user);
         acl.setPublicWriteAccess(true);

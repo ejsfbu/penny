@@ -1,5 +1,6 @@
 package com.ejsfbu.app_main.Models;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,6 +31,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_UPDATES_MADE = "updatesMade";
     public static final String KEY_COMPLETED_EARLY = "completedEarly";
     public static final String KEY_DAILY_SAVING = "dailySaving";
+    public static final String KEY_PURCHASED = "purchased";
 
     public String getName() {
         String name = "";
@@ -236,6 +238,19 @@ public class Goal extends ParseObject implements Comparable<Goal> {
             dailySaving = goal.getCost();
         }
         return dailySaving;
+    }
+
+    public void setPurchased(boolean bool) { put(KEY_PURCHASED, bool); }
+
+    public boolean getPurchased() {
+        boolean bool;
+        try {
+            bool = fetchIfNeeded().getBoolean(KEY_PURCHASED);
+        } catch (ParseException e) {
+            bool = false;
+            e.printStackTrace();
+        }
+        return bool;
     }
 
     public static class Query extends ParseQuery<Goal> {

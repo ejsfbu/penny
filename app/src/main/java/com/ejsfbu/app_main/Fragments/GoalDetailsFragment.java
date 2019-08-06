@@ -119,6 +119,8 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailReccomendedSaving;
     @BindView(R.id.tvGoalDetailSavingText)
     TextView tvGoalDetailSavingText;
+    @BindView(R.id.bGoalDetailsPurchaseGoal)
+    Button bGoalDetailsPurchaseGoal;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
@@ -178,15 +180,21 @@ public class GoalDetailsFragment extends Fragment implements
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSavedTitle.setVisibility(View.GONE);
             tvGoalDetailsAmountSaved.setVisibility(View.GONE);
-            bGoalDetailsCancelGoal.setVisibility(View.GONE);
-            bGoalDetailsDeposit.setVisibility(View.GONE);
+            bGoalDetailsCancelGoal.setVisibility(View.INVISIBLE);
+            bGoalDetailsDeposit.setVisibility(View.INVISIBLE);
             ivEditGoalDate.setVisibility(View.GONE);
             ivEditGoalName.setVisibility(View.GONE);
             tvGoalDetailEdit.setVisibility(View.GONE);
             tvGoalDetailReccomendedSaving.setVisibility(View.GONE);
             tvGoalDetailSavingText.setVisibility(View.GONE);
             spinner.setVisibility(View.GONE);
-
+            if (goal.getPurchased()) {
+                bGoalDetailsCancelGoal.setVisibility(View.GONE);
+                bGoalDetailsDeposit.setVisibility(View.GONE);
+                bGoalDetailsPurchaseGoal.setVisibility(View.GONE);
+            } else {
+                bGoalDetailsPurchaseGoal.setVisibility(View.VISIBLE);
+            }
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
@@ -256,6 +264,22 @@ public class GoalDetailsFragment extends Fragment implements
     @OnClick(R.id.bGoalDetailsDeposit)
     public void onClickDeposit() {
         showDepositDialog();
+    }
+
+    @OnClick(R.id.bGoalDetailsPurchaseGoal)
+    public void onClickPurchase() {
+        goal.setPurchased(true);
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Toast.makeText(context, "Money transferred to bank for purchase.", Toast.LENGTH_LONG).show();
+                    setGoalInfo();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void showDepositDialog() {
@@ -483,9 +507,9 @@ public class GoalDetailsFragment extends Fragment implements
         long diffInMonths = diffInDays / 30;
         dailySavingGoal = goal.getDailySavings();
         weeklySavingGoal = dailySavingGoal * 7;
-        if (weeklySavingGoal > goal.getCost()) { weeklySavingGoal = goal.getCost() - goal.getSaved(); }
+        if (weeklySavingGoal > (goal.getCost() - goal.getSaved())) { weeklySavingGoal = goal.getCost() - goal.getSaved(); }
         monthlySavingGoal = dailySavingGoal * 30;
-        if (monthlySavingGoal > goal.getCost()) { monthlySavingGoal = goal.getCost() - goal.getSaved(); }
+        if (monthlySavingGoal > (goal.getCost() - goal.getSaved())) { monthlySavingGoal = goal.getCost() - goal.getSaved(); }
         Double onTrackAmount = diffInDays * dailySavingGoal;
         if(goal.getSaved() >= onTrackAmount) {
             if (goal.getCompleted()) {
