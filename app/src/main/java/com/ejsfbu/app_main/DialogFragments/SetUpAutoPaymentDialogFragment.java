@@ -18,7 +18,11 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
+import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Fragments.AddBankFragment;
+import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
@@ -30,10 +34,12 @@ import java.util.List;
 public class SetUpAutoPaymentDialogFragment extends DialogFragment {
 
     Context context;
+    static User currentUser;
     Button bSetUpAutoPaymentConfirm;
     Button bSetUpAutoPaymentCancel;
     Spinner spFrequency;
     Spinner spTimesRepeated;
+    Spinner spAutoPayBanks;
 
     public SetUpAutoPaymentDialogFragment() {
 
@@ -45,6 +51,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         args.putParcelable("goal", goal);
         args.putParcelable("user", user);
         setUpAutoPaymentDialogFragment.setArguments(args);
+        currentUser = user;
         return setUpAutoPaymentDialogFragment;
     }
 
@@ -63,6 +70,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         bSetUpAutoPaymentCancel = view.findViewById(R.id.bSetUpAutoPaymentCancel);
         spFrequency = view.findViewById(R.id.spFrequency);
         spTimesRepeated = view.findViewById(R.id.spTimesRepeated);
+        spAutoPayBanks = view.findViewById(R.id.spAutoPayBanks);
 
         setOnClickListeners();
         setAdapters();
@@ -106,6 +114,21 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         frequencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spFrequency.setAdapter(frequencyAdapter);
 
+        List<BankAccount> banks = new ArrayList<>();
+        banks = currentUser.getVerifiedBanks();
+        ArrayList<String> array = new ArrayList<>();
+        if (banks != null) {
+            for (BankAccount bank : banks) {
+                array.add(bank.getBankName());
+            }
+        }
+        if (array.size() == 0) {
+            array.add("No verified banks available");
+        }
+        ArrayAdapter<String> bankAdapter =
+                new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, array);
+        bankAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spAutoPayBanks.setAdapter(bankAdapter);
     }
 
     public void onResume() {
