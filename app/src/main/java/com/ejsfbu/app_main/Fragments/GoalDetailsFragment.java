@@ -123,7 +123,7 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailSavingText;
     @BindView(R.id.bGoalDetailsPurchaseGoal)
     Button bGoalDetailsPurchaseGoal;
-    @BindView(R.id.bAutoPay)
+    @BindView(R.id.bGoalDetailsAutoPay)
     Button bAutoPay;
 
     private Unbinder unbinder;
@@ -186,6 +186,7 @@ public class GoalDetailsFragment extends Fragment implements
             tvGoalDetailsAmountSaved.setVisibility(View.GONE);
             bGoalDetailsCancelGoal.setVisibility(View.INVISIBLE);
             bGoalDetailsDeposit.setVisibility(View.INVISIBLE);
+            bAutoPay.setVisibility(View.INVISIBLE);
             ivEditGoalDate.setVisibility(View.GONE);
             ivEditGoalName.setVisibility(View.GONE);
             tvGoalDetailEdit.setVisibility(View.GONE);
@@ -196,6 +197,7 @@ public class GoalDetailsFragment extends Fragment implements
                 bGoalDetailsCancelGoal.setVisibility(View.GONE);
                 bGoalDetailsDeposit.setVisibility(View.GONE);
                 bGoalDetailsPurchaseGoal.setVisibility(View.GONE);
+                bAutoPay.setVisibility(View.GONE);
             } else {
                 bGoalDetailsPurchaseGoal.setVisibility(View.VISIBLE);
             }
@@ -418,7 +420,7 @@ public class GoalDetailsFragment extends Fragment implements
         editName.show(fragmentManager, "fragment_edit_goal_name");
     }
 
-    @OnClick(R.id.bAutoPay)
+    @OnClick(R.id.bGoalDetailsAutoPay)
     public void onClickAutoPay(){
         showSetUpAutoPaymentDialogFragment();
     }
