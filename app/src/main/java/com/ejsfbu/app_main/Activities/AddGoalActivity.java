@@ -36,6 +36,8 @@ import com.ejsfbu.app_main.Fragments.DatePickerFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.notbytes.barcode_reader.BarcodeReaderActivity;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -59,6 +61,7 @@ import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
 public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "AddGoalActivity";
+    private static final int BARCODE_READER_ACTIVITY_REQUEST = 987;
 
     @BindView(R.id.etAddGoalGoalName)
     EditText etAddGoalGoalName;
@@ -78,6 +81,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     ImageButton bAddGoalDate;
     @BindView(R.id.ibAddGoalBack)
     ImageButton ibAddGoalBack;
+    @BindView(R.id.bAddGoalScan)
+    Button bAddGoalScan;
 
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -166,6 +171,12 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         image.saveInBackground();
 
         addGoal(goalName, goalPrice, endDate, image);
+    }
+
+    @OnClick(R.id.bAddGoalScan)
+    public void onClickScan() {
+        Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
+        startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST);
     }
 
     private boolean confirmCorrectDateFormat(String date) {
@@ -325,6 +336,17 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+        // Barcode scanner
+        if (resultCode != RESULT_OK) {
+            Toast.makeText(this, "error in  scanning", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
+            Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
+            Toast.makeText(this, barcode.rawValue, Toast.LENGTH_LONG).show();
+            Log.d("Scanner", barcode.rawValue);
+        }
+
     }
 
     public static Bitmap rotateBitmapOrientation(String photoFilePath) {
