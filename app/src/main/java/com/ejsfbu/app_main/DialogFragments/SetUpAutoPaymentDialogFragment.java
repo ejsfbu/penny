@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -22,6 +23,9 @@ import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetUpAutoPaymentDialogFragment extends DialogFragment {
 
@@ -61,6 +65,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         spTimesRepeated = view.findViewById(R.id.spTimesRepeated);
 
         setOnClickListeners();
+        setAdapters();
     }
 
     public void setOnClickListeners() {
@@ -79,12 +84,36 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         });
     }
 
+    public void setAdapters(){
+        ArrayList<String> numArray = new ArrayList<>();
+        for (int i = 1; i < 100; i++) {
+            StringBuilder num = new StringBuilder();
+            num.append(i);
+            numArray.add(num.toString());
+        }
+        ArrayAdapter<String> numAdapter =
+                new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, numArray);
+        numAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTimesRepeated.setAdapter(numAdapter);
+
+        ArrayList<String> frequency = new ArrayList<>();
+        frequency.add("Day");
+        frequency.add("Week");
+        frequency.add("Month");
+        frequency.add("Year");
+        ArrayAdapter<String> frequencyAdapter =
+                new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, frequency);
+        frequencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spFrequency.setAdapter(frequencyAdapter);
+
+    }
+
     public void onResume() {
         Window window = getDialog().getWindow();
         Point size = new Point();
         Display display = window.getWindowManager().getDefaultDisplay();
         display.getSize(size);
-        window.setLayout((int) (size.x * 0.75), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setLayout((int) (size.x * 0.90), WindowManager.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
         super.onResume();
     }
