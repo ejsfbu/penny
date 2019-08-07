@@ -31,8 +31,10 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
+import com.ejsfbu.app_main.BarcodeLookup;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
+import com.ejsfbu.app_main.Models.Product;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
@@ -43,6 +45,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -56,6 +60,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.ejsfbu.app_main.Adapters.GoalAdapter.formatDecimal;
 import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
 
 public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -338,14 +343,32 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         }
         // Barcode scanner
         if (resultCode != RESULT_OK) {
-            Toast.makeText(this, "error in  scanning", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "error in scanning", Toast.LENGTH_SHORT).show();
             return;
         }
         if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
             Toast.makeText(this, barcode.rawValue, Toast.LENGTH_LONG).show();
+            try {
+                Product product = BarcodeLookup.lookUpItem(barcode.rawValue);
+                loadProductData(product);
+            } catch (JSONException e) {
+                Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
             Log.d("Scanner", barcode.rawValue);
         }
+
+    }
+
+    public static void getProduct(Product product){
+        //TODO
+    }
+
+    private void loadProductData(Product product) {
+
+        etAddGoalGoalName.setText(product.getName());
+        etAddGoalGoalCost.setText(formatDecimal(product.getPrice().toString()));
 
     }
 
