@@ -100,7 +100,6 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
 
                 timesRepeated = spTimesRepeated.getSelectedItem().toString();
                 frequency = spFrequency.getSelectedItem().toString();
-
                 if (Integer.valueOf(timesRepeated) != 1) {
                     frequency = frequency + "s";
                 }

@@ -329,17 +329,12 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    //set the payment stuff to be visible
-                    tvAutoPayFrequency.setVisibility(View.VISIBLE);
-                    tvAutoPaymentText.setVisibility(View.VISIBLE);
-                    formatAutoPayText(timesRepeated, frequency);
                     setGoalInfo();
                 } else {
                     e.printStackTrace();
                 }
             }
         });
-
     }
 
 
