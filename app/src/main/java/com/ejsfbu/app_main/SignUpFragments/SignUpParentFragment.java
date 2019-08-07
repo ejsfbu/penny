@@ -20,7 +20,6 @@ import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParsePush;
 import com.parse.SignUpCallback;
 
 import java.util.List;
@@ -146,8 +145,6 @@ public class SignUpParentFragment extends Fragment {
                         Toast.makeText(getActivity(), "Sign Up Success",
                                 Toast.LENGTH_LONG).show();
                         Log.d(TAG, "Sign Up Success");
-
-                        ParsePush.subscribeInBackground(child.getObjectId());
 
                         Intent intent = new Intent(SignUpParentFragment.this.getContext(),
                                 ParentActivity.class);

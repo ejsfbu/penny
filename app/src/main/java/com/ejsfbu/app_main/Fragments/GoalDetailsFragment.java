@@ -44,21 +44,15 @@ import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseACL;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -434,30 +428,6 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    JSONObject push = new JSONObject();
-                    try {
-                        push.put("sender", ParseInstallation.getCurrentInstallation().getInstallationId());
-                        push.put("channel", user.getObjectId());
-                    } catch (JSONException e2) {
-                        e2.printStackTrace();
-                    }
-                    HashMap<String, String> data = new HashMap<>();
-                    data.put("customData", push.toString());
-                    ParseCloud.callFunctionInBackground("sendPush", data);
-/*ParsePush push = new ParsePush();
-push.setChannel(user.getObjectId());
-push.setMessage(request.getRequestDetails());
-push.sendInBackground(new SendCallback() {
-    @Override
-    public void done(ParseException e) {
-        if (e == null) {
-            Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
-        } else {
-            e.printStackTrace();
-        }
-    }
-});*/
-
                     Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
                 } else {
                     e.printStackTrace();

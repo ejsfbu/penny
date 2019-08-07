@@ -9,7 +9,6 @@ import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.parse.Parse;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 // Implement Parse Server Connections to Models
@@ -18,8 +17,6 @@ public class ParseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParseObject.registerSubclass(User.class);
         final Parse.Configuration configurationUser = new Parse.Configuration.Builder(this)
