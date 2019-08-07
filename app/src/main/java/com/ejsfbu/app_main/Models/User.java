@@ -43,11 +43,12 @@ public class User extends ParseUser {
 
 
     public String getName() {
-        String name = "";
+        String name;
         try {
             name = fetchIfNeeded().getString(KEY_NAME);
         } catch (ParseException e) {
             e.printStackTrace();
+            name = "Error";
         }
         return name;
     }
