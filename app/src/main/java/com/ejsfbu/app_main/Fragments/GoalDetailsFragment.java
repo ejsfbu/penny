@@ -344,9 +344,9 @@ public class GoalDetailsFragment extends Fragment implements
     public void formatAutoPayText(String timesRepeated, String frequency) {
         StringBuilder frequencyDisplay = new StringBuilder();
         if (Integer.valueOf(timesRepeated) == 1) {
-            frequencyDisplay.append("Once a " + frequency);
+            frequencyDisplay.append("Once a " + frequency.toLowerCase());
         } else {
-            frequencyDisplay.append(timesRepeated + " " + frequency);
+            frequencyDisplay.append("Every " + timesRepeated + " " + frequency);
         }
         tvAutoPayFrequency.setText(frequencyDisplay.toString());
     }
