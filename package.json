@@ -2,7 +2,7 @@
   "name": "youth-financial-planning",
   "description": "parse-server for youth-financial-planning",
   "scripts": {
-    "start": "parse-server config.json"
+    "start": "node index.js"
   },
   "dependencies": {
     "parse-server": "^2.0.0"
