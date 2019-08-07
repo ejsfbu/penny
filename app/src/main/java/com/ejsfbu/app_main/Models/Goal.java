@@ -32,6 +32,10 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_COMPLETED_EARLY = "completedEarly";
     public static final String KEY_DAILY_SAVING = "dailySaving";
     public static final String KEY_PURCHASED = "purchased";
+    public static final String KEY_IS_AUTO_PAYMENT = "autoWithdraw";
+    public static final String KEY_AUTO_PAY_FREQUENCY = "autoWithdrawFrequency";
+    public static final String KEY_AUTO_PAY_TIMES_REPEATED = "autoWithdrawFrequencyRepeat";
+    public static final String KEY_AUTO_PAY_AMOUNT = "autoWithdrawAmount";
 
     public String getName() {
         String name = "";
@@ -251,6 +255,38 @@ public class Goal extends ParseObject implements Comparable<Goal> {
             e.printStackTrace();
         }
         return bool;
+    }
+
+    public Boolean getHasAutoPayment() {
+        return getBoolean(KEY_IS_AUTO_PAYMENT);
+    }
+
+    public void setHasAutoPayment(Boolean hasAutoPayment) {
+        put(KEY_IS_AUTO_PAYMENT, hasAutoPayment);
+    }
+
+    public String getAutoPayFrequency() {
+        return getString(KEY_AUTO_PAY_FREQUENCY);
+    }
+
+    public void setAutoPayFrequency(String frequency){
+        put(KEY_AUTO_PAY_FREQUENCY, frequency);
+    }
+
+    public String getAutoPayTimesFrequencyIsRepeated() {
+        return getString(KEY_AUTO_PAY_TIMES_REPEATED);
+    }
+
+    public void setAutoPayTimesFrequencyIsRepeated(String timesFrequencyIsRepeated){
+        put(KEY_AUTO_PAY_TIMES_REPEATED, timesFrequencyIsRepeated);
+    }
+
+    public Integer getAutoPayAmount() {
+        return getInt(KEY_AUTO_PAY_AMOUNT);
+    }
+
+    public void setAutoPayAmount(Double autoPayAmount){
+        put(KEY_AUTO_PAY_AMOUNT, autoPayAmount);
     }
 
     public static class Query extends ParseQuery<Goal> {
