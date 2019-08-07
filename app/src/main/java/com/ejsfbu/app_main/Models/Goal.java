@@ -1,5 +1,6 @@
 package com.ejsfbu.app_main.Models;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,6 +31,11 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static final String KEY_UPDATES_MADE = "updatesMade";
     public static final String KEY_COMPLETED_EARLY = "completedEarly";
     public static final String KEY_DAILY_SAVING = "dailySaving";
+    public static final String KEY_PURCHASED = "purchased";
+    public static final String KEY_IS_AUTO_PAYMENT = "autoWithdraw";
+    public static final String KEY_AUTO_PAY_FREQUENCY = "autoWithdrawFrequency";
+    public static final String KEY_AUTO_PAY_TIMES_REPEATED = "autoWithdrawFrequencyRepeat";
+    public static final String KEY_AUTO_PAY_AMOUNT = "autoWithdrawAmount";
 
     public String getName() {
         String name = "";
@@ -231,11 +237,56 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     public static Double calculateDailySaving(Goal goal) {
         long startdiffInMillies = Math.abs(goal.getEndDate().getTime() - goal.getCreatedAt().getTime());
         long startdiffInDays = TimeUnit.DAYS.convert(startdiffInMillies, TimeUnit.MILLISECONDS);
-        Double dailySaving = (goal.getCost() / startdiffInDays);
+        Double dailySaving = ((goal.getCost() - goal.getSaved()) / startdiffInDays);
         if (dailySaving > goal.getCost()) {
             dailySaving = goal.getCost();
         }
         return dailySaving;
+    }
+
+    public void setPurchased(boolean bool) { put(KEY_PURCHASED, bool); }
+
+    public boolean getPurchased() {
+        boolean bool;
+        try {
+            bool = fetchIfNeeded().getBoolean(KEY_PURCHASED);
+        } catch (ParseException e) {
+            bool = false;
+            e.printStackTrace();
+        }
+        return bool;
+    }
+
+    public Boolean getHasAutoPayment() {
+        return getBoolean(KEY_IS_AUTO_PAYMENT);
+    }
+
+    public void setHasAutoPayment(Boolean hasAutoPayment) {
+        put(KEY_IS_AUTO_PAYMENT, hasAutoPayment);
+    }
+
+    public String getAutoPayFrequency() {
+        return getString(KEY_AUTO_PAY_FREQUENCY);
+    }
+
+    public void setAutoPayFrequency(String frequency){
+        put(KEY_AUTO_PAY_FREQUENCY, frequency);
+    }
+
+    public String getAutoPayTimesFrequencyIsRepeated() {
+        return getString(KEY_AUTO_PAY_TIMES_REPEATED);
+    }
+
+    public void setAutoPayTimesFrequencyIsRepeated(String timesFrequencyIsRepeated){
+        put(KEY_AUTO_PAY_TIMES_REPEATED, timesFrequencyIsRepeated);
+    }
+
+    public Integer getAutoPayAmount() {
+        return getInt(KEY_AUTO_PAY_AMOUNT);
+    }
+
+    public void setAutoPayAmount(Double autoPayAmount){
+        put(KEY_AUTO_PAY_AMOUNT, autoPayAmount);
     }
 
     public static class Query extends ParseQuery<Goal> {
