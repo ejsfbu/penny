@@ -345,7 +345,8 @@ public class GoalDetailsFragment extends Fragment implements
         } else {
             frequencyDisplay.append("Every " + timesRepeated + " " + frequency.toLowerCase());
         }
-        tvAutoPayFrequency.setText(frequencyDisplay.toString());
+        String formatCurr = formatCurrency(Double.valueOf(goal.getAutoPayAmount()));
+        tvAutoPayFrequency.setText(frequencyDisplay.toString() + " (" + formatCurr +")");
     }
 
     @Override
