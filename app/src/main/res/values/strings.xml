@@ -108,4 +108,7 @@
     <string name="per_day"> per day</string>
     <string name="purchase_goal">Purchase Goal</string>
     <string name="auto_pay_amount">Payment Amount</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
