@@ -348,7 +348,7 @@ public class GoalDetailsFragment extends Fragment implements
         if (Integer.valueOf(timesRepeated) == 1) {
             frequencyDisplay.append("Once a " + frequency.toLowerCase());
         } else {
-            frequencyDisplay.append("Every " + timesRepeated + " " + frequency);
+            frequencyDisplay.append("Every " + timesRepeated + " " + frequency.toLowerCase());
         }
         tvAutoPayFrequency.setText(frequencyDisplay.toString());
     }
