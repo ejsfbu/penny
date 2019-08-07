@@ -31,21 +31,21 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddChildDialogFragment extends DialogFragment {
+public class AddParentDialogFragment extends DialogFragment {
 
     private Context context;
     private User user;
 
-    private EditText etAddChildCode;
-    private Button bAddChildCancel;
-    private Button bAddChildConfirm;
+    private EditText etAddParentCode;
+    private Button bAddParentCancel;
+    private Button bAddParentConfirm;
 
-    public AddChildDialogFragment() {
+    public AddParentDialogFragment() {
 
     }
 
-    public static AddChildDialogFragment newInstance(String title) {
-        AddChildDialogFragment frag = new AddChildDialogFragment();
+    public static AddParentDialogFragment newInstance(String title) {
+        AddParentDialogFragment frag = new AddParentDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -56,7 +56,7 @@ public class AddChildDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = getContext();
-        return inflater.inflate(R.layout.fragment_add_child, container, false);
+        return inflater.inflate(R.layout.fragment_add_parent, container, false);
     }
 
     @Override
@@ -64,20 +64,20 @@ public class AddChildDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
 
-        etAddChildCode = view.findViewById(R.id.etAddChildCode);
-        bAddChildCancel = view.findViewById(R.id.bAddChildCancel);
-        bAddChildConfirm = view.findViewById(R.id.bAddChildConfirm);
+        etAddParentCode = view.findViewById(R.id.etAddParentCode);
+        bAddParentCancel = view.findViewById(R.id.bAddParentCancel);
+        bAddParentConfirm = view.findViewById(R.id.bAddParentConfirm);
 
-        String title = getArguments().getString("title", "Add Child");
+        String title = getArguments().getString("title", "Add Parent");
         getDialog().setTitle(title);
-        etAddChildCode.requestFocus();
+        etAddParentCode.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         setOnClick();
     }
 
-    public interface AddChildDialogListener {
+    public interface AddParentDialogListener {
         void onFinishEditDialog();
     }
 
@@ -85,12 +85,12 @@ public class AddChildDialogFragment extends DialogFragment {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
         String fragmentTag = fragments.get(0).getTag();
         int fragmentId = fragments.get(0).getId();
-        AddChildDialogListener listener;
+        AddParentDialogListener listener;
         if (fragments.size() > 1) {
-            listener = (AddChildDialogListener) getFragmentManager()
+            listener = (AddParentDialogListener) getFragmentManager()
                     .findFragmentById(fragmentId);
         } else {
-            listener = (AddChildDialogListener) getFragmentManager()
+            listener = (AddParentDialogListener) getFragmentManager()
                     .findFragmentByTag(fragmentTag).getContext();
         }
         listener.onFinishEditDialog();
@@ -108,46 +108,41 @@ public class AddChildDialogFragment extends DialogFragment {
     }
 
     private void setOnClick() {
-        bAddChildCancel.setOnClickListener(view -> {
+        bAddParentCancel.setOnClickListener(view -> {
             dismiss();
         });
 
-        bAddChildConfirm.setOnClickListener(view -> {
-            checkChildCode();
+        bAddParentConfirm.setOnClickListener(view -> {
+            checkParentCode();
         });
     }
 
-    private void checkChildCode() {
+    private void checkParentCode() {
         User.Query userQuery = new User.Query();
-        userQuery.whereEqualTo("objectId", etAddChildCode.getText().toString());
+        userQuery.whereEqualTo("objectId", etAddParentCode.getText().toString());
         userQuery.findInBackground(new FindCallback<User>() {
             @Override
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
-                    if (objects.size() > 0) {
-                        User child = objects.get(0);
-                        if (!child.getIsParent()) {
-                            user.addChild(objects.get(0));
-                            user.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        sendBackResult();
-                                    } else {
-                                        e.printStackTrace();
-                                    }
+                    User parent = objects.get(0);
+                    if (parent.getIsParent()) {
+                        user.addParent(objects.get(0));
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    sendBackResult();
+                                } else {
+                                    e.printStackTrace();
                                 }
-                            });
-                        } else {
-                            Toast.makeText(context, "Invalid Child Code",
-                                    Toast.LENGTH_LONG).show();
-                        }
+                            }
+                        });
                     } else {
-                        Toast.makeText(context, "Invalid Child Code",
+                        Toast.makeText(context, "Invalid Parent Code",
                                 Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(context, "Invalid Child Code",
+                    Toast.makeText(context, "Invalid Parent Code",
                             Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
