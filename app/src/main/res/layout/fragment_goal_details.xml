@@ -366,14 +366,13 @@
         app:layout_constraintStart_toEndOf="@+id/spinTimeOptions"
         app:layout_constraintTop_toTopOf="@+id/spinTimeOptions" />
 
-    <!--</androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:id="@+id/tvAutoPaymentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Payments Scheduled: "
-        android:visibility="gone"
+        android:visibility="visible"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toTopOf="@+id/tvGoalDetailsStatusTitle"
         app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsStatusTitle" />
@@ -381,16 +380,16 @@
     <TextView
         android:id="@+id/tvAutoPayFrequency"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:text="Once a week"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tvGoalDetailStatus"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsAmountSavedTitle"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsTotalCostTitle"
         app:layout_constraintStart_toEndOf="@+id/tvAutoPaymentText"
         app:layout_constraintTop_toTopOf="@+id/tvAutoPaymentText" />
 
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>
     <Button
         android:id="@+id/bAutoPay"
         android:layout_width="0dp"

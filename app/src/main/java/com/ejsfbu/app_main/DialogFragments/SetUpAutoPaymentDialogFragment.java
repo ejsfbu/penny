@@ -43,6 +43,10 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
     Spinner spFrequency;
     Spinner spTimesRepeated;
     Spinner spAutoPayBanks;
+    String bankName;
+    Double amount;
+    String timesRepeated;
+    String frequency;
 
     public SetUpAutoPaymentDialogFragment() {
 
@@ -84,10 +88,9 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         bSetUpAutoPaymentConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String bankName = spAutoPayBanks.getSelectedItem().toString();
+                bankName = spAutoPayBanks.getSelectedItem().toString();
 
                 String amountString = etAutoPaymentAmount.getText().toString();
-                Double amount;
                 if (amountString.equals("")) {
                     Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
                     return;
@@ -95,11 +98,14 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
                     amount = Double.valueOf(amountString);
                 }
 
-                String timesRepeated = spTimesRepeated.getSelectedItem().toString();
-                String frequency = spFrequency.getSelectedItem().toString();
+                timesRepeated = spTimesRepeated.getSelectedItem().toString();
+                frequency = spFrequency.getSelectedItem().toString();
 
-                Toast.makeText(context, "Automatic Recurring Payment Created", Toast.LENGTH_LONG).show();
-                dismiss();
+                if (Integer.valueOf(timesRepeated) != 1) {
+                    frequency = frequency + "s";
+                }
+
+                sendBackResult();
                 return;
             }
         });
@@ -162,14 +168,16 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
     }
 
     public interface SetUpAutoPaymentDialogListener {
-        void onFinishEditDialog(String frequency);
+        void onFinishSetUpAutoPaymentDialog(String bankName, Double amount, String timesRepeated, String frequency);
     }
 
-    public void sendBackResult(String frequency) {
+    public void sendBackResult() {
         SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener listener = (SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener) getFragmentManager()
                 .findFragmentById(R.id.flMainContainer);
-        listener.onFinishEditDialog(frequency);
+        listener.onFinishSetUpAutoPaymentDialog(bankName, amount, timesRepeated, frequency);
+        Toast.makeText(context, "Automatic Recurring Payment Created", Toast.LENGTH_LONG).show();
         dismiss();
+        return;
     }
 
 }
