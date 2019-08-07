@@ -115,6 +115,10 @@ public class GoalDetailsFragment extends Fragment implements
     TextView tvGoalDetailStatus;
     @BindView(R.id.bAutoPay)
     Button bAutoPay;
+    @BindView(R.id.tvAutoPayFrequency)
+    TextView tvAutoPayFrequency;
+    @BindView(R.id.tvAutoPaymentText)
+    TextView tvAutoPaymentText;
 
     private Unbinder unbinder;
     List<Transaction> transactionsList;
@@ -182,6 +186,15 @@ public class GoalDetailsFragment extends Fragment implements
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
+        }
+
+        if (goal.getHasAutoPayment()) {
+            tvAutoPayFrequency.setVisibility(View.VISIBLE);
+            tvAutoPaymentText.setVisibility(View.VISIBLE);
+            formatAutoPayText(goal.getAutoPayTimesFrequencyIsRepeated(), goal.getAutoPayFrequency());
+        } else {
+            tvAutoPayFrequency.setVisibility(View.GONE);
+            tvAutoPaymentText.setVisibility(View.GONE);
         }
 
         tvGoalDetailsTotalCost.setText(formatCurrency(goal.getCost()));
@@ -269,8 +282,37 @@ public class GoalDetailsFragment extends Fragment implements
 
 
     @Override
-    public void onFinishEditDialog(String frequency) {
-        setGoalInfo();
+    public void onFinishSetUpAutoPaymentDialog(String bankName, Double amount, String timesRepeated, String frequency) {
+        goal.setHasAutoPayment(true);
+        goal.setAutoPayAmount(amount);
+        goal.setAutoPayFrequency(frequency);
+        goal.setAutoPayTimesFrequencyIsRepeated(timesRepeated);
+        goal.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    //set the payment stuff to be visible
+                    tvAutoPayFrequency.setVisibility(View.VISIBLE);
+                    tvAutoPaymentText.setVisibility(View.VISIBLE);
+                    formatAutoPayText(timesRepeated, frequency);
+                    setGoalInfo();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+
+    public void formatAutoPayText(String timesRepeated, String frequency) {
+        StringBuilder frequencyDisplay = new StringBuilder();
+        if (Integer.valueOf(timesRepeated) == 1) {
+            frequencyDisplay.append("Once a " + frequency);
+        } else {
+            frequencyDisplay.append(timesRepeated + " " + frequency);
+        }
+        tvAutoPayFrequency.setText(frequencyDisplay.toString());
     }
 
     @Override
