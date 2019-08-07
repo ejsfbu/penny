@@ -1,0 +1,7 @@
+{
+  "appId": "ejsfbu-money",
+  "masterKey": "dfdfLHJFKNpjaqljrfg7836495ysdflkgjnlhoBJU4895hJFjrhkbnskdjhkdogkladjshfcat",
+  "appName": "youth-financial-planning",
+  "cloud": "./cloud/main",
+  "databaseURI": "mongodb://<dbuser>:<dbpassword>@ds151876.mlab.com:51876/heroku_b8sd9l2t"
+}
