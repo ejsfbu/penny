@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,12 +27,22 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.ejsfbu.app_main.BarcodeLookup;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
@@ -95,6 +107,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     public String photoFileName = "photo.jpg";
     private FragmentManager fragmentManager;
     private User user;
+    private static Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,8 +363,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
             Toast.makeText(this, barcode.rawValue, Toast.LENGTH_LONG).show();
             try {
-                Product product = BarcodeLookup.lookUpItem(barcode.rawValue);
-                loadProductData(product);
+                BarcodeLookup.lookUpItem(barcode.rawValue, this);
+
             } catch (JSONException e) {
                 Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
@@ -361,15 +374,58 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
 
     }
 
-    public static void getProduct(Product product){
-        //TODO
+    public void getProduct(Product item){
+        product = item;
+        loadProductData();
     }
 
-    private void loadProductData(Product product) {
-
+    private void loadProductData() {
+        if (product == null) {
+            Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
+            return;
+        }
         etAddGoalGoalName.setText(product.getName());
         etAddGoalGoalCost.setText(formatDecimal(product.getPrice().toString()));
+        if (product.getImageUrl() != null) {
+            String imageUrl = product.getImageUrl();
+            imageUrl = imageUrl.replace("http://", "https://");
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.icon_target)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .error(R.drawable.icon_target)
+                    .transform(new CenterCrop())
+                    .transform(new CircleCrop());
+            Glide.with(this)
+                    .asBitmap()
+                    .load(imageUrl)
+                    .addListener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
 
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            try {
+                                Bitmap resizedBitmap = BitmapScaler.scaleToFill(resource, 200, 200);
+                                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                                File resizedFile = getPhotoFileUri(photoFileName + "_resized", getApplicationContext());
+                                resizedFile.createNewFile();
+                                FileOutputStream fos = new FileOutputStream(resizedFile);
+                                fos.write(bytes.toByteArray());
+                                fos.close();
+                                photoFile = resizedFile;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        }
+                    })
+                    .apply(options) // Extra: round image corners
+                    .into(ivAddGoalGoalImage);
+        }
+        Toast.makeText(this, "Product loaded", Toast.LENGTH_SHORT).show();
     }
 
     public static Bitmap rotateBitmapOrientation(String photoFilePath) {

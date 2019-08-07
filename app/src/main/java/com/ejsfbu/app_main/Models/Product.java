@@ -15,7 +15,7 @@ public class Product {
         if (name.isEmpty()) { name = "Item not found"; }
         JSONArray array = object.optJSONArray("images");
         if (array != null || array.length() != 0) {
-            imageUrl = object.optString(array.optString(0));
+            imageUrl = array.optString(0);
         }
         price = getPriceFromJson(object.optJSONArray("stores"));
     }

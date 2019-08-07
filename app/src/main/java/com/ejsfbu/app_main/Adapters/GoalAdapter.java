@@ -122,8 +122,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
             ParseFile image = goal.getImage();
             if (image != null) {
                 String imageUrl = image.getUrl();
-                imageUrl = imageUrl.substring(4);
-                imageUrl = "https" + imageUrl;
+                imageUrl = imageUrl.replace("http://", "https://");
                 RequestOptions options = new RequestOptions();
                 options.placeholder(R.drawable.icon_target)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

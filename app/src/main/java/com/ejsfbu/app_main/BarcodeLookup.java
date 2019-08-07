@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Models.Product;
 import com.ejsfbu.app_main.Models.Request;
 import com.loopj.android.http.AsyncHttpClient;
@@ -31,20 +32,20 @@ public class BarcodeLookup {
     public static final String TAG = "BarcodeAPI";
 
     private AsyncHttpClient client1;
-    private static Product product;
 
-    public static Product lookUpItem(String barcode) throws JSONException {
+    public static void lookUpItem(String barcode, Context context) throws JSONException {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.add(API_KEY_BARCODE, barcode);
         params.add(API_KEY_FORMAT, "y");
-        params.add(API_KEY_PARAM, getApplicationContext().getResources().getString(R.string.barcode_api_key));
+        params.add(API_KEY_PARAM, context.getResources().getString(R.string.barcode_api_key));
         client.get(BASE_URL, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     JSONArray array = response.optJSONArray("products");
-                    product = new Product(array.optJSONObject(0));
+                    Product product = new Product(array.optJSONObject(0));
+                    ((AddGoalActivity) context).getProduct(product);
                 } catch (JSONException e) {
                     logError("Failed to get product information", e, true);
                 }
@@ -65,7 +66,6 @@ public class BarcodeLookup {
                 logError("Failed to get product information", throwable, true);
             }
         });
-        return product;
     }
 
     // Handle errors: Log and alert user
