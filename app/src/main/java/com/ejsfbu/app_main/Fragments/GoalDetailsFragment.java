@@ -211,6 +211,8 @@ public class GoalDetailsFragment extends Fragment implements
         }
 
         if (goal.getHasAutoPayment()) {
+            tvAutoPayFrequency.setVisibility(View.VISIBLE);
+            tvAutoPaymentText.setVisibility(View.VISIBLE);
             formatAutoPayText(goal.getAutoPayTimesFrequencyIsRepeated(), goal.getAutoPayFrequency());
         } else {
             tvAutoPayFrequency.setVisibility(View.GONE);
