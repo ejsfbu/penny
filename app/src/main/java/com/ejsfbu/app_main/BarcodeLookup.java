@@ -8,6 +8,8 @@ import com.ejsfbu.app_main.Models.Request;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
+
 import java.util.Collections;
 
 public class BarcodeLookup {
@@ -21,12 +23,13 @@ public class BarcodeLookup {
 
     private AsyncHttpClient client1;
 
-    public static Product lookUpItem(Context context, String barcode) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.add(API_KEY_BARCODE, barcode);
-        params.add(API_KEY_FORMAT, "y");
-        params.add(API_KEY_PARAM, context.getResources().getString(R.string.barcode_api_key));
-        // TODO
-    }
+//    public static Product lookUpItem(Context context, String barcode) throws JSONException {
+//        AsyncHttpClient client = new AsyncHttpClient();
+//        RequestParams params = new RequestParams();
+//        params.add(API_KEY_BARCODE, barcode);
+//        params.add(API_KEY_FORMAT, "y");
+//        params.add(API_KEY_PARAM, context.getResources().getString(R.string.barcode_api_key));
+//        // TODO
+//
+//    }
 }
