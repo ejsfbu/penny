@@ -127,19 +127,26 @@ public class AddChildDialogFragment extends DialogFragment {
             @Override
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
-                    user.addChild(objects.get(0));
-                    user.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                sendBackResult();
-                            } else {
-                                e.printStackTrace();
+                    User child = objects.get(0);
+                    if (!child.getIsParent()) {
+                        user.addChild(objects.get(0));
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    sendBackResult();
+                                } else {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        Toast.makeText(context, "Invalid Child Code",
+                                Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(context, "Invalid Child Code", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Invalid Child Code",
+                            Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
