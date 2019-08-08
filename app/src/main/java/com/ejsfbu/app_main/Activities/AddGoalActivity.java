@@ -361,7 +361,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         }
         if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
-            Toast.makeText(this, barcode.rawValue, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, barcode.rawValue, Toast.LENGTH_LONG).show();
             try {
                 BarcodeLookup.lookUpItem(barcode.rawValue, this);
 
