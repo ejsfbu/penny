@@ -117,11 +117,17 @@ public class NeedsParentDialogFragment extends DialogFragment {
             public void done(List<User> objects, ParseException e) {
                 if (objects.size() == 0) {
                     Toast.makeText(NeedsParentDialogFragment.this.getContext(),
-                            "Parent code is invalid", Toast.LENGTH_LONG).show();
+                            "Invalid Parent Code", Toast.LENGTH_LONG).show();
                     parent = null;
                 } else {
                     parent = objects.get(0);
-                    updateUser();
+                    if (parent.getIsParent()) {
+                        updateUser();
+                    } else {
+                        Toast.makeText(NeedsParentDialogFragment.this.getContext(),
+                                "Invalid Parent Code", Toast.LENGTH_LONG).show();
+                        parent = null;
+                    }
 
                 }
             }

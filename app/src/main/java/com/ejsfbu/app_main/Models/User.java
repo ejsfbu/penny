@@ -43,11 +43,12 @@ public class User extends ParseUser {
 
 
     public String getName() {
-        String name = "";
+        String name;
         try {
             name = fetchIfNeeded().getString(KEY_NAME);
         } catch (ParseException e) {
             e.printStackTrace();
+            name = "Error";
         }
         return name;
     }
@@ -181,15 +182,8 @@ public class User extends ParseUser {
         addAllUnique(KEY_PARENTS, Collections.singleton(parent));
     }
 
-    public JSONArray getParents() {
-        JSONArray parents;
-        try {
-            parents = fetchIfNeeded().getJSONArray(KEY_PARENTS);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            parents = null;
-        }
-        return parents;
+    public List<User> getParents() {
+        return getList(KEY_PARENTS);
     }
 
     public List<BankAccount> getBanks() {

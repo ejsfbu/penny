@@ -37,7 +37,7 @@ public class EditEmailDialogFragment extends DialogFragment {
     private Button bEditEmailCancel;
 
     private Context context;
-    private ParseUser user;
+    private User user;
     private boolean emailUnique;
 
     public EditEmailDialogFragment() {
@@ -62,7 +62,7 @@ public class EditEmailDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        user = ParseUser.getCurrentUser();
+        user = (User) ParseUser.getCurrentUser();
         etEditEmailEmail = view.findViewById(R.id.etEditEmailEmail);
         bEditEmailConfirm = view.findViewById(R.id.bEditEmailConfirm);
         bEditEmailCancel = view.findViewById(R.id.bEditEmailCancel);
@@ -117,13 +117,11 @@ public class EditEmailDialogFragment extends DialogFragment {
                         Toast.LENGTH_LONG).show();
                 return;
             }
-            user.put("email", etEditEmailEmail.getText().toString());
+            user.setEmail(etEditEmailEmail.getText().toString());
             user.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Email changed successfully.",
-                                Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

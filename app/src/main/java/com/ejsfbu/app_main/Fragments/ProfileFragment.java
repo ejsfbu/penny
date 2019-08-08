@@ -23,6 +23,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
+import com.ejsfbu.app_main.DialogFragments.AddParentDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
@@ -51,7 +53,8 @@ public class ProfileFragment extends Fragment
         implements EditEmailDialogFragment.EditEmailDialogListener,
         EditNameDialogFragment.EditNameDialogListener,
         EditProfileImageDialogFragment.EditProfileImageDialogListener,
-        EditUsernameDialogFragment.EditUsernameDialogListener {
+        EditUsernameDialogFragment.EditUsernameDialogListener,
+        AddParentDialogFragment.AddParentDialogListener {
 
     public static final String TAG = "ProfileFragment";
 
@@ -220,14 +223,13 @@ public class ProfileFragment extends Fragment
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(context)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop())) // Extra: round image corners
                     .into(ivProfileChildProfilePic);
         }
         tvProfileUsername.setText(user.getUsername());
@@ -235,55 +237,92 @@ public class ProfileFragment extends Fragment
         tvProfileName.setText(user.getName());
         tvProfileAccountCode.setText(user.getObjectId());
 
-        JSONArray jsonParents = user.getParents();
-        if (jsonParents == null) {
-            numParents = 0;
-            tvProfileParentsTitle.setVisibility(View.INVISIBLE);
-        } else {
-            numParents = jsonParents.length();
-        }
-        for (int i = 0; i < numParents; i++) {
-            try {
-                JSONObject jsonParent = (JSONObject) jsonParents.get(i);
-                String parentUserId = jsonParent.getString("objectId");
-                User.Query userQuery = new User.Query();
-                userQuery.whereEqualTo("objectId", parentUserId);
-                userQuery.findInBackground(new FindCallback<User>() {
-                    @Override
-                    public void done(List<User> objects, ParseException e) {
-                        if (e == null) {
-                            User parent = objects.get(0);
-                            parents.add(parent);
-                        }
-                        if (parents.size() == numParents) {
-                            loopParents();
-                        }
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        List<User> parents = user.getParents();
+        if (parents != null) {
+            this.parents.clear();
+            this.parents.addAll(parents);
+            loopParents();
         }
     }
 
     public void loopParents() {
+        if (parents.size() == 0) {
+            cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
+            tvProfileParentName1.setVisibility(View.VISIBLE);
+            tvProfileParentName1.setText("Add Parent");
+            ivProfileParentProfilePic1.setImageDrawable(
+                    getResources().getDrawable(R.drawable.icon_add));
+            cvProfileParentProfilePic1.setBackgroundDrawable(
+                    getResources().getDrawable(R.drawable.background_button_circle_coin_blue));
+            cvProfileParentProfilePic1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showAddParentDialog();
+                }
+            });
+        }
         if (parents.size() > 0) {
             cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
             tvProfileParentName1.setVisibility(View.VISIBLE);
             User parent1 = (User) parents.get(0);
             setParent(parent1, ivProfileParentProfilePic1, tvProfileParentName1);
+            if (parents.size() == 1) {
+                cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
+                tvProfileParentName2.setVisibility(View.VISIBLE);
+                tvProfileParentName2.setText("Add Parent");
+                ivProfileParentProfilePic2.setImageDrawable(
+                        getResources().getDrawable(R.drawable.icon_add));
+                cvProfileParentProfilePic2.setBackgroundDrawable(
+                        getResources().getDrawable(R.drawable.background_button_circle_coin_blue));
+                cvProfileParentProfilePic2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showAddParentDialog();
+                    }
+                });
+            }
         }
         if (parents.size() > 1) {
             cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
             tvProfileParentName2.setVisibility(View.VISIBLE);
             User parent2 = (User) parents.get(1);
             setParent(parent2, ivProfileParentProfilePic2, tvProfileParentName2);
+            if (parents.size() == 2) {
+                cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
+                tvProfileParentName3.setVisibility(View.VISIBLE);
+                tvProfileParentName3.setText("Add Parent");
+                ivProfileParentProfilePic3.setImageDrawable(
+                        getResources().getDrawable(R.drawable.icon_add));
+                cvProfileParentProfilePic3.setBackgroundDrawable(
+                        getResources().getDrawable(R.drawable.background_button_circle_coin_blue));
+                cvProfileParentProfilePic3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showAddParentDialog();
+                    }
+                });
+            }
         }
         if (parents.size() > 2) {
             cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
             tvProfileParentName3.setVisibility(View.VISIBLE);
             User parent3 = (User) parents.get(2);
             setParent(parent3, ivProfileParentProfilePic3, tvProfileParentName3);
+            if (parents.size() == 3) {
+                cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
+                tvProfileParentName4.setVisibility(View.VISIBLE);
+                tvProfileParentName4.setText("Add Parent");
+                ivProfileParentProfilePic4.setImageDrawable(
+                        getResources().getDrawable(R.drawable.icon_add));
+                cvProfileParentProfilePic4.setBackgroundDrawable(
+                        getResources().getDrawable(R.drawable.background_button_circle_coin_blue));
+                cvProfileParentProfilePic4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showAddParentDialog();
+                    }
+                });
+            }
         }
         if (parents.size() > 3) {
             cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
@@ -291,6 +330,12 @@ public class ProfileFragment extends Fragment
             User parent4 = (User) parents.get(3);
             setParent(parent4, ivProfileParentProfilePic4, tvProfileParentName4);
         }
+    }
+
+    public void showAddParentDialog() {
+        AddParentDialogFragment addParentDialogFragment
+                = AddParentDialogFragment.newInstance("Add Parent");
+        addParentDialogFragment.show(MainActivity.fragmentManager, "fragment_add_parent");
     }
 
     public void setParent(User parent, ImageView ivParentProfilePic, TextView tvParentName) {

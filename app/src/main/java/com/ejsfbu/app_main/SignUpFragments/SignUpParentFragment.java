@@ -232,11 +232,16 @@ public class SignUpParentFragment extends Fragment {
             public void done(List<User> objects, ParseException e) {
                 if (objects.size() == 0) {
                     Toast.makeText(SignUpParentFragment.this.getContext(),
-                            "Child code is invalid", Toast.LENGTH_LONG).show();
+                            "Invalid Child Code", Toast.LENGTH_LONG).show();
                 } else {
                     child = objects.get(0);
-                    user.addChild(child);
-                    finishSignUp();
+                    if (!child.getIsParent()) {
+                        user.addChild(child);
+                        finishSignUp();
+                    } else {
+                        Toast.makeText(SignUpParentFragment.this.getContext(),
+                                "Invalid Child Code", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
