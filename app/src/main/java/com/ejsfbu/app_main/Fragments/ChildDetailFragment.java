@@ -21,6 +21,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
+import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
@@ -36,9 +39,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.view.View.GONE;
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class ChildDetailFragment extends Fragment {
 
@@ -206,20 +211,28 @@ public class ChildDetailFragment extends Fragment {
                             .transform(new CircleCrop()))
                     .into(ivChildDetailProfilePic);
         }
-
-        fabAllowance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment allowanceManager = new AllowanceManagerFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.flParentContainer, allowanceManager)
-                        .commit();
-            }
-        });
-
         loadCompletedGoals();
         loadInProgressGoals();
         loadPendingRequests();
+    }
+
+    @OnClick(R.id.fabAllowance)
+    public void onClickAllowance() {
+        if (!child.getHasAllowance()) {
+            showAddAllowanceDialog();
+        } else {
+            showEditAllowanceDialog();
+        }
+    }
+
+    private void showAddAllowanceDialog() {
+        AddAllowanceDialogFragment addAllowance = AddAllowanceDialogFragment.newInstance("Add Allowance", child);
+        addAllowance.show(getFragmentManager(), "fragment_add_allowance");
+    }
+
+    private void showEditAllowanceDialog() {
+        EditAllowanceDialogFragment editAllowance = EditAllowanceDialogFragment.newInstance("Edit Allowance", child);
+        editAllowance.show(getFragmentManager(), "fragment_edit_allowance");
     }
 
     public void loadCompletedGoals() {

@@ -18,13 +18,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
-import com.ejsfbu.app_main.Fragments.AllowanceManagerFragment;
 import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.Fragments.ParentProfileFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 

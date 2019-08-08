@@ -40,7 +40,9 @@ public class User extends ParseUser {
     public static final String KEY_SMALL_GOALS = "smallGoals";
     public static final String KEY_MEDIUM_GOALS = "mediumGoals";
     public static final String KEY_BIG_GOALS = "bigGoals";
-
+    public static final String KEY_HAS_ALLOWANCE = "hasAllowance";
+    public static final String KEY_ALLOWANCE_AMOUNT = "allowance";
+    public static final String KEY_ALLOWANCE_FREQUENCY = "allowanceFrequency";
 
     public String getName() {
         String name;
@@ -477,4 +479,35 @@ public class User extends ParseUser {
         put(KEY_BIG_GOALS, amount);
     }
 
+    public Boolean getHasAllowance() {
+        boolean hasAllowance;
+        try {
+            hasAllowance = fetchIfNeeded().getBoolean(KEY_HAS_ALLOWANCE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            hasAllowance = false;
+        }
+        return hasAllowance;
+    }
+
+    public void setHasAllowance(Boolean hasAllowance) {
+        put(KEY_HAS_ALLOWANCE, hasAllowance);
+    }
+
+    public Double getAllowanceAmount() {
+        return getDouble(KEY_ALLOWANCE_AMOUNT);
+    }
+
+    public void setAllowanceAmount(Double allowanceAmount) {
+        put(KEY_ALLOWANCE_AMOUNT, allowanceAmount);
+    }
+
+    public String getAllowanceFrequency() {
+        return getString(KEY_ALLOWANCE_FREQUENCY);
+    }
+
+    public void setAllowanceFrequency(String frequency) {
+        put(KEY_ALLOWANCE_FREQUENCY, frequency);
+
+    }
 }
