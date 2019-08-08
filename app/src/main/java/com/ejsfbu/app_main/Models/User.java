@@ -193,7 +193,6 @@ public class User extends ParseUser {
         } catch (ParseException e) {
             e.printStackTrace();
             banks = new ArrayList<>();
-            ;
         }
         return banks;
     }
