@@ -18,13 +18,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
-import com.ejsfbu.app_main.Fragments.AllowanceManagerFragment;
 import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.Fragments.ParentProfileFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -40,7 +38,6 @@ public class ParentActivity extends AppCompatActivity {
     public static ImageButton ibChildDetailBack;
     public static ImageButton ibParentBanksListBack;
     public static ImageButton ibParentBankDetailsBack;
-    public static FloatingActionButton fabAllowance;
 
     public static FragmentManager fragmentManager;
 
@@ -58,7 +55,6 @@ public class ParentActivity extends AppCompatActivity {
         ibChildDetailBack = findViewById(R.id.ibChildDetailBack);
         ibParentBanksListBack = findViewById(R.id.ibParentBanksListBack);
         ibParentBankDetailsBack = findViewById(R.id.ibParentBankDetailsBack);
-        fabAllowance = findViewById(R.id.fabAllowance);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -112,16 +108,6 @@ public class ParentActivity extends AppCompatActivity {
                 Fragment bankListFragment = new BanksListFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.flParentContainer, bankListFragment)
-                        .commit();
-            }
-        });
-
-        fabAllowance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment allowanceManager = new AllowanceManagerFragment();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.flParentContainer, allowanceManager)
                         .commit();
             }
         });
