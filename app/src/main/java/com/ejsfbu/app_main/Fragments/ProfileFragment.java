@@ -353,6 +353,9 @@ public class ProfileFragment extends Fragment
                             .transform(new CenterCrop())
                             .transform(new CircleCrop()))
                     .into(ivParentProfilePic);
+        } else {
+            ivParentProfilePic.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.icon_user));
         }
         tvParentName.setText(parent.getName());
     }
@@ -364,6 +367,18 @@ public class ProfileFragment extends Fragment
 
     @Override
     public void onFinishEditDialog() {
+        cvProfileParentProfilePic1.setOnClickListener(null);
+        cvProfileParentProfilePic1.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic2.setOnClickListener(null);
+        cvProfileParentProfilePic2.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic3.setOnClickListener(null);
+        cvProfileParentProfilePic3.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic4.setOnClickListener(null);
+        cvProfileParentProfilePic4.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
         loadProfileData();
     }
 

@@ -42,8 +42,8 @@ public class User extends ParseUser {
     public static final String KEY_SMALL_GOALS = "smallGoals";
     public static final String KEY_MEDIUM_GOALS = "mediumGoals";
     public static final String KEY_BIG_GOALS = "bigGoals";
-    public static final String KEY_CHILD_RECENTLY_REMOVED = "childRecentlyRemoved";
     public static final String KEY_CHILD_RECENTLY_UPDATED = "childRecentlyUpdated";
+    public static final String KEY_RECENTLY_ADDED_PARENT = "recentlyAddedParent";
 
 
     public String getName() {
@@ -194,21 +194,6 @@ public class User extends ParseUser {
         removeAll(KEY_CHILDREN, Collections.singleton(child));
     }
 
-    public boolean getChildRecentlyRemoved() {
-        boolean recentlyRemoved;
-        try {
-            recentlyRemoved = fetchIfNeeded().getBoolean(KEY_CHILD_RECENTLY_REMOVED);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            recentlyRemoved = false;
-        }
-        return recentlyRemoved;
-    }
-
-    public void setChildRecentlyRemoved(boolean recentlyRemoved) {
-        put(KEY_CHILD_RECENTLY_REMOVED, recentlyRemoved);
-    }
-
     public boolean getChildRecentlyUpdated() {
         boolean recentlyUpdated;
         try {
@@ -229,7 +214,14 @@ public class User extends ParseUser {
     }
 
     public List<User> getParents() {
-        return getList(KEY_PARENTS);
+        List<User> parents;
+        try {
+            parents = fetchIfNeeded().getList(KEY_PARENTS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            parents = new ArrayList<>();
+        }
+        return parents;
     }
 
     public void removeParent(User parent) {
@@ -482,36 +474,11 @@ public class User extends ParseUser {
                 User child = queriedChildren.get(i);
                 addChild(child);
 
-                ParseACL parseACL = new ParseACL();
+                /*ParseACL parseACL = new ParseACL();
                 parseACL.setReadAccess(child.getObjectId(), true);
-                setACL(parseACL);
+                setACL(parseACL);*/
             }
         }
-    }
-
-    public void checkHasBeenUpdated() {
-        Query query = new Query();
-        query.whereContainedIn(KEY_CHILDREN, Collections.singleton(this));
-        query.findInBackground(new FindCallback<User>() {
-            @Override
-            public void done(List<User> objects, ParseException e) {
-                if (e == null) {
-                    List<User> parents = getParents();
-                    if (objects.size() > parents.size()) {
-                        addNewParent(objects, parents);
-                    }
-                    if (objects.size() < parents.size()) {
-                        unlinkParent(objects, parents);
-                    }
-                    for (int i = 0; i < objects.size(); i++) {
-                        User parent = objects.get(i);
-                        if (parent.getChildRecentlyUpdated()) {
-                            setRequiresApproval(!getRequiresApproval());
-                        }
-                    }
-                }
-            }
-        });
     }
 
     public void addNewParent(List<User> queriedParents, List<User> listParents) {
@@ -528,10 +495,10 @@ public class User extends ParseUser {
                 User parent = queriedParents.get(i);
                 addParent(parent);
 
-                ParseACL parseACL = new ParseACL();
+                /*ParseACL parseACL = new ParseACL();
                 parseACL.setReadAccess(parent.getObjectId(), true);
                 parseACL.setWriteAccess(parent.getObjectId(), true);
-                setACL(parseACL);
+                setACL(parseACL);*/
             }
         }
     }
@@ -550,10 +517,10 @@ public class User extends ParseUser {
                 User parent = listParents.get(i);
                 removeParent(parent);
 
-                ParseACL parseACL = new ParseACL();
+                /*ParseACL parseACL = new ParseACL();
                 parseACL.setReadAccess(parent.getObjectId(), false);
                 parseACL.setWriteAccess(parent.getObjectId(), false);
-                setACL(parseACL);
+                setACL(parseACL);*/
             }
         }
     }
@@ -573,25 +540,42 @@ public class User extends ParseUser {
         put(KEY_EARLY_GOALS, earlyGoals);
     }
 
+    public void setRecentlyAddedParent(boolean recentlyAddedParent) {
+        put(KEY_RECENTLY_ADDED_PARENT, recentlyAddedParent);
+    }
+
+    public boolean getRecentlyAddedParent() {
+        boolean recentlyAddedParent;
+        try {
+            recentlyAddedParent = fetchIfNeeded().getBoolean(KEY_RECENTLY_ADDED_PARENT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            recentlyAddedParent = false;
+        }
+        return recentlyAddedParent;
+    }
+
     public void setChildDefaults() {
         setIsParent(false);
         setTotalSaved(0.0);
         setEarlyGoals(0);
-        // setSmallGoals(0);
-        // setMediumGoals(0);
-        // setLargeGoals(0);
+        setSmallGoals(0);
+        setMediumGoals(0);
+        setBigGoals(0);
         addInProgressBadges(Reward.getLevel1Badges());
         put(KEY_CLAIMED_REWARDS, new ArrayList<>());
         put(KEY_COMPLETED_BADGES, new ArrayList<>());
         put(KEY_COMPLETED_GOALS, new ArrayList<>());
         put(KEY_BANK, new ArrayList<>());
         put(KEY_PARENTS, new ArrayList<>());
+        put(KEY_RECENTLY_ADDED_PARENT, false);
     }
 
     public void setParentDefaults() {
         setIsParent(true);
         put(KEY_BANK, new ArrayList<>());
         put(KEY_CHILDREN, new ArrayList<>());
+        put(KEY_CHILD_RECENTLY_UPDATED, false);
     }
 
     public int getSmallGoals() {

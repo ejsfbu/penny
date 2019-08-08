@@ -140,10 +140,10 @@ public class NeedsParentDialogFragment extends DialogFragment {
         user.addParent(parent);
         user.setNeedsParent(false);
 
-        ParseACL parseACL = new ParseACL();
+        /*ParseACL parseACL = new ParseACL();
         parseACL.setReadAccess(parent.getObjectId(), true);
         parseACL.setWriteAccess(parent.getObjectId(), true);
-        user.setACL(parseACL);
+        user.setACL(parseACL);*/
 
         user.saveInBackground(new SaveCallback() {
             @Override

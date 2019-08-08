@@ -240,7 +240,10 @@ public class SignUpParentFragment extends Fragment {
                         user.addChild(child);
 
                         ParseACL parseACL = new ParseACL();
-                        parseACL.setReadAccess(child.getObjectId(), true);
+                        parseACL.setPublicReadAccess(true);
+                        parseACL.setPublicWriteAccess(true);
+                        //parseACL.setReadAccess(child.getObjectId(), true);
+                        //parseACL.setWriteAccess(child.getObjectId(), true);
                         user.setACL(parseACL);
 
                         finishSignUp();

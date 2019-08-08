@@ -92,8 +92,6 @@ public class ChildListFragment extends Fragment implements AddChildDialogFragmen
 
     @Override
     public void onFinishEditDialog() {
-        showVerifyChildDialog();
-
         children.clear();
         loadChildren();
     }

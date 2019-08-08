@@ -82,10 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(LoginActivity.this, "Login Success",
-                            Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Login Success");
-
                     if (((User) user).getIsParent()) {
                         Intent intent = new Intent(LoginActivity.this,
                                 ParentActivity.class);

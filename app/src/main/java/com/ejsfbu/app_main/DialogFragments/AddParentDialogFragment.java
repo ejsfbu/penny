@@ -129,11 +129,12 @@ public class AddParentDialogFragment extends DialogFragment {
                     User parent = objects.get(0);
                     if (parent.getIsParent()) {
                         user.addParent(objects.get(0));
+                        user.setRecentlyAddedParent(true);
 
-                        ParseACL parseACL = new ParseACL();
+                        /*ParseACL parseACL = new ParseACL();
                         parseACL.setReadAccess(parent.getObjectId(), true);
                         parseACL.setWriteAccess(parent.getObjectId(), true);
-                        user.setACL(parseACL);
+                        user.setACL(parseACL);*/
 
                         user.saveInBackground(new SaveCallback() {
                             @Override

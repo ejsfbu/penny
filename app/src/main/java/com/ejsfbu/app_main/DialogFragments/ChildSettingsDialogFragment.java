@@ -3,10 +3,15 @@ package com.ejsfbu.app_main.DialogFragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -72,6 +77,16 @@ public class ChildSettingsDialogFragment extends DialogFragment {
         checkChildAge();
     }
 
+    public void onResume() {
+        Window window = getDialog().getWindow();
+        Point size = new Point();
+        Display display = window.getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+        window.setLayout((int) (size.x * 0.85), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        super.onResume();
+    }
+
     public void checkChildAge() {
         long today = System.currentTimeMillis();
         long birthday = child.getBirthday().getTime();
@@ -92,9 +107,9 @@ public class ChildSettingsDialogFragment extends DialogFragment {
                 public void onClick(View view) {
                     parent.removeChild(child);
 
-                    ParseACL parseACL = new ParseACL();
+                    /*ParseACL parseACL = new ParseACL();
                     parseACL.setReadAccess(child.getObjectId(), false);
-                    parent.setACL(parseACL);
+                    parent.setACL(parseACL);*/
 
                     parent.saveInBackground(new SaveCallback() {
                         @Override
@@ -104,6 +119,7 @@ public class ChildSettingsDialogFragment extends DialogFragment {
                                 ParentActivity.fragmentManager.beginTransaction()
                                         .replace(R.id.flParentContainer, childListFragment)
                                         .commit();
+                                dismiss();
                             } else {
                                 e.printStackTrace();
                             }
@@ -127,12 +143,12 @@ public class ChildSettingsDialogFragment extends DialogFragment {
         bChildSettingsRequireApproval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                child.setRequiresApproval(!child.getRequiresApproval());
                 parent.setChildRecentlyUpdated(true);
                 parent.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
+                            child.setRequiresApproval(!child.getRequiresApproval());
                             setApprovalViews();
                         } else {
                             e.printStackTrace();
