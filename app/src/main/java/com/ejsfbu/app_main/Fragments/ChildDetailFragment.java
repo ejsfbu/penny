@@ -32,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,7 @@ import butterknife.Unbinder;
 import static android.view.View.GONE;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class ChildDetailFragment extends Fragment {
+public class ChildDetailFragment extends Fragment implements AddAllowanceDialogFragment.AddAllowanceDialogListener {
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
@@ -106,6 +107,8 @@ public class ChildDetailFragment extends Fragment {
     View vChildDetailsPendingRequestsRight;
     @BindView(R.id.tvChildDetailsNoPendingRequests)
     TextView tvChildDetailsNoPendingRequests;
+    @BindView(R.id.tvChildDetailAllowanceDisplay)
+    TextView tvChildDetailAllowanceDisplay;
 
     @BindView(R.id.fabAllowance)
     FloatingActionButton fabAllowance;
@@ -214,6 +217,14 @@ public class ChildDetailFragment extends Fragment {
         loadCompletedGoals();
         loadInProgressGoals();
         loadPendingRequests();
+
+        if (child.getHasAllowance()) {
+            tvChildDetailAllowanceDisplay.setVisibility(View.VISIBLE);
+            //set the view to visible
+            //format the text too
+        } else {
+            tvChildDetailAllowanceDisplay.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.fabAllowance)
@@ -285,6 +296,24 @@ public class ChildDetailFragment extends Fragment {
                         pendingRequests.addAll(objects);
                         pendingRequestsAdapter.notifyDataSetChanged();
                     }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency) {
+        child.setHasAllowance(true);
+        child.setAllowanceAmount(allowance);
+        child.setAllowanceFrequency(frequency);
+        child.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    fillData();
+                    return;
                 } else {
                     e.printStackTrace();
                 }

@@ -58,7 +58,7 @@
                 android:id="@+id/tvChildDetailAccountCodeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/account_code"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
@@ -356,6 +356,18 @@
                 android:src="@drawable/ic_iconfinder_finance_money_dollar_28_4057991"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvChildDetailAllowanceDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Monthly Allowance of $10.00"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textColor="@color/coin_blue_pressed"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="@+id/tvChildDetailName"
+                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailAccountCodeTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
