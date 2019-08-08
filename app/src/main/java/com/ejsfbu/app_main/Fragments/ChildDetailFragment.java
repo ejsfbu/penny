@@ -218,10 +218,10 @@ public class ChildDetailFragment extends Fragment {
 
     @OnClick(R.id.fabAllowance)
     public void onClickAllowance() {
-        if (!child.getHasAllowance()) {
-            showAddAllowanceDialog();
-        } else {
+        if (child.getHasAllowance()) {
             showEditAllowanceDialog();
+        } else {
+            showAddAllowanceDialog();
         }
     }
 
