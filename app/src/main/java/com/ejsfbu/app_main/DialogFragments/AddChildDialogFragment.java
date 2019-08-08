@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -128,6 +129,11 @@ public class AddChildDialogFragment extends DialogFragment {
                         User child = objects.get(0);
                         if (!child.getIsParent()) {
                             user.addChild(objects.get(0));
+
+                            ParseACL parseACL = new ParseACL();
+                            parseACL.setReadAccess(child.getObjectId(), true);
+                            user.setACL(parseACL);
+
                             user.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {

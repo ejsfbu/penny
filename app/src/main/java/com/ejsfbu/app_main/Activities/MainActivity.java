@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         User user = (User) ParseUser.getCurrentUser();
         earnedRewards = new ArrayList<>();
+        user.checkHasBeenUpdated();
         if (user.hasUpdatedGoals()) {
             user.saveInBackground(new SaveCallback() {
                 @Override

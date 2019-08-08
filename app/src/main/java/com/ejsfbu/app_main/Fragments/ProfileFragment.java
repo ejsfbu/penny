@@ -264,7 +264,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 0) {
             cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
             tvProfileParentName1.setVisibility(View.VISIBLE);
-            User parent1 = (User) parents.get(0);
+            User parent1 = parents.get(0);
             setParent(parent1, ivProfileParentProfilePic1, tvProfileParentName1);
             if (parents.size() == 1) {
                 cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
@@ -285,7 +285,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 1) {
             cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
             tvProfileParentName2.setVisibility(View.VISIBLE);
-            User parent2 = (User) parents.get(1);
+            User parent2 = parents.get(1);
             setParent(parent2, ivProfileParentProfilePic2, tvProfileParentName2);
             if (parents.size() == 2) {
                 cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
@@ -306,7 +306,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 2) {
             cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
             tvProfileParentName3.setVisibility(View.VISIBLE);
-            User parent3 = (User) parents.get(2);
+            User parent3 = parents.get(2);
             setParent(parent3, ivProfileParentProfilePic3, tvProfileParentName3);
             if (parents.size() == 3) {
                 cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
@@ -327,7 +327,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 3) {
             cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
             tvProfileParentName4.setVisibility(View.VISIBLE);
-            User parent4 = (User) parents.get(3);
+            User parent4 = parents.get(3);
             setParent(parent4, ivProfileParentProfilePic4, tvProfileParentName4);
         }
     }

@@ -23,8 +23,10 @@ import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.Fragments.ParentProfileFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class ParentActivity extends AppCompatActivity {
 
@@ -115,6 +117,21 @@ public class ParentActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("isFirstLogin", false)) {
             showVerifyChildDialog();
         }
+
+        parent.checkChildrenCorrect();
+        parent.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    finishLoad();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void finishLoad() {
 
         ParseFile image = parent.getProfilePic();
         if (image != null) {

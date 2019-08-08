@@ -36,7 +36,7 @@
     <string name="submit">Submit</string>
     <string name="add_goal_title">Add a New Goal!</string>
     <string name="image_info">Take or upload an image below:</string>
-    <string name="verify_child_info_1">Give your child this code to enter to verify their account:</string>
+    <string name="verify_child_info_1">Give your child this code to enter to link their account:</string>
     <string name="verify_child_info_2">You can also access this code at any time in your profile.</string>
     <string name="dismiss">Dismiss</string>
     <string name="hidden_password">**********</string>
@@ -109,4 +109,8 @@
     <string name="purchase_goal">Purchase Goal</string>
     <string name="auto_pay_amount">Payment Amount</string>
     <string name="add_parent">Link Another Parent</string>
+    <string name="approval_info">Approval Status Info</string>
+    <string name="approval">Parent Approval</string>
+    <string name="unlink_child">Unlink Child</string>
+    <string name="child_settings">Child Settings</string>
 </resources>

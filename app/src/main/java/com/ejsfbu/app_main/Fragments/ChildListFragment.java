@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
 import com.ejsfbu.app_main.DialogFragments.AddChildDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,15 +92,24 @@ public class ChildListFragment extends Fragment implements AddChildDialogFragmen
 
     @Override
     public void onFinishEditDialog() {
+        showVerifyChildDialog();
+
         children.clear();
         loadChildren();
     }
 
     protected void loadChildren() {
-        List<User> children = user.getChildren();
-        if (children != null) {
-            this.children.addAll(children);
+        List<User> kids = user.getChildren();
+        if (kids != null) {
+            children.addAll(kids);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void showVerifyChildDialog() {
+        VerifyChildDialogFragment verifyChildDialogFragment
+                = VerifyChildDialogFragment.newInstance("Verify Child");
+        verifyChildDialogFragment.show(ParentActivity.fragmentManager,
+                "fragment_verify_child");
     }
 }
