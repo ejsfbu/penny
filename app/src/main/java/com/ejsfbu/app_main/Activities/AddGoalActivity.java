@@ -356,7 +356,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         }
         // Barcode scanner
         if (resultCode != RESULT_OK) {
-            Toast.makeText(this, "error in scanning", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No scan found", Toast.LENGTH_SHORT).show();
             return;
         }
         if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
