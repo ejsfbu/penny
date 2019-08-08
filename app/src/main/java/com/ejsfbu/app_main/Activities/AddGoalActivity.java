@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,22 +27,38 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.ejsfbu.app_main.BarcodeLookup;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
+import com.ejsfbu.app_main.Models.Product;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.notbytes.barcode_reader.BarcodeReaderActivity;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,11 +72,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.ejsfbu.app_main.Adapters.GoalAdapter.formatDecimal;
 import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
 
 public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "AddGoalActivity";
+    private static final int BARCODE_READER_ACTIVITY_REQUEST = 987;
 
     @BindView(R.id.etAddGoalGoalName)
     EditText etAddGoalGoalName;
@@ -78,6 +98,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     ImageButton bAddGoalDate;
     @BindView(R.id.ibAddGoalBack)
     ImageButton ibAddGoalBack;
+    @BindView(R.id.bAddGoalScan)
+    Button bAddGoalScan;
 
     private final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -85,6 +107,7 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     public String photoFileName = "photo.jpg";
     private FragmentManager fragmentManager;
     private User user;
+    private static Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +189,12 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         image.saveInBackground();
 
         addGoal(goalName, goalPrice, endDate, image);
+    }
+
+    @OnClick(R.id.bAddGoalScan)
+    public void onClickScan() {
+        Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
+        startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST);
     }
 
     private boolean confirmCorrectDateFormat(String date) {
@@ -325,6 +354,78 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+        // Barcode scanner
+        if (resultCode != RESULT_OK) {
+            Toast.makeText(this, "No scan found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
+            Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
+            //Toast.makeText(this, barcode.rawValue, Toast.LENGTH_LONG).show();
+            try {
+                BarcodeLookup.lookUpItem(barcode.rawValue, this);
+
+            } catch (JSONException e) {
+                Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+            Log.d("Scanner", barcode.rawValue);
+        }
+
+    }
+
+    public void getProduct(Product item){
+        product = item;
+        loadProductData();
+    }
+
+    private void loadProductData() {
+        if (product == null) {
+            Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        etAddGoalGoalName.setText(product.getName());
+        etAddGoalGoalCost.setText(formatDecimal(product.getPrice().toString()));
+        if (product.getImageUrl() != null) {
+            String imageUrl = product.getImageUrl();
+            imageUrl = imageUrl.replace("http://", "https://");
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.icon_target)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .error(R.drawable.icon_target)
+                    .transform(new CenterCrop())
+                    .transform(new CircleCrop());
+            Glide.with(this)
+                    .asBitmap()
+                    .load(imageUrl)
+                    .addListener(new RequestListener<Bitmap>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                            try {
+                                Bitmap resizedBitmap = BitmapScaler.scaleToFill(resource, 200, 200);
+                                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+                                File resizedFile = getPhotoFileUri(photoFileName + "_resized", getApplicationContext());
+                                resizedFile.createNewFile();
+                                FileOutputStream fos = new FileOutputStream(resizedFile);
+                                fos.write(bytes.toByteArray());
+                                fos.close();
+                                photoFile = resizedFile;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return false;
+                        }
+                    })
+                    .apply(options) // Extra: round image corners
+                    .into(ivAddGoalGoalImage);
+        }
+        Toast.makeText(this, "Product loaded", Toast.LENGTH_SHORT).show();
     }
 
     public static Bitmap rotateBitmapOrientation(String photoFilePath) {
