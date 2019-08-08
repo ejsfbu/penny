@@ -131,16 +131,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="In Progress"
-        app:layout_constraintEnd_toEndOf="@+id/ivEditGoalDate"
+        app:layout_constraintEnd_toEndOf="@+id/tvGoalDetailsDateCompleted"
         app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsStatusTitle" />
 
-            <TextView
-                android:id="@+id/tvGoalDetailsDateCompleted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
-                app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
+    <TextView
+        android:id="@+id/tvGoalDetailsDateCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivEditGoalDate"
+        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
             <TextView
                 android:id="@+id/tvGoalDetailsTotalCostTitle"
