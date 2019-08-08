@@ -25,6 +25,7 @@ import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -100,6 +101,9 @@ public class ChildDetailFragment extends Fragment {
     View vChildDetailsPendingRequestsRight;
     @BindView(R.id.tvChildDetailsNoPendingRequests)
     TextView tvChildDetailsNoPendingRequests;
+
+    @BindView(R.id.fabAllowance)
+    FloatingActionButton fabAllowance;
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
@@ -202,6 +206,16 @@ public class ChildDetailFragment extends Fragment {
                             .transform(new CircleCrop()))
                     .into(ivChildDetailProfilePic);
         }
+
+        fabAllowance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment allowanceManager = new AllowanceManagerFragment();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.flParentContainer, allowanceManager)
+                        .commit();
+            }
+        });
 
         loadCompletedGoals();
         loadInProgressGoals();

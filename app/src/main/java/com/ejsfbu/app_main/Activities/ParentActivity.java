@@ -40,7 +40,6 @@ public class ParentActivity extends AppCompatActivity {
     public static ImageButton ibChildDetailBack;
     public static ImageButton ibParentBanksListBack;
     public static ImageButton ibParentBankDetailsBack;
-    public static FloatingActionButton fabAllowance;
 
     public static FragmentManager fragmentManager;
 
@@ -58,7 +57,6 @@ public class ParentActivity extends AppCompatActivity {
         ibChildDetailBack = findViewById(R.id.ibChildDetailBack);
         ibParentBanksListBack = findViewById(R.id.ibParentBanksListBack);
         ibParentBankDetailsBack = findViewById(R.id.ibParentBankDetailsBack);
-        fabAllowance = findViewById(R.id.fabAllowance);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -112,16 +110,6 @@ public class ParentActivity extends AppCompatActivity {
                 Fragment bankListFragment = new BanksListFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.flParentContainer, bankListFragment)
-                        .commit();
-            }
-        });
-
-        fabAllowance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment allowanceManager = new AllowanceManagerFragment();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.flParentContainer, allowanceManager)
                         .commit();
             }
         });
