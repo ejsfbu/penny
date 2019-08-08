@@ -10,6 +10,7 @@ import com.parse.SaveCallback;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -449,6 +450,11 @@ public class User extends ParseUser {
 
         public Query testEmail(String email) {
             whereEqualTo(KEY_EMAIL, email);
+            return this;
+        }
+
+        public Query getChildren(User user) {
+            whereEqualTo(KEY_PARENTS, (ParseUser)user);
             return this;
         }
     }

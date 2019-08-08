@@ -96,9 +96,9 @@ public class ChildListFragment extends Fragment implements AddChildDialogFragmen
     }
 
     protected void loadChildren() {
-        List<User> children = user.getChildren();
-        if (children != null) {
-            this.children.addAll(children);
+        List<User> childrens = user.getChildren();
+        if (childrens != null) {
+            children.addAll(childrens);
             adapter.notifyDataSetChanged();
         }
     }
