@@ -9,9 +9,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -145,10 +145,10 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/no_in_progress_goals"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals"
-                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"/>
+                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals" />
 
             <TextView
                 android:id="@+id/tvChildDetailPendingRequests"
