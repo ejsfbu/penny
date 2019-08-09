@@ -384,4 +384,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bProfileBankInfo" />
 
+    <ImageButton
+        android:id="@+id/ibProfileParentSettings"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_gear"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProfileParentsTitle"
+        app:layout_constraintStart_toEndOf="@id/tvProfileParentsTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvProfileParentsTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
