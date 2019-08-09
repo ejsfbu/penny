@@ -47,6 +47,7 @@ public class User extends ParseUser {
     public static final String KEY_HAS_ALLOWANCE = "hasAllowance";
     public static final String KEY_ALLOWANCE_AMOUNT = "allowance";
     public static final String KEY_ALLOWANCE_FREQUENCY = "allowanceFrequency";
+    public static final String KEY_INVITER = "inviter";
 
     public String getName() {
         String name;
@@ -633,6 +634,21 @@ public class User extends ParseUser {
     public void setAllowanceFrequency(String frequency) {
         put(KEY_ALLOWANCE_FREQUENCY, frequency);
 
+    }
+
+    public User getInviter() {
+        User inviter;
+        try {
+            inviter = (User) fetchIfNeeded().getParseUser(KEY_INVITER);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            inviter = null;
+        }
+        return inviter;
+    }
+
+    public void setInviter(User inviter) {
+        put(KEY_INVITER, inviter);
     }
   
   public static class Query extends ParseQuery<User> {

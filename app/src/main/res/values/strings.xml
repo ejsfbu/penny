@@ -116,4 +116,7 @@
     <string name="unlink_child">Unlink Child</string>
     <string name="child_settings">Child Settings</string>
     <string name="parent_settings">Parent Settings</string>
+    <string name="refer_friend_info">Enter your friend\'s email below to invite them to use Penny!</string>
+    <string name="inviter_info">Did a friend invite you to use Penny? Enter their code below!</string>
+    <string name="inviter_code">Inviter Code</string>
 </resources>

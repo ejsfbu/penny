@@ -31,6 +31,7 @@ import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ReferFriendDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
@@ -65,11 +66,15 @@ public class ProfileFragment extends Fragment
 
     @BindView(R.id.bProfileLogout)
     Button bProfileLogout;
+    @BindView(R.id.bProfileReferFriend)
+    Button bProfileReferFriend;
 
     @BindView(R.id.ibProfileEditName)
     ImageButton ibProfileEditName;
     @BindView(R.id.ibProfileEditUsername)
     ImageButton ibProfileEditUsername;
+    @BindView(R.id.ibProfileParentSettings)
+    ImageButton ibProfileParentSettings;
 
     @BindView(R.id.cvProfileParentProfilePic1)
     CardView cvProfileParentProfilePic1;
@@ -109,9 +114,6 @@ public class ProfileFragment extends Fragment
     TextView tvProfileParentName3;
     @BindView(R.id.tvProfileParentName4)
     TextView tvProfileParentName4;
-
-    @BindView(R.id.ibProfileParentSettings)
-    ImageButton ibProfileParentSettings;
 
     private Unbinder unbinder;
     private User user;
@@ -154,6 +156,11 @@ public class ProfileFragment extends Fragment
         getActivity().finish();
     }
 
+    @OnClick(R.id.bProfileReferFriend)
+    public void onClickReferFriend() {
+        showReferFriendDialog();
+    }
+
     @OnClick(R.id.ibProfileEditName)
     public void onClickEditName() {
         showEditNameDialog();
@@ -189,6 +196,12 @@ public class ProfileFragment extends Fragment
         Fragment bankFragment = new BanksListFragment();
         MainActivity.fragmentManager.beginTransaction()
                 .replace(R.id.flMainContainer, bankFragment).commit();
+    }
+
+    private void showReferFriendDialog() {
+        ReferFriendDialogFragment referFriendDialogFragment
+                = ReferFriendDialogFragment.newInstance("Refer Friend");
+        referFriendDialogFragment.show(MainActivity.fragmentManager, "fragment_refer_friend");
     }
 
     private void showEditNameDialog() {
