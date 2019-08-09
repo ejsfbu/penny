@@ -58,6 +58,7 @@
                 android:id="@+id/tvChildDetailAccountCodeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/account_code"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
@@ -81,13 +82,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/completed_goals"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cvChildDetailProfilePic" />
+                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailAllowanceDisplay" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailCompletedGoals"
@@ -104,11 +105,9 @@
                 android:id="@+id/tvChildDetailsNoCompletedGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/no_completed_goals"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailCompletedGoals"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/rvChildDetailCompletedGoals" />
@@ -141,11 +140,9 @@
                 android:id="@+id/tvChildDetailsNoInProgressGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/no_in_progress_goals"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals" />
@@ -180,14 +177,12 @@
                 android:id="@+id/tvChildDetailsNoPendingRequests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/no_pending_requests"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailPendingRequests"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvChildDetailPendingRequests" />
+                app:layout_constraintTop_toTopOf="@+id/rvChildDetailPendingRequests" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabAllowance"
@@ -204,10 +199,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Monthly Allowance of $10.00"
+                android:text="@string/allowance_details"
                 android:textAppearance="@android:style/TextAppearance.Material.Small"
                 android:textColor="@color/coin_blue_pressed"
-                android:textStyle="bold|italic"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/tvChildDetailName"
                 app:layout_constraintTop_toBottomOf="@+id/tvChildDetailAccountCodeTitle" />
 

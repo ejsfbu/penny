@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/background_button_pig_pink"
+        android:background="@drawable/background_button_coin_blue"
         android:text="@string/cancel"
-        app:layout_constraintEnd_toStartOf="@+id/divider4"
+        app:layout_constraintEnd_toStartOf="@+id/bAddParentConfirm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bAddParentConfirm" />
 
@@ -56,22 +56,12 @@
         android:id="@+id/bAddParentConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/background_button_coin_blue"
+        android:background="@drawable/background_button_pig_pink"
         android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divider4"
+        app:layout_constraintStart_toEndOf="@id/bAddParentCancel"
         app:layout_constraintTop_toBottomOf="@+id/add_parent_code_layout" />
 
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="1dp"
-        android:layout_height="60dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@+id/bAddParentCancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bAddParentConfirm" />
 </androidx.constraintlayout.widget.ConstraintLayout>

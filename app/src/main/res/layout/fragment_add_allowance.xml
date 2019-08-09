@@ -14,23 +14,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="Add Allowance"
+        android:text="@string/add_allowance"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvAllowanceManagerDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Set up an allowance for your child below."
-        app:layout_constraintEnd_toEndOf="@+id/tvAllowanceManagerTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvAllowanceManagerTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvAllowanceManagerTitle" />
 
     <Button
         android:id="@+id/bAddAllowance"
@@ -40,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/background_button_coin_blue"
-        android:text="Add Allowance"
+        android:text="@string/add_allowance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bAddAllowanceCancel"
         app:layout_constraintTop_toBottomOf="@+id/spAllowanceFrequency" />
@@ -67,7 +56,7 @@
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAllowanceManagerDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvAllowanceManagerTitle" />
 
     <EditText
         android:id="@+id/etAllowanceAmount"
@@ -77,7 +66,7 @@
         android:background="@drawable/background_edit_text"
         android:ems="10"
         android:gravity="center"
-        android:hint="Allowance Amount"
+        android:hint="@string/allowance_amount"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="@+id/spAllowanceBanks"
         app:layout_constraintHorizontal_bias="0.0"
