@@ -30,12 +30,14 @@ import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +45,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static android.view.View.GONE;
 
 public class ProfileFragment extends Fragment
         implements EditEmailDialogFragment.EditEmailDialogListener,
@@ -104,6 +109,9 @@ public class ProfileFragment extends Fragment
     TextView tvProfileParentName3;
     @BindView(R.id.tvProfileParentName4)
     TextView tvProfileParentName4;
+
+    @BindView(R.id.ibProfileParentSettings)
+    ImageButton ibProfileParentSettings;
 
     private Unbinder unbinder;
     private User user;
@@ -245,6 +253,31 @@ public class ProfileFragment extends Fragment
         }
     }
 
+    public void checkChildAge() {
+        long today = System.currentTimeMillis();
+        long birthday = user.getBirthday().getTime();
+        long diffInMillies = today - birthday;
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long diffInYears = diffInDays / 365;
+        if (diffInYears >= 18) {
+            ibProfileParentSettings.setVisibility(View.VISIBLE);
+        } else {
+            ibProfileParentSettings.setVisibility(GONE);
+        }
+    }
+
+    @OnClick(R.id.ibProfileParentSettings)
+    public void onClickParentSettings() {
+        showParentSettingsDialog();
+    }
+
+    public void showParentSettingsDialog() {
+        ParentSettingsDialogFragment parentSettingsDialogFragment
+                = ParentSettingsDialogFragment.newInstance("Parent Settings");
+        parentSettingsDialogFragment.show(
+                MainActivity.fragmentManager, "fragment_parent_settings");
+    }
+
     public void loopParents() {
         if (parents.size() == 0) {
             cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
@@ -266,6 +299,7 @@ public class ProfileFragment extends Fragment
             tvProfileParentName1.setVisibility(View.VISIBLE);
             User parent1 = parents.get(0);
             setParent(parent1, ivProfileParentProfilePic1, tvProfileParentName1);
+            checkChildAge();
             if (parents.size() == 1) {
                 cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
                 tvProfileParentName2.setVisibility(View.VISIBLE);

@@ -113,4 +113,5 @@
     <string name="approval">Parent Approval</string>
     <string name="unlink_child">Unlink Child</string>
     <string name="child_settings">Child Settings</string>
+    <string name="parent_settings">Parent Settings</string>
 </resources>
