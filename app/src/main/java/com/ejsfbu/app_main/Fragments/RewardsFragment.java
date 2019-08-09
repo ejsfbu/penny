@@ -16,21 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
-import com.ejsfbu.app_main.Models.User;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -110,7 +103,7 @@ public class RewardsFragment extends Fragment {
 
     protected void loadCompletedGoals() {
         List<Goal> completedGoals = user.getCompletedGoals();
-        if (completedGoals == null || completedGoals.size() == 0 ) {
+        if (completedGoals == null || completedGoals.size() == 0) {
             tvNoCompletedGoalsText.setVisibility(View.VISIBLE);
         } else {
             tvNoCompletedGoalsText.setVisibility(View.GONE);
