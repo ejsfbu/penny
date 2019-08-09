@@ -220,14 +220,13 @@ public class ProfileFragment extends Fragment
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(context)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivProfileChildProfilePic);
         }
         tvProfileUsername.setText(user.getUsername());
