@@ -400,7 +400,7 @@ public class GoalDetailsFragment extends Fragment implements
                                     setGoalInfo();
                                     Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
                                     //TODO Update this function so that the functionality works for parent depositing for a child
-                                    //checkCompleted(goal);
+                                    checkCompleted(goal);
                                 } else {
                                     e.printStackTrace();
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
