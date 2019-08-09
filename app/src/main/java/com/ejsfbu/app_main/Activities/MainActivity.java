@@ -133,17 +133,23 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
+        // user subscribe to topics
+        subscribeTopic("general");
+        for (User parent: user.getParents()) {
+            subscribeTopic(parent.getObjectId() + user.getObjectId());
+        }
+    }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("general")
+    public static void subscribeTopic(String id) {
+        FirebaseMessaging.getInstance().subscribeToTopic(id)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "general";
+                        String msg = id;
                         if (!task.isSuccessful()) {
                             msg = "Failed";
                         }
-                        Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        Log.d("TopicSubscription", msg);
                     }
                 });
     }

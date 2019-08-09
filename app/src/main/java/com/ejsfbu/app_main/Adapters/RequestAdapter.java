@@ -125,8 +125,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                                 public void done(ParseException e) {
                                                     if (e == null) {
                                                         User user = (User) ParseUser.getCurrentUser();
-                                                        String message = "Parent " + user.getName() + " approved your transaction.";
-                                                        sendNotification(user.getObjectId(), message);
+                                                        String message = "Parent " + user.getName() + " approved your transaction for "+ goal.getName();
+                                                        sendNotification(user.getObjectId() + goal.getUser().getObjectId(), message);
                                                         requests.remove(request);
                                                         notifyDataSetChanged();
                                                         Toast.makeText(context, "Request Completed",
@@ -169,8 +169,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                                 public void done(ParseException e) {
                                                     if (e == null) {
                                                         User user = (User) ParseUser.getCurrentUser();
-                                                        String message = "Parent " + user.getName() + " denied your transaction.";
-                                                        sendNotification(user.getObjectId(), message);
+                                                        String message = "Parent " + user.getName() + " denied your transaction for " + goal.getName();
+                                                        sendNotification(user.getObjectId()+ goal.getUser().getObjectId(), message);
                                                         requests.remove(request);
                                                         notifyDataSetChanged();
                                                         Toast.makeText(context,

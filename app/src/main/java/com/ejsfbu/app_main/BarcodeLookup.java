@@ -92,13 +92,18 @@ public class BarcodeLookup {
         String url = "https://fcm.googleapis.com/fcm/send";
         JSONObject payload = new JSONObject();
         JSONObject data = new JSONObject();
+        JSONObject refresh = new JSONObject();
+
         try {
+            refresh.put("action", "refresh");
             payload.put("title", "Penny");
             payload.put("body", message);
             payload.put("android_channel_id", "MyNotifications");
+            payload.put("click_action","NOTIFICATION_OPEN");
             data.accumulate("notification", payload);
             data.accumulate("content_available", true);
             data.accumulate("to", "/topics/" + topic);
+            data.accumulate("data", refresh);
         } catch (JSONException e) {
             e.printStackTrace();
         }
