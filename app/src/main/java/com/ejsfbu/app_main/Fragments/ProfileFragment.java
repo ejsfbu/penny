@@ -23,7 +23,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.DialogFragments.AddParentDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
@@ -33,15 +32,8 @@ import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

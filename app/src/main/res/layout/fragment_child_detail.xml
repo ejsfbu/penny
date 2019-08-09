@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.ChildDetailFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAllowance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_iconfinder_finance_money_dollar_28_4057991"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -82,13 +93,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/completed_goals"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailAllowanceDisplay" />
+                app:layout_constraintTop_toBottomOf="@+id/cvChildDetailProfilePic" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailCompletedGoals"
@@ -105,12 +116,12 @@
                 android:id="@+id/tvChildDetailsNoCompletedGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/no_completed_goals"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/rvChildDetailCompletedGoals" />
+                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailCompletedGoals" />
 
             <TextView
                 android:id="@+id/tvChildDetailInProgressGoals"
@@ -140,12 +151,12 @@
                 android:id="@+id/tvChildDetailsNoInProgressGoals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/no_in_progress_goals"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals" />
+                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailInProgressGoals" />
 
             <TextView
                 android:id="@+id/tvChildDetailPendingRequests"
@@ -177,22 +188,12 @@
                 android:id="@+id/tvChildDetailsNoPendingRequests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="3dp"
                 android:text="@string/no_pending_requests"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailPendingRequests" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fabAllowance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_iconfinder_finance_money_dollar_28_4057991"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailPendingRequests" />
 
             <TextView
                 android:id="@+id/tvChildDetailAllowanceDisplay"

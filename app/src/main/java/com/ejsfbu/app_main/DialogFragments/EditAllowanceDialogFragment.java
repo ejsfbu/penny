@@ -86,7 +86,8 @@ public class EditAllowanceDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getContext();
         parent = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_edit_allowance, container, false);
@@ -106,7 +107,8 @@ public class EditAllowanceDialogFragment extends DialogFragment {
 
                 String amountString = etEditAllowancePaymentAmount.getText().toString();
                 if (amountString.equals("")) {
-                    Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please enter a value.",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     allowanceAmount = Double.valueOf(amountString);
@@ -127,11 +129,13 @@ public class EditAllowanceDialogFragment extends DialogFragment {
     }
 
     public interface EditAllowanceDialogListener {
-        void onFinishEditAllowanceDialog(String bankName, Double allowance, String frequency, User child);
+        void onFinishEditAllowanceDialog(String bankName, Double allowance,
+                                         String frequency, User child);
     }
 
     public void sendBackResult() {
-        EditAllowanceDialogFragment.EditAllowanceDialogListener listener = (EditAllowanceDialogFragment.EditAllowanceDialogListener) getFragmentManager()
+        EditAllowanceDialogFragment.EditAllowanceDialogListener listener
+                = (EditAllowanceDialogFragment.EditAllowanceDialogListener) getFragmentManager()
                 .findFragmentById(R.id.flParentContainer);
         listener.onFinishEditAllowanceDialog(bankName, allowanceAmount, frequency, currentChild);
         Toast.makeText(context, "Allowance has been edited.", Toast.LENGTH_LONG).show();

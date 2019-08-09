@@ -10,21 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +37,8 @@ public class AllowanceManagerDialogFragment extends DialogFragment {
     static User currentChild;
     static User currentParent;
 
-    public AllowanceManagerDialogFragment() { }
+    public AllowanceManagerDialogFragment() {
+    }
 
     public static AllowanceManagerDialogFragment newInstance(String title, User user) {
         AllowanceManagerDialogFragment frag = new AllowanceManagerDialogFragment();
@@ -64,7 +59,8 @@ public class AllowanceManagerDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = getContext();
         return inflater.inflate(R.layout.fragment_allowance_manager, container, false);
     }
@@ -92,14 +88,16 @@ public class AllowanceManagerDialogFragment extends DialogFragment {
     }
 
     private void showEditAllowance() {
-        EditAllowanceDialogFragment managerDialogFragment = EditAllowanceDialogFragment.newInstance("Edit Allowance", currentChild);
+        EditAllowanceDialogFragment managerDialogFragment
+                = EditAllowanceDialogFragment.newInstance("Edit Allowance", currentChild);
         managerDialogFragment.show(getFragmentManager(), "fragment_edit_allowance");
         dismiss();
         return;
     }
 
     private void showCancelAllowance() {
-        CancelAllowanceDialogFragment cancelAllowance = CancelAllowanceDialogFragment.newInstance("Cancel Allowance", currentChild);
+        CancelAllowanceDialogFragment cancelAllowance
+                = CancelAllowanceDialogFragment.newInstance("Cancel Allowance", currentChild);
         cancelAllowance.show(getFragmentManager(), "fragment_cancel_allowance");
         dismiss();
         return;

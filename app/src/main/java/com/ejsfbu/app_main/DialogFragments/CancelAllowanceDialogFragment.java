@@ -20,8 +20,6 @@ import androidx.fragment.app.DialogFragment;
 import com.ejsfbu.app_main.Models.Allowance;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.parse.DeleteCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
@@ -42,7 +40,8 @@ public class CancelAllowanceDialogFragment extends DialogFragment {
     static User currentParent;
 
 
-    public CancelAllowanceDialogFragment() { }
+    public CancelAllowanceDialogFragment() {
+    }
 
     public static CancelAllowanceDialogFragment newInstance(String title, User user) {
         CancelAllowanceDialogFragment frag = new CancelAllowanceDialogFragment();
@@ -82,7 +81,8 @@ public class CancelAllowanceDialogFragment extends DialogFragment {
     }
 
     public void sendBackResult() {
-        CancelAllowanceDialogFragment.CancelAllowanceDialogListener listener = (CancelAllowanceDialogFragment.CancelAllowanceDialogListener) getFragmentManager()
+        CancelAllowanceDialogFragment.CancelAllowanceDialogListener listener
+                = (CancelAllowanceDialogFragment.CancelAllowanceDialogListener) getFragmentManager()
                 .findFragmentById(R.id.flParentContainer);
         Allowance deleteAllowance = Allowance.getAllowance(currentChild, currentParent).get(0);
         listener.onFinishCancelAllowanceDialog(deleteAllowance);
@@ -93,7 +93,8 @@ public class CancelAllowanceDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = getContext();
         return inflater.inflate(R.layout.fragment_cancel_allowance, container, false);
     }

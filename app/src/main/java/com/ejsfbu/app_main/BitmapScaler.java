@@ -2,27 +2,23 @@ package com.ejsfbu.app_main;
 
 import android.graphics.Bitmap;
 
-public class BitmapScaler
-{
+public class BitmapScaler {
     // scale and keep aspect ratio
-    public static Bitmap scaleToFitWidth(Bitmap b, int width)
-    {
+    public static Bitmap scaleToFitWidth(Bitmap b, int width) {
         float factor = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, width, (int) (b.getHeight() * factor), true);
     }
 
 
     // scale and keep aspect ratio
-    public static Bitmap scaleToFitHeight(Bitmap b, int height)
-    {
+    public static Bitmap scaleToFitHeight(Bitmap b, int height) {
         float factor = height / (float) b.getHeight();
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factor), height, true);
     }
 
 
     // scale and keep aspect ratio
-    public static Bitmap scaleToFill(Bitmap b, int width, int height)
-    {
+    public static Bitmap scaleToFill(Bitmap b, int width, int height) {
         float factorH = height / (float) b.getWidth();
         float factorW = width / (float) b.getWidth();
         float factorToUse = (factorH > factorW) ? factorW : factorH;
@@ -32,8 +28,7 @@ public class BitmapScaler
 
 
     // scale and don't keep aspect ratio
-    public static Bitmap strechToFill(Bitmap b, int width, int height)
-    {
+    public static Bitmap strechToFill(Bitmap b, int width, int height) {
         float factorH = height / (float) b.getHeight();
         float factorW = width / (float) b.getWidth();
         return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorW),

@@ -12,7 +12,9 @@ public class Product {
 
     public Product(JSONObject object) throws JSONException {
         name = object.optString("product_name");
-        if (name.isEmpty()) { name = "Item not found"; }
+        if (name.isEmpty()) {
+            name = "Item not found";
+        }
         JSONArray array = object.optJSONArray("images");
         if (array != null || array.length() != 0) {
             imageUrl = array.optString(0);

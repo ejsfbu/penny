@@ -1,6 +1,5 @@
 package com.ejsfbu.app_main.Models;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -164,7 +163,9 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         addAllUnique(KEY_TRANSACTIONS, Collections.singleton(transaction));
     }
 
-    public void removeTransaction(Transaction transaction) { removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));}
+    public void removeTransaction(Transaction transaction) {
+        removeAll(KEY_TRANSACTIONS, Collections.singleton(transaction));
+    }
 
     public List<Transaction> getTransactions() {
         List<Transaction> list;
@@ -235,7 +236,8 @@ public class Goal extends ParseObject implements Comparable<Goal> {
     }
 
     public static Double calculateDailySaving(Goal goal) {
-        long startdiffInMillies = Math.abs(goal.getEndDate().getTime() - goal.getCreatedAt().getTime());
+        long startdiffInMillies = Math.abs(goal.getEndDate().getTime()
+                - goal.getCreatedAt().getTime());
         long startdiffInDays = TimeUnit.DAYS.convert(startdiffInMillies, TimeUnit.MILLISECONDS);
         Double dailySaving = ((goal.getCost() - goal.getSaved()) / startdiffInDays);
         if (dailySaving > goal.getCost()) {
@@ -244,7 +246,9 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         return dailySaving;
     }
 
-    public void setPurchased(boolean bool) { put(KEY_PURCHASED, bool); }
+    public void setPurchased(boolean bool) {
+        put(KEY_PURCHASED, bool);
+    }
 
     public boolean getPurchased() {
         boolean bool;
@@ -269,7 +273,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         return getString(KEY_AUTO_PAY_FREQUENCY);
     }
 
-    public void setAutoPayFrequency(String frequency){
+    public void setAutoPayFrequency(String frequency) {
         put(KEY_AUTO_PAY_FREQUENCY, frequency);
     }
 
@@ -277,7 +281,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         return getString(KEY_AUTO_PAY_TIMES_REPEATED);
     }
 
-    public void setAutoPayTimesFrequencyIsRepeated(String timesFrequencyIsRepeated){
+    public void setAutoPayTimesFrequencyIsRepeated(String timesFrequencyIsRepeated) {
         put(KEY_AUTO_PAY_TIMES_REPEATED, timesFrequencyIsRepeated);
     }
 
@@ -285,7 +289,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
         return getInt(KEY_AUTO_PAY_AMOUNT);
     }
 
-    public void setAutoPayAmount(Double autoPayAmount){
+    public void setAutoPayAmount(Double autoPayAmount) {
         put(KEY_AUTO_PAY_AMOUNT, autoPayAmount);
     }
 

@@ -117,7 +117,8 @@ public class ChildDetailFragment extends Fragment implements
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_child_detail, container, false);
     }
@@ -215,7 +216,8 @@ public class ChildDetailFragment extends Fragment implements
     }
 
     public String formatAllowanceText(Allowance allowance) {
-        return allowance.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(allowance.getAllowanceAmount());
+        return allowance.getAllowanceFrequency() + " Allowance of "
+                + GoalDetailsFragment.formatCurrency(allowance.getAllowanceAmount());
     }
 
     public void checkChildAge() {
@@ -253,12 +255,14 @@ public class ChildDetailFragment extends Fragment implements
     }
 
     private void showAddAllowanceDialog() {
-        AddAllowanceDialogFragment addAllowance = AddAllowanceDialogFragment.newInstance("Add Allowance", child);
+        AddAllowanceDialogFragment addAllowance
+                = AddAllowanceDialogFragment.newInstance("Add Allowance", child);
         addAllowance.show(getFragmentManager(), "fragment_allowance_manager");
     }
 
     private void showEditAllowanceDialog() {
-        AllowanceManagerDialogFragment editAllowance = AllowanceManagerDialogFragment.newInstance("Edit Allowance", child);
+        AllowanceManagerDialogFragment editAllowance
+                = AllowanceManagerDialogFragment.newInstance("Edit Allowance", child);
         editAllowance.show(getFragmentManager(), "fragment_edit_allowance");
     }
 
@@ -280,10 +284,11 @@ public class ChildDetailFragment extends Fragment implements
         if (goals == null || goals.size() == 0) {
             tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
         } else {
+            tvChildDetailsNoCompletedGoals.setVisibility(View.INVISIBLE);
             if (goals.size() < 10) {
                 completedGoals.addAll(goals);
             } else {
-                for (int i = 0; i < 10; i ++) {
+                for (int i = 0; i < 10; i++) {
                     completedGoals.add(goals.get(i));
                 }
             }
@@ -296,9 +301,9 @@ public class ChildDetailFragment extends Fragment implements
     public void loadInProgressGoals() {
         List<Goal> goals = child.getInProgressGoals();
         if (goals == null || goals.size() == 0) {
-            rvChildDetailInProgressGoals.setMinimumHeight(20);
             tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
         } else {
+            tvChildDetailsNoInProgressGoals.setVisibility(View.INVISIBLE);
             if (goals.size() < 10) {
                 inProgressGoals.addAll(goals);
             } else {
@@ -319,13 +324,13 @@ public class ChildDetailFragment extends Fragment implements
             public void done(List<Request> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        rvChildDetailPendingRequests.setMinimumHeight(20);
                         tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
                     } else {
+                        tvChildDetailsNoPendingRequests.setVisibility(View.INVISIBLE);
                         if (objects.size() < 5) {
                             pendingRequests.addAll(objects);
                         } else {
-                            for (int i = 0; i < 5; i ++) {
+                            for (int i = 0; i < 5; i++) {
                                 pendingRequests.add(objects.get(i));
                             }
                         }
@@ -338,7 +343,8 @@ public class ChildDetailFragment extends Fragment implements
         });
     }
 
-    public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
+    public void onFinishAddAllowanceDialog(String bankName, Double allowance,
+                                           String frequency, User child) {
         Allowance newAllowance = new Allowance();
         newAllowance.setChild(child);
         newAllowance.setParent(parent);
@@ -357,7 +363,8 @@ public class ChildDetailFragment extends Fragment implements
         });
     }
 
-    public void onFinishEditAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
+    public void onFinishEditAllowanceDialog(String bankName, Double allowance,
+                                            String frequency, User child) {
         Allowance deleteAllowance = childAllowances.get(0);
         deleteAllowance.deleteInBackground(new DeleteCallback() {
             @Override

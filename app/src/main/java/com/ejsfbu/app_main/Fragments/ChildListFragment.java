@@ -19,7 +19,6 @@ import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -30,7 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ChildListFragment extends Fragment implements AddChildDialogFragment.AddChildDialogListener {
+public class ChildListFragment extends Fragment
+        implements AddChildDialogFragment.AddChildDialogListener {
 
     public static final String TAG = "ChildListFragment";
 
@@ -47,7 +47,8 @@ public class ChildListFragment extends Fragment implements AddChildDialogFragmen
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_child_list, container, false);

@@ -118,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
                         user.addNewParent(queriedParents, listParents);
                         user.setRecentlyAddedParent(false);
                     }
-                    if (queriedParents.size() < listParents.size() && !user.getRecentlyAddedParent()) {
+                    if (queriedParents.size() < listParents.size() &&
+                            !user.getRecentlyAddedParent()) {
                         user.unlinkParent(queriedParents, listParents);
                     }
                     for (int i = 0; i < queriedParents.size(); i++) {

@@ -1,10 +1,10 @@
 package com.ejsfbu.app_main.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.ejsfbu.app_main.DialogFragments.NeedsParentDialogFragment;
 import com.ejsfbu.app_main.R;
@@ -40,7 +40,8 @@ public class NeedsParentActivity extends AppCompatActivity {
     private void showConnectParentDialog() {
         NeedsParentDialogFragment needsParentDialogFragment =
                 NeedsParentDialogFragment.newInstance("Needs Parent");
-        needsParentDialogFragment.show(NeedsParentActivity.fragmentManager, "fragment_needs_parent");
+        needsParentDialogFragment.show(NeedsParentActivity.fragmentManager,
+                "fragment_needs_parent");
 
     }
 }

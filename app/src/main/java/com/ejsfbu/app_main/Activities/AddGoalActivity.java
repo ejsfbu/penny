@@ -10,8 +10,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,10 +44,10 @@ import com.bumptech.glide.request.target.Target;
 import com.ejsfbu.app_main.BarcodeLookup;
 import com.ejsfbu.app_main.BitmapScaler;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
+import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Product;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.Models.Goal;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderActivity;
 import com.parse.ParseACL;
@@ -75,7 +73,8 @@ import butterknife.OnClick;
 import static com.ejsfbu.app_main.Adapters.GoalAdapter.formatDecimal;
 import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
 
-public class AddGoalActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddGoalActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener {
 
     public static final String TAG = "AddGoalActivity";
     private static final int BARCODE_READER_ACTIVITY_REQUEST = 987;
@@ -200,7 +199,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
 
     @OnClick(R.id.bAddGoalScan)
     public void onClickScan() {
-        Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
+        Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(
+                this, true, false);
         startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST);
     }
 
@@ -273,9 +273,6 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(AddGoalActivity.this, "Goal Created",
-                            Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Goal Created");
                     goal.setDailySavings(calculateDailySaving(goal));
                     goal.saveInBackground();
                     user.addInProgressGoal(goal);
@@ -283,13 +280,14 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                Intent intent = new Intent(AddGoalActivity.this, MainActivity.class);
+                                Intent intent = new Intent(
+                                        AddGoalActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
                                 e.printStackTrace();
-                                Toast.makeText(AddGoalActivity.this, "Error Creating Goal",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddGoalActivity.this,
+                                        "Error Creating Goal", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -312,11 +310,14 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                 photoFile = new File(getRealPathFromURI(photoUri, this));
                 Bitmap selectedImage = null;
                 try {
-                    selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                    Bitmap resizedBitmap = BitmapScaler.scaleToFill(selectedImage, 200, 200);
+                    selectedImage = MediaStore.Images.Media.getBitmap(
+                            this.getContentResolver(), photoUri);
+                    Bitmap resizedBitmap = BitmapScaler.scaleToFill(
+                            selectedImage, 200, 200);
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                    File resizedFile = getPhotoFileUri(photoFileName + "_resized", this);
+                    File resizedFile = getPhotoFileUri(
+                            photoFileName + "_resized", this);
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
                     fos.write(bytes.toByteArray());
@@ -341,10 +342,12 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                 } else {
                     resizedBitmap = BitmapScaler.scaleToFitHeight(rotatedBitmap, 200);
                 }
-                Bitmap cropImg = Bitmap.createBitmap(resizedBitmap, 0, 0, 200, 200);
+                Bitmap cropImg = Bitmap.createBitmap(
+                        resizedBitmap, 0, 0, 200, 200);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 cropImg.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                File resizedFile = getPhotoFileUri(photoFileName + "_resized", this);
+                File resizedFile = getPhotoFileUri(
+                        photoFileName + "_resized", this);
                 try {
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
@@ -358,7 +361,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                 ivAddGoalGoalImage.setImageBitmap(cropImg);
                 Log.d(TAG, photoFile.getAbsolutePath());
             } else { // Result was a failure
-                Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Picture wasn't taken!",
+                        Toast.LENGTH_SHORT).show();
             }
         }
         // Barcode scanner
@@ -373,7 +377,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                 BarcodeLookup.lookUpItem(barcode.rawValue, this);
 
             } catch (JSONException e) {
-                Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Couldn't load product information",
+                        Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             Log.d("Scanner", barcode.rawValue);
@@ -381,14 +386,15 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
 
     }
 
-    public void getProduct(Product item){
+    public void getProduct(Product item) {
         product = item;
         loadProductData();
     }
 
     private void loadProductData() {
         if (product == null) {
-            Toast.makeText(this, "Couldn't load product information", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Couldn't load product information",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
         etAddGoalGoalName.setText(product.getName());
@@ -407,17 +413,25 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                     .load(imageUrl)
                     .addListener(new RequestListener<Bitmap>() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Bitmap> target,
+                                                    boolean isFirstResource) {
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                        public boolean onResourceReady(Bitmap resource, Object model,
+                                                       Target<Bitmap> target,
+                                                       DataSource dataSource,
+                                                       boolean isFirstResource) {
                             try {
-                                Bitmap resizedBitmap = BitmapScaler.scaleToFill(resource, 200, 200);
+                                Bitmap resizedBitmap = BitmapScaler.scaleToFill(
+                                        resource, 200, 200);
                                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-                                File resizedFile = getPhotoFileUri(photoFileName + "_resized", getApplicationContext());
+                                resizedBitmap.compress(Bitmap.CompressFormat.JPEG,
+                                        40, bytes);
+                                File resizedFile = getPhotoFileUri(photoFileName
+                                        + "_resized", getApplicationContext());
                                 resizedFile.createNewFile();
                                 FileOutputStream fos = new FileOutputStream(resizedFile);
                                 fos.write(bytes.toByteArray());
@@ -432,7 +446,6 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
                     .apply(options) // Extra: round image corners
                     .into(ivAddGoalGoalImage);
         }
-        Toast.makeText(this, "Product loaded", Toast.LENGTH_SHORT).show();
     }
 
     public static Bitmap rotateBitmapOrientation(String photoFilePath) {
@@ -448,20 +461,24 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
             e.printStackTrace();
         }
         String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-        int orientation = orientString != null ? Integer.parseInt(orientString) : ExifInterface.ORIENTATION_NORMAL;
+        int orientation = orientString != null ? Integer.parseInt(orientString)
+                : ExifInterface.ORIENTATION_NORMAL;
         int rotationAngle = 0;
         if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
         if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
         if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
         Matrix matrix = new Matrix();
-        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
-        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth, bounds.outHeight, matrix, true);
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2,
+                (float) bm.getHeight() / 2);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(bm, 0, 0, bounds.outWidth,
+                bounds.outHeight, matrix, true);
         return rotatedBitmap;
     }
 
     public static String getRealPathFromURI(Uri contentURI, Context context) {
         String result;
-        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
+        Cursor cursor = context.getContentResolver().query(contentURI, null,
+                null, null, null);
         if (cursor == null) { // Source is Dropbox or other similar local file path
             result = contentURI.getPath();
         } else {
@@ -474,7 +491,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     }
 
     public static File getPhotoFileUri(String fileName, Context context) {
-        File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "ImageUpload");
+        File mediaStorageDir = new File(context.getExternalFilesDir(
+                Environment.DIRECTORY_PICTURES), "ImageUpload");
 
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.d(TAG, "failed to create directory");
@@ -499,7 +517,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == 0) {
 
         }
@@ -517,7 +536,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         c.set(Calendar.MONTH, monthOfYear);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         Log.d(TAG, String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
-        String date = formatDate(monthOfYear, "month") + "/" + formatDate(dayOfMonth, "day") + "/" + formatDate(year, "year");
+        String date = formatDate(monthOfYear, "month") + "/" +
+                formatDate(dayOfMonth, "day") + "/" + formatDate(year, "year");
         etAddGoalEndDate.setText(date);
     }
 

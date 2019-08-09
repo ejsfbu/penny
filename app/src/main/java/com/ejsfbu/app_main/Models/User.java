@@ -1,18 +1,13 @@
 package com.ejsfbu.app_main.Models;
 
 import com.parse.FindCallback;
-import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -634,8 +629,8 @@ public class User extends ParseUser {
         put(KEY_ALLOWANCE_FREQUENCY, frequency);
 
     }
-  
-  public static class Query extends ParseQuery<User> {
+
+    public static class Query extends ParseQuery<User> {
         public Query() {
             super(User.class);
         }

@@ -14,10 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -109,10 +108,6 @@ public class SignUpAccountInfoFragment extends Fragment {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(getActivity(), "Sign Up Success",
-                                Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Sign Up Success");
-
                         Intent intent = new Intent(getActivity(),
                                 MainActivity.class);
                         startActivity(intent);

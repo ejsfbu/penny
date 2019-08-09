@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,12 +21,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
-import com.ejsfbu.app_main.Models.BankAccount;
-import com.ejsfbu.app_main.Models.User;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Transaction;
-import com.parse.FindCallback;
+import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -36,10 +33,7 @@ import com.parse.SaveCallback;
 import java.util.Date;
 import java.util.List;
 
-import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
-import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
 
@@ -124,19 +118,18 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 String imageUrl = image.getUrl();
                 imageUrl = imageUrl.replace("http://", "https://");
                 RequestOptions options = new RequestOptions();
-                options.placeholder(R.drawable.icon_target)
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .error(R.drawable.icon_target)
-                        .transform(new CenterCrop())
-                        .transform(new CircleCrop());
                 Glide.with(context)
                         .load(imageUrl)
-                        .apply(options) // Extra: round image corners
+                        .apply(options.placeholder(R.drawable.icon_target)
+                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .error(R.drawable.icon_target)
+                                .transform(new CenterCrop())
+                                .transform(new CircleCrop()))
                         .into(ivGoalImage);
             }
             setOnClick(goal);
         }
-      
+
         private void setOnClick(Goal goal) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,7 +142,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                             Fragment fragment = new GoalDetailsFragment();
                             fragment.setArguments(bundle);
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.flMainContainer, fragment).commitAllowingStateLoss();
+                                    .replace(R.id.flMainContainer, fragment)
+                                    .commitAllowingStateLoss();
                         } else {
                             //transfers money to this goal
                             Double saved = cancelled.getSaved();
@@ -159,7 +153,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                             } else {
                                 approval = true;
                             }
-                            Transaction transfer = new Transaction(user, cancelled.getName(), saved, goal, approval, false);
+                            Transaction transfer = new Transaction(user, cancelled.getName(),
+                                    saved, goal, approval, false);
                             transfer.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {

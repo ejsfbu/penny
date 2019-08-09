@@ -183,8 +183,6 @@ public class EditProfileImageDialogFragment extends DialogFragment {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Profile Image changed successfully.",
-                                Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
                         e.printStackTrace();

@@ -126,4 +126,7 @@
     <string name="transfer_to_bank">Transfer to Bank</string>
     <string name="transfer_to_goal">Transfer to Goal</string>
     <string name="cancel_goal_money_title">What do you want to do with the money you saved towards this goal?</string>
+    <string name="no_completed_goals_child">No Completed Goals Yet. Keep Saving!</string>
+    <string name="no_completed_badges">No Completed Badges Yet. Keep Saving!</string>
+    <string name="no_in_progress_badges">You Completed All the Badges! Great Job!</string>
 </resources>

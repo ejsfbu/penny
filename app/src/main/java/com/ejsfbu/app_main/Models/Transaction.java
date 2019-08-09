@@ -30,7 +30,8 @@ public class Transaction extends ParseObject {
     }
 
     // for deposits and withdrawals
-    public Transaction(ParseUser user, com.ejsfbu.app_main.Models.BankAccount bank, Double amount, com.ejsfbu.app_main.Models.Goal goal, boolean isApproved, boolean isWithdraw) {
+    public Transaction(ParseUser user, com.ejsfbu.app_main.Models.BankAccount bank,
+                       Double amount, Goal goal, boolean isApproved, boolean isWithdraw) {
         this.setUser(user);
         this.setBank(bank);
         this.setAmount(amount);
@@ -44,7 +45,8 @@ public class Transaction extends ParseObject {
     }
 
     // for transferring from goals, no bank
-    public Transaction(ParseUser user, String goalName, Double amount, com.ejsfbu.app_main.Models.Goal goal, boolean isApproved, boolean isWithdraw) {
+    public Transaction(ParseUser user, String goalName, Double amount,
+                       Goal goal, boolean isApproved, boolean isWithdraw) {
         this.setUser(user);
         this.setAmount(amount);
         this.setGoal(goal);
@@ -116,7 +118,9 @@ public class Transaction extends ParseObject {
         return fromGoal;
     }
 
-    public void setFromGoal(String name) { put(KEY_FROM_GOAL, name);}
+    public void setFromGoal(String name) {
+        put(KEY_FROM_GOAL, name);
+    }
 
     public Double getAmount() {
         Double amount = 0.0;
@@ -129,7 +133,9 @@ public class Transaction extends ParseObject {
         return amount;
     }
 
-    public void setAmount(Double amount) { put(KEY_AMOUNT, amount);}
+    public void setAmount(Double amount) {
+        put(KEY_AMOUNT, amount);
+    }
 
     public Goal getGoal() {
         Goal goal;
@@ -142,7 +148,9 @@ public class Transaction extends ParseObject {
         return goal;
     }
 
-    public void setGoal(com.ejsfbu.app_main.Models.Goal goal) { put(KEY_GOAL, goal);}
+    public void setGoal(com.ejsfbu.app_main.Models.Goal goal) {
+        put(KEY_GOAL, goal);
+    }
 
     public boolean getApproval() {
         boolean approval = false;
@@ -154,7 +162,9 @@ public class Transaction extends ParseObject {
         return approval;
     }
 
-    public void setApproval(boolean bool) { put(KEY_APPROVED, bool); }
+    public void setApproval(boolean bool) {
+        put(KEY_APPROVED, bool);
+    }
 
     // Get whether its a deposit or withdraw: false is deposit
     public boolean getType() {
@@ -167,7 +177,9 @@ public class Transaction extends ParseObject {
         return type;
     }
 
-    public void setType(boolean bool) { put(KEY_TYPE, bool); }
+    public void setType(boolean bool) {
+        put(KEY_TYPE, bool);
+    }
 
     public boolean getRecentlyApproved() {
         boolean recentlyApproved;
