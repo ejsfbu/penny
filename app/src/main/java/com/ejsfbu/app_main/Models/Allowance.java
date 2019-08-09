@@ -73,7 +73,7 @@ public class Allowance extends ParseObject {
         }
     }
 
-    public static ArrayList<Allowance> getchildAllowances(User child) {
+    public static ArrayList<Allowance> getChildAllowances(User child) {
         ArrayList<Allowance> allowances = new ArrayList<>();
         Allowance.Query query = new Allowance.Query();
         query.findChild(child);

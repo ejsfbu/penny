@@ -30,8 +30,8 @@ import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
-import com.ejsfbu.app_main.DialogFragments.ViewAllowanceDialog;
 import com.ejsfbu.app_main.DialogFragments.ReferFriendDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ViewAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
@@ -199,8 +199,10 @@ public class ProfileFragment extends Fragment
     }
 
     private void showViewAllowanceDialog() {
-        ViewAllowanceDialog viewAllowanceDialog = ViewAllowanceDialog.newInstance("View Allowance");
-        viewAllowanceDialog.show(MainActivity.fragmentManager, "fragment_view_allowance");
+        ViewAllowanceDialogFragment viewAllowanceDialogFragment
+                = ViewAllowanceDialogFragment.newInstance("View Allowance");
+        viewAllowanceDialogFragment.show(
+                MainActivity.fragmentManager, "fragment_view_allowance");
     }
 
     private void showReferFriendDialog() {

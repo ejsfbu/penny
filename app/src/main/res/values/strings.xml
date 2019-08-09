@@ -132,4 +132,5 @@
     <string name="refer_friend_info">Enter your friend\'s email below to invite them to use Penny!</string>
     <string name="inviter_info">Did a friend invite you to use Penny? Enter their code below!</string>
     <string name="inviter_code">Inviter Code</string>
+    <string name="allowance_info">Allowance Information</string>
 </resources>
