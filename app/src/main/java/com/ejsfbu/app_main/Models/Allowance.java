@@ -71,13 +71,6 @@ public class Allowance extends ParseObject {
             whereEqualTo(KEY_PARENT, parent);
             return this;
         }
-
-        public Allowance.Query findChildParent(ParseUser parent, ParseUser child) {
-            whereEqualTo(KEY_PARENT, parent);
-            whereEqualTo(KEY_CHILD, child);
-            return this;
-        }
-
     }
 
     public static ArrayList<Allowance> getchildAllowances(User child) {

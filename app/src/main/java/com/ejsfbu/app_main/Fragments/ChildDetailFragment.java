@@ -56,7 +56,6 @@ import butterknife.Unbinder;
 
 import static android.view.View.GONE;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Models.Allowance.getAllAllowances;
 
 public class ChildDetailFragment extends Fragment implements
         AddAllowanceDialogFragment.AddAllowanceDialogListener,
@@ -325,6 +324,7 @@ public class ChildDetailFragment extends Fragment implements
             vChildDetailsCompletedGoalsTop.setVisibility(GONE);
             tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
         } else {
+            completedGoals.clear();
             completedGoals.addAll(goals);
             Collections.sort(completedGoals);
             Collections.reverse(completedGoals);
@@ -342,6 +342,7 @@ public class ChildDetailFragment extends Fragment implements
             vChildDetailsInProgressGoalsTop.setVisibility(GONE);
             tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
         } else {
+            inProgressGoals.clear();
             inProgressGoals.addAll(goals);
             Collections.sort(completedGoals);
             inProgressGoalsAdapter.notifyDataSetChanged();
@@ -363,6 +364,7 @@ public class ChildDetailFragment extends Fragment implements
                         vChildDetailsPendingRequestsTop.setVisibility(GONE);
                         tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
                     } else {
+                        pendingRequests.clear();
                         pendingRequests.addAll(objects);
                         pendingRequestsAdapter.notifyDataSetChanged();
                     }
