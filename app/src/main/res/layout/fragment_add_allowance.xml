@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Below, you can set up an allowance for your child."
+        android:text="Set up an allowance for your child below."
         app:layout_constraintEnd_toEndOf="@+id/tvAllowanceManagerTitle"
         app:layout_constraintStart_toStartOf="@+id/tvAllowanceManagerTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvAllowanceManagerTitle" />

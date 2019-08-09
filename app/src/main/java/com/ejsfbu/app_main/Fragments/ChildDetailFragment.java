@@ -22,6 +22,7 @@ import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
 import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.AllowanceManagerDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.Allowance;
@@ -255,11 +256,11 @@ public class ChildDetailFragment extends Fragment implements
 
     private void showAddAllowanceDialog() {
         AddAllowanceDialogFragment addAllowance = AddAllowanceDialogFragment.newInstance("Add Allowance", child);
-        addAllowance.show(getFragmentManager(), "fragment_add_allowance");
+        addAllowance.show(getFragmentManager(), "fragment_allowance_manager");
     }
 
     private void showEditAllowanceDialog() {
-        EditAllowanceDialogFragment editAllowance = EditAllowanceDialogFragment.newInstance("Edit Allowance", child);
+        AllowanceManagerDialogFragment editAllowance = AllowanceManagerDialogFragment.newInstance("Edit Allowance", child);
         editAllowance.show(getFragmentManager(), "fragment_edit_allowance");
     }
 
@@ -357,12 +358,12 @@ public class ChildDetailFragment extends Fragment implements
                            if (e == null) {
                                fillData();
                            } else {
-                                e.printStackTrace();
+                               e.printStackTrace();
                             }
                         }
                     });
                 } else {
-
+                    e.printStackTrace();
                 }
             }
         });
