@@ -20,6 +20,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Models.BankAccount;
@@ -148,7 +150,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                         if ((purpose == null) && (cancelled == null)) {
                             Fragment fragment = new GoalDetailsFragment();
                             fragment.setArguments(bundle);
-                            fragmentManager.beginTransaction()
+                            MainActivity.fragmentManager.beginTransaction()
                                     .replace(R.id.flMainContainer, fragment).commitAllowingStateLoss();
                         } else {
                             //transfers money to this goal
@@ -168,7 +170,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                                         //sends you to that detail goal
                                         Fragment fragment = new GoalDetailsFragment();
                                         fragment.setArguments(bundle);
-                                        fragmentManager.beginTransaction()
+                                        MainActivity.fragmentManager.beginTransaction()
                                                 .replace(R.id.flMainContainer, fragment).commit();
                                     } else {
                                         Toast.makeText(context, "Transfer Failed",
@@ -177,6 +179,12 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                                 }
                             });
                         }
+                    } else {
+                        Fragment fragment = new GoalDetailsFragment();
+                        fragment.setArguments(bundle);
+                        ParentActivity.fragmentManager.beginTransaction()
+                                .replace(R.id.flParentContainer, fragment).commitAllowingStateLoss();
+
                     }
                 }
             });

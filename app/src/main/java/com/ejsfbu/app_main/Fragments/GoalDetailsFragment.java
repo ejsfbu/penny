@@ -27,6 +27,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.TransactionAdapter;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.DepositDialogFragment;
@@ -148,10 +149,12 @@ public class GoalDetailsFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
-            ibGoalDetailsBack.setVisibility(View.VISIBLE);
-        } else if (bottomNavigationView.getSelectedItemId() == R.id.miRewards) {
-            ibRewardGoalDetailsBack.setVisibility(View.VISIBLE);
+        if (!user.getIsParent()) {
+            if (bottomNavigationView.getSelectedItemId() == R.id.miGoals) {
+                ibGoalDetailsBack.setVisibility(View.VISIBLE);
+            } else if (bottomNavigationView.getSelectedItemId() == R.id.miRewards) {
+                ibRewardGoalDetailsBack.setVisibility(View.VISIBLE);
+            }
         }
         goal = getArguments().getParcelable("Clicked Goal");
         setGoalInfo();
@@ -177,9 +180,6 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     public void setGoalInfo() {
-        if (goal.getCompleted()) {
-            // change how completed goal is shown
-        }
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal.getEndDate().toString());
 
@@ -197,17 +197,27 @@ public class GoalDetailsFragment extends Fragment implements
             tvGoalDetailReccomendedSaving.setVisibility(View.GONE);
             tvGoalDetailSavingText.setVisibility(View.GONE);
             spinner.setVisibility(View.GONE);
-            if (goal.getPurchased()) {
-                bGoalDetailsCancelGoal.setVisibility(View.GONE);
-                bGoalDetailsDeposit.setVisibility(View.GONE);
-                bGoalDetailsPurchaseGoal.setVisibility(View.GONE);
-                bAutoPay.setVisibility(View.GONE);
-            } else {
-                bGoalDetailsPurchaseGoal.setVisibility(View.VISIBLE);
+
+            if (!user.getIsParent()) {
+                if (goal.getPurchased()) {
+                    bGoalDetailsCancelGoal.setVisibility(View.GONE);
+                    bGoalDetailsDeposit.setVisibility(View.GONE);
+                    bGoalDetailsPurchaseGoal.setVisibility(View.GONE);
+                    bAutoPay.setVisibility(View.GONE);
+                } else {
+                    bGoalDetailsPurchaseGoal.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSaved.setText(formatCurrency(goal.getSaved()));
+            if (user.getIsParent()) {
+                tvGoalDetailEdit.setVisibility(View.GONE);
+                ivEditGoalDate.setVisibility(View.GONE);
+                ivEditGoalName.setVisibility(View.GONE);
+                bGoalDetailsCancelGoal.setVisibility(View.GONE);
+                bAutoPay.setVisibility(View.GONE);
+            }
         }
 
         if (goal.getHasAutoPayment()) {
@@ -314,8 +324,13 @@ public class GoalDetailsFragment extends Fragment implements
 
         DepositDialogFragment depositDialogFragment
                 = DepositDialogFragment.newInstance("Deposit", goal.getCost() - goal.getSaved(), limit);
-        depositDialogFragment.show(MainActivity.fragmentManager,
-                "fragment_deposit");
+        if (!user.getIsParent()) {
+            depositDialogFragment.show(MainActivity.fragmentManager,
+                    "fragment_deposit");
+        } else {
+            depositDialogFragment.show(ParentActivity.fragmentManager,
+                    "fragment_deposit");
+        }
     }
 
 
@@ -373,7 +388,29 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    checkTransactionApproval(transaction);
+                    if (user.getIsParent()) {
+                        goal.addTransaction(transaction);
+                        goal.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    transactionsList.clear();
+                                    adapter.notifyDataSetChanged();
+                                    loadTransactions();
+                                    setGoalInfo();
+                                    Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                                    //TODO Update this function so that the functionality works for parent depositing for a child
+                                    //checkCompleted(goal);
+                                } else {
+                                    e.printStackTrace();
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        checkTransactionApproval(transaction);
+                    }
+
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -445,7 +482,7 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void showCancelGoalDialog() {
         CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
-        cancel.show(fragmentManager, "fragment_cancel_goal");
+        cancel.show(getFragmentManager(), "fragment_cancel_goal");
     }
 
     @OnClick(R.id.ivEditGoalName)
@@ -455,7 +492,7 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void showEditGoalNameDialog() {
         EditGoalNameDialogFragment editName = EditGoalNameDialogFragment.newInstance("Edit Goal Name", goal);
-        editName.show(fragmentManager, "fragment_edit_goal_name");
+        editName.show(getFragmentManager(), "fragment_edit_goal_name");
     }
 
     @OnClick(R.id.bGoalDetailsAutoPay)
@@ -465,7 +502,7 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void showSetUpAutoPaymentDialogFragment() {
         SetUpAutoPaymentDialogFragment fragment = SetUpAutoPaymentDialogFragment.newInstance(goal, user);
-        fragment.show(fragmentManager, "fragment_automatic_payment");
+        fragment.show(getFragmentManager(), "fragment_automatic_payment");
     }
 
     @OnClick(R.id.tvGoalDetailEdit)
@@ -482,7 +519,7 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void showEditGoalImageDialog() {
         EditGoalImageDialogFragment editImage = EditGoalImageDialogFragment.newInstance("Edit Goal Image", goal);
-        editImage.show(fragmentManager, "fragment_edit_goal_image");
+        editImage.show(getFragmentManager(), "fragment_edit_goal_image");
     }
 
     @OnClick(R.id.ivEditGoalDate)
@@ -492,13 +529,13 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void showEditGoalEndDateDialog() {
         EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
-        editDate.show(fragmentManager, "fragment_edit_goal_end_date");
+        editDate.show(getFragmentManager(), "fragment_edit_goal_end_date");
     }
 
     private void showEarnedBadgeDialogFragment() {
         EarnedBadgeDialogFragment earnedBadge
                 = EarnedBadgeDialogFragment.newInstance("Earned Badge", earnedBadges);
-        earnedBadge.show(fragmentManager, "fragment_earned_badge");
+        earnedBadge.show(getFragmentManager(), "fragment_earned_badge");
     }
 
     @Override

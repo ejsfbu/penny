@@ -91,8 +91,14 @@ public class DepositDialogFragment extends DialogFragment {
     }
 
     public void sendBackResult(String bankName, Double amount) {
-        DepositDialogListener listener = (DepositDialogListener) getFragmentManager()
-                .findFragmentById(R.id.flMainContainer);
+        DepositDialogListener listener;
+        if (user.getIsParent()) {
+            listener = (DepositDialogListener) getFragmentManager()
+                    .findFragmentById(R.id.flParentContainer);
+        } else {
+            listener = (DepositDialogListener) getFragmentManager()
+                    .findFragmentById(R.id.flMainContainer);
+        }
         listener.onFinishEditDialog(bankName, amount);
         dismiss();
     }
