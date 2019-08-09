@@ -345,6 +345,17 @@
                 android:layout_marginTop="2dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider3-1" />
+            />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAllowance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_iconfinder_finance_money_dollar_28_4057991"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageButton
                 android:id="@+id/ibChildDetailSettings"

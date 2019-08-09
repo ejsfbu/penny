@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app_main</string>
+    <string name="app_name">Penny</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>

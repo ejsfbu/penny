@@ -23,10 +23,14 @@ import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
 import com.ejsfbu.app_main.DialogFragments.ChildSettingsDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -38,9 +42,11 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.view.View.GONE;
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class ChildDetailFragment extends Fragment {
 
@@ -106,6 +112,10 @@ public class ChildDetailFragment extends Fragment {
 
     @BindView(R.id.ibChildDetailSettings)
     ImageButton ibChildDetailSettings;
+
+    @BindView(R.id.fabAllowance)
+    FloatingActionButton fabAllowance;
+
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
@@ -240,6 +250,25 @@ public class ChildDetailFragment extends Fragment {
                 = ChildSettingsDialogFragment.newInstance("Child Settings", child);
         childSettingsDialogFragment
                 .show(ParentActivity.fragmentManager, "fragment_child_settings");
+    }
+
+    @OnClick(R.id.fabAllowance)
+    public void onClickAllowance() {
+        if (child.getHasAllowance()) {
+            showEditAllowanceDialog();
+        } else {
+            showAddAllowanceDialog();
+        }
+    }
+
+    private void showAddAllowanceDialog() {
+        AddAllowanceDialogFragment addAllowance = AddAllowanceDialogFragment.newInstance("Add Allowance", child);
+        addAllowance.show(getFragmentManager(), "fragment_add_allowance");
+    }
+
+    private void showEditAllowanceDialog() {
+        EditAllowanceDialogFragment editAllowance = EditAllowanceDialogFragment.newInstance("Edit Allowance", child);
+        editAllowance.show(getFragmentManager(), "fragment_edit_allowance");
     }
 
     public void loadCompletedGoals() {
