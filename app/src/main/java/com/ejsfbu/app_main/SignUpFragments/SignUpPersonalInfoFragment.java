@@ -16,10 +16,14 @@ import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.SignUpActivity;
 import com.ejsfbu.app_main.Fragments.DatePickerFragment;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -113,11 +117,15 @@ public class SignUpPersonalInfoFragment extends Fragment {
                 }
                 user.setBirthday(birthday);
 
-                
-                Fragment signUpAccountInfoFragment = new SignUpAccountInfoFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.flSignUpContainer, signUpAccountInfoFragment)
-                        .commit();
+                String inviterCode = etSignUpPersonalInfoInviterCode.getText().toString();
+                if (!inviterCode.equals("")) {
+                    getInviterFromCode(inviterCode);
+                } else {
+                    Fragment signUpAccountInfoFragment = new SignUpAccountInfoFragment();
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.flSignUpContainer, signUpAccountInfoFragment)
+                            .commit();
+                }
             }
         } else {
             Toast.makeText(getContext(), "Enter birthday as mm/dd/yyyy",
@@ -129,6 +137,31 @@ public class SignUpPersonalInfoFragment extends Fragment {
         getFragmentManager().beginTransaction()
                 .replace(R.id.flSignUpContainer, accountInfoFragment)
                 .commit();*/
+    }
+
+    private void getInviterFromCode(String inviterCode) {
+        User.Query userQuery = new User.Query();
+        userQuery.whereEqualTo("objectId", inviterCode);
+        userQuery.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (e == null) {
+                    if (objects.size() > 0) {
+                        user.setInviter(objects.get(0));
+
+                        Fragment signUpAccountInfoFragment = new SignUpAccountInfoFragment();
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.flSignUpContainer, signUpAccountInfoFragment)
+                                .commit();
+                    } else {
+                        Toast.makeText(getContext(), "Invalid inviter code",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @OnClick(R.id.ibSignUpPersonalInfoDate)

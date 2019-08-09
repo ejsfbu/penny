@@ -105,7 +105,7 @@ public class ReferFriendDialogFragment extends DialogFragment {
             Toast.makeText(context, "Please enter a valid email",
                     Toast.LENGTH_SHORT).show();
         } else {
-            String[] dots = halves[1].split(".");
+            String[] dots = halves[1].split("\\.");
             if (dots.length != 2) {
                 Toast.makeText(context, "Please enter a valid email",
                         Toast.LENGTH_SHORT).show();
