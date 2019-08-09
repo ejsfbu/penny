@@ -206,10 +206,11 @@ public class ProfileFragment extends Fragment
         showViewAllowanceDialog();
     }
 
-    private void showViewAllowanceDialog(){
+    private void showViewAllowanceDialog() {
         ViewAllowanceDialog viewAllowanceDialog = ViewAllowanceDialog.newInstance("View Allowance");
         viewAllowanceDialog.show(MainActivity.fragmentManager, "fragment_view_allowance");
-   
+    }
+
     private void showReferFriendDialog() {
         ReferFriendDialogFragment referFriendDialogFragment
                 = ReferFriendDialogFragment.newInstance("Refer Friend");
