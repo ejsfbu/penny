@@ -42,6 +42,8 @@ public class SignUpPersonalInfoFragment extends Fragment {
     Button bSignUpPersonalInfoNext;
     @BindView(R.id.ibSignUpPersonalInfoDate)
     ImageButton ibSignUpPersonalInfoDate;
+    @BindView(R.id.etSignUpPersonalInfoInviterCode)
+    EditText etSignUpPersonalInfoInviterCode;
 
     private Unbinder unbinder;
 
@@ -110,9 +112,11 @@ public class SignUpPersonalInfoFragment extends Fragment {
                     user.setRequiresApproval(false);
                 }
                 user.setBirthday(birthday);
-                Fragment email = new SignUpAccountInfoFragment();
+
+                
+                Fragment signUpAccountInfoFragment = new SignUpAccountInfoFragment();
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.flSignUpContainer, email)
+                        .replace(R.id.flSignUpContainer, signUpAccountInfoFragment)
                         .commit();
             }
         } else {
@@ -121,10 +125,10 @@ public class SignUpPersonalInfoFragment extends Fragment {
             return;
         }
 
-        Fragment accountInfoFragment = new SignUpAccountInfoFragment();
+        /*Fragment accountInfoFragment = new SignUpAccountInfoFragment();
         getFragmentManager().beginTransaction()
                 .replace(R.id.flSignUpContainer, accountInfoFragment)
-                .commit();
+                .commit();*/
     }
 
     @OnClick(R.id.ibSignUpPersonalInfoDate)
