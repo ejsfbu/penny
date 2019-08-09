@@ -29,7 +29,7 @@ public class DatePickerFragment extends DialogFragment {
                     getFragmentManager().getFragments();
             String root = fragments.get(0).getTag();
             //if the root is null, we know that we are in the sign up page
-            if (root.equals("com.bumptech.glide.manager")) {
+            if (root != null && root.equals("com.bumptech.glide.manager")) {
                 listener = (DatePickerDialog.OnDateSetListener) getActivity();
             } else if (root == null || root.equals("datePicker")) {
                 listener = (DatePickerDialog.OnDateSetListener) getActivity();

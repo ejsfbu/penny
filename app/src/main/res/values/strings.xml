@@ -129,4 +129,7 @@
     <string name="no_completed_goals_child">No Completed Goals Yet. Keep Saving!</string>
     <string name="no_completed_badges">No Completed Badges Yet. Keep Saving!</string>
     <string name="no_in_progress_badges">You Completed All the Badges! Great Job!</string>
+    <string name="refer_friend_info">Enter your friend\'s email below to invite them to use Penny!</string>
+    <string name="inviter_info">Did a friend invite you to use Penny? Enter their code below!</string>
+    <string name="inviter_code">Inviter Code</string>
 </resources>

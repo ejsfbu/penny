@@ -285,6 +285,7 @@ public class ChildDetailFragment extends Fragment implements
             tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
         } else {
             tvChildDetailsNoCompletedGoals.setVisibility(View.INVISIBLE);
+            completedGoals.clear();
             if (goals.size() < 10) {
                 completedGoals.addAll(goals);
             } else {
@@ -304,6 +305,7 @@ public class ChildDetailFragment extends Fragment implements
             tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
         } else {
             tvChildDetailsNoInProgressGoals.setVisibility(View.INVISIBLE);
+            inProgressGoals.clear();
             if (goals.size() < 10) {
                 inProgressGoals.addAll(goals);
             } else {
@@ -327,6 +329,7 @@ public class ChildDetailFragment extends Fragment implements
                         tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
                     } else {
                         tvChildDetailsNoPendingRequests.setVisibility(View.INVISIBLE);
+                        pendingRequests.clear();
                         if (objects.size() < 5) {
                             pendingRequests.addAll(objects);
                         } else {

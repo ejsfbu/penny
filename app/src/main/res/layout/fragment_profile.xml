@@ -345,7 +345,7 @@
         android:text="@string/bank_info"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/bProfileReferFriend"
+        app:layout_constraintEnd_toStartOf="@+id/bProfileViewAllowance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bProfileLogout" />
 
@@ -353,10 +353,8 @@
         android:id="@+id/bProfileReferFriend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background_button_coin_blue"
+        android:background="@drawable/background_button_pig_pink"
         android:drawableTop="@drawable/icon_refer_friend"
         android:drawablePadding="4dp"
         android:paddingStart="8dp"
@@ -364,6 +362,28 @@
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
         android:text="@string/refer_friend"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/bProfileViewAllowance"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/bProfileBankInfo"
+        app:layout_constraintTop_toBottomOf="@+id/bProfileBankInfo" />
+
+    <Button
+        android:id="@+id/bProfileViewAllowance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_button_coin_blue"
+        android:drawableTop="@drawable/ic_iconfinder_finance_money_dollar_28_4057991"
+        android:drawablePadding="4dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        android:text="View Allowance"
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -381,7 +401,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bProfileBankInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/bProfileReferFriend" />
 
     <ImageButton
         android:id="@+id/ibProfileParentSettings"
