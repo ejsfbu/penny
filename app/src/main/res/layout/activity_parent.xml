@@ -41,22 +41,15 @@
 
     </androidx.cardview.widget.CardView>
 
-    <View
-        android:id="@+id/vParentTopDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/ivParentAppLogo" />
-
     <FrameLayout
         android:id="@+id/flParentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vParentTopDivider">
+        app:layout_constraintTop_toBottomOf="@+id/ivParentAppLogo">
 
     </FrameLayout>
 
@@ -66,7 +59,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_button_coin_blue"
+        android:background="@android:color/transparent"
         android:src="@drawable/icon_back"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +71,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_button_coin_blue"
+        android:background="@android:color/transparent"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +83,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_button_coin_blue"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_back"
@@ -102,7 +95,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/background_button_coin_blue"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_back"

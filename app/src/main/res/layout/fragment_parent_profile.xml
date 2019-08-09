@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -182,6 +181,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/background_button_pig_pink"
         android:drawableTop="@drawable/icon_bank_outline"
         android:drawablePadding="4dp"
@@ -192,29 +192,8 @@
         android:text="@string/bank_info"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/bParentProfileAddChild"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bParentProfileLogout" />
-
-    <Button
-        android:id="@+id/bParentProfileAddChild"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background_button_pig_pink"
-        android:drawableTop="@drawable/icon_add_child"
-        android:drawablePadding="4dp"
-        android:paddingStart="8dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
-        android:text="@string/add_child"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bParentProfileBankInfo"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bParentProfileLogout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Change Goal Image"
+        android:text="@string/edit_goal_image"
         android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,40 +22,27 @@
 
     <Button
         android:id="@+id/bEditGoalImageConfirm"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_pig_pink"
-        android:text="Upload"
+        android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/EditGoalImageVerticalBorder"
+        app:layout_constraintStart_toEndOf="@id/bEditGoalImageCancel"
         app:layout_constraintTop_toBottomOf="@+id/ibEditGoalImagePhotos" />
 
     <Button
         android:id="@+id/bEditGoalImageCancel"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_coin_blue"
         android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@+id/EditGoalImageVerticalBorder"
+        app:layout_constraintEnd_toStartOf="@+id/bEditGoalImageConfirm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bEditGoalImageConfirm" />
-
-    <View
-        android:id="@+id/EditGoalImageVerticalBorder"
-        android:layout_width="1dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        android:background="#CCCCCCCC"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvPrevGoalImage" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvPrevGoalImage"
@@ -76,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/icon_user"></ImageView>
+            app:srcCompat="@drawable/icon_user" />
+
     </androidx.cardview.widget.CardView>
 
     <ImageButton
@@ -84,27 +72,26 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_white"
-        app:layout_constraintBottom_toBottomOf="@+id/EditGoalImageVerticalBorder"
-        app:layout_constraintEnd_toStartOf="@+id/EditGoalImageVerticalBorder"
+        app:layout_constraintEnd_toStartOf="@+id/ibEditGoalImagePhotos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/EditGoalImageVerticalBorder"
+        app:layout_constraintTop_toBottomOf="@id/cvPrevGoalImage"
         app:srcCompat="@drawable/icon_camera" />
 
     <ImageButton
         android:id="@+id/ibEditGoalImagePhotos"
         android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:adjustViewBounds="true"
         android:background="@drawable/background_button_white"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@+id/EditGoalImageVerticalBorder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/EditGoalImageVerticalBorder"
-        app:layout_constraintTop_toTopOf="@+id/EditGoalImageVerticalBorder"
-        app:srcCompat="@drawable/icon_photo" />
+        app:layout_constraintStart_toEndOf="@id/ibEditGoalImageCamera"
+        app:layout_constraintTop_toTopOf="@id/ibEditGoalImageCamera"
+        app:srcCompat="@drawable/icon_photo"
+        tools:layout_editor_absoluteY="194dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

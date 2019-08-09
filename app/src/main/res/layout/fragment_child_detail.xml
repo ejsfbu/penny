@@ -9,9 +9,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -81,18 +81,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/completed_goals"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider1-2" />
+                app:layout_constraintTop_toBottomOf="@+id/cvChildDetailProfilePic" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailCompletedGoals"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -118,18 +118,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/in_progress_goals"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider2-2" />
+                app:layout_constraintTop_toBottomOf="@id/rvChildDetailCompletedGoals" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailInProgressGoals"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -145,28 +145,28 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/no_in_progress_goals"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals"
-                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"/>
+                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals" />
 
             <TextView
                 android:id="@+id/tvChildDetailPendingRequests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/pending_requests"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider3-2" />
+                app:layout_constraintTop_toBottomOf="@id/rvChildDetailInProgressGoals" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailPendingRequests"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
@@ -188,163 +188,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvChildDetailPendingRequests" />
-
-            <View
-                android:id="@+id/vChildDetailsCompletedGoalsTop"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toTopOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintEnd_toEndOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintStart_toStartOf="@+id/rvChildDetailCompletedGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsCompletedGoalsBottom"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintStart_toStartOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailCompletedGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsCompletedGoalsLeft"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintEnd_toStartOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailCompletedGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsCompletedGoalsRight"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintStart_toEndOf="@+id/rvChildDetailCompletedGoals"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailCompletedGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsInProgressGoalsTop"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toTopOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintEnd_toEndOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintStart_toStartOf="@+id/rvChildDetailInProgressGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsInProgressGoalsBottom"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintStart_toStartOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailInProgressGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsInProgressGoalsLeft"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintEnd_toStartOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailInProgressGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsInProgressGoalsRight"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintStart_toEndOf="@+id/rvChildDetailInProgressGoals"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailInProgressGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsPendingRequestsTop"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toTopOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintEnd_toEndOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintStart_toStartOf="@+id/rvChildDetailPendingRequests" />
-
-            <View
-                android:id="@+id/vChildDetailsPendingRequestsBottom"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintStart_toStartOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailPendingRequests" />
-
-            <View
-                android:id="@+id/vChildDetailsPendingRequestsLeft"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintEnd_toStartOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailPendingRequests" />
-
-            <View
-                android:id="@+id/vChildDetailsPendingRequestsRight"
-                android:layout_width="1dp"
-                android:layout_height="0dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintStart_toEndOf="@+id/rvChildDetailPendingRequests"
-                app:layout_constraintTop_toTopOf="@+id/rvChildDetailPendingRequests" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider1-1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/cvChildDetailProfilePic" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider1-2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider1-1" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider2-1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailCompletedGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider2-2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider2-1" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider3-1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailInProgressGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider3-2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider3-1" />
-            />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabAllowance"

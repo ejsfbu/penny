@@ -103,11 +103,13 @@
     <string name="add_child">Link Another Child</string>
     <string name="cancel">Cancel</string>
     <string name="set_up_payment">Set Up Recurring Payments</string>
-    <string name="repeat">Repeat payment every</string>
+    <string name="repeat">Repeat every</string>
     <string name="delete_bank">Delete Bank</string>
     <string name="per_day"> per day</string>
     <string name="purchase_goal">Purchase Goal</string>
     <string name="auto_pay_amount">Payment Amount</string>
+    <string name="edit_end_date">Edit Goal End Date</string>
+    <string name="edit_goal_image">Change Goal Image</string>
     <string name="add_parent">Link Another Parent</string>
     <string name="approval_info">Approval Status Info</string>
     <string name="approval">Parent Approval</string>

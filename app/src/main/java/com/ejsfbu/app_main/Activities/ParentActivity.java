@@ -176,6 +176,40 @@ public class ParentActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (ibParentProfileBack.getVisibility() == View.VISIBLE) {
+            ibParentProfileBack.setVisibility(View.GONE);
+            ivParentProfilePic.setVisibility(View.VISIBLE);
+            cvParentProfilePic.setVisibility(View.VISIBLE);
+            Fragment childListFragment = new ChildListFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flParentContainer, childListFragment)
+                    .commit();
+        }
+        if (ibChildDetailBack.getVisibility() == View.VISIBLE) {
+            ibChildDetailBack.setVisibility(View.GONE);
+            Fragment childListFragment = new ChildListFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flParentContainer, childListFragment)
+                    .commit();
+        }
+        if (ibParentBanksListBack.getVisibility() == View.VISIBLE) {
+            ibParentBanksListBack.setVisibility(View.GONE);
+            Fragment parentProfileFragment = new ParentProfileFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flParentContainer, parentProfileFragment)
+                    .commit();
+        }
+        if (ibParentBankDetailsBack.getVisibility() == View.VISIBLE) {
+            ibParentBankDetailsBack.setVisibility(View.GONE);
+            Fragment bankListFragment = new BanksListFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flParentContainer, bankListFragment)
+                    .commit();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == BANK_REQUEST_CODE) {

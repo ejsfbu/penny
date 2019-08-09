@@ -66,54 +66,20 @@ public class ChildDetailFragment extends Fragment implements
 
     @BindView(R.id.rvChildDetailCompletedGoals)
     RecyclerView rvChildDetailCompletedGoals;
-    @BindView(R.id.vChildDetailsCompletedGoalsTop)
-    View vChildDetailsCompletedGoalsTop;
-    @BindView(R.id.vChildDetailsCompletedGoalsBottom)
-    View vChildDetailsCompletedGoalsBottom;
-    @BindView(R.id.vChildDetailsCompletedGoalsLeft)
-    View vChildDetailsCompletedGoalsLeft;
-    @BindView(R.id.vChildDetailsCompletedGoalsRight)
-    View vChildDetailsCompletedGoalsRight;
     @BindView(R.id.tvChildDetailsNoCompletedGoals)
     TextView tvChildDetailsNoCompletedGoals;
-
-    @BindView(R.id.vChildDetailsDoubleDivider2_1)
-    View vChildDetailsDoubleDivider2_1;
-    @BindView(R.id.vChildDetailsDoubleDivider2_2)
-    View vChildDetailsDoubleDivider2_2;
 
     @BindView(R.id.tvChildDetailInProgressGoals)
     TextView tvChildDetailInProgressGoals;
     @BindView(R.id.rvChildDetailInProgressGoals)
     RecyclerView rvChildDetailInProgressGoals;
-    @BindView(R.id.vChildDetailsInProgressGoalsTop)
-    View vChildDetailsInProgressGoalsTop;
-    @BindView(R.id.vChildDetailsInProgressGoalsBottom)
-    View vChildDetailsInProgressGoalsBottom;
-    @BindView(R.id.vChildDetailsInProgressGoalsLeft)
-    View vChildDetailsInProgressGoalsLeft;
-    @BindView(R.id.vChildDetailsInProgressGoalsRight)
-    View vChildDetailsInProgressGoalsRight;
     @BindView(R.id.tvChildDetailsNoInProgressGoals)
     TextView tvChildDetailsNoInProgressGoals;
-
-    @BindView(R.id.vChildDetailsDoubleDivider3_1)
-    View vChildDetailsDoubleDivider3_1;
-    @BindView(R.id.vChildDetailsDoubleDivider3_2)
-    View vChildDetailsDoubleDivider3_2;
 
     @BindView(R.id.tvChildDetailPendingRequests)
     TextView tvChildDetailPendingRequests;
     @BindView(R.id.rvChildDetailPendingRequests)
     RecyclerView rvChildDetailPendingRequests;
-    @BindView(R.id.vChildDetailsPendingRequestsTop)
-    View vChildDetailsPendingRequestsTop;
-    @BindView(R.id.vChildDetailsPendingRequestsBottom)
-    View vChildDetailsPendingRequestsBottom;
-    @BindView(R.id.vChildDetailsPendingRequestsLeft)
-    View vChildDetailsPendingRequestsLeft;
-    @BindView(R.id.vChildDetailsPendingRequestsRight)
-    View vChildDetailsPendingRequestsRight;
     @BindView(R.id.tvChildDetailsNoPendingRequests)
     TextView tvChildDetailsNoPendingRequests;
     @BindView(R.id.tvChildDetailAllowanceDisplay)
@@ -312,13 +278,15 @@ public class ChildDetailFragment extends Fragment implements
     public void loadCompletedGoals() {
         List<Goal> goals = child.getCompletedGoals();
         if (goals == null || goals.size() == 0) {
-            vChildDetailsCompletedGoalsBottom.setVisibility(GONE);
-            vChildDetailsCompletedGoalsLeft.setVisibility(GONE);
-            vChildDetailsCompletedGoalsRight.setVisibility(GONE);
-            vChildDetailsCompletedGoalsTop.setVisibility(GONE);
             tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
         } else {
-            completedGoals.addAll(goals);
+            if (goals.size() < 10) {
+                completedGoals.addAll(goals);
+            } else {
+                for (int i = 0; i < 10; i ++) {
+                    completedGoals.add(goals.get(i));
+                }
+            }
             Collections.sort(completedGoals);
             Collections.reverse(completedGoals);
             completedGoalsAdapter.notifyDataSetChanged();
@@ -329,13 +297,15 @@ public class ChildDetailFragment extends Fragment implements
         List<Goal> goals = child.getInProgressGoals();
         if (goals == null || goals.size() == 0) {
             rvChildDetailInProgressGoals.setMinimumHeight(20);
-            vChildDetailsInProgressGoalsBottom.setVisibility(GONE);
-            vChildDetailsInProgressGoalsLeft.setVisibility(GONE);
-            vChildDetailsInProgressGoalsRight.setVisibility(GONE);
-            vChildDetailsInProgressGoalsTop.setVisibility(GONE);
             tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
         } else {
-            inProgressGoals.addAll(goals);
+            if (goals.size() < 10) {
+                inProgressGoals.addAll(goals);
+            } else {
+                for (int i = 0; i < 10; i++) {
+                    inProgressGoals.add(goals.get(i));
+                }
+            }
             Collections.sort(completedGoals);
             inProgressGoalsAdapter.notifyDataSetChanged();
         }
@@ -350,13 +320,15 @@ public class ChildDetailFragment extends Fragment implements
                 if (e == null) {
                     if (objects.size() == 0) {
                         rvChildDetailPendingRequests.setMinimumHeight(20);
-                        vChildDetailsPendingRequestsBottom.setVisibility(GONE);
-                        vChildDetailsPendingRequestsLeft.setVisibility(GONE);
-                        vChildDetailsPendingRequestsRight.setVisibility(GONE);
-                        vChildDetailsPendingRequestsTop.setVisibility(GONE);
                         tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
                     } else {
-                        pendingRequests.addAll(objects);
+                        if (objects.size() < 5) {
+                            pendingRequests.addAll(objects);
+                        } else {
+                            for (int i = 0; i < 5; i ++) {
+                                pendingRequests.add(objects.get(i));
+                            }
+                        }
                         pendingRequestsAdapter.notifyDataSetChanged();
                     }
                 } else {
