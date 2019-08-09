@@ -11,6 +11,8 @@ import com.ejsfbu.app_main.Models.Request;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,5 +77,46 @@ public class BarcodeLookup {
         if (alertUser) {
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static void sendNotification() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        String key = "AIzaSyBQphjzAp3NxugR7gRJkaTZd1kuW89Aho8";
+        RequestParams params = new RequestParams();
+        params.add("key", key);
+        params.add("topic", "general");
+        params.add("notification", "body=Tester");
+        client.post(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
