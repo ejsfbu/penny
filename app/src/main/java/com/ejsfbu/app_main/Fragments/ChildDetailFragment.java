@@ -50,7 +50,7 @@ import butterknife.Unbinder;
 
 import static android.view.View.GONE;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Models.Allowance.getAllowances;
+import static com.ejsfbu.app_main.Models.Allowance.getAllAllowances;
 
 public class ChildDetailFragment extends Fragment implements AddAllowanceDialogFragment.AddAllowanceDialogListener {
 
@@ -227,22 +227,19 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
         loadInProgressGoals();
         loadPendingRequests();
 
-        childAllowances = getAllowances(child);
+        childAllowances = Allowance.getAllowance(child, parent);
         if (childAllowances.size() != 0) {
+            String display = formatAllowanceText(childAllowances.get(0));
             tvChildDetailAllowanceDisplay.setVisibility(View.VISIBLE);
-            tvChildDetailAllowanceDisplay.setText(formatAllowanceText());
-        } else {
+            tvChildDetailAllowanceDisplay.setText(display);
+        }
+        else {
             tvChildDetailAllowanceDisplay.setVisibility(View.GONE);
         }
     }
 
-    public String formatAllowanceText() {
-        for(Allowance a: childAllowances) {
-            if (a.getParent().equals(parent)) {
-                return a.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(a.getAllowanceAmount());
-            }
-        }
-        return "Error";
+    public String formatAllowanceText(Allowance allowance) {
+        return allowance.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(allowance.getAllowanceAmount());
     }
 
     @OnClick(R.id.fabAllowance)

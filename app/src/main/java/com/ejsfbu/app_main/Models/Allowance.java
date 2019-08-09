@@ -71,9 +71,16 @@ public class Allowance extends ParseObject {
             whereEqualTo(KEY_PARENT, parent);
             return this;
         }
+
+        public Allowance.Query findChildParent(ParseUser parent, ParseUser child) {
+            whereEqualTo(KEY_PARENT, parent);
+            whereEqualTo(KEY_CHILD, child);
+            return this;
+        }
+
     }
 
-    public static ArrayList<Allowance> getAllowances(User child) {
+    public static ArrayList<Allowance> getchildAllowances(User child) {
         ArrayList<Allowance> allowances = new ArrayList<>();
         Allowance.Query query = new Allowance.Query();
         query.findChild(child);
@@ -84,4 +91,18 @@ public class Allowance extends ParseObject {
         }
         return allowances;
     }
+
+    public static ArrayList<Allowance> getAllowance(User child, User parent) {
+        ArrayList<Allowance> specificAllowance = new ArrayList<>();
+        Allowance.Query query = new Allowance.Query();
+        query.findChild(child);
+        query.findParent(parent);
+        try {
+            specificAllowance.addAll(query.find());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return specificAllowance;
+    }
+
 }
