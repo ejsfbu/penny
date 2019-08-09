@@ -43,8 +43,6 @@ public class AddAllowanceDialogFragment extends DialogFragment {
 
     @BindView(R.id.tvAllowanceManagerTitle)
     TextView tvAllowanceManagerTitle;
-    @BindView(R.id.tvAllowanceManagerDescription)
-    TextView tvAllowanceManagerDescription;
     @BindView(R.id.spAllowanceBanks)
     Spinner spAllowanceBanks;
     @BindView(R.id.spAllowanceFrequency)

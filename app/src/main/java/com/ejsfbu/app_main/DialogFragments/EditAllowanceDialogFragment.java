@@ -37,9 +37,6 @@ public class EditAllowanceDialogFragment extends DialogFragment {
 
     @BindView(R.id.tvEditAllowanceManagerTitle)
     TextView tvEditAllowanceManagerTitle;
-    @BindView(R.id.tvEditAllowanceManagerDescription)
-    TextView tvEditAllowanceManagerDescription;
-
 
     @BindView(R.id.spEditAllowanceBanks)
     Spinner spEditAllowanceBanks;
