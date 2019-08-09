@@ -82,11 +82,11 @@ public class BarcodeLookup {
     public static void sendNotification() {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://fcm.googleapis.com/fcm/send";
-        String key = "AIzaSyBQphjzAp3NxugR7gRJkaTZd1kuW89Aho8";
         RequestParams params = new RequestParams();
-        params.add("key", key);
-        params.add("topic", "general");
+        //params.add("key", getApplicationContext().getResources().getString(R.string.firebase_key));
         params.add("notification", "body=Tester");
+        client.addHeader("Authorization", "key=" + getApplicationContext().getResources().getString(R.string.firebase_key));
+        client.addHeader("Content-Type", "application/json");
         client.post(url, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
