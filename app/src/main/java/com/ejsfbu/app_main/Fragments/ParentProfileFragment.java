@@ -74,8 +74,6 @@ public class ParentProfileFragment extends Fragment
     Button bParentProfileLogout;
     @BindView(R.id.bParentProfileBankInfo)
     Button bParentProfileBankInfo;
-    @BindView(R.id.bParentProfileAddChild)
-    Button bParentProfileAddChild;
 
     private User user;
     private Unbinder unbinder;

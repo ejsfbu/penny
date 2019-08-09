@@ -250,7 +250,7 @@ public class ProfileFragment extends Fragment
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .error(R.drawable.icon_user)
                             .transform(new CenterCrop())
-                            .transform(new CircleCrop())) // Extra: round image corners
+                            .transform(new CircleCrop()))
                     .into(ivProfileChildProfilePic);
         }
         tvProfileUsername.setText(user.getUsername());
