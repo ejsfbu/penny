@@ -51,6 +51,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.view.View.GONE;
+import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class ChildDetailFragment extends Fragment implements
         AddAllowanceDialogFragment.AddAllowanceDialogListener,
@@ -214,7 +215,7 @@ public class ChildDetailFragment extends Fragment implements
         }
     }
 
-    public String formatAllowanceText(Allowance allowance) {
+    public static String formatAllowanceText(Allowance allowance) {
         return allowance.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(allowance.getAllowanceAmount());
     }
 
@@ -280,6 +281,7 @@ public class ChildDetailFragment extends Fragment implements
         if (goals == null || goals.size() == 0) {
             tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
         } else {
+            completedGoals.clear();
             if (goals.size() < 10) {
                 completedGoals.addAll(goals);
             } else {
@@ -299,6 +301,7 @@ public class ChildDetailFragment extends Fragment implements
             rvChildDetailInProgressGoals.setMinimumHeight(20);
             tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
         } else {
+            inProgressGoals.clear();
             if (goals.size() < 10) {
                 inProgressGoals.addAll(goals);
             } else {
@@ -322,6 +325,7 @@ public class ChildDetailFragment extends Fragment implements
                         rvChildDetailPendingRequests.setMinimumHeight(20);
                         tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
                     } else {
+                        pendingRequests.clear();
                         if (objects.size() < 5) {
                             pendingRequests.addAll(objects);
                         } else {

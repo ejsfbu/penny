@@ -31,6 +31,7 @@ import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ViewAllowanceDialog;
 import com.ejsfbu.app_main.DialogFragments.ReferFriendDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -114,6 +115,8 @@ public class ProfileFragment extends Fragment
     TextView tvProfileParentName3;
     @BindView(R.id.tvProfileParentName4)
     TextView tvProfileParentName4;
+    @BindView(R.id.bProfileViewAllowance)
+    Button bProfileViewAllowance;
 
     private Unbinder unbinder;
     private User user;
@@ -198,6 +201,15 @@ public class ProfileFragment extends Fragment
                 .replace(R.id.flMainContainer, bankFragment).commit();
     }
 
+    @OnClick(R.id.bProfileViewAllowance)
+    public void onClickViewAllowance() {
+        showViewAllowanceDialog();
+    }
+
+    private void showViewAllowanceDialog(){
+        ViewAllowanceDialog viewAllowanceDialog = ViewAllowanceDialog.newInstance("View Allowance");
+        viewAllowanceDialog.show(MainActivity.fragmentManager, "fragment_view_allowance");
+   
     private void showReferFriendDialog() {
         ReferFriendDialogFragment referFriendDialogFragment
                 = ReferFriendDialogFragment.newInstance("Refer Friend");
