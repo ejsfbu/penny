@@ -34,8 +34,9 @@ public class ShortBadgeRow {
         this.badge3 = badge3;
     }
 
-    public static void makeShortBadgeRows(List<Reward> rewards, ShortBadgeRowAdapter shortBadgeRowAdapter,
-                                     List<ShortBadgeRow> shortBadgeRows) {
+    public static void makeShortBadgeRows(List<Reward> rewards,
+                                          ShortBadgeRowAdapter shortBadgeRowAdapter,
+                                          List<ShortBadgeRow> shortBadgeRows) {
         for (int i = 0; i < rewards.size() - (rewards.size() % 3); i += 3) {
             ShortBadgeRow shortBadgeRow = new ShortBadgeRow();
             shortBadgeRow.setBadge1(rewards.get(i));

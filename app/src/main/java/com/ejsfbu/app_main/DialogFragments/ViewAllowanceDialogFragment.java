@@ -11,34 +11,30 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.ejsfbu.app_main.Fragments.ChildDetailFragment;
+import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Models.Allowance;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.ejsfbu.app_main.Fragments.ChildDetailFragment.formatAllowanceText;
-
-public class ViewAllowanceDialog extends DialogFragment{
+public class ViewAllowanceDialogFragment extends DialogFragment {
 
 
     private ArrayList<Allowance> allowances;
@@ -56,16 +52,17 @@ public class ViewAllowanceDialog extends DialogFragment{
     Button bViewAllowanceBack;
 
 
-    public ViewAllowanceDialog() {
+    public ViewAllowanceDialogFragment() {
 
     }
 
-    public static ViewAllowanceDialog newInstance(String title) {
-        ViewAllowanceDialog viewAllowanceDialog = new ViewAllowanceDialog();
+    public static ViewAllowanceDialogFragment newInstance(String title) {
+        ViewAllowanceDialogFragment viewAllowanceDialogFragment
+                = new ViewAllowanceDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
-        viewAllowanceDialog.setArguments(args);
-        return viewAllowanceDialog;
+        viewAllowanceDialogFragment.setArguments(args);
+        return viewAllowanceDialogFragment;
     }
 
     @Nullable
@@ -82,7 +79,7 @@ public class ViewAllowanceDialog extends DialogFragment{
         unbinder = ButterKnife.bind(this, view);
 
         user = (User) ParseUser.getCurrentUser();
-        allowances = Allowance.getchildAllowances(user);
+        allowances = Allowance.getChildAllowances(user);
         tvViewAllowanceDisplay.setVisibility(View.GONE);
 
         setSpinner();
@@ -92,7 +89,7 @@ public class ViewAllowanceDialog extends DialogFragment{
     public void setSpinner() {
         ArrayList<String> parents = new ArrayList<>();
         parents.add("Select Parent");
-        for (User parent: user.getParents()) {
+        for (User parent : user.getParents()) {
             parents.add(parent.getName());
         }
 
@@ -107,26 +104,37 @@ public class ViewAllowanceDialog extends DialogFragment{
                     tvViewAllowanceDisplay.setVisibility(View.VISIBLE);
                     ArrayList<User> parent = new ArrayList<>();
                     User.Query findParent = new User.Query();
-                    findParent.whereEqualTo(User.KEY_NAME, (String) spViewAllowanceParents.getItemAtPosition(i));
+                    findParent.whereEqualTo(User.KEY_NAME,
+                            (String) spViewAllowanceParents.getItemAtPosition(i));
                     try {
                         parent.addAll(findParent.find());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    ArrayList<Allowance> currentAllowance = Allowance.getAllowance(user, parent.get(0));
+                    ArrayList<Allowance> currentAllowance
+                            = Allowance.getAllowance(user, parent.get(0));
                     if (currentAllowance.size() != 0) {
-                        tvViewAllowanceDisplay.setText(formatAllowanceText(currentAllowance.get(0)));
+                        tvViewAllowanceDisplay.setText(
+                                formatAllowanceText(currentAllowance.get(0)));
                     } else {
-                        tvViewAllowanceDisplay.setText(parent.get(0).getName() + " has not set up an allowance for you. Check again later.");
+                        tvViewAllowanceDisplay.setText(parent.get(0).getName()
+                                + " has not set up an allowance for you. Check again later.");
                     }
 
                 } else {
                     tvViewAllowanceDisplay.setVisibility(View.GONE);
                 }
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
+    }
+
+    public String formatAllowanceText(Allowance allowance) {
+        return allowance.getAllowanceFrequency() + " Allowance of "
+                + GoalDetailsFragment.formatCurrency(allowance.getAllowanceAmount());
     }
 
     public void setButtons() {

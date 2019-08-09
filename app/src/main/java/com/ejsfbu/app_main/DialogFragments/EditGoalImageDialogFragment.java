@@ -112,14 +112,13 @@ public class EditGoalImageDialogFragment extends DialogFragment {
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_user)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_user)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(context)
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_user)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .error(R.drawable.icon_user)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivPrevGoalImage);
         }
     }
@@ -137,7 +136,8 @@ public class EditGoalImageDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 ParseFile parseFile;
                 if (photoFile == null || ivPrevGoalImage.getDrawable() == null) {
-                    Toast.makeText(context, "Please upload or take a photo", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Please upload or take a photo",
+                            Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     parseFile = new ParseFile(photoFile);
@@ -148,10 +148,10 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            Toast.makeText(context, "Goal Photo has been updated!", Toast.LENGTH_LONG).show();
                             sendBackResult();
                         } else {
-                            Toast.makeText(context, "Failed! Goal Photo has not been updated!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Failed to Update Photo",
+                                    Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -164,12 +164,9 @@ public class EditGoalImageDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 requestPerms();
-                // Create intent for picking a photo from the gallery
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
                 if (intent.resolveActivity(context.getPackageManager()) != null) {
                     // Bring up gallery to select a photo
                     startActivityForResult(intent, PICK_PHOTO_CODE);
@@ -181,17 +178,12 @@ public class EditGoalImageDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Create a File reference to access to future access
                 photoFile = getPhotoFileUri(photoFileName, context);
 
-                // wrap File object into a content provider
-                // required for API >= 24
-                // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-                Uri fileProvider = FileProvider.getUriForFile(context, "com.codepath.fileprovider", photoFile);
+                Uri fileProvider = FileProvider.getUriForFile(context,
+                        "com.codepath.fileprovider", photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                // So as long as the result is not null, it's safe to use the intent.
                 if (intent.resolveActivity(context.getPackageManager()) != null) {
                     // Start the image capture intent to take photo
                     startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -200,8 +192,6 @@ public class EditGoalImageDialogFragment extends DialogFragment {
         });
     }
 
-
-    // Call this method to send the data back to the parent fragment
     public void sendBackResult() {
         ArrayList<Fragment> fragments = (ArrayList<Fragment>) getFragmentManager().getFragments();
         String fragmentTag = fragments.get(1).getTag();
@@ -240,7 +230,8 @@ public class EditGoalImageDialogFragment extends DialogFragment {
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     resizedBitmap.compress(Bitmap.CompressFormat.JPEG,
                             40, bytes);
-                    File resizedFile = getPhotoFileUri(photoFileName + "_resized", context);
+                    File resizedFile = getPhotoFileUri(
+                            photoFileName + "_resized", context);
                     resizedFile.createNewFile();
                     FileOutputStream fos = new FileOutputStream(resizedFile);
                     fos.write(bytes.toByteArray());

@@ -38,7 +38,8 @@ public class BankAdapter extends RecyclerView.Adapter<BankAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_bank, parent, false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.item_bank, parent, false);
         return new BankAdapter.ViewHolder(view);
     }
 

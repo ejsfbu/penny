@@ -32,7 +32,8 @@ import butterknife.Unbinder;
 
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
-public class BankDetailsFragment extends Fragment implements RemoveBankDialogFragment.RemoveBankDialogListener {
+public class BankDetailsFragment extends Fragment
+        implements RemoveBankDialogFragment.RemoveBankDialogListener {
 
     @BindView(R.id.ivBankDetailsBankImage)
     ImageView ivBankDetailsBankImage;
@@ -103,8 +104,6 @@ public class BankDetailsFragment extends Fragment implements RemoveBankDialogFra
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(context, "Bank account removed.",
-                            Toast.LENGTH_LONG).show();
                     Fragment fragment = new BanksListFragment();
                     fragmentManager.beginTransaction()
                             .replace(R.id.flMainContainer, fragment).commit();

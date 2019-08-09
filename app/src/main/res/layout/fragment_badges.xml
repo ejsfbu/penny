@@ -20,14 +20,15 @@
                 android:id="@+id/tvNoCompletedGoalsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="8dp"
-                android:text="No completed goals yet"
+                android:text="@string/no_completed_goals_child"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/rvRewardsCompletedGoals"
-                app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toStartOf="@+id/rvRewardsCompletedGoals"
-                app:layout_constraintTop_toTopOf="@+id/rvRewardsCompletedGoals" />
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsCompletedGoalsTitle" />
 
             <TextView
                 android:id="@+id/tvRewardsCompletedGoalsTitle"
@@ -36,7 +37,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/completed_goals"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +45,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRewardsCompletedGoals"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
@@ -59,10 +60,24 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/completed_badges"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvRewardsCompletedGoals" />
+
+            <TextView
+                android:id="@+id/tvNoCompletedBadgesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/no_completed_badges"
+                android:textColor="@color/black"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsCompletedBadgesTitle" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRewardsCompletedBadges"
@@ -82,10 +97,24 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/in_progress_badges"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvRewardsCompletedBadges" />
+
+            <TextView
+                android:id="@+id/tvNoInProgressBadgesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/no_in_progress_badges"
+                android:textColor="@color/black"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRewardsInProgressBadgesTitle" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRewardsInProgressBadges"

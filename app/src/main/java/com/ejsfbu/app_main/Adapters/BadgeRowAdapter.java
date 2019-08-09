@@ -16,10 +16,10 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.DialogFragments.RewardDetailDialogFragment;
-import com.ejsfbu.app_main.Models.User;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Reward;
+import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -39,7 +39,8 @@ public class BadgeRowAdapter extends RecyclerView.Adapter<BadgeRowAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_badge_row, parent, false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.item_badge_row, parent, false);
         return new ViewHolder(view);
     }
 

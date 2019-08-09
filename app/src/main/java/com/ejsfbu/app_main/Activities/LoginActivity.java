@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -94,9 +94,9 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "Login Failure");
+                    Toast.makeText(LoginActivity.this, "Login Failure",
+                            Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, e.getMessage());
                     e.printStackTrace();
                 }
             }

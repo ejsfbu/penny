@@ -80,23 +80,20 @@ public class EditGoalNameDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 final String goalName = newName.getText().toString();
                 if (goalName.equals("")) {
-                    Toast.makeText(context, "Please enter a new goal name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Please enter a new goal name",
+                            Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                if (goalName.equals(currentGoal.getName())) {
-                    Toast.makeText(context, "This is the same goal name. Please enter a new goal name", Toast.LENGTH_LONG).show();
-                    return;
-                }
                 currentGoal.setName(goalName);
                 currentGoal.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            Toast.makeText(context, "Successful!", Toast.LENGTH_LONG).show();
                             sendBackResult();
                         } else {
-                            Toast.makeText(context, "Failure!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Failed to Update Goal Name",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -116,7 +113,7 @@ public class EditGoalNameDialogFragment extends DialogFragment {
         int fragmentId = fragments.get(1).getId();
         EditGoalNameDialogListener listener;
         listener = (EditGoalNameDialogListener) getFragmentManager()
-                    .findFragmentById(fragmentId);
+                .findFragmentById(fragmentId);
         listener.onFinishEditThisDialog();
         dismiss();
     }

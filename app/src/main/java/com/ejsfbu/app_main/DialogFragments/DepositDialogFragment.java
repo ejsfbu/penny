@@ -1,7 +1,6 @@
 package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -23,15 +22,13 @@ import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Fragments.AddBankFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ejsfbu.app_main.Fragments.GoalDetailsFragment.BANK_REQUEST_CODE;
 
 public class DepositDialogFragment extends DialogFragment {
 
@@ -49,7 +46,8 @@ public class DepositDialogFragment extends DialogFragment {
 
     }
 
-    public static DepositDialogFragment newInstance(String title, Double amountLeft, Double depositLimit) {
+    public static DepositDialogFragment newInstance(String title, Double amountLeft,
+                                                    Double depositLimit) {
         DepositDialogFragment frag = new DepositDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -129,7 +127,7 @@ public class DepositDialogFragment extends DialogFragment {
             String amountString = etDepositAmount.getText().toString();
             Double amount;
             if (amountString.equals("")) {
-                Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please enter a value.", Toast.LENGTH_SHORT).show();
                 return;
             } else {
                 amount = Double.valueOf(amountString);
@@ -145,7 +143,8 @@ public class DepositDialogFragment extends DialogFragment {
                 return;
             }
             if (amount > depositLimit) {
-                Toast.makeText(context, "Amount exceeds remaining cost including pending transactions.",
+                Toast.makeText(context,
+                        "Amount exceeds remaining cost including pending transactions.",
                         Toast.LENGTH_SHORT).show();
                 return;
             }

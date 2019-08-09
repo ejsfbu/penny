@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/status"
+        android:text="@string/status_title"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivRewardDetailBadgeImage"
         app:layout_constraintTop_toBottomOf="@+id/tvRewardDetailBadgeDescription" />

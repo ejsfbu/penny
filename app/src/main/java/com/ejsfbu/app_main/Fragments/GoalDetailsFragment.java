@@ -1,7 +1,6 @@
 package com.ejsfbu.app_main.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,12 +62,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static android.app.Activity.RESULT_OK;
 import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
-import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
 
 public class GoalDetailsFragment extends Fragment implements
@@ -183,7 +180,7 @@ public class GoalDetailsFragment extends Fragment implements
         tvGoalDetailsName.setText(goal.getName());
         String goalEndDate = formatDate(goal.getEndDate().toString());
 
-        if(goal.getCompleted()) {
+        if (goal.getCompleted()) {
             tvGoalDetailsDateCompletedTitle.setText("Date Completed:");
             tvGoalDetailsCompletionDate.setText(goalEndDate);
             tvGoalDetailsAmountSavedTitle.setVisibility(View.GONE);
@@ -223,7 +220,8 @@ public class GoalDetailsFragment extends Fragment implements
         if (goal.getHasAutoPayment()) {
             tvAutoPayFrequency.setVisibility(View.VISIBLE);
             tvAutoPaymentText.setVisibility(View.VISIBLE);
-            formatAutoPayText(goal.getAutoPayTimesFrequencyIsRepeated(), goal.getAutoPayFrequency());
+            formatAutoPayText(goal.getAutoPayTimesFrequencyIsRepeated(),
+                    goal.getAutoPayFrequency());
         } else {
             tvAutoPayFrequency.setVisibility(View.GONE);
             tvAutoPaymentText.setVisibility(View.GONE);
@@ -243,14 +241,13 @@ public class GoalDetailsFragment extends Fragment implements
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            options.placeholder(R.drawable.icon_target)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .error(R.drawable.icon_target)
-                    .transform(new CenterCrop())
-                    .transform(new CircleCrop());
             Glide.with(getContext())
                     .load(imageUrl)
-                    .apply(options) // Extra: round image corners
+                    .apply(options.placeholder(R.drawable.icon_target)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                            .error(R.drawable.icon_target)
+                            .transform(new CenterCrop())
+                            .transform(new CircleCrop()))
                     .into(ivGoalDetailsImage);
         }
         calculateSavings();
@@ -302,7 +299,8 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(context, "Money transferred to bank for purchase.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Money transferred to bank for purchase.",
+                            Toast.LENGTH_LONG).show();
                     setGoalInfo();
                 } else {
                     e.printStackTrace();
@@ -316,14 +314,15 @@ public class GoalDetailsFragment extends Fragment implements
         if (goal.getTransactions().size() == 0) {
             limit = Double.MAX_VALUE;
         } else {
-            for (Transaction transaction: goal.getTransactions()) {
+            for (Transaction transaction : goal.getTransactions()) {
                 limit += transaction.getAmount();
             }
             limit = goal.getCost() - limit;
         }
 
         DepositDialogFragment depositDialogFragment
-                = DepositDialogFragment.newInstance("Deposit", goal.getCost() - goal.getSaved(), limit);
+                = DepositDialogFragment.newInstance("Deposit", 
+                goal.getCost() - goal.getSaved(), limit);
         if (!user.getIsParent()) {
             depositDialogFragment.show(MainActivity.fragmentManager,
                     "fragment_deposit");
@@ -335,7 +334,8 @@ public class GoalDetailsFragment extends Fragment implements
 
 
     @Override
-    public void onFinishSetUpAutoPaymentDialog(String bankName, Double amount, String timesRepeated, String frequency) {
+    public void onFinishSetUpAutoPaymentDialog(String bankName, Double amount,
+                                               String timesRepeated, String frequency) {
         goal.setHasAutoPayment(true);
         goal.setAutoPayAmount(amount);
         goal.setAutoPayFrequency(frequency);
@@ -361,7 +361,7 @@ public class GoalDetailsFragment extends Fragment implements
             frequencyDisplay.append("Every " + timesRepeated + " " + frequency.toLowerCase());
         }
         String formatCurr = formatCurrency(Double.valueOf(goal.getAutoPayAmount()));
-        tvAutoPayFrequency.setText(frequencyDisplay.toString() + " (" + formatCurr +")");
+        tvAutoPayFrequency.setText(frequencyDisplay.toString() + " (" + formatCurr + ")");
     }
 
     @Override
@@ -378,7 +378,8 @@ public class GoalDetailsFragment extends Fragment implements
         } else {
             approval = true;
         }
-        Transaction transaction = new Transaction(user, bankSet, amount, goal, approval, false);
+        Transaction transaction = new Transaction(
+                user, bankSet, amount, goal, approval, false);
         // TODO SET ACL CHANGE LATER
         ParseACL acl = new ParseACL(user);
         acl.setPublicWriteAccess(true);
@@ -438,7 +439,8 @@ public class GoalDetailsFragment extends Fragment implements
                     loadTransactions();
                     setGoalInfo();
                     if (transaction.getApproval()) {
-                        Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Deposit complete.",
+                                Toast.LENGTH_SHORT).show();
                         checkCompleted(goal);
                     }
                 } else {
@@ -466,7 +468,8 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Parent notified for approval.",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -481,8 +484,9 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     private void showCancelGoalDialog() {
-        CancelGoalDialogFragment cancel = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
-        cancel.show(getFragmentManager(), "fragment_cancel_goal");
+        CancelGoalDialogFragment cancel
+                = CancelGoalDialogFragment.newInstance("Cancel Goal", goal);
+        cancel.show(fragmentManager, "fragment_cancel_goal");
     }
 
     @OnClick(R.id.ivEditGoalName)
@@ -491,18 +495,20 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     private void showEditGoalNameDialog() {
-        EditGoalNameDialogFragment editName = EditGoalNameDialogFragment.newInstance("Edit Goal Name", goal);
-        editName.show(getFragmentManager(), "fragment_edit_goal_name");
+        EditGoalNameDialogFragment editName
+                = EditGoalNameDialogFragment.newInstance("Edit Goal Name", goal);
+        editName.show(fragmentManager, "fragment_edit_goal_name");
     }
 
     @OnClick(R.id.bGoalDetailsAutoPay)
-    public void onClickAutoPay(){
+    public void onClickAutoPay() {
         showSetUpAutoPaymentDialogFragment();
     }
 
     private void showSetUpAutoPaymentDialogFragment() {
-        SetUpAutoPaymentDialogFragment fragment = SetUpAutoPaymentDialogFragment.newInstance(goal, user);
-        fragment.show(getFragmentManager(), "fragment_automatic_payment");
+        SetUpAutoPaymentDialogFragment fragment
+                = SetUpAutoPaymentDialogFragment.newInstance(goal, user);
+        fragment.show(fragmentManager, "fragment_automatic_payment");
     }
 
     @OnClick(R.id.tvGoalDetailEdit)
@@ -518,8 +524,9 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     private void showEditGoalImageDialog() {
-        EditGoalImageDialogFragment editImage = EditGoalImageDialogFragment.newInstance("Edit Goal Image", goal);
-        editImage.show(getFragmentManager(), "fragment_edit_goal_image");
+        EditGoalImageDialogFragment editImage
+                = EditGoalImageDialogFragment.newInstance("Edit Goal Image", goal);
+        editImage.show(fragmentManager, "fragment_edit_goal_image");
     }
 
     @OnClick(R.id.ivEditGoalDate)
@@ -528,8 +535,9 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     private void showEditGoalEndDateDialog() {
-        EditGoalEndDateDialogFragment editDate = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
-        editDate.show(getFragmentManager(), "fragment_edit_goal_end_date");
+        EditGoalEndDateDialogFragment editDate
+                = EditGoalEndDateDialogFragment.newInstance("Edit Goal End Date", goal);
+        editDate.show(fragmentManager, "fragment_edit_goal_end_date");
     }
 
     private void showEarnedBadgeDialogFragment() {
@@ -566,7 +574,7 @@ public class GoalDetailsFragment extends Fragment implements
                         if (goal.getCost() <= 10.00) {
                             user.setSmallGoals(user.getSmallGoals() + 1);
                         }
-                        if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00) ) {
+                        if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00)) {
                             user.setMediumGoals(user.getMediumGoals() + 1);
                         }
                         if (goal.getCost() >= 100.00) {
@@ -604,11 +612,15 @@ public class GoalDetailsFragment extends Fragment implements
         long diffInMonths = diffInDays / 30;
         dailySavingGoal = goal.getDailySavings();
         weeklySavingGoal = dailySavingGoal * 7;
-        if (weeklySavingGoal > (goal.getCost() - goal.getSaved())) { weeklySavingGoal = goal.getCost() - goal.getSaved(); }
+        if (weeklySavingGoal > (goal.getCost() - goal.getSaved())) {
+            weeklySavingGoal = goal.getCost() - goal.getSaved();
+        }
         monthlySavingGoal = dailySavingGoal * 30;
-        if (monthlySavingGoal > (goal.getCost() - goal.getSaved())) { monthlySavingGoal = goal.getCost() - goal.getSaved(); }
+        if (monthlySavingGoal > (goal.getCost() - goal.getSaved())) {
+            monthlySavingGoal = goal.getCost() - goal.getSaved();
+        }
         Double onTrackAmount = diffInDays * dailySavingGoal;
-        if(goal.getSaved() >= onTrackAmount) {
+        if (goal.getSaved() >= onTrackAmount) {
             if (goal.getCompleted()) {
                 tvGoalDetailStatus.setText("Completed");
                 tvGoalDetailStatus.setTextColor(context
@@ -630,7 +642,8 @@ public class GoalDetailsFragment extends Fragment implements
     private void setSpinnerOnClick() {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView,
+                                       View selectedItemView, int position, long id) {
                 if (position == 0) {
                     String amount = formatCurrency(dailySavingGoal) + " per day";
                     tvGoalDetailReccomendedSaving.setText(amount);

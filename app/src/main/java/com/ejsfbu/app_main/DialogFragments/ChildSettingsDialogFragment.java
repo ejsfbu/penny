@@ -1,8 +1,6 @@
 package com.ejsfbu.app_main.DialogFragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -24,7 +22,6 @@ import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -59,7 +56,8 @@ public class ChildSettingsDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = getContext();
         return inflater.inflate(R.layout.fragment_child_settings, container);
     }
@@ -70,7 +68,8 @@ public class ChildSettingsDialogFragment extends DialogFragment {
         parent = (User) ParseUser.getCurrentUser();
         child = getArguments().getParcelable("child");
 
-        tvChildSettingsRequireApprovalStatusInfo = view.findViewById(R.id.tvChildSettingsRequireApprovalStatusInfo);
+        tvChildSettingsRequireApprovalStatusInfo
+                = view.findViewById(R.id.tvChildSettingsRequireApprovalStatusInfo);
         bChildSettingsRequireApproval = view.findViewById(R.id.bChildSettingsRequireApproval);
         bChildSettingsUnlinkChild = view.findViewById(R.id.bChildSettingsUnlinkChild);
 

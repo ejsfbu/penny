@@ -1,7 +1,6 @@
 package com.ejsfbu.app_main.DialogFragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -21,12 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.ejsfbu.app_main.Activities.ParentActivity;
-import com.ejsfbu.app_main.Adapters.ChildAdapter;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -43,8 +37,6 @@ public class AddAllowanceDialogFragment extends DialogFragment {
 
     @BindView(R.id.tvAllowanceManagerTitle)
     TextView tvAllowanceManagerTitle;
-    @BindView(R.id.tvAllowanceManagerDescription)
-    TextView tvAllowanceManagerDescription;
     @BindView(R.id.spAllowanceBanks)
     Spinner spAllowanceBanks;
     @BindView(R.id.spAllowanceFrequency)
@@ -90,7 +82,8 @@ public class AddAllowanceDialogFragment extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = getContext();
         parent = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_add_allowance, container, false);
@@ -110,7 +103,8 @@ public class AddAllowanceDialogFragment extends DialogFragment {
 
                 String amountString = etAllowanceAmount.getText().toString();
                 if (amountString.equals("")) {
-                    Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please enter a value.",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     allowanceAmount = Double.valueOf(amountString);
@@ -131,11 +125,13 @@ public class AddAllowanceDialogFragment extends DialogFragment {
     }
 
     public interface AddAllowanceDialogListener {
-        void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child);
+        void onFinishAddAllowanceDialog(String bankName, Double allowance,
+                                        String frequency, User child);
     }
 
     public void sendBackResult() {
-        AddAllowanceDialogFragment.AddAllowanceDialogListener listener = (AddAllowanceDialogFragment.AddAllowanceDialogListener) getFragmentManager()
+        AddAllowanceDialogFragment.AddAllowanceDialogListener listener
+                = (AddAllowanceDialogFragment.AddAllowanceDialogListener) getFragmentManager()
                 .findFragmentById(R.id.flParentContainer);
         listener.onFinishAddAllowanceDialog(bankName, allowanceAmount, frequency, currentChild);
         Toast.makeText(context, "Allowance Created", Toast.LENGTH_LONG).show();

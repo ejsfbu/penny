@@ -81,7 +81,7 @@
     <string name="account_number">Account Number</string>
     <string name="confirm_account_number">Confirm Account Number</string>
     <string name="add_bank_account">Add Bank Account</string>
-    <string name="status">Status:</string>
+    <string name="status_title">Status:</string>
     <string name="edit_goal_name">Edit Goal Name</string>
     <string name="cancel_goal">Cancel Goal</string>
     <string name="badge_name">Badge Name</string>
@@ -116,7 +116,21 @@
     <string name="unlink_child">Unlink Child</string>
     <string name="child_settings">Child Settings</string>
     <string name="parent_settings">Parent Settings</string>
+    <string name="add_allowance">Add Allowance</string>
+    <string name="edit_allowance">Edit Allowance</string>
+    <string name="cancel_allowance">Cancel Allowance</string>
+    <string name="allowance_manager">Allowance Manager</string>
+    <string name="allowance_amount">Allowance Amount</string>
+    <string name="allowance_details">Allowance Details</string>
+    <string name="cancel_allowance_confirm">Are you sure you want to cancel this allowance?</string>
+    <string name="transfer_to_bank">Transfer to Bank</string>
+    <string name="transfer_to_goal">Transfer to Goal</string>
+    <string name="cancel_goal_money_title">What do you want to do with the money you saved towards this goal?</string>
+    <string name="no_completed_goals_child">No Completed Goals Yet. Keep Saving!</string>
+    <string name="no_completed_badges">No Completed Badges Yet. Keep Saving!</string>
+    <string name="no_in_progress_badges">You Completed All the Badges! Great Job!</string>
     <string name="refer_friend_info">Enter your friend\'s email below to invite them to use Penny!</string>
     <string name="inviter_info">Did a friend invite you to use Penny? Enter their code below!</string>
     <string name="inviter_code">Inviter Code</string>
+    <string name="allowance_info">Allowance Information</string>
 </resources>

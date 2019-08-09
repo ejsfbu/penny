@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Activities.ParentActivity;
-import com.ejsfbu.app_main.Fragments.BanksListFragment;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -52,7 +51,8 @@ public class AddBankFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         user = (User) ParseUser.getCurrentUser();
         /*user.setACL(new ParseACL(user));
@@ -154,8 +154,6 @@ public class AddBankFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(context, "Bank account added.",
-                            Toast.LENGTH_LONG).show();
                     Fragment banksListFragment = new BanksListFragment();
                     if (user.getIsParent()) {
                         ParentActivity.fragmentManager.beginTransaction()

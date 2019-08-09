@@ -19,13 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
+import com.ejsfbu.app_main.Models.BankAccount;
+import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.ejsfbu.app_main.Models.BankAccount;
-import com.ejsfbu.app_main.Models.Goal;
 import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -91,7 +90,7 @@ public class CancelGoalDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 user.removeInProgressGoal(cancelledGoal);
                 user.saveInBackground();
-                for (Transaction transaction: cancelledGoal.getTransactions()) {
+                for (Transaction transaction : cancelledGoal.getTransactions()) {
                     transaction.deleteInBackground();
                 }
                 cancelledGoal.deleteInBackground(new DeleteCallback() {
