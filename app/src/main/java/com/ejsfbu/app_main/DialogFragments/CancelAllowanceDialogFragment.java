@@ -72,21 +72,23 @@ public class CancelAllowanceDialogFragment extends DialogFragment {
         bCancelAllowance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Allowance deleteAllowance = Allowance.getAllowance(currentChild, currentParent).get(0);
-                deleteAllowance.deleteInBackground(new DeleteCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(context, "Successfully deleted", Toast.LENGTH_LONG).show();
-                            dismiss();
-                            return;
-                        } else {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                sendBackResult();
             }
         });
+    }
+
+    public interface CancelAllowanceDialogListener {
+        void onFinishCancelAllowanceDialog(Allowance allowance);
+    }
+
+    public void sendBackResult() {
+        CancelAllowanceDialogFragment.CancelAllowanceDialogListener listener = (CancelAllowanceDialogFragment.CancelAllowanceDialogListener) getFragmentManager()
+                .findFragmentById(R.id.flParentContainer);
+        Allowance deleteAllowance = Allowance.getAllowance(currentChild, currentParent).get(0);
+        listener.onFinishCancelAllowanceDialog(deleteAllowance);
+        Toast.makeText(context, "Successfully deleted", Toast.LENGTH_LONG).show();
+        dismiss();
+        return;
     }
 
     @Nullable

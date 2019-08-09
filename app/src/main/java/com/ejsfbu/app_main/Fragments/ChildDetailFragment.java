@@ -23,6 +23,7 @@ import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
 import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.AllowanceManagerDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.CancelAllowanceDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.Allowance;
@@ -55,7 +56,8 @@ import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 
 public class ChildDetailFragment extends Fragment implements
         AddAllowanceDialogFragment.AddAllowanceDialogListener,
-        EditAllowanceDialogFragment.EditAllowanceDialogListener {
+        EditAllowanceDialogFragment.EditAllowanceDialogListener,
+        CancelAllowanceDialogFragment.CancelAllowanceDialogListener{
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
@@ -262,6 +264,19 @@ public class ChildDetailFragment extends Fragment implements
     private void showEditAllowanceDialog() {
         AllowanceManagerDialogFragment editAllowance = AllowanceManagerDialogFragment.newInstance("Edit Allowance", child);
         editAllowance.show(getFragmentManager(), "fragment_edit_allowance");
+    }
+
+    public void onFinishCancelAllowanceDialog(Allowance allowance) {
+        allowance.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    fillData();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void loadCompletedGoals() {
