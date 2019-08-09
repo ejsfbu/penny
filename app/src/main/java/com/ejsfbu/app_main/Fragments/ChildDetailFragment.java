@@ -220,11 +220,14 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
 
         if (child.getHasAllowance()) {
             tvChildDetailAllowanceDisplay.setVisibility(View.VISIBLE);
-            //set the view to visible
-            //format the text too
+            tvChildDetailAllowanceDisplay.setText(formatAllowanceText());
         } else {
             tvChildDetailAllowanceDisplay.setVisibility(View.GONE);
         }
+    }
+
+    public String formatAllowanceText() {
+        return child.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(child.getAllowanceAmount());
     }
 
     @OnClick(R.id.fabAllowance)
@@ -305,19 +308,6 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
 
 
     public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency) {
-        child.setHasAllowance(true);
-        child.setAllowanceAmount(allowance);
-        child.setAllowanceFrequency(frequency);
-        child.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    fillData();
-                    return;
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+
     }
 }

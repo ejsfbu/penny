@@ -136,7 +136,7 @@ public class AddAllowanceDialogFragment extends DialogFragment {
 
     public void sendBackResult() {
         AddAllowanceDialogFragment.AddAllowanceDialogListener listener = (AddAllowanceDialogFragment.AddAllowanceDialogListener) getFragmentManager()
-                .findFragmentById(R.id.flMainContainer);
+                .findFragmentById(R.id.flParentContainer);
         listener.onFinishAddAllowanceDialog(bankName, allowanceAmount, frequency);
         Toast.makeText(context, "Allowance Created", Toast.LENGTH_LONG).show();
         dismiss();
