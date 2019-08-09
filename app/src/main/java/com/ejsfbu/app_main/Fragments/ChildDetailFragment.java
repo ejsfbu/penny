@@ -33,6 +33,7 @@ import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.google.android.gms.vision.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -55,7 +56,9 @@ import static android.view.View.GONE;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Models.Allowance.getAllAllowances;
 
-public class ChildDetailFragment extends Fragment implements AddAllowanceDialogFragment.AddAllowanceDialogListener {
+public class ChildDetailFragment extends Fragment implements
+        AddAllowanceDialogFragment.AddAllowanceDialogListener,
+        EditAllowanceDialogFragment.EditAllowanceDialogListener {
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
@@ -280,7 +283,7 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
 
     @OnClick(R.id.fabAllowance)
     public void onClickAllowance() {
-        if (child.getHasAllowance()) {
+        if (childAllowances.size()!= 0) {
             showEditAllowanceDialog();
         } else {
             showAddAllowanceDialog();
@@ -353,8 +356,7 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
             }
         });
     }
-
-
+          
     public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance newAllowance = new Allowance();
         newAllowance.setChild(child);
@@ -369,6 +371,35 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
                     fillData();
                 } else {
                     e.printStackTrace();
+                }
+            }
+        });
+    }
+          
+    public void onFinishEditAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
+        Allowance deleteAllowance = childAllowances.get(0);
+        deleteAllowance.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                   Allowance newAllowance = new Allowance();
+                   newAllowance.setChild(child);
+                   newAllowance.setParent(parent);
+                   newAllowance.setAllowanceAmount(allowance);
+                   newAllowance.setAllowanceFrequency(frequency);
+                   newAllowance.setParentBankName(bankName);
+                   newAllowance.saveInBackground(new SaveCallback() {
+                       @Override
+                       public void done(ParseException e) {
+                           if (e == null) {
+                               fillData();
+                           } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+
                 }
             }
         });
