@@ -170,8 +170,8 @@ public class GoalDetailsFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         user = (User) ParseUser.getCurrentUser();
-        user.setACL(new ParseACL(user));
-        user.saveInBackground();
+        /*user.setACL(new ParseACL(user));
+        user.saveInBackground();*/
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
@@ -345,7 +345,8 @@ public class GoalDetailsFragment extends Fragment implements
         } else {
             frequencyDisplay.append("Every " + timesRepeated + " " + frequency.toLowerCase());
         }
-        tvAutoPayFrequency.setText(frequencyDisplay.toString());
+        String formatCurr = formatCurrency(Double.valueOf(goal.getAutoPayAmount()));
+        tvAutoPayFrequency.setText(frequencyDisplay.toString() + " (" + formatCurr +")");
     }
 
     @Override

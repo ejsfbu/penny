@@ -50,7 +50,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ibChildDetailSettings"
                 app:layout_constraintStart_toEndOf="@+id/cvChildDetailProfilePic"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +58,6 @@
                 android:id="@+id/tvChildDetailAccountCodeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="@string/account_code"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
@@ -189,6 +188,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvChildDetailPendingRequests" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabAllowance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_iconfinder_finance_money_dollar_28_4057991"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvChildDetailAllowanceDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Monthly Allowance of $10.00"
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+                android:textColor="@color/coin_blue_pressed"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="@+id/tvChildDetailName"
+                app:layout_constraintTop_toBottomOf="@+id/tvChildDetailAccountCodeTitle" />
+
+            <ImageButton
+                android:id="@+id/ibChildDetailSettings"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_gear"
+                app:layout_constraintBottom_toBottomOf="@+id/tvChildDetailName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvChildDetailName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

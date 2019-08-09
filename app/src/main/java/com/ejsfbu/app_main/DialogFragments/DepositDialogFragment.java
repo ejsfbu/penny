@@ -162,7 +162,7 @@ public class DepositDialogFragment extends DialogFragment {
                 Fragment addBankFragment = new AddBankFragment();
                 MainActivity.fragmentManager.beginTransaction()
                         .replace(R.id.flMainContainer, addBankFragment)
-                .commit();
+                        .commit();
                 dismiss();
             });
         }

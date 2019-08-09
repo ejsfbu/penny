@@ -332,7 +332,7 @@ public class Goal extends ParseObject implements Comparable<Goal> {
             return this;
         }
 
-        public Query fromUser(com.ejsfbu.app_main.Models.User user) {
+        public Query fromUser(User user) {
             whereEqualTo(KEY_USER, user);
             return this;
         }

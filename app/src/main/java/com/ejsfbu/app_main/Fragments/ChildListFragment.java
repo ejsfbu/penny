@@ -14,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
+import com.ejsfbu.app_main.DialogFragments.AddChildDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -23,14 +27,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ChildListFragment extends Fragment {
+public class ChildListFragment extends Fragment implements AddChildDialogFragment.AddChildDialogListener {
 
     public static final String TAG = "ChildListFragment";
 
     @BindView(R.id.rvChildListChildren)
     RecyclerView rvChildListChildren;
+    @BindView(R.id.fabAddChild)
+    FloatingActionButton fabAddChild;
 
     private Unbinder unbinder;
     private Context context;
@@ -72,32 +79,35 @@ public class ChildListFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @OnClick(R.id.fabAddChild)
+    public void onClickAddChild() {
+        showAddChildDialog();
+    }
+
+    private void showAddChildDialog() {
+        AddChildDialogFragment addChildDialogFragment
+                = AddChildDialogFragment.newInstance("Add Child");
+        addChildDialogFragment.show(ParentActivity.fragmentManager, "fragment_add_child");
+    }
+
+    @Override
+    public void onFinishEditDialog() {
+        children.clear();
+        loadChildren();
+    }
+
     protected void loadChildren() {
-        List<User> children = user.getChildren();
-        if (children != null) {
-            this.children.addAll(children);
+        List<User> kids = user.getChildren();
+        if (kids != null) {
+            children.addAll(kids);
             adapter.notifyDataSetChanged();
         }
-        /*JSONArray jsonChildren = user.getChildren();
-        for (int i = 0; i < jsonChildren.length(); i++) {
-            try {
-                JSONObject jsonChild = (JSONObject) jsonChildren.get(i);
-                String childUserId = jsonChild.getString("objectId");
-                User.Query userQuery = new User.Query();
-                userQuery.whereEqualTo("objectId", childUserId);
-                userQuery.findInBackground(new FindCallback<User>() {
-                    @Override
-                    public void done(List<User> objects, ParseException e) {
-                        if (e == null) {
-                            User child = objects.get(0);
-                            children.add(child);
-                            adapter.notifyItemInserted(children.size() - 1);
-                        }
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }*/
+    }
+
+    public void showVerifyChildDialog() {
+        VerifyChildDialogFragment verifyChildDialogFragment
+                = VerifyChildDialogFragment.newInstance("Verify Child");
+        verifyChildDialogFragment.show(ParentActivity.fragmentManager,
+                "fragment_verify_child");
     }
 }

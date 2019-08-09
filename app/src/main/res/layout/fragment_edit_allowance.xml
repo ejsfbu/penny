@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvEditAllowanceManagerTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="Edit Allowance Manager"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEditAllowanceManagerDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Below, you can set up and manage allowances for your child(ren)."
+        app:layout_constraintEnd_toEndOf="@+id/tvEditAllowanceManagerTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvEditAllowanceManagerTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditAllowanceManagerTitle" />
+
+    <Button
+        android:id="@+id/bEditAllowance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/background_button_coin_blue"
+        android:text="Add Allowance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bEditAllowanceCancel"
+        app:layout_constraintTop_toBottomOf="@+id/etEditAllowancePaymentAmount" />
+
+    <Button
+        android:id="@+id/bEditAllowanceCancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_button_pig_pink"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toStartOf="@id/bEditAllowance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bEditAllowance" />
+
+    <Spinner
+        android:id="@+id/spEditAllowanceBanks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditAllowanceManagerDescription" />
+
+    <EditText
+        android:id="@+id/etEditAllowancePaymentAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_edit_text"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Allowance Amount"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/spEditAllowanceBanks"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/spEditAllowanceBanks"
+        app:layout_constraintTop_toBottomOf="@+id/spEditAllowanceFrequency" />
+
+    <Spinner
+        android:id="@+id/spEditAllowanceFrequency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/etEditAllowancePaymentAmount"
+        app:layout_constraintStart_toStartOf="@+id/etEditAllowancePaymentAmount"
+        app:layout_constraintTop_toBottomOf="@+id/spEditAllowanceBanks" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

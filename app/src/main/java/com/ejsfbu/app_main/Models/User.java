@@ -1,5 +1,7 @@
 package com.ejsfbu.app_main.Models;
 
+import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -40,14 +42,19 @@ public class User extends ParseUser {
     public static final String KEY_SMALL_GOALS = "smallGoals";
     public static final String KEY_MEDIUM_GOALS = "mediumGoals";
     public static final String KEY_BIG_GOALS = "bigGoals";
-
+    public static final String KEY_CHILD_RECENTLY_UPDATED = "childRecentlyUpdated";
+    public static final String KEY_RECENTLY_ADDED_PARENT = "recentlyAddedParent";
+    public static final String KEY_HAS_ALLOWANCE = "hasAllowance";
+    public static final String KEY_ALLOWANCE_AMOUNT = "allowance";
+    public static final String KEY_ALLOWANCE_FREQUENCY = "allowanceFrequency";
 
     public String getName() {
-        String name = "";
+        String name;
         try {
             name = fetchIfNeeded().getString(KEY_NAME);
         } catch (ParseException e) {
             e.printStackTrace();
+            name = "Error";
         }
         return name;
     }
@@ -98,12 +105,13 @@ public class User extends ParseUser {
         put(KEY_PASSWORD, password);
     }
 
-    public String getBirthday() {
-        String date = "";
+    public Date getBirthday() {
+        Date date;
         try {
-            date = fetchIfNeeded().getDate(KEY_BIRTHDAY).toString();
+            date = fetchIfNeeded().getDate(KEY_BIRTHDAY);
         } catch (ParseException e) {
             e.printStackTrace();
+            date = null;
         }
         return date;
     }
@@ -174,22 +182,52 @@ public class User extends ParseUser {
     }
 
     public List<User> getChildren() {
-        return getList(KEY_CHILDREN);
+        List<User> children;
+        try {
+            children = fetchIfNeeded().getList(KEY_CHILDREN);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            children = new ArrayList<>();
+        }
+        return children;
+    }
+
+    public void removeChild(User child) {
+        removeAll(KEY_CHILDREN, Collections.singleton(child));
+    }
+
+    public boolean getChildRecentlyUpdated() {
+        boolean recentlyUpdated;
+        try {
+            recentlyUpdated = fetchIfNeeded().getBoolean(KEY_CHILD_RECENTLY_UPDATED);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            recentlyUpdated = false;
+        }
+        return recentlyUpdated;
+    }
+
+    public void setChildRecentlyUpdated(boolean recentlyUpdated) {
+        put(KEY_CHILD_RECENTLY_UPDATED, recentlyUpdated);
     }
 
     public void addParent(User parent) {
         addAllUnique(KEY_PARENTS, Collections.singleton(parent));
     }
 
-    public JSONArray getParents() {
-        JSONArray parents;
+    public List<User> getParents() {
+        List<User> parents;
         try {
-            parents = fetchIfNeeded().getJSONArray(KEY_PARENTS);
+            parents = fetchIfNeeded().getList(KEY_PARENTS);
         } catch (ParseException e) {
             e.printStackTrace();
-            parents = null;
+            parents = new ArrayList<>();
         }
         return parents;
+    }
+
+    public void removeParent(User parent) {
+        removeAll(KEY_PARENTS, Collections.singleton(parent));
     }
 
     public List<BankAccount> getBanks() {
@@ -199,7 +237,6 @@ public class User extends ParseUser {
         } catch (ParseException e) {
             e.printStackTrace();
             banks = new ArrayList<>();
-            ;
         }
         return banks;
     }
@@ -382,11 +419,11 @@ public class User extends ParseUser {
                         if (goal.getCost() <= 10.00) {
                             setSmallGoals(getSmallGoals() + 1);
                         }
-                        if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00) ) {
+                        if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00)) {
                             setMediumGoals(getMediumGoals() + 1);
                         }
                         if (goal.getCost() >= 100.00) {
-                            setBigGoals(getBigGoals()+ 1);
+                            setBigGoals(getBigGoals() + 1);
                         }
                         addCompletedGoal(goal);
                     }
@@ -407,6 +444,88 @@ public class User extends ParseUser {
         return hasUpdatedGoals;
     }
 
+    public void checkChildrenCorrect() {
+        Query query = new Query();
+        query.whereContainedIn(KEY_PARENTS, Collections.singleton(this));
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> queriedChildren, ParseException e) {
+                if (e == null) {
+                    List<User> listChildren = getChildren();
+                    if (queriedChildren.size() > listChildren.size()) {
+                        addNewChild(queriedChildren, listChildren);
+                    }
+                }
+            }
+        });
+        setChildRecentlyUpdated(false);
+    }
+
+    public void addNewChild(List<User> queriedChildren, List<User> listChildren) {
+        for (int i = 0; i < queriedChildren.size(); i++) {
+            String queriedChildId = queriedChildren.get(i).getObjectId();
+            boolean found = false;
+            for (int j = 0; j < listChildren.size(); j++) {
+                String listChildId = listChildren.get(j).getObjectId();
+                if (queriedChildId.equals(listChildId)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                User child = queriedChildren.get(i);
+                addChild(child);
+
+                /*ParseACL parseACL = new ParseACL();
+                parseACL.setReadAccess(child.getObjectId(), true);
+                setACL(parseACL);*/
+            }
+        }
+    }
+
+    public void addNewParent(List<User> queriedParents, List<User> listParents) {
+        for (int i = 0; i < queriedParents.size(); i++) {
+            String queriedParentId = queriedParents.get(i).getObjectId();
+            boolean found = false;
+            for (int j = 0; j < listParents.size(); j++) {
+                String listParentId = listParents.get(j).getObjectId();
+                if (queriedParentId.equals(listParentId)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                User parent = queriedParents.get(i);
+                addParent(parent);
+
+                /*ParseACL parseACL = new ParseACL();
+                parseACL.setReadAccess(parent.getObjectId(), true);
+                parseACL.setWriteAccess(parent.getObjectId(), true);
+                setACL(parseACL);*/
+            }
+        }
+    }
+
+    public void unlinkParent(List<User> queriedParents, List<User> listParents) {
+        for (int i = 0; i < listParents.size(); i++) {
+            String listParentId = listParents.get(i).getObjectId();
+            boolean found = false;
+            for (int j = 0; j < queriedParents.size(); i++) {
+                String queriedParentId = queriedParents.get(j).getObjectId();
+                if (listParentId.equals(queriedParentId)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                User parent = listParents.get(i);
+                removeParent(parent);
+
+                /*ParseACL parseACL = new ParseACL();
+                parseACL.setReadAccess(parent.getObjectId(), false);
+                parseACL.setWriteAccess(parent.getObjectId(), false);
+                setACL(parseACL);*/
+            }
+        }
+    }
+
     public int getEarlyGoals() {
         int num;
         try {
@@ -422,41 +541,42 @@ public class User extends ParseUser {
         put(KEY_EARLY_GOALS, earlyGoals);
     }
 
+    public void setRecentlyAddedParent(boolean recentlyAddedParent) {
+        put(KEY_RECENTLY_ADDED_PARENT, recentlyAddedParent);
+    }
+
+    public boolean getRecentlyAddedParent() {
+        boolean recentlyAddedParent;
+        try {
+            recentlyAddedParent = fetchIfNeeded().getBoolean(KEY_RECENTLY_ADDED_PARENT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            recentlyAddedParent = false;
+        }
+        return recentlyAddedParent;
+    }
+
     public void setChildDefaults() {
         setIsParent(false);
         setTotalSaved(0.0);
         setEarlyGoals(0);
-        // setSmallGoals(0);
-        // setMediumGoals(0);
-        // setLargeGoals(0);
+        setSmallGoals(0);
+        setMediumGoals(0);
+        setBigGoals(0);
         addInProgressBadges(Reward.getLevel1Badges());
         put(KEY_CLAIMED_REWARDS, new ArrayList<>());
         put(KEY_COMPLETED_BADGES, new ArrayList<>());
         put(KEY_COMPLETED_GOALS, new ArrayList<>());
         put(KEY_BANK, new ArrayList<>());
         put(KEY_PARENTS, new ArrayList<>());
+        put(KEY_RECENTLY_ADDED_PARENT, false);
     }
 
     public void setParentDefaults() {
         setIsParent(true);
         put(KEY_BANK, new ArrayList<>());
         put(KEY_CHILDREN, new ArrayList<>());
-    }
-
-    public static class Query extends ParseQuery<User> {
-        public Query() {
-            super(User.class);
-        }
-
-        public Query testUsername(String username) {
-            whereEqualTo(KEY_USERNAME, username);
-            return this;
-        }
-
-        public Query testEmail(String email) {
-            whereEqualTo(KEY_EMAIL, email);
-            return this;
-        }
+        put(KEY_CHILD_RECENTLY_UPDATED, false);
     }
 
     public int getSmallGoals() {
@@ -471,7 +591,7 @@ public class User extends ParseUser {
         return getInt(KEY_MEDIUM_GOALS);
     }
 
-    public void setMediumGoals(Integer amount){
+    public void setMediumGoals(Integer amount) {
         put(KEY_MEDIUM_GOALS, amount);
     }
 
@@ -479,8 +599,55 @@ public class User extends ParseUser {
         return getInt(KEY_BIG_GOALS);
     }
 
-    public void setBigGoals(Integer amount){
+    public void setBigGoals(Integer amount) {
         put(KEY_BIG_GOALS, amount);
     }
 
+    public Boolean getHasAllowance() {
+        boolean hasAllowance;
+        try {
+            hasAllowance = fetchIfNeeded().getBoolean(KEY_HAS_ALLOWANCE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            hasAllowance = false;
+        }
+        return hasAllowance;
+    }
+
+    public void setHasAllowance(Boolean hasAllowance) {
+        put(KEY_HAS_ALLOWANCE, hasAllowance);
+    }
+
+    public Double getAllowanceAmount() {
+        return getDouble(KEY_ALLOWANCE_AMOUNT);
+    }
+
+    public void setAllowanceAmount(Double allowanceAmount) {
+        put(KEY_ALLOWANCE_AMOUNT, allowanceAmount);
+    }
+
+    public String getAllowanceFrequency() {
+        return getString(KEY_ALLOWANCE_FREQUENCY);
+    }
+
+    public void setAllowanceFrequency(String frequency) {
+        put(KEY_ALLOWANCE_FREQUENCY, frequency);
+
+    }
+  
+  public static class Query extends ParseQuery<User> {
+        public Query() {
+            super(User.class);
+        }
+
+        public Query testUsername(String username) {
+            whereEqualTo(KEY_USERNAME, username);
+            return this;
+        }
+
+        public Query testEmail(String email) {
+            whereEqualTo(KEY_EMAIL, email);
+            return this;
+        }
+    }
 }

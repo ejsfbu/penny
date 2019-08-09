@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">-->
 
-
     <ImageView
         android:id="@+id/ivGoalDetailsImage"
         android:layout_width="60dp"
@@ -29,7 +28,7 @@
     <TextView
         android:id="@+id/tvGoalDetailsName"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/goal_name"
@@ -118,19 +117,19 @@
         android:id="@+id/tvGoalDetailsStatusTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/status"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsDateCompletedTitle" />
+        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailStatus"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
 
     <TextView
         android:id="@+id/tvGoalDetailStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/tvGoalDetailsStatusTitle"
+        android:text="In Progress"
+        app:layout_constraintEnd_toEndOf="@+id/tvGoalDetailsDateCompleted"
         app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsStatusTitle" />
 
     <TextView
@@ -319,7 +318,7 @@
         android:id="@+id/spinTimeOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:entries="@array/time_array"
         app:layout_constraintEnd_toEndOf="@+id/tvGoalDetailSavingText"
@@ -331,18 +330,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Reccomended Saving:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoalDetailsDateCompletedTitle" />
+        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsStatusTitle" />
 
     <TextView
         android:id="@+id/tvGoalDetailReccomendedSaving"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:text="$10.00 per month"
         app:layout_constraintBottom_toBottomOf="@+id/spinTimeOptions"
         app:layout_constraintStart_toEndOf="@+id/spinTimeOptions"
         app:layout_constraintTop_toTopOf="@+id/spinTimeOptions" />
@@ -351,24 +348,21 @@
         android:id="@+id/tvAutoPaymentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Payments Scheduled: "
+        android:layout_marginStart="8dp"
+        android:text="Recurring Payment: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/tvGoalDetailsStatusTitle"
-        app:layout_constraintStart_toStartOf="@+id/tvGoalDetailsStatusTitle" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvGoalDetailsTotalCostTitle" />
+  
     <TextView
         android:id="@+id/tvAutoPayFrequency"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="8dp"
-        android:text="Once a week"
+        android:text="Once a week ($10.00)"
         android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoalDetailsTotalCostTitle"
-        app:layout_constraintStart_toEndOf="@+id/tvAutoPaymentText"
-        app:layout_constraintTop_toTopOf="@+id/tvAutoPaymentText" />
+        app:layout_constraintStart_toStartOf="@+id/tvAutoPaymentText"
+        app:layout_constraintTop_toBottomOf="@+id/tvAutoPaymentText" />
 
     <!--</androidx.constraintlayout.widget.ConstraintLayout>
     <Button
