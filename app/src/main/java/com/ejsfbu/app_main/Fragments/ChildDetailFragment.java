@@ -22,25 +22,21 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
-import com.ejsfbu.app_main.DialogFragments.ChildSettingsDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.AllowanceManagerDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelAllowanceDialogFragment;
-import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ChildSettingsDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.Allowance;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.google.android.gms.vision.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
-import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -55,13 +51,11 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.view.View.GONE;
-import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
-import static com.ejsfbu.app_main.Models.Allowance.getAllAllowances;
 
 public class ChildDetailFragment extends Fragment implements
         AddAllowanceDialogFragment.AddAllowanceDialogListener,
         EditAllowanceDialogFragment.EditAllowanceDialogListener,
-        CancelAllowanceDialogFragment.CancelAllowanceDialogListener{
+        CancelAllowanceDialogFragment.CancelAllowanceDialogListener {
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
@@ -249,8 +243,7 @@ public class ChildDetailFragment extends Fragment implements
             String display = formatAllowanceText(childAllowances.get(0));
             tvChildDetailAllowanceDisplay.setVisibility(View.VISIBLE);
             tvChildDetailAllowanceDisplay.setText(display);
-        }
-        else {
+        } else {
             tvChildDetailAllowanceDisplay.setVisibility(View.GONE);
         }
     }
@@ -286,7 +279,7 @@ public class ChildDetailFragment extends Fragment implements
 
     @OnClick(R.id.fabAllowance)
     public void onClickAllowance() {
-        if (childAllowances.size()!= 0) {
+        if (childAllowances.size() != 0) {
             showEditAllowanceDialog();
         } else {
             showAddAllowanceDialog();
@@ -372,7 +365,7 @@ public class ChildDetailFragment extends Fragment implements
             }
         });
     }
-          
+
     public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance newAllowance = new Allowance();
         newAllowance.setChild(child);
@@ -391,26 +384,26 @@ public class ChildDetailFragment extends Fragment implements
             }
         });
     }
-          
+
     public void onFinishEditAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance deleteAllowance = childAllowances.get(0);
         deleteAllowance.deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                   Allowance newAllowance = new Allowance();
-                   newAllowance.setChild(child);
-                   newAllowance.setParent(parent);
-                   newAllowance.setAllowanceAmount(allowance);
-                   newAllowance.setAllowanceFrequency(frequency);
-                   newAllowance.setParentBankName(bankName);
-                   newAllowance.saveInBackground(new SaveCallback() {
-                       @Override
-                       public void done(ParseException e) {
-                           if (e == null) {
-                               fillData();
-                           } else {
-                               e.printStackTrace();
+                    Allowance newAllowance = new Allowance();
+                    newAllowance.setChild(child);
+                    newAllowance.setParent(parent);
+                    newAllowance.setAllowanceAmount(allowance);
+                    newAllowance.setAllowanceFrequency(frequency);
+                    newAllowance.setParentBankName(bankName);
+                    newAllowance.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                fillData();
+                            } else {
+                                e.printStackTrace();
                             }
                         }
                     });
