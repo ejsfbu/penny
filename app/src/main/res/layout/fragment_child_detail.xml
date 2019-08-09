@@ -9,9 +9,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -82,13 +82,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/completed_goals"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider1-2" />
+                app:layout_constraintTop_toBottomOf="@+id/cvChildDetailProfilePic" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailCompletedGoals"
@@ -119,13 +119,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/in_progress_goals"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider2-2" />
+                app:layout_constraintTop_toBottomOf="@id/rvChildDetailCompletedGoals" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailInProgressGoals"
@@ -146,23 +146,23 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/no_in_progress_goals"
                 android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals"
-                app:layout_constraintBottom_toBottomOf="@id/rvChildDetailInProgressGoals"/>
+                app:layout_constraintTop_toTopOf="@id/rvChildDetailInProgressGoals" />
 
             <TextView
                 android:id="@+id/tvChildDetailPendingRequests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/pending_requests"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider3-2" />
+                app:layout_constraintTop_toBottomOf="@id/rvChildDetailInProgressGoals" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChildDetailPendingRequests"
@@ -297,54 +297,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/rvChildDetailPendingRequests"
                 app:layout_constraintStart_toEndOf="@+id/rvChildDetailPendingRequests"
                 app:layout_constraintTop_toTopOf="@+id/rvChildDetailPendingRequests" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider1-1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/cvChildDetailProfilePic" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider1-2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider1-1" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider2-1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailCompletedGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider2-2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider2-1" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider3-1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/rvChildDetailInProgressGoals" />
-
-            <View
-                android:id="@+id/vChildDetailsDoubleDivider3-2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="2dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/vChildDetailsDoubleDivider3-1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

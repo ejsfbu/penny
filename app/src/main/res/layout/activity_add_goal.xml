@@ -33,15 +33,6 @@
                 app:srcCompat="@drawable/logo_piggy_bank"
                 tools:ignore="ContentDescription" />
 
-            <View
-                android:id="@+id/divider5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/ivAddGoalAppLogo"
-                tools:layout_editor_absoluteX="8dp" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/add_goal_goal_name_layout"
                 android:layout_width="match_parent"
@@ -120,16 +111,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivAddGoalGoalImageHolder" />
 
-            <View
-                android:id="@+id/verticalborder"
-                android:layout_width="1dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:background="#CCCCCCCC"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAddGoalImageInfo" />
-
             <ImageButton
                 android:id="@+id/ibAddGoalCamera"
                 android:layout_width="50dp"
@@ -137,25 +118,24 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/background_button_white"
-                app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
-                app:layout_constraintEnd_toStartOf="@+id/verticalborder"
+                app:layout_constraintBottom_toBottomOf="@+id/ibAddGoalPhotos"
+                app:layout_constraintEnd_toStartOf="@+id/ibAddGoalPhotos"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/verticalborder"
+                app:layout_constraintTop_toTopOf="@+id/ibAddGoalPhotos"
                 app:srcCompat="@drawable/icon_camera" />
 
             <ImageButton
                 android:id="@+id/ibAddGoalPhotos"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/background_button_white"
                 android:scaleType="center"
-                app:layout_constraintBottom_toBottomOf="@+id/verticalborder"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/verticalborder"
-                app:layout_constraintTop_toTopOf="@+id/verticalborder"
+                app:layout_constraintStart_toEndOf="@id/ibAddGoalCamera"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddGoalImageInfo"
                 app:srcCompat="@drawable/icon_photo" />
 
             <androidx.cardview.widget.CardView
@@ -170,7 +150,7 @@
                 app:cardCornerRadius="75dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/verticalborder">
+                app:layout_constraintTop_toBottomOf="@+id/ibAddGoalCamera">
 
                 <ImageView
                     android:id="@+id/ivAddGoalGoalImage"
@@ -200,7 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/add_goal_title"
                 android:textColor="@color/pig_pink"
@@ -208,7 +188,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider5" />
+                app:layout_constraintTop_toBottomOf="@+id/ivAddGoalAppLogo" />
 
             <TextView
                 android:id="@+id/tvAddGoalImageInfo"

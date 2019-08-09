@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app_main</string>
+    <string name="app_name">Penny</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
@@ -103,9 +103,11 @@
     <string name="add_child">Link Another Child</string>
     <string name="cancel">Cancel</string>
     <string name="set_up_payment">Set Up Recurring Payments</string>
-    <string name="repeat">Repeat payment every</string>
+    <string name="repeat">Repeat every</string>
     <string name="delete_bank">Delete Bank</string>
     <string name="per_day"> per day</string>
     <string name="purchase_goal">Purchase Goal</string>
     <string name="auto_pay_amount">Payment Amount</string>
+    <string name="edit_end_date">Edit Goal End Date</string>
+    <string name="edit_goal_image">Change Goal Image</string>
 </resources>
