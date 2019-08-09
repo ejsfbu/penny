@@ -104,6 +104,13 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @OnClick(R.id.bAddGoalDate)
     public void onClickDate() {
         showDatePickerDialog();
