@@ -21,11 +21,14 @@ import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static FragmentManager fragmentManager;
     private ArrayList<Reward> earnedRewards;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +100,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        User user = (User) ParseUser.getCurrentUser();
+        user = (User) ParseUser.getCurrentUser();
         earnedRewards = new ArrayList<>();
+        checkHasBeenUpdated();
+
+    }
+
+    public void checkHasBeenUpdated() {
+        User.Query query = new User.Query();
+        query.whereContainedIn(User.KEY_CHILDREN, Collections.singleton(user));
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> queriedParents, ParseException e) {
+                if (e == null) {
+                    List<User> listParents = user.getParents();
+                    if (queriedParents.size() >= listParents.size()) {
+                        user.addNewParent(queriedParents, listParents);
+                        user.setRecentlyAddedParent(false);
+                    }
+                    if (queriedParents.size() < listParents.size() && !user.getRecentlyAddedParent()) {
+                        user.unlinkParent(queriedParents, listParents);
+                    }
+                    for (int i = 0; i < queriedParents.size(); i++) {
+                        User parent = queriedParents.get(i);
+                        if (parent.getChildRecentlyUpdated()) {
+                            user.setRequiresApproval(!user.getRequiresApproval());
+                        }
+                    }
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                finishLoad();
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void finishLoad() {
         if (user.hasUpdatedGoals()) {
             user.saveInBackground(new SaveCallback() {
                 @Override
@@ -113,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         if (user.getNeedsParent()) {
-            Intent intent = new Intent(this, NeedsParentActivity.class);
-            this.startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, NeedsParentActivity.class);
+            MainActivity.this.startActivity(intent);
             finish();
         }
     }

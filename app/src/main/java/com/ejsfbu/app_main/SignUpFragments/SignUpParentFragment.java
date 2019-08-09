@@ -19,6 +19,7 @@ import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
 
@@ -237,6 +238,14 @@ public class SignUpParentFragment extends Fragment {
                     child = objects.get(0);
                     if (!child.getIsParent()) {
                         user.addChild(child);
+
+                        ParseACL parseACL = new ParseACL();
+                        parseACL.setPublicReadAccess(true);
+                        parseACL.setPublicWriteAccess(true);
+                        //parseACL.setReadAccess(child.getObjectId(), true);
+                        //parseACL.setWriteAccess(child.getObjectId(), true);
+                        user.setACL(parseACL);
+
                         finishSignUp();
                     } else {
                         Toast.makeText(SignUpParentFragment.this.getContext(),

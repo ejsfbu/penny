@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
+import com.ejsfbu.app_main.DialogFragments.ChildSettingsDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
@@ -36,6 +38,7 @@ import com.parse.ParseFile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,8 +110,12 @@ public class ChildDetailFragment extends Fragment {
     @BindView(R.id.tvChildDetailsNoPendingRequests)
     TextView tvChildDetailsNoPendingRequests;
 
+    @BindView(R.id.ibChildDetailSettings)
+    ImageButton ibChildDetailSettings;
+
     @BindView(R.id.fabAllowance)
     FloatingActionButton fabAllowance;
+
 
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
@@ -168,6 +175,7 @@ public class ChildDetailFragment extends Fragment {
         rvChildDetailPendingRequests.setLayoutManager(new LinearLayoutManager(context));
 
         fillData();
+        //getChildFromCode(((User) getArguments().getParcelable("child")).getObjectId());
     }
 
     @Override
@@ -211,9 +219,37 @@ public class ChildDetailFragment extends Fragment {
                             .transform(new CircleCrop()))
                     .into(ivChildDetailProfilePic);
         }
+
+        checkChildAge();
+
         loadCompletedGoals();
         loadInProgressGoals();
         loadPendingRequests();
+    }
+
+    public void checkChildAge() {
+        long today = System.currentTimeMillis();
+        long birthday = child.getBirthday().getTime();
+        long diffInMillies = today - birthday;
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long diffInYears = diffInDays / 365;
+        if (diffInYears < 16) {
+            ibChildDetailSettings.setVisibility(GONE);
+        } else {
+            ibChildDetailSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showChildSettingsDialog();
+                }
+            });
+        }
+    }
+
+    public void showChildSettingsDialog() {
+        ChildSettingsDialogFragment childSettingsDialogFragment
+                = ChildSettingsDialogFragment.newInstance("Child Settings", child);
+        childSettingsDialogFragment
+                .show(ParentActivity.fragmentManager, "fragment_child_settings");
     }
 
     @OnClick(R.id.fabAllowance)
