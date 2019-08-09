@@ -161,7 +161,8 @@ public class DepositDialogFragment extends DialogFragment {
             bDepositConfirm.setOnClickListener(view -> {
                 Fragment addBankFragment = new AddBankFragment();
                 MainActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.flMainContainer, addBankFragment);
+                        .replace(R.id.flMainContainer, addBankFragment)
+                        .commit();
                 dismiss();
             });
         }

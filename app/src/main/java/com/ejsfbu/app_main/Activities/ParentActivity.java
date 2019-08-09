@@ -23,8 +23,14 @@ import com.ejsfbu.app_main.Fragments.ChildListFragment;
 import com.ejsfbu.app_main.Fragments.ParentProfileFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ParentActivity extends AppCompatActivity {
 
@@ -116,13 +122,45 @@ public class ParentActivity extends AppCompatActivity {
             showVerifyChildDialog();
         }
 
+        checkChildrenCorrect();
+    }
+
+    public void checkChildrenCorrect() {
+        User.Query query = new User.Query();
+        query.whereContainedIn(User.KEY_PARENTS, Collections.singleton(parent));
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> queriedChildren, ParseException e) {
+                if (e == null) {
+                    List<User> listChildren = parent.getChildren();
+                    parent.addNewChild(queriedChildren, listChildren);
+                    parent.setChildRecentlyUpdated(false);
+                    parent.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                finishLoad();
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void finishLoad() {
+
         ParseFile image = parent.getProfilePic();
         if (image != null) {
             String imageUrl = image.getUrl();
             imageUrl = imageUrl.substring(4);
             imageUrl = "https" + imageUrl;
             RequestOptions options = new RequestOptions();
-            Glide.with(this)
+            Glide.with(ParentActivity.this)
                     .load(imageUrl)
                     .apply(options.placeholder(R.drawable.icon_user)
                             .error(R.drawable.icon_user)
@@ -134,7 +172,7 @@ public class ParentActivity extends AppCompatActivity {
         Fragment childListFragment = new ChildListFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.flParentContainer, childListFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override

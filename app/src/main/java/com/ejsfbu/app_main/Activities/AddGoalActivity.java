@@ -116,8 +116,8 @@ public class AddGoalActivity extends AppCompatActivity implements DatePickerDial
         ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
         user = (User) ParseUser.getCurrentUser();
-        user.setACL(new ParseACL(user));
-        user.saveInBackground();
+/*        user.setACL(new ParseACL(user));
+        user.saveInBackground();*/
     }
 
     @OnClick(R.id.ibAddGoalBack)

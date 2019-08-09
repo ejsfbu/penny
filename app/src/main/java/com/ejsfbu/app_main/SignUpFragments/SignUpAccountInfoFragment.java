@@ -19,6 +19,7 @@ import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
 
@@ -98,6 +99,12 @@ public class SignUpAccountInfoFragment extends Fragment {
         }
         if (confirmPasswordsMatch(password, confirmPassword)) {
             user.setPassword(password);
+
+            ParseACL parseACL = new ParseACL();
+            parseACL.setPublicReadAccess(true);
+            parseACL.setPublicWriteAccess(true);
+            user.setACL(parseACL);
+
             user.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {

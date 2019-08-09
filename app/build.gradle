@@ -31,7 +31,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
     // parse
     implementation 'com.parse.bolts:bolts-android:1.4.0'
-    implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.18.5'
+    implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.20.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     // Butterknife
     implementation 'com.jakewharton:butterknife:10.0.0'

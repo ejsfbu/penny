@@ -30,12 +30,14 @@ import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +45,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static android.view.View.GONE;
 
 public class ProfileFragment extends Fragment
         implements EditEmailDialogFragment.EditEmailDialogListener,
@@ -104,6 +109,9 @@ public class ProfileFragment extends Fragment
     TextView tvProfileParentName3;
     @BindView(R.id.tvProfileParentName4)
     TextView tvProfileParentName4;
+
+    @BindView(R.id.ibProfileParentSettings)
+    ImageButton ibProfileParentSettings;
 
     private Unbinder unbinder;
     private User user;
@@ -245,6 +253,31 @@ public class ProfileFragment extends Fragment
         }
     }
 
+    public void checkChildAge() {
+        long today = System.currentTimeMillis();
+        long birthday = user.getBirthday().getTime();
+        long diffInMillies = today - birthday;
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long diffInYears = diffInDays / 365;
+        if (diffInYears >= 18) {
+            ibProfileParentSettings.setVisibility(View.VISIBLE);
+        } else {
+            ibProfileParentSettings.setVisibility(GONE);
+        }
+    }
+
+    @OnClick(R.id.ibProfileParentSettings)
+    public void onClickParentSettings() {
+        showParentSettingsDialog();
+    }
+
+    public void showParentSettingsDialog() {
+        ParentSettingsDialogFragment parentSettingsDialogFragment
+                = ParentSettingsDialogFragment.newInstance("Parent Settings");
+        parentSettingsDialogFragment.show(
+                MainActivity.fragmentManager, "fragment_parent_settings");
+    }
+
     public void loopParents() {
         if (parents.size() == 0) {
             cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
@@ -264,8 +297,9 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 0) {
             cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
             tvProfileParentName1.setVisibility(View.VISIBLE);
-            User parent1 = (User) parents.get(0);
+            User parent1 = parents.get(0);
             setParent(parent1, ivProfileParentProfilePic1, tvProfileParentName1);
+            checkChildAge();
             if (parents.size() == 1) {
                 cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
                 tvProfileParentName2.setVisibility(View.VISIBLE);
@@ -285,7 +319,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 1) {
             cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
             tvProfileParentName2.setVisibility(View.VISIBLE);
-            User parent2 = (User) parents.get(1);
+            User parent2 = parents.get(1);
             setParent(parent2, ivProfileParentProfilePic2, tvProfileParentName2);
             if (parents.size() == 2) {
                 cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
@@ -306,7 +340,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 2) {
             cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
             tvProfileParentName3.setVisibility(View.VISIBLE);
-            User parent3 = (User) parents.get(2);
+            User parent3 = parents.get(2);
             setParent(parent3, ivProfileParentProfilePic3, tvProfileParentName3);
             if (parents.size() == 3) {
                 cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
@@ -327,7 +361,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 3) {
             cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
             tvProfileParentName4.setVisibility(View.VISIBLE);
-            User parent4 = (User) parents.get(3);
+            User parent4 = parents.get(3);
             setParent(parent4, ivProfileParentProfilePic4, tvProfileParentName4);
         }
     }
@@ -353,6 +387,9 @@ public class ProfileFragment extends Fragment
                             .transform(new CenterCrop())
                             .transform(new CircleCrop()))
                     .into(ivParentProfilePic);
+        } else {
+            ivParentProfilePic.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.icon_user));
         }
         tvParentName.setText(parent.getName());
     }
@@ -364,6 +401,18 @@ public class ProfileFragment extends Fragment
 
     @Override
     public void onFinishEditDialog() {
+        cvProfileParentProfilePic1.setOnClickListener(null);
+        cvProfileParentProfilePic1.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic2.setOnClickListener(null);
+        cvProfileParentProfilePic2.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic3.setOnClickListener(null);
+        cvProfileParentProfilePic3.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic4.setOnClickListener(null);
+        cvProfileParentProfilePic4.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
         loadProfileData();
     }
 
