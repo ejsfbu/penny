@@ -1,9 +1,14 @@
 package com.ejsfbu.app_main.DialogFragments;
 
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,5 +47,18 @@ public class ViewAllowanceDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         user = (User) ParseUser.getCurrentUser();
 
+    }
+
+    public void onResume() {
+        // Store access variables for window and blank point
+        Window window = getDialog().getWindow();
+        Point size = new Point();
+        // Store dimensions of the screen in `size`
+        Display display = window.getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+        window.setLayout((int) (size.x * 0.9), WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        // Call super onResume after sizing
+        super.onResume();
     }
 }

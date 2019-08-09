@@ -1,6 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp">
 
+    <TextView
+        android:id="@+id/tvViewAllowanceTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="View Allowance"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvViewAllowanceDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="View your allowance by selecting your parent. "
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="@+id/tvViewAllowanceTitle"
+        app:layout_constraintStart_toStartOf="@+id/tvViewAllowanceTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvViewAllowanceTitle" />
+
+    <Spinner
+        android:id="@+id/spViewAllowanceParents"
+        android:layout_width="111dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/tvViewAllowanceDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tvViewAllowanceDescription" />
+
+    <TextView
+        android:id="@+id/tvViewAllowanceDisplay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textColor="@color/pig_pink_pressed"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/spViewAllowanceParents"
+        app:layout_constraintEnd_toEndOf="@+id/tvViewAllowanceDescription"
+        app:layout_constraintStart_toEndOf="@+id/spViewAllowanceParents"
+        app:layout_constraintTop_toTopOf="@+id/spViewAllowanceParents" />
+
+    <Button
+        android:id="@+id/bViewAllowanceBack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_button_coin_blue"
+        android:text="back"
+        app:layout_constraintEnd_toEndOf="@+id/tvViewAllowanceDescription"
+        app:layout_constraintStart_toStartOf="@+id/tvViewAllowanceDescription"
+        app:layout_constraintTop_toBottomOf="@+id/spViewAllowanceParents" />
 </androidx.constraintlayout.widget.ConstraintLayout>
