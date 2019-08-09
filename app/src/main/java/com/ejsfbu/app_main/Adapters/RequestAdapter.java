@@ -19,12 +19,16 @@ import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cz.msebera.android.httpclient.entity.StringEntity;
+
+import static com.ejsfbu.app_main.BarcodeLookup.sendNotification;
 import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
@@ -120,6 +124,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                                 @Override
                                                 public void done(ParseException e) {
                                                     if (e == null) {
+                                                        User user = (User) ParseUser.getCurrentUser();
+                                                        String message = "Parent " + user.getName() + " approved your transaction.";
+                                                        sendNotification(user.getObjectId(), message);
                                                         requests.remove(request);
                                                         notifyDataSetChanged();
                                                         Toast.makeText(context, "Request Completed",
@@ -161,6 +168,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                                 @Override
                                                 public void done(ParseException e) {
                                                     if (e == null) {
+                                                        User user = (User) ParseUser.getCurrentUser();
+                                                        String message = "Parent " + user.getName() + " denied your transaction.";
+                                                        sendNotification(user.getObjectId(), message);
                                                         requests.remove(request);
                                                         notifyDataSetChanged();
                                                         Toast.makeText(context,

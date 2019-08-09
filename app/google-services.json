@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "903628201655",
-    "firebase_url": "https://penny-c82b3.firebaseio.com",
-    "project_id": "penny-c82b3",
-    "storage_bucket": "penny-c82b3.appspot.com"
+    "project_number": "581244181872",
+    "firebase_url": "https://penny-89ba2.firebaseio.com",
+    "project_id": "penny-89ba2",
+    "storage_bucket": "penny-89ba2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:903628201655:android:7cff35b1e78fa3e2",
+        "mobilesdk_app_id": "1:581244181872:android:7cff35b1e78fa3e2",
         "android_client_info": {
           "package_name": "com.ejsfbu.app_main"
         }
       },
       "oauth_client": [
         {
-          "client_id": "903628201655-kjj5klgvunqtg32vpfo5ku38qnqoikhq.apps.googleusercontent.com",
+          "client_id": "581244181872-rhkb37enfgfl7a9jpmu52gpc8cev2d7q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ejsfbu.app_main",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "903628201655-rn3lktj01p008qbt6jqpnvcbdifreli3.apps.googleusercontent.com",
+          "client_id": "581244181872-smmhumr7renc35u6s20cidea7sbutv7n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBqpvUAcO9e6Q5L7sYr_GLA0lSq23EYZ0A"
+          "current_key": "AIzaSyDrZK4fDoIieF68o0ne2CV_mMD185JNKfY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "903628201655-rn3lktj01p008qbt6jqpnvcbdifreli3.apps.googleusercontent.com",
+              "client_id": "581244181872-smmhumr7renc35u6s20cidea7sbutv7n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

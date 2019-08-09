@@ -172,8 +172,6 @@ public class GoalDetailsFragment extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         user = (User) ParseUser.getCurrentUser();
-        user.setACL(new ParseACL(user));
-        user.saveInBackground();
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_goal_details, container, false);
     }
@@ -431,8 +429,7 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    sendNotification();
-                    Toast.makeText(context, "Parent notified for approval.", Toast.LENGTH_SHORT).show();
+                    sendNotification(user.getObjectId(), request.getRequestDetails());
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

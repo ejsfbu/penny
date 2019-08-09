@@ -18,9 +18,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 import static com.parse.Parse.getApplicationContext;
 
@@ -32,6 +37,8 @@ public class BarcodeLookup {
     public static final String API_KEY_FORMAT = "formatted";
     // Tag for logging activity from api requests
     public static final String TAG = "BarcodeAPI";
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
 
     private AsyncHttpClient client1;
 
@@ -79,47 +86,54 @@ public class BarcodeLookup {
         }
     }
 
-    public static void sendNotification() {
+    // Send notification to firebase
+    public static void sendNotification(String topic, String message) {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://fcm.googleapis.com/fcm/send";
-        RequestParams params = new RequestParams();
         JSONObject payload = new JSONObject();
+        JSONObject data = new JSONObject();
         try {
-            payload.put("title", "POST");
-            payload.put("body", "test");
-            payload.put("topic", "general");
+            payload.put("title", "Penny");
+            payload.put("body", message);
+            payload.put("android_channel_id", "MyNotifications");
+            data.accumulate("notification", payload);
+            data.accumulate("content_available", true);
+            data.accumulate("to", "/topics/" + topic);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //params.add("notification", "body=Tester");
-        params.add("data", payload.toString());
-        client.addHeader("Authorization", "key=" + getApplicationContext().getResources().getString(R.string.firebase_key));
+        StringEntity body = null;
+        try {
+            body = new StringEntity(data.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        client.addHeader("Authorization", "key=" + getApplicationContext().getResources().getString(R.string.legacy_firebase_key));
         client.addHeader("Content-Type", "application/json");
-        client.pu
-        client.post(url, params, new JsonHttpResponseHandler() {
+        client.post(getApplicationContext(), url, body, "application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Parent notified for approval", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to notify parent", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to notify parentd", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to notify parent", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getApplicationContext(), "something happened", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to notify parent", Toast.LENGTH_LONG).show();
             }
 
             @Override
