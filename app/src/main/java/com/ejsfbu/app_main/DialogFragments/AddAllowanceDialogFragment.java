@@ -131,13 +131,13 @@ public class AddAllowanceDialogFragment extends DialogFragment {
     }
 
     public interface AddAllowanceDialogListener {
-        void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency);
+        void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child);
     }
 
     public void sendBackResult() {
         AddAllowanceDialogFragment.AddAllowanceDialogListener listener = (AddAllowanceDialogFragment.AddAllowanceDialogListener) getFragmentManager()
                 .findFragmentById(R.id.flParentContainer);
-        listener.onFinishAddAllowanceDialog(bankName, allowanceAmount, frequency);
+        listener.onFinishAddAllowanceDialog(bankName, allowanceAmount, frequency, currentChild);
         Toast.makeText(context, "Allowance Created", Toast.LENGTH_LONG).show();
         dismiss();
         return;

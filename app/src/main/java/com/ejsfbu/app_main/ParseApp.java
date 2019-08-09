@@ -2,6 +2,7 @@ package com.ejsfbu.app_main;
 
 import android.app.Application;
 
+import com.ejsfbu.app_main.Models.Allowance;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
@@ -65,5 +66,13 @@ public class ParseApp extends Application {
                 .server("https://youth-financial-planning.herokuapp.com/parse")
                 .build();
         Parse.initialize(configurationRequest);
+
+        ParseObject.registerSubclass(Allowance.class);
+        final Parse.Configuration configurationAllowance = new Parse.Configuration.Builder(this)
+                .applicationId("ejsfbu-money")
+                .clientKey(getResources().getString(R.string.master_key))
+                .server("https://youth-financial-planning.herokuapp.com/parse")
+                .build();
+        Parse.initialize(configurationAllowance);
     }
 }

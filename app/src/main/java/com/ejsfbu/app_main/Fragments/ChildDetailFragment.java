@@ -24,14 +24,19 @@ import com.ejsfbu.app_main.Adapters.RequestAdapter;
 import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
+import com.ejsfbu.app_main.Models.Allowance;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.google.android.gms.vision.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -45,6 +50,7 @@ import butterknife.Unbinder;
 
 import static android.view.View.GONE;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Models.Allowance.getAllowances;
 
 public class ChildDetailFragment extends Fragment implements AddAllowanceDialogFragment.AddAllowanceDialogListener {
 
@@ -116,6 +122,7 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
     private List<Goal> completedGoals;
     private List<Goal> inProgressGoals;
     private List<Request> pendingRequests;
+    private ArrayList<Allowance> childAllowances;
 
     private GoalAdapter completedGoalsAdapter;
     private GoalAdapter inProgressGoalsAdapter;
@@ -123,6 +130,7 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
 
     private Context context;
     private User child;
+    private User parent;
     private Unbinder unbinder;
 
     public static ChildDetailFragment newInstance(String title, User child) {
@@ -153,6 +161,7 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
         ParentActivity.cvParentProfilePic.setVisibility(View.GONE);
 
         child = getArguments().getParcelable("child");
+        parent = (User) ParseUser.getCurrentUser();
 
         completedGoals = new ArrayList<>();
         inProgressGoals = new ArrayList<>();
@@ -218,7 +227,8 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
         loadInProgressGoals();
         loadPendingRequests();
 
-        if (child.getHasAllowance()) {
+        childAllowances = getAllowances(child);
+        if (childAllowances.size() != 0) {
             tvChildDetailAllowanceDisplay.setVisibility(View.VISIBLE);
             tvChildDetailAllowanceDisplay.setText(formatAllowanceText());
         } else {
@@ -227,7 +237,12 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
     }
 
     public String formatAllowanceText() {
-        return child.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(child.getAllowanceAmount());
+        for(Allowance a: childAllowances) {
+            if (a.getParent().equals(parent)) {
+                return a.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(a.getAllowanceAmount());
+            }
+        }
+        return "Error";
     }
 
     @OnClick(R.id.fabAllowance)
@@ -307,7 +322,22 @@ public class ChildDetailFragment extends Fragment implements AddAllowanceDialogF
     }
 
 
-    public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency) {
-
+    public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
+        Allowance newAllowance = new Allowance();
+        newAllowance.setChild(child);
+        newAllowance.setParent(parent);
+        newAllowance.setAllowanceAmount(allowance);
+        newAllowance.setAllowanceFrequency(frequency);
+        newAllowance.setParentBankName(bankName);
+        newAllowance.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    fillData();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
