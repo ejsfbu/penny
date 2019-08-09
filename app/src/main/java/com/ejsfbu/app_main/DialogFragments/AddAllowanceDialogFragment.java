@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
+import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.ParseUser;
@@ -40,11 +45,26 @@ public class AddAllowanceDialogFragment extends DialogFragment {
     TextView tvAllowanceManagerTitle;
     @BindView(R.id.tvAllowanceManagerDescription)
     TextView tvAllowanceManagerDescription;
+    @BindView(R.id.spAllowanceBanks)
+    Spinner spAllowanceBanks;
+    @BindView(R.id.spAllowanceFrequency)
+    Spinner spAllowanceFrequency;
+    @BindView(R.id.etAllowanceAmount)
+    EditText etAllowanceAmount;
+    @BindView(R.id.bAddAllowance)
+    Button bAddAllowance;
+    @BindView(R.id.bAddAllowanceCancel)
+    Button bAddAllowanceCancel;
 
     Context context;
     User parent;
     Unbinder unbinder;
     static User currentChild;
+    static User currentParent;
+
+    String bankName;
+    Double allowanceAmount;
+    String frequency;
 
     public AddAllowanceDialogFragment() {
 
@@ -56,6 +76,7 @@ public class AddAllowanceDialogFragment extends DialogFragment {
         args.putString("title", title);
         frag.setArguments(args);
         currentChild = user;
+        currentParent = (User) ParseUser.getCurrentUser();
         return frag;
     }
 
@@ -82,12 +103,81 @@ public class AddAllowanceDialogFragment extends DialogFragment {
     }
 
     public void setButtons() {
+        bAddAllowance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bankName = spAllowanceBanks.getSelectedItem().toString();
 
-        //set up cancel and add allowance
+                String amountString = etAllowanceAmount.getText().toString();
+                if (amountString.equals("")) {
+                    Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    allowanceAmount = Double.valueOf(amountString);
+                }
+
+                frequency = spAllowanceFrequency.getSelectedItem().toString();
+                sendBackResult();
+                return;
+            }
+        });
+
+        bAddAllowanceCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
     }
 
-    public void setSpinners() {
+    public interface AddAllowanceDialogListener {
+        void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child);
+    }
 
+    public void sendBackResult() {
+        AddAllowanceDialogFragment.AddAllowanceDialogListener listener = (AddAllowanceDialogFragment.AddAllowanceDialogListener) getFragmentManager()
+                .findFragmentById(R.id.flParentContainer);
+        listener.onFinishAddAllowanceDialog(bankName, allowanceAmount, frequency, currentChild);
+        Toast.makeText(context, "Allowance Created", Toast.LENGTH_LONG).show();
+        dismiss();
+        return;
+    }
+
+
+    public void setSpinners() {
+        setAllowanceFrequencySpinner();
+        setParentBankSpinner();
+    }
+
+    public void setAllowanceFrequencySpinner() {
+        ArrayList<String> frequency = new ArrayList<>();
+        frequency.add("Daily");
+        frequency.add("Weekly");
+        frequency.add("Monthly");
+        ArrayAdapter<String> frequencyAdapter =
+                new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, frequency);
+        frequencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spAllowanceFrequency.setAdapter(frequencyAdapter);
+    }
+
+
+    public void setParentBankSpinner() {
+        List<BankAccount> parentBanks = new ArrayList<>();
+        parentBanks = currentParent.getVerifiedBanks();
+        ArrayList<String> array = new ArrayList<>();
+        if (parentBanks != null) {
+            for (BankAccount bank : parentBanks) {
+                array.add(bank.getBankName());
+            }
+        }
+
+        if (array.size() == 0) {
+            array.add("No verified banks available");
+        }
+        ArrayAdapter<String> bankAdapter =
+                new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, array);
+        bankAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spAllowanceBanks.setAdapter(bankAdapter);
     }
 
     public void onResume() {
