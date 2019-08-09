@@ -22,25 +22,21 @@ import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
 import com.ejsfbu.app_main.Adapters.RequestAdapter;
-import com.ejsfbu.app_main.DialogFragments.ChildSettingsDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.AddAllowanceDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.AllowanceManagerDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.CancelAllowanceDialogFragment;
-import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ChildSettingsDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.Allowance;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.google.android.gms.vision.L;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
-import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -60,7 +56,7 @@ import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 public class ChildDetailFragment extends Fragment implements
         AddAllowanceDialogFragment.AddAllowanceDialogListener,
         EditAllowanceDialogFragment.EditAllowanceDialogListener,
-        CancelAllowanceDialogFragment.CancelAllowanceDialogListener{
+        CancelAllowanceDialogFragment.CancelAllowanceDialogListener {
 
     @BindView(R.id.tvChildDetailName)
     TextView tvChildDetailName;
@@ -71,54 +67,20 @@ public class ChildDetailFragment extends Fragment implements
 
     @BindView(R.id.rvChildDetailCompletedGoals)
     RecyclerView rvChildDetailCompletedGoals;
-    @BindView(R.id.vChildDetailsCompletedGoalsTop)
-    View vChildDetailsCompletedGoalsTop;
-    @BindView(R.id.vChildDetailsCompletedGoalsBottom)
-    View vChildDetailsCompletedGoalsBottom;
-    @BindView(R.id.vChildDetailsCompletedGoalsLeft)
-    View vChildDetailsCompletedGoalsLeft;
-    @BindView(R.id.vChildDetailsCompletedGoalsRight)
-    View vChildDetailsCompletedGoalsRight;
     @BindView(R.id.tvChildDetailsNoCompletedGoals)
     TextView tvChildDetailsNoCompletedGoals;
-
-    @BindView(R.id.vChildDetailsDoubleDivider2_1)
-    View vChildDetailsDoubleDivider2_1;
-    @BindView(R.id.vChildDetailsDoubleDivider2_2)
-    View vChildDetailsDoubleDivider2_2;
 
     @BindView(R.id.tvChildDetailInProgressGoals)
     TextView tvChildDetailInProgressGoals;
     @BindView(R.id.rvChildDetailInProgressGoals)
     RecyclerView rvChildDetailInProgressGoals;
-    @BindView(R.id.vChildDetailsInProgressGoalsTop)
-    View vChildDetailsInProgressGoalsTop;
-    @BindView(R.id.vChildDetailsInProgressGoalsBottom)
-    View vChildDetailsInProgressGoalsBottom;
-    @BindView(R.id.vChildDetailsInProgressGoalsLeft)
-    View vChildDetailsInProgressGoalsLeft;
-    @BindView(R.id.vChildDetailsInProgressGoalsRight)
-    View vChildDetailsInProgressGoalsRight;
     @BindView(R.id.tvChildDetailsNoInProgressGoals)
     TextView tvChildDetailsNoInProgressGoals;
-
-    @BindView(R.id.vChildDetailsDoubleDivider3_1)
-    View vChildDetailsDoubleDivider3_1;
-    @BindView(R.id.vChildDetailsDoubleDivider3_2)
-    View vChildDetailsDoubleDivider3_2;
 
     @BindView(R.id.tvChildDetailPendingRequests)
     TextView tvChildDetailPendingRequests;
     @BindView(R.id.rvChildDetailPendingRequests)
     RecyclerView rvChildDetailPendingRequests;
-    @BindView(R.id.vChildDetailsPendingRequestsTop)
-    View vChildDetailsPendingRequestsTop;
-    @BindView(R.id.vChildDetailsPendingRequestsBottom)
-    View vChildDetailsPendingRequestsBottom;
-    @BindView(R.id.vChildDetailsPendingRequestsLeft)
-    View vChildDetailsPendingRequestsLeft;
-    @BindView(R.id.vChildDetailsPendingRequestsRight)
-    View vChildDetailsPendingRequestsRight;
     @BindView(R.id.tvChildDetailsNoPendingRequests)
     TextView tvChildDetailsNoPendingRequests;
     @BindView(R.id.tvChildDetailAllowanceDisplay)
@@ -248,8 +210,7 @@ public class ChildDetailFragment extends Fragment implements
             String display = formatAllowanceText(childAllowances.get(0));
             tvChildDetailAllowanceDisplay.setVisibility(View.VISIBLE);
             tvChildDetailAllowanceDisplay.setText(display);
-        }
-        else {
+        } else {
             tvChildDetailAllowanceDisplay.setVisibility(View.GONE);
         }
     }
@@ -285,7 +246,7 @@ public class ChildDetailFragment extends Fragment implements
 
     @OnClick(R.id.fabAllowance)
     public void onClickAllowance() {
-        if (childAllowances.size()!= 0) {
+        if (childAllowances.size() != 0) {
             showEditAllowanceDialog();
         } else {
             showAddAllowanceDialog();
@@ -318,14 +279,16 @@ public class ChildDetailFragment extends Fragment implements
     public void loadCompletedGoals() {
         List<Goal> goals = child.getCompletedGoals();
         if (goals == null || goals.size() == 0) {
-            vChildDetailsCompletedGoalsBottom.setVisibility(GONE);
-            vChildDetailsCompletedGoalsLeft.setVisibility(GONE);
-            vChildDetailsCompletedGoalsRight.setVisibility(GONE);
-            vChildDetailsCompletedGoalsTop.setVisibility(GONE);
             tvChildDetailsNoCompletedGoals.setVisibility(View.VISIBLE);
         } else {
             completedGoals.clear();
-            completedGoals.addAll(goals);
+            if (goals.size() < 10) {
+                completedGoals.addAll(goals);
+            } else {
+                for (int i = 0; i < 10; i ++) {
+                    completedGoals.add(goals.get(i));
+                }
+            }
             Collections.sort(completedGoals);
             Collections.reverse(completedGoals);
             completedGoalsAdapter.notifyDataSetChanged();
@@ -336,14 +299,16 @@ public class ChildDetailFragment extends Fragment implements
         List<Goal> goals = child.getInProgressGoals();
         if (goals == null || goals.size() == 0) {
             rvChildDetailInProgressGoals.setMinimumHeight(20);
-            vChildDetailsInProgressGoalsBottom.setVisibility(GONE);
-            vChildDetailsInProgressGoalsLeft.setVisibility(GONE);
-            vChildDetailsInProgressGoalsRight.setVisibility(GONE);
-            vChildDetailsInProgressGoalsTop.setVisibility(GONE);
             tvChildDetailsNoInProgressGoals.setVisibility(View.VISIBLE);
         } else {
             inProgressGoals.clear();
-            inProgressGoals.addAll(goals);
+            if (goals.size() < 10) {
+                inProgressGoals.addAll(goals);
+            } else {
+                for (int i = 0; i < 10; i++) {
+                    inProgressGoals.add(goals.get(i));
+                }
+            }
             Collections.sort(completedGoals);
             inProgressGoalsAdapter.notifyDataSetChanged();
         }
@@ -358,14 +323,16 @@ public class ChildDetailFragment extends Fragment implements
                 if (e == null) {
                     if (objects.size() == 0) {
                         rvChildDetailPendingRequests.setMinimumHeight(20);
-                        vChildDetailsPendingRequestsBottom.setVisibility(GONE);
-                        vChildDetailsPendingRequestsLeft.setVisibility(GONE);
-                        vChildDetailsPendingRequestsRight.setVisibility(GONE);
-                        vChildDetailsPendingRequestsTop.setVisibility(GONE);
                         tvChildDetailsNoPendingRequests.setVisibility(View.VISIBLE);
                     } else {
                         pendingRequests.clear();
-                        pendingRequests.addAll(objects);
+                        if (objects.size() < 5) {
+                            pendingRequests.addAll(objects);
+                        } else {
+                            for (int i = 0; i < 5; i ++) {
+                                pendingRequests.add(objects.get(i));
+                            }
+                        }
                         pendingRequestsAdapter.notifyDataSetChanged();
                     }
                 } else {
@@ -374,7 +341,7 @@ public class ChildDetailFragment extends Fragment implements
             }
         });
     }
-          
+
     public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance newAllowance = new Allowance();
         newAllowance.setChild(child);
@@ -393,26 +360,26 @@ public class ChildDetailFragment extends Fragment implements
             }
         });
     }
-          
+
     public void onFinishEditAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance deleteAllowance = childAllowances.get(0);
         deleteAllowance.deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                   Allowance newAllowance = new Allowance();
-                   newAllowance.setChild(child);
-                   newAllowance.setParent(parent);
-                   newAllowance.setAllowanceAmount(allowance);
-                   newAllowance.setAllowanceFrequency(frequency);
-                   newAllowance.setParentBankName(bankName);
-                   newAllowance.saveInBackground(new SaveCallback() {
-                       @Override
-                       public void done(ParseException e) {
-                           if (e == null) {
-                               fillData();
-                           } else {
-                               e.printStackTrace();
+                    Allowance newAllowance = new Allowance();
+                    newAllowance.setChild(child);
+                    newAllowance.setParent(parent);
+                    newAllowance.setAllowanceAmount(allowance);
+                    newAllowance.setAllowanceFrequency(frequency);
+                    newAllowance.setParentBankName(bankName);
+                    newAllowance.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                fillData();
+                            } else {
+                                e.printStackTrace();
                             }
                         }
                     });

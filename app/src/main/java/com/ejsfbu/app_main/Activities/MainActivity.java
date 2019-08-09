@@ -167,6 +167,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (ibGoalDetailsBack.getVisibility() == View.VISIBLE) {
+            bottomNavigationView.setSelectedItemId(R.id.miGoals);
+            ibGoalDetailsBack.setVisibility(View.GONE);
+        }
+        if (ibRewardGoalDetailsBack.getVisibility() == View.VISIBLE) {
+            bottomNavigationView.setSelectedItemId(R.id.miRewards);
+            ibRewardGoalDetailsBack.setVisibility(View.GONE);
+        }
+        if (ibBanksListBack.getVisibility() == View.VISIBLE) {
+            bottomNavigationView.setSelectedItemId(R.id.miProfile);
+            ibBanksListBack.setVisibility(View.GONE);
+        }
+        if (ibBankDetailsBack.getVisibility() == View.VISIBLE) {
+            Fragment fragment = new BanksListFragment();
+            MainActivity.fragmentManager.beginTransaction()
+                    .replace(R.id.flMainContainer, fragment).commit();
+            ibBankDetailsBack.setVisibility(View.GONE);
+        }
+    }
+
     private void setNavigationClick() {
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             Fragment fragment;

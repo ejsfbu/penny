@@ -23,13 +23,12 @@
         android:id="@+id/bDepositConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_pig_pink"
         android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/verticalborder"
+        app:layout_constraintStart_toEndOf="@id/bDepositCancel"
         app:layout_constraintTop_toBottomOf="@+id/etDepositAmount" />
 
     <Button
@@ -40,19 +39,9 @@
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_coin_blue"
         android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@+id/verticalborder"
+        app:layout_constraintEnd_toStartOf="@+id/bDepositConfirm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bDepositConfirm" />
-
-    <View
-        android:id="@+id/verticalborder"
-        android:layout_width="1dp"
-        android:layout_height="60dp"
-        android:background="#CCCCCCCC"
-        app:layout_constraintBottom_toBottomOf="@+id/bDepositCancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bDepositConfirm" />
 
     <EditText
         android:id="@+id/etDepositAmount"
