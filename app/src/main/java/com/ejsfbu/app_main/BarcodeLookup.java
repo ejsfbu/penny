@@ -83,10 +83,19 @@ public class BarcodeLookup {
         AsyncHttpClient client = new AsyncHttpClient();
         String url = "https://fcm.googleapis.com/fcm/send";
         RequestParams params = new RequestParams();
-        //params.add("key", getApplicationContext().getResources().getString(R.string.firebase_key));
-        params.add("notification", "body=Tester");
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("title", "POST");
+            payload.put("body", "test");
+            payload.put("topic", "general");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //params.add("notification", "body=Tester");
+        params.add("data", payload.toString());
         client.addHeader("Authorization", "key=" + getApplicationContext().getResources().getString(R.string.firebase_key));
         client.addHeader("Content-Type", "application/json");
+        client.pu
         client.post(url, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
