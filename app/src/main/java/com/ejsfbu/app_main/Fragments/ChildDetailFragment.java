@@ -54,6 +54,7 @@ import butterknife.Unbinder;
 
 import static android.view.View.GONE;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
+import static com.ejsfbu.app_main.Models.Allowance.getAllAllowances;
 
 public class ChildDetailFragment extends Fragment implements
         AddAllowanceDialogFragment.AddAllowanceDialogListener,
@@ -355,7 +356,7 @@ public class ChildDetailFragment extends Fragment implements
             }
         });
     }
-
+          
     public void onFinishAddAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance newAllowance = new Allowance();
         newAllowance.setChild(child);
@@ -374,7 +375,7 @@ public class ChildDetailFragment extends Fragment implements
             }
         });
     }
-
+          
     public void onFinishEditAllowanceDialog(String bankName, Double allowance, String frequency, User child) {
         Allowance deleteAllowance = childAllowances.get(0);
         deleteAllowance.deleteInBackground(new DeleteCallback() {
