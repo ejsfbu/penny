@@ -61,11 +61,6 @@ public class ChildDetailFragment extends Fragment {
     @BindView(R.id.tvChildDetailsNoCompletedGoals)
     TextView tvChildDetailsNoCompletedGoals;
 
-    @BindView(R.id.vChildDetailsDoubleDivider2_1)
-    View vChildDetailsDoubleDivider2_1;
-    @BindView(R.id.vChildDetailsDoubleDivider2_2)
-    View vChildDetailsDoubleDivider2_2;
-
     @BindView(R.id.tvChildDetailInProgressGoals)
     TextView tvChildDetailInProgressGoals;
     @BindView(R.id.rvChildDetailInProgressGoals)
@@ -80,11 +75,6 @@ public class ChildDetailFragment extends Fragment {
     View vChildDetailsInProgressGoalsRight;
     @BindView(R.id.tvChildDetailsNoInProgressGoals)
     TextView tvChildDetailsNoInProgressGoals;
-
-    @BindView(R.id.vChildDetailsDoubleDivider3_1)
-    View vChildDetailsDoubleDivider3_1;
-    @BindView(R.id.vChildDetailsDoubleDivider3_2)
-    View vChildDetailsDoubleDivider3_2;
 
     @BindView(R.id.tvChildDetailPendingRequests)
     TextView tvChildDetailPendingRequests;
