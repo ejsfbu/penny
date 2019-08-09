@@ -254,7 +254,7 @@ public class ChildDetailFragment extends Fragment implements
         }
     }
 
-    public String formatAllowanceText(Allowance allowance) {
+    public static String formatAllowanceText(Allowance allowance) {
         return allowance.getAllowanceFrequency() + " Allowance of " + GoalDetailsFragment.formatCurrency(allowance.getAllowanceAmount());
     }
 
