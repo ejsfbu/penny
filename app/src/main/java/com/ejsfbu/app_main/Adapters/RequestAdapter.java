@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.Transaction;
+import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.DeleteCallback;
 import com.parse.ParseException;

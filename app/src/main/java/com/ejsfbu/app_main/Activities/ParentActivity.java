@@ -185,9 +185,9 @@ public class ParentActivity extends AppCompatActivity {
         }
         // user subscribe to topics
         subscribeTopic("general");
-        for (User child: parent.getChildren()) {
+        for (User child : parent.getChildren()) {
             subscribeTopic(child.getObjectId());
-                
+        }
     }
 
     @Override
