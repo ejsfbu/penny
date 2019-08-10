@@ -128,7 +128,7 @@ public class BarcodeLookup {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Toast.makeText(getApplicationContext(), "Failed to notify parentd", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Failed to notify parent", Toast.LENGTH_LONG).show();
             }
 
             @Override
