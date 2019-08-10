@@ -91,6 +91,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                 goal.addSaved(transaction.getAmount());
                                 goal.setDailySavings(Goal.calculateDailySaving(goal));
                                 goal.setUpdatesMade(true);
+
                                 if (goal.getSaved() >= goal.getCost()) {
                                     goal.setCompleted(true);
                                     Date endDate = goal.getEndDate();
