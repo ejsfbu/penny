@@ -24,9 +24,12 @@ import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.DialogFragments.CancelGoalDialogFragment;
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
 import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -138,7 +141,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Clicked Goal", goal);
-                    //launch the details view
                     if (!user.getIsParent()) {
                         if ((purpose == null) && (cancelled == null)) {
                             Fragment fragment = new GoalDetailsFragment();
@@ -147,7 +149,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                                     .replace(R.id.flMainContainer, fragment)
                                     .commitAllowingStateLoss();
                         } else {
-                            //transfers money to this goal
                             Double saved = cancelled.getSaved();
                             boolean approval;
                             if (user.getRequiresApproval()) {
@@ -162,11 +163,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                                 public void done(ParseException e) {
                                     if (e == null) {
                                         handleCancelledGoal(goal, transfer);
-                                        //sends you to that detail goal
-                                        Fragment fragment = new GoalDetailsFragment();
-                                        fragment.setArguments(bundle);
-                                        MainActivity.fragmentManager.beginTransaction()
-                                                .replace(R.id.flMainContainer, fragment).commit();
                                     } else {
                                         Toast.makeText(context, "Transfer Failed",
                                                 Toast.LENGTH_SHORT).show();
@@ -194,11 +190,44 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
                 Toast.makeText(context, "Parent notified for approval",
                         Toast.LENGTH_SHORT).show();
             }
-            //deletes the goal
-            cancelled.deleteInBackground();
-            // might need to delay these for fragment change
-            goal.addTransaction(transaction);
-            goal.saveInBackground();
+
+            user.removeInProgressGoal(cancelled);
+            user.saveInBackground();
+            for (Transaction trans : cancelled.getTransactions()) {
+                Request.Query requestQuery = new Request.Query();
+                requestQuery.whereEqualTo(Request.KEY_TRANSACTION, trans);
+                requestQuery.findInBackground(new FindCallback<Request>() {
+                    @Override
+                    public void done(List<Request> objects, ParseException e) {
+                        if (e == null) {
+                            for (Request request : objects) {
+                                request.deleteInBackground();
+                            }
+                            trans.deleteInBackground();
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+            cancelled.deleteInBackground(new DeleteCallback() {
+                @Override
+                public void done(ParseException e) {
+                    goal.addTransaction(transaction);
+                    goal.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable("Clicked Goal", goal);
+                            Fragment fragment = new GoalDetailsFragment();
+                            fragment.setArguments(bundle);
+                            MainActivity.fragmentManager.beginTransaction()
+                                    .replace(R.id.flMainContainer, fragment).commit();
+                        }
+                    });
+                }
+            });
         }
 
         public String formatDateString(String date) {

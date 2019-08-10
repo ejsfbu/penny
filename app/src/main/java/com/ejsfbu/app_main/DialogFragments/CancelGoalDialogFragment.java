@@ -21,10 +21,12 @@ import com.ejsfbu.app_main.Fragments.GoalsListFragment;
 import com.ejsfbu.app_main.Fragments.TransferGoalFragment;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
+import com.ejsfbu.app_main.Models.Request;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -91,7 +93,22 @@ public class CancelGoalDialogFragment extends DialogFragment {
                 user.removeInProgressGoal(cancelledGoal);
                 user.saveInBackground();
                 for (Transaction transaction : cancelledGoal.getTransactions()) {
-                    transaction.deleteInBackground();
+                    Request.Query requestQuery = new Request.Query();
+                    requestQuery.whereEqualTo(Request.KEY_TRANSACTION, transaction);
+                    requestQuery.findInBackground(new FindCallback<Request>() {
+                        @Override
+                        public void done(List<Request> objects, ParseException e) {
+                            if (e == null) {
+                                for (Request request : objects) {
+                                    request.deleteInBackground();
+                                }
+                                transaction.deleteInBackground();
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
                 }
                 cancelledGoal.deleteInBackground(new DeleteCallback() {
                     @Override
