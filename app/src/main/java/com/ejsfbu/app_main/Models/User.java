@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static com.ejsfbu.app_main.Activities.MainActivity.subscribeTopic;
+
 @ParseClassName("_User")
 public class User extends ParseUser {
 
@@ -174,6 +176,7 @@ public class User extends ParseUser {
     }
 
     public void addChild(User child) {
+        subscribeTopic(child.getObjectId());
         addAllUnique(KEY_CHILDREN, Collections.singleton(child));
     }
 
@@ -208,6 +211,7 @@ public class User extends ParseUser {
     }
 
     public void addParent(User parent) {
+        subscribeTopic(parent.getObjectId() + ParseUser.getCurrentUser().getObjectId());
         addAllUnique(KEY_PARENTS, Collections.singleton(parent));
     }
 

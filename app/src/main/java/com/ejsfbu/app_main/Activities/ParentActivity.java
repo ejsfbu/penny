@@ -1,6 +1,9 @@
 package com.ejsfbu.app_main.Activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -31,6 +34,8 @@ import com.parse.SaveCallback;
 
 import java.util.Collections;
 import java.util.List;
+
+import static com.ejsfbu.app_main.Activities.MainActivity.subscribeTopic;
 
 public class ParentActivity extends AppCompatActivity {
 
@@ -171,8 +176,18 @@ public class ParentActivity extends AppCompatActivity {
 
         Fragment childListFragment = new ChildListFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.flParentContainer, childListFragment)
-                .commitAllowingStateLoss();
+                .replace(R.id.flParentContainer, childListFragment).commitAllowingStateLoss();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("MyNotifications", "MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        // user subscribe to topics
+        subscribeTopic("general");
+        for (User child: parent.getChildren()) {
+            subscribeTopic(child.getObjectId());
+                
     }
 
     @Override

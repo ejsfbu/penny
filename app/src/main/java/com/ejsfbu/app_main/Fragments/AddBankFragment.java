@@ -55,8 +55,10 @@ public class AddBankFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         user = (User) ParseUser.getCurrentUser();
+
         /*user.setACL(new ParseACL(user));
         user.saveInBackground();*/
+
         return inflater.inflate(R.layout.fragment_add_bank, container, false);
     }
 

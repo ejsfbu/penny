@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "581244181872",
+    "firebase_url": "https://penny-89ba2.firebaseio.com",
+    "project_id": "penny-89ba2",
+    "storage_bucket": "penny-89ba2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581244181872:android:7cff35b1e78fa3e2",
+        "android_client_info": {
+          "package_name": "com.ejsfbu.app_main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581244181872-rhkb37enfgfl7a9jpmu52gpc8cev2d7q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ejsfbu.app_main",
+            "certificate_hash": "039f99f8ef1c85aaba262e2dd4ca7aa5dc4ce83d"
+          }
+        },
+        {
+          "client_id": "581244181872-smmhumr7renc35u6s20cidea7sbutv7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrZK4fDoIieF68o0ne2CV_mMD185JNKfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581244181872-smmhumr7renc35u6s20cidea7sbutv7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

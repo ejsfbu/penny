@@ -85,6 +85,8 @@ public class GoalsListFragment extends Fragment {
     }
 
     protected void loadGoals() {
+        goalList.clear();
+        adapter.notifyDataSetChanged();
         List<Goal> goals = user.getInProgressGoals();
         if (goals == null || goals.size() == 0) {
             tvNoGoalText.setVisibility(View.VISIBLE);

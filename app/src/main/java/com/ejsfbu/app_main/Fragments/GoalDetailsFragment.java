@@ -43,6 +43,7 @@ import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.Transaction;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -66,6 +67,10 @@ import static com.ejsfbu.app_main.Activities.MainActivity.bottomNavigationView;
 import static com.ejsfbu.app_main.Activities.MainActivity.fragmentManager;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibGoalDetailsBack;
 import static com.ejsfbu.app_main.Activities.MainActivity.ibRewardGoalDetailsBack;
+
+import static com.ejsfbu.app_main.BarcodeLookup.sendNotification;
+import static com.ejsfbu.app_main.Models.Reward.checkCompletedGoals;
+
 import static com.ejsfbu.app_main.Models.Reward.checkEarnedRewards;
 
 public class GoalDetailsFragment extends Fragment implements
@@ -468,8 +473,7 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(context, "Parent notified for approval.",
-                            Toast.LENGTH_SHORT).show();
+                    sendNotification(user.getObjectId(), request.getRequestDetails());
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -663,5 +667,6 @@ public class GoalDetailsFragment extends Fragment implements
 
         });
     }
+
 }
 
