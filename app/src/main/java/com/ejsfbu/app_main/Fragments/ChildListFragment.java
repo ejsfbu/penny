@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Adapters.ChildAdapter;
 import com.ejsfbu.app_main.DialogFragments.AddChildDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.VerifyChildDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -29,7 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ChildListFragment extends Fragment implements AddChildDialogFragment.AddChildDialogListener {
+public class ChildListFragment extends Fragment
+        implements AddChildDialogFragment.AddChildDialogListener {
 
     public static final String TAG = "ChildListFragment";
 
@@ -46,7 +47,8 @@ public class ChildListFragment extends Fragment implements AddChildDialogFragmen
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_child_list, container, false);
@@ -96,10 +98,17 @@ public class ChildListFragment extends Fragment implements AddChildDialogFragmen
     }
 
     protected void loadChildren() {
-        List<User> children = user.getChildren();
-        if (children != null) {
-            this.children.addAll(children);
+        List<User> kids = user.getChildren();
+        if (kids != null) {
+            children.addAll(kids);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public void showVerifyChildDialog() {
+        VerifyChildDialogFragment verifyChildDialogFragment
+                = VerifyChildDialogFragment.newInstance("Verify Child");
+        verifyChildDialogFragment.show(ParentActivity.fragmentManager,
+                "fragment_verify_child");
     }
 }

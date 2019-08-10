@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="15dp">
@@ -14,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="@string/set_up_payment"
+        android:text="@string/auto_pay"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,32 +60,32 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/tvRepeatTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvRepeatTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/etAutoPaymentAmount" />
 
     <TextView
         android:id="@+id/tvRepeatTitle"
-        android:layout_width="109dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="@string/repeat"
         android:textAppearance="@style/TextAppearance.Compat.Notification.Title.Media"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/spTimesRepeated"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAutoPaymentAmount" />
+        app:layout_constraintTop_toTopOf="@+id/spTimesRepeated" />
 
     <Button
         android:id="@+id/bSetUpAutoPaymentConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_pig_pink"
         android:text="@string/confirm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/vbSetUpAutoPayment"
+        app:layout_constraintStart_toEndOf="@id/bSetUpAutoPaymentCancel"
         app:layout_constraintTop_toBottomOf="@+id/spFrequency" />
 
     <Button
@@ -97,20 +96,8 @@
         android:layout_marginEnd="8dp"
         android:background="@drawable/background_button_coin_blue"
         android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@+id/vbSetUpAutoPayment"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/bSetUpAutoPaymentConfirm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bSetUpAutoPaymentConfirm" />
-
-    <View
-        android:id="@+id/vbSetUpAutoPayment"
-        android:layout_width="1dp"
-        android:layout_height="60dp"
-        android:background="#CCCCCCCC"
-        app:layout_constraintBottom_toBottomOf="@+id/bSetUpAutoPaymentConfirm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bSetUpAutoPaymentConfirm"
-        app:layout_constraintVertical_bias="0.333" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.ejsfbu.app_main.DialogFragments;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -20,13 +19,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.Fragments.AddBankFragment;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.Goal;
-import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
 
@@ -92,7 +87,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
 
                 String amountString = etAutoPaymentAmount.getText().toString();
                 if (amountString.equals("")) {
-                    Toast.makeText(context,"Please enter a value.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Please enter a value.", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     amount = Double.valueOf(amountString);
@@ -117,7 +112,7 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
         });
     }
 
-    public void setAdapters(){
+    public void setAdapters() {
         ArrayList<String> numArray = new ArrayList<>();
         for (int i = 1; i < 100; i++) {
             StringBuilder num = new StringBuilder();
@@ -167,14 +162,17 @@ public class SetUpAutoPaymentDialogFragment extends DialogFragment {
     }
 
     public interface SetUpAutoPaymentDialogListener {
-        void onFinishSetUpAutoPaymentDialog(String bankName, Double amount, String timesRepeated, String frequency);
+        void onFinishSetUpAutoPaymentDialog(String bankName, Double amount,
+                                            String timesRepeated, String frequency);
     }
 
     public void sendBackResult() {
-        SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener listener = (SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener) getFragmentManager()
-                .findFragmentById(R.id.flMainContainer);
+        SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener listener
+                = (SetUpAutoPaymentDialogFragment.SetUpAutoPaymentDialogListener)
+                getFragmentManager()
+                        .findFragmentById(R.id.flMainContainer);
         listener.onFinishSetUpAutoPaymentDialog(bankName, amount, timesRepeated, frequency);
-        Toast.makeText(context, "Automatic Recurring Payment Created", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Successfully Set Up Auto Pay", Toast.LENGTH_LONG).show();
         dismiss();
         return;
     }

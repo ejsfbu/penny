@@ -152,7 +152,8 @@ public class RewardDetailDialogFragment extends DialogFragment {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                Toast.makeText(context, "Reward claimed!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "Reward claimed!",
+                                        Toast.LENGTH_LONG).show();
                                 dismiss();
                             } else {
                                 e.printStackTrace();

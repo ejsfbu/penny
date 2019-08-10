@@ -21,8 +21,8 @@ import androidx.fragment.app.DialogFragment;
 
 import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.SignUpActivity;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -137,6 +137,12 @@ public class NeedsParentDialogFragment extends DialogFragment {
     public void updateUser() {
         user.addParent(parent);
         user.setNeedsParent(false);
+
+        /*ParseACL parseACL = new ParseACL();
+        parseACL.setReadAccess(parent.getObjectId(), true);
+        parseACL.setWriteAccess(parent.getObjectId(), true);
+        user.setACL(parseACL);*/
+
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

@@ -16,9 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.ParentActivity;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
 
@@ -142,10 +143,6 @@ public class SignUpParentFragment extends Fragment {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(getActivity(), "Sign Up Success",
-                                Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Sign Up Success");
-
                         Intent intent = new Intent(SignUpParentFragment.this.getContext(),
                                 ParentActivity.class);
                         intent.putExtra("isFirstLogin", true);
@@ -237,6 +234,14 @@ public class SignUpParentFragment extends Fragment {
                     child = objects.get(0);
                     if (!child.getIsParent()) {
                         user.addChild(child);
+
+                        ParseACL parseACL = new ParseACL();
+                        parseACL.setPublicReadAccess(true);
+                        parseACL.setPublicWriteAccess(true);
+                        //parseACL.setReadAccess(child.getObjectId(), true);
+                        //parseACL.setWriteAccess(child.getObjectId(), true);
+                        user.setACL(parseACL);
+
                         finishSignUp();
                     } else {
                         Toast.makeText(SignUpParentFragment.this.getContext(),

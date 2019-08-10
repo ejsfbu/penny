@@ -16,21 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ejsfbu.app_main.Activities.MainActivity;
 import com.ejsfbu.app_main.Adapters.BadgeRowAdapter;
 import com.ejsfbu.app_main.Adapters.GoalAdapter;
-import com.ejsfbu.app_main.Models.User;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.BadgeRow;
 import com.ejsfbu.app_main.Models.Goal;
 import com.ejsfbu.app_main.Models.Reward;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,21 +44,25 @@ public class RewardsFragment extends Fragment {
     RecyclerView rvRewardsInProgressBadges;
     @BindView(R.id.tvNoCompletedGoalsText)
     TextView tvNoCompletedGoalsText;
+    @BindView(R.id.tvNoCompletedBadgesText)
+    TextView tvNoCompletedBadgesText;
+    @BindView(R.id.tvNoInProgressBadgesText)
+    TextView tvNoInProgressBadgesText;
 
     private Unbinder unbinder;
     private Context context;
     private User user;
 
-    protected GoalAdapter goalAdapter;
-    protected BadgeRowAdapter completedBadgeRowAdapter;
-    protected BadgeRowAdapter inProgressBadgeRowAdapter;
+    private GoalAdapter goalAdapter;
+    private BadgeRowAdapter completedBadgeRowAdapter;
+    private BadgeRowAdapter inProgressBadgeRowAdapter;
 
     protected List<Goal> goals;
-    protected List<BadgeRow> completedBadgeRows;
-    protected List<BadgeRow> inProgressBadgeRows;
+    private List<BadgeRow> completedBadgeRows;
+    private List<BadgeRow> inProgressBadgeRows;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         context = container.getContext();
         return inflater.inflate(R.layout.fragment_badges, container, false);
@@ -108,27 +105,39 @@ public class RewardsFragment extends Fragment {
         unbinder.unbind();
     }
 
-    protected void loadCompletedGoals() {
+    private void loadCompletedGoals() {
         List<Goal> completedGoals = user.getCompletedGoals();
-        if (completedGoals == null || completedGoals.size() == 0 ) {
+        if (completedGoals == null || completedGoals.size() == 0) {
             tvNoCompletedGoalsText.setVisibility(View.VISIBLE);
         } else {
-            tvNoCompletedGoalsText.setVisibility(View.GONE);
-            goals.addAll(completedGoals);
+            tvNoCompletedGoalsText.setVisibility(View.INVISIBLE);
+            if (completedGoals.size() < 10) {
+                goals.addAll(completedGoals);
+            } else {
+                for (int i = 0; i < 10; i++) {
+                    goals.add(completedGoals.get(i));
+                }
+            }
             goalAdapter.notifyDataSetChanged();
         }
     }
 
-    protected void loadCompletedBadges() {
+    private void loadCompletedBadges() {
         List<Reward> completedBadges = user.getCompletedBadges();
-        if (completedBadges != null) {
+        if (completedBadges == null || completedBadges.size() == 0) {
+            tvNoCompletedBadgesText.setVisibility(View.VISIBLE);
+        } else {
+            tvNoCompletedBadgesText.setVisibility(View.INVISIBLE);
             makeBadgeRows(completedBadges, completedBadgeRowAdapter, completedBadgeRows);
         }
     }
 
-    protected void loadInProgressBadges() {
+    private void loadInProgressBadges() {
         List<Reward> inProgressBadges = user.getInProgressBadges();
-        if (inProgressBadges != null) {
+        if (inProgressBadges == null || inProgressBadges.size() == 0) {
+            tvNoInProgressBadgesText.setVisibility(View.VISIBLE);
+        } else {
+            tvNoInProgressBadgesText.setVisibility(View.INVISIBLE);
             makeBadgeRows(inProgressBadges, inProgressBadgeRowAdapter, inProgressBadgeRows);
         }
     }

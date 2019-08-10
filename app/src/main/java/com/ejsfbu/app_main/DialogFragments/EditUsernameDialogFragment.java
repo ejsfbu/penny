@@ -120,8 +120,6 @@ public class EditUsernameDialogFragment extends DialogFragment {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Username changed successfully.",
-                                Toast.LENGTH_SHORT).show();
                         sendBackResult();
                     } else {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -141,17 +139,20 @@ public class EditUsernameDialogFragment extends DialogFragment {
             public void done(List<User> objects, ParseException e) {
                 if (e == null) {
                     if (objects.size() == 0) {
-                        etEditUsernameUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
-                                .getColor(android.R.color.holo_green_dark));
+                        etEditUsernameUsername.setTextColor(
+                                EditUsernameDialogFragment.this.getResources()
+                                        .getColor(android.R.color.holo_green_dark));
                         usernameUnique = true;
                     } else {
                         if (username.equals(user.getUsername())) {
-                            etEditUsernameUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
-                                    .getColor(android.R.color.holo_green_dark));
+                            etEditUsernameUsername.setTextColor(
+                                    EditUsernameDialogFragment.this.getResources()
+                                            .getColor(android.R.color.holo_green_dark));
                             usernameUnique = true;
                         } else {
-                            etEditUsernameUsername.setTextColor(EditUsernameDialogFragment.this.getResources()
-                                    .getColor(android.R.color.holo_red_dark));
+                            etEditUsernameUsername.setTextColor(
+                                    EditUsernameDialogFragment.this.getResources()
+                                            .getColor(android.R.color.holo_red_dark));
                             usernameUnique = false;
                         }
                     }

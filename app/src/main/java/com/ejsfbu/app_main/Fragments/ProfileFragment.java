@@ -23,31 +23,30 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.ejsfbu.app_main.Activities.LoginActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.DialogFragments.AddParentDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditEmailDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditNameDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditPasswordDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditProfileImageDialogFragment;
 import com.ejsfbu.app_main.DialogFragments.EditUsernameDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ParentSettingsDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ReferFriendDialogFragment;
+import com.ejsfbu.app_main.DialogFragments.ViewAllowanceDialogFragment;
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static android.view.View.GONE;
 
 public class ProfileFragment extends Fragment
         implements EditEmailDialogFragment.EditEmailDialogListener,
@@ -60,11 +59,15 @@ public class ProfileFragment extends Fragment
 
     @BindView(R.id.bProfileLogout)
     Button bProfileLogout;
+    @BindView(R.id.bProfileReferFriend)
+    Button bProfileReferFriend;
 
     @BindView(R.id.ibProfileEditName)
     ImageButton ibProfileEditName;
     @BindView(R.id.ibProfileEditUsername)
     ImageButton ibProfileEditUsername;
+    @BindView(R.id.ibProfileParentSettings)
+    ImageButton ibProfileParentSettings;
 
     @BindView(R.id.cvProfileParentProfilePic1)
     CardView cvProfileParentProfilePic1;
@@ -104,6 +107,8 @@ public class ProfileFragment extends Fragment
     TextView tvProfileParentName3;
     @BindView(R.id.tvProfileParentName4)
     TextView tvProfileParentName4;
+    @BindView(R.id.bProfileViewAllowance)
+    Button bProfileViewAllowance;
 
     private Unbinder unbinder;
     private User user;
@@ -146,6 +151,11 @@ public class ProfileFragment extends Fragment
         getActivity().finish();
     }
 
+    @OnClick(R.id.bProfileReferFriend)
+    public void onClickReferFriend() {
+        showReferFriendDialog();
+    }
+
     @OnClick(R.id.ibProfileEditName)
     public void onClickEditName() {
         showEditNameDialog();
@@ -181,6 +191,24 @@ public class ProfileFragment extends Fragment
         Fragment bankFragment = new BanksListFragment();
         MainActivity.fragmentManager.beginTransaction()
                 .replace(R.id.flMainContainer, bankFragment).commit();
+    }
+
+    @OnClick(R.id.bProfileViewAllowance)
+    public void onClickViewAllowance() {
+        showViewAllowanceDialog();
+    }
+
+    private void showViewAllowanceDialog() {
+        ViewAllowanceDialogFragment viewAllowanceDialogFragment
+                = ViewAllowanceDialogFragment.newInstance("View Allowance");
+        viewAllowanceDialogFragment.show(
+                MainActivity.fragmentManager, "fragment_view_allowance");
+    }
+
+    private void showReferFriendDialog() {
+        ReferFriendDialogFragment referFriendDialogFragment
+                = ReferFriendDialogFragment.newInstance("Refer Friend");
+        referFriendDialogFragment.show(MainActivity.fragmentManager, "fragment_refer_friend");
     }
 
     private void showEditNameDialog() {
@@ -229,7 +257,7 @@ public class ProfileFragment extends Fragment
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                             .error(R.drawable.icon_user)
                             .transform(new CenterCrop())
-                            .transform(new CircleCrop())) // Extra: round image corners
+                            .transform(new CircleCrop()))
                     .into(ivProfileChildProfilePic);
         }
         tvProfileUsername.setText(user.getUsername());
@@ -243,6 +271,31 @@ public class ProfileFragment extends Fragment
             this.parents.addAll(parents);
             loopParents();
         }
+    }
+
+    public void checkChildAge() {
+        long today = System.currentTimeMillis();
+        long birthday = user.getBirthday().getTime();
+        long diffInMillies = today - birthday;
+        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long diffInYears = diffInDays / 365;
+        if (diffInYears >= 18) {
+            ibProfileParentSettings.setVisibility(View.VISIBLE);
+        } else {
+            ibProfileParentSettings.setVisibility(GONE);
+        }
+    }
+
+    @OnClick(R.id.ibProfileParentSettings)
+    public void onClickParentSettings() {
+        showParentSettingsDialog();
+    }
+
+    public void showParentSettingsDialog() {
+        ParentSettingsDialogFragment parentSettingsDialogFragment
+                = ParentSettingsDialogFragment.newInstance("Parent Settings");
+        parentSettingsDialogFragment.show(
+                MainActivity.fragmentManager, "fragment_parent_settings");
     }
 
     public void loopParents() {
@@ -264,8 +317,9 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 0) {
             cvProfileParentProfilePic1.setVisibility(View.VISIBLE);
             tvProfileParentName1.setVisibility(View.VISIBLE);
-            User parent1 = (User) parents.get(0);
+            User parent1 = parents.get(0);
             setParent(parent1, ivProfileParentProfilePic1, tvProfileParentName1);
+            checkChildAge();
             if (parents.size() == 1) {
                 cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
                 tvProfileParentName2.setVisibility(View.VISIBLE);
@@ -285,7 +339,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 1) {
             cvProfileParentProfilePic2.setVisibility(View.VISIBLE);
             tvProfileParentName2.setVisibility(View.VISIBLE);
-            User parent2 = (User) parents.get(1);
+            User parent2 = parents.get(1);
             setParent(parent2, ivProfileParentProfilePic2, tvProfileParentName2);
             if (parents.size() == 2) {
                 cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
@@ -306,7 +360,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 2) {
             cvProfileParentProfilePic3.setVisibility(View.VISIBLE);
             tvProfileParentName3.setVisibility(View.VISIBLE);
-            User parent3 = (User) parents.get(2);
+            User parent3 = parents.get(2);
             setParent(parent3, ivProfileParentProfilePic3, tvProfileParentName3);
             if (parents.size() == 3) {
                 cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
@@ -327,7 +381,7 @@ public class ProfileFragment extends Fragment
         if (parents.size() > 3) {
             cvProfileParentProfilePic4.setVisibility(View.VISIBLE);
             tvProfileParentName4.setVisibility(View.VISIBLE);
-            User parent4 = (User) parents.get(3);
+            User parent4 = parents.get(3);
             setParent(parent4, ivProfileParentProfilePic4, tvProfileParentName4);
         }
     }
@@ -353,6 +407,9 @@ public class ProfileFragment extends Fragment
                             .transform(new CenterCrop())
                             .transform(new CircleCrop()))
                     .into(ivParentProfilePic);
+        } else {
+            ivParentProfilePic.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.icon_user));
         }
         tvParentName.setText(parent.getName());
     }
@@ -364,6 +421,18 @@ public class ProfileFragment extends Fragment
 
     @Override
     public void onFinishEditDialog() {
+        cvProfileParentProfilePic1.setOnClickListener(null);
+        cvProfileParentProfilePic1.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic2.setOnClickListener(null);
+        cvProfileParentProfilePic2.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic3.setOnClickListener(null);
+        cvProfileParentProfilePic3.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
+        cvProfileParentProfilePic4.setOnClickListener(null);
+        cvProfileParentProfilePic4.setBackground(getResources()
+                .getDrawable(R.drawable.background_button_circle_coin_white));
         loadProfileData();
     }
 

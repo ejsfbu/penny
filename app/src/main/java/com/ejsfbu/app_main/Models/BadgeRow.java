@@ -53,7 +53,7 @@ public class BadgeRow {
     }
 
     public static void makeBadgeRows(List<Reward> rewards, BadgeRowAdapter badgeRowAdapter,
-                               List<BadgeRow> badgeRows) {
+                                     List<BadgeRow> badgeRows) {
         for (int i = 0; i < rewards.size() - (rewards.size() % 5); i += 5) {
             BadgeRow badgeRow = new BadgeRow();
             badgeRow.setBadge1(rewards.get(i));

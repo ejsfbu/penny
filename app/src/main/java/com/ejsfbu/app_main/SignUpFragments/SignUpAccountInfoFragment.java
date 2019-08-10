@@ -14,11 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.ejsfbu.app_main.Activities.AddGoalActivity;
 import com.ejsfbu.app_main.Activities.MainActivity;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.User;
+import com.ejsfbu.app_main.R;
 import com.parse.FindCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.SignUpCallback;
 
@@ -98,14 +98,16 @@ public class SignUpAccountInfoFragment extends Fragment {
         }
         if (confirmPasswordsMatch(password, confirmPassword)) {
             user.setPassword(password);
+
+            ParseACL parseACL = new ParseACL();
+            parseACL.setPublicReadAccess(true);
+            parseACL.setPublicWriteAccess(true);
+            user.setACL(parseACL);
+
             user.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(getActivity(), "Sign Up Success",
-                                Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Sign Up Success");
-
                         Intent intent = new Intent(getActivity(),
                                 MainActivity.class);
                         startActivity(intent);

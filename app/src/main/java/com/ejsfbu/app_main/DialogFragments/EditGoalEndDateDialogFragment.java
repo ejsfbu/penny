@@ -36,7 +36,8 @@ import java.util.Date;
 
 import static com.ejsfbu.app_main.Models.Goal.calculateDailySaving;
 
-public class EditGoalEndDateDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class EditGoalEndDateDialogFragment extends DialogFragment
+        implements DatePickerDialog.OnDateSetListener {
 
     Context context;
     Button bCancel;
@@ -46,7 +47,8 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
     ImageButton calendar;
     static Goal selectedGoal;
 
-    public EditGoalEndDateDialogFragment() {}
+    public EditGoalEndDateDialogFragment() {
+    }
 
     public static EditGoalEndDateDialogFragment newInstance(String title, Goal goal) {
         EditGoalEndDateDialogFragment frag = new EditGoalEndDateDialogFragment();
@@ -79,7 +81,7 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
     }
 
 
-    public void setListeners(){
+    public void setListeners() {
         bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +96,8 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
                 if (confirmCorrectDateFormat(newDate.getText().toString())) {
                     endDate = parseDate(newDate.getText().toString());
                     if (endDate == null) {
-                        Toast.makeText(context, "Enter new end date as mm/dd/yyyy", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Enter new end date as mm/dd/yyyy",
+                                Toast.LENGTH_LONG).show();
                         return;
                     }
                     long today = System.currentTimeMillis();
@@ -105,37 +108,35 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
                         return;
                     }
                 } else {
-                    Toast.makeText(context, "Enter new end date as mm/dd/yyyy", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Enter new end date as mm/dd/yyyy",
+                            Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                if (endDate.toString().equals(selectedGoal.getEndDate().toString())) {
-                    Toast.makeText(context, "This is the same goal completion date. Please enter a new goal completion date", Toast.LENGTH_LONG).show();
-                } else {
-                    selectedGoal.setEndDate(endDate);
-                    selectedGoal.setDailySavings(calculateDailySaving(selectedGoal));
-                    selectedGoal.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                Toast.makeText(context, "Successful!", Toast.LENGTH_LONG).show();
-                                sendBackResult();
-                            } else {
-                                Toast.makeText(context, "Failure!", Toast.LENGTH_LONG).show();
-                            }
+                selectedGoal.setEndDate(endDate);
+                selectedGoal.setDailySavings(calculateDailySaving(selectedGoal));
+                selectedGoal.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(context, "Successful!", Toast.LENGTH_LONG).show();
+                            sendBackResult();
+                        } else {
+                            Toast.makeText(context, "Failure!", Toast.LENGTH_LONG).show();
                         }
-                    });
-                }
+                    }
+                });
+
             }
 
         });
 
-       calendar.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               showDatePickerDialog();
-           }
-       });
+        calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog();
+            }
+        });
     }
 
     // Defines the listener interface
@@ -204,7 +205,8 @@ public class EditGoalEndDateDialogFragment extends DialogFragment implements Dat
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         Log.d("EditGoalEndDateDialog", String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
 
-        String date = formatDate(monthOfYear, "month") + "/" + formatDate(dayOfMonth, "day") + "/" + formatDate(year, "year");
+        String date = formatDate(monthOfYear, "month") + "/"
+                + formatDate(dayOfMonth, "day") + "/" + formatDate(year, "year");
         newDate.setText(date);
     }
 

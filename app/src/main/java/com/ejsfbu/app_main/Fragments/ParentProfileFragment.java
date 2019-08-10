@@ -74,8 +74,6 @@ public class ParentProfileFragment extends Fragment
     Button bParentProfileLogout;
     @BindView(R.id.bParentProfileBankInfo)
     Button bParentProfileBankInfo;
-    @BindView(R.id.bParentProfileAddChild)
-    Button bParentProfileAddChild;
 
     private User user;
     private Unbinder unbinder;
@@ -83,7 +81,8 @@ public class ParentProfileFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         context = container.getContext();
         user = (User) ParseUser.getCurrentUser();
         return inflater.inflate(R.layout.fragment_parent_profile, container, false);
@@ -223,5 +222,5 @@ public class ParentProfileFragment extends Fragment
     public void onFinishEditDialog() {
         loadProfileData();
     }
-    
+
 }

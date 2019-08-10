@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ejsfbu.app_main.Fragments.GoalDetailsFragment;
-import com.ejsfbu.app_main.R;
 import com.ejsfbu.app_main.Models.Transaction;
+import com.ejsfbu.app_main.R;
 
 import java.util.List;
 

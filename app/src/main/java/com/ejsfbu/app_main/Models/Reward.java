@@ -1,23 +1,13 @@
 package com.ejsfbu.app_main.Models;
 
-import android.widget.ScrollView;
-
-import com.ejsfbu.app_main.R;
-
-import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
-import com.parse.ParseUser;
-
-
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @ParseClassName("Reward")
@@ -132,7 +122,7 @@ public class Reward extends ParseObject {
         }
 
         Reward mediumGoalReward = checkMediumGoals(user);
-        if (mediumGoalReward !=null) {
+        if (mediumGoalReward != null) {
             earnedRewards.add(mediumGoalReward);
         }
 
@@ -369,7 +359,7 @@ public class Reward extends ParseObject {
         });
         return earnedReward;
     }
-  
+
     public static Reward checkEarnedTotalSavedBadge(User user) {
         Double totalSaved = user.getTotalSaved();
         ArrayList<Reward> totalSavedBadges = getTotalSavedBadges();

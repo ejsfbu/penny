@@ -4,12 +4,6 @@ package com.ejsfbu.app_main.DialogFragments;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +14,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Models.User;
 import com.ejsfbu.app_main.R;
@@ -128,6 +127,11 @@ public class AddChildDialogFragment extends DialogFragment {
                         User child = objects.get(0);
                         if (!child.getIsParent()) {
                             user.addChild(objects.get(0));
+
+                            /*ParseACL parseACL = new ParseACL();
+                            parseACL.setReadAccess(child.getObjectId(), true);
+                            user.setACL(parseACL);*/
+
                             user.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
