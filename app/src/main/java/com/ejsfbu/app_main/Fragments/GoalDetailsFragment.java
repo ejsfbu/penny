@@ -378,24 +378,36 @@ public class GoalDetailsFragment extends Fragment implements
                 bankSet = bank;
             }
         }
-        if (user.getRequiresApproval()) {
-            approval = false;
+        if (!user.getIsParent()) {
+            if (user.getRequiresApproval()) {
+                approval = false;
+            } else {
+                approval = true;
+            }
         } else {
             approval = true;
         }
-        Transaction transaction = new Transaction(
-                user, bankSet, amount, goal, approval, false);
+
+        Transaction transaction = new Transaction(user, bankSet, amount, goal, approval, false);
         // TODO SET ACL CHANGE LATER
         ParseACL acl = new ParseACL(user);
         acl.setPublicWriteAccess(true);
         acl.setPublicReadAccess(true);
         transaction.setACL(acl);
+
+        transaction.setRecentlyApproved(true);
+
         transaction.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     if (user.getIsParent()) {
+                        transaction.getBank().withdraw(transaction.getAmount());
+                        goal.addSaved(transaction.getAmount());
+                        goal.setDailySavings(Goal.calculateDailySaving(goal));
+
                         goal.addTransaction(transaction);
+                        goal.setUpdatesMade(true);
                         goal.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
@@ -403,10 +415,32 @@ public class GoalDetailsFragment extends Fragment implements
                                     transactionsList.clear();
                                     adapter.notifyDataSetChanged();
                                     loadTransactions();
+                                    setGoalInfo(); //try to
+                                    if (goal.getSaved() >= goal.getCost()) {
+                                        goal.setCompleted(true);
+                                        Date endDate = goal.getEndDate();
+                                        Date currentTime = Calendar.getInstance().getTime();
+                                        if (endDate.compareTo(currentTime) > 0) {
+                                            goal.setCompletedEarly(true);
+                                        } else {
+                                            goal.setCompletedEarly(false);
+                                        }
+                                        goal.setDateCompleted(currentTime);
+                                        goal.setEndDate(currentTime); //until here
+                                        goal.saveInBackground(new SaveCallback() { //do for parent after set updates made true
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if (e == null) {
+                                                    Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show(); //do for parent
+                                                    setGoalInfo(); //do for parent
+                                                } else {
+                                                    e.printStackTrace();
+                                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
                                     setGoalInfo();
-                                    Toast.makeText(context, "Deposit complete.", Toast.LENGTH_SHORT).show();
-                                    //TODO Update this function so that the functionality works for parent depositing for a child
-                                    //checkCompleted(goal);
                                 } else {
                                     e.printStackTrace();
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -416,7 +450,6 @@ public class GoalDetailsFragment extends Fragment implements
                     } else {
                         checkTransactionApproval(transaction);
                     }
-
                 } else {
                     e.printStackTrace();
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -427,22 +460,22 @@ public class GoalDetailsFragment extends Fragment implements
 
     private void checkTransactionApproval(Transaction transaction) {
         if (transaction.getApproval()) {
-            transaction.getBank().withdraw(transaction.getAmount());
-            goal.addSaved(transaction.getAmount());
-            goal.setDailySavings(Goal.calculateDailySaving(goal));
+            transaction.getBank().withdraw(transaction.getAmount()); //do for parent
+            goal.addSaved(transaction.getAmount()); //do for parent
+            goal.setDailySavings(Goal.calculateDailySaving(goal)); //do for parent
             user.setTotalSaved(user.getTotalSaved() + transaction.getAmount());
         } else {
             createRequest(transaction);
         }
-        goal.addTransaction(transaction);
-        goal.saveInBackground(new SaveCallback() {
+        goal.addTransaction(transaction); //do for parent
+        goal.saveInBackground(new SaveCallback() { //do for parent
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    transactionsList.clear();
-                    adapter.notifyDataSetChanged();
-                    loadTransactions();
-                    setGoalInfo();
+                    transactionsList.clear(); //do for parent
+                    adapter.notifyDataSetChanged(); //do for parent
+                    loadTransactions(); //do for parent
+                    setGoalInfo(); //do for parent
                     if (transaction.getApproval()) {
                         Toast.makeText(context, "Deposit complete.",
                                 Toast.LENGTH_SHORT).show();
@@ -556,8 +589,8 @@ public class GoalDetailsFragment extends Fragment implements
     }
 
     public void checkCompleted(Goal goal) {
-        if (goal.getSaved() >= goal.getCost()) {
-            goal.setCompleted(true);
+        if (goal.getSaved() >= goal.getCost()) {//do for parent
+            goal.setCompleted(true); //do for parent
             Date endDate = goal.getEndDate();
             Date currentTime = Calendar.getInstance().getTime();
             if (endDate.compareTo(currentTime) > 0) {
@@ -566,12 +599,12 @@ public class GoalDetailsFragment extends Fragment implements
                 goal.setCompletedEarly(false);
             }
             goal.setDateCompleted(currentTime);
-            goal.setEndDate(currentTime);
-            goal.saveInBackground(new SaveCallback() {
+            goal.setEndDate(currentTime); //until here
+            goal.saveInBackground(new SaveCallback() { //do for parent after set updates made true
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
-                        Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Goal Completed!", Toast.LENGTH_LONG).show(); //do for parent
                         if (goal.getCompletedEarly()) {
                             user.setEarlyGoals(user.getEarlyGoals() + 1);
                         }
@@ -598,7 +631,7 @@ public class GoalDetailsFragment extends Fragment implements
                                 }
                             }
                         });
-                        setGoalInfo();
+                        setGoalInfo(); //do for parent
                     } else {
                         e.printStackTrace();
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -21,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.ejsfbu.app_main.Activities.MainActivity;
+import com.ejsfbu.app_main.Activities.ParentActivity;
 import com.ejsfbu.app_main.Fragments.AddBankFragment;
 import com.ejsfbu.app_main.Models.BankAccount;
 import com.ejsfbu.app_main.Models.User;
@@ -165,12 +166,20 @@ public class DepositDialogFragment extends DialogFragment {
             bDepositConfirm.setText("Add bank");
             bDepositConfirm.setOnClickListener(view -> {
                 Fragment addBankFragment = new AddBankFragment();
-                MainActivity.fragmentManager.beginTransaction()
-                        .replace(R.id.flMainContainer, addBankFragment)
-                        .commit();
-                dismiss();
+                if (user.getIsParent()) {
+                    ParentActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.flParentContainer, addBankFragment)
+                            .commit();
+                    dismiss();
+                } else {
+                    MainActivity.fragmentManager.beginTransaction()
+                            .replace(R.id.flMainContainer, addBankFragment)
+                            .commit();
+                    dismiss();
+                }
             });
         }
+
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
