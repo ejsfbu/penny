@@ -56,10 +56,12 @@
         android:id="@+id/bAddParentConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/background_button_pig_pink"
         android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/bAddParentCancel"
         app:layout_constraintTop_toBottomOf="@+id/add_parent_code_layout" />
