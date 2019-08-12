@@ -83,6 +83,7 @@
                 android:layout_marginStart="8dp"
                 android:text="@string/hidden_password"
                 android:textColor="@color/pig_pink"
+                android:textIsSelectable="true"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/tvChildDetailAccountCodeTitle"

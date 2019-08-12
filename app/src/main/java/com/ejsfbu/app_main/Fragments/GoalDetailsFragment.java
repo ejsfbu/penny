@@ -473,6 +473,8 @@ public class GoalDetailsFragment extends Fragment implements
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    Toast.makeText(context, "Parent notified for approval",
+                            Toast.LENGTH_SHORT).show();
                     sendNotification(user.getObjectId(), request.getRequestDetails());
                 } else {
                     e.printStackTrace();

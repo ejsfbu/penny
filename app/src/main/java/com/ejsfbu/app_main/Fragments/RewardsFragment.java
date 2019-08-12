@@ -111,10 +111,10 @@ public class RewardsFragment extends Fragment {
             tvNoCompletedGoalsText.setVisibility(View.VISIBLE);
         } else {
             tvNoCompletedGoalsText.setVisibility(View.INVISIBLE);
-            if (completedGoals.size() < 10) {
+            if (completedGoals.size() < 8) {
                 goals.addAll(completedGoals);
             } else {
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 8; i++) {
                     goals.add(completedGoals.get(i));
                 }
             }

@@ -184,11 +184,11 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.ViewHolder> {
         private void handleCancelledGoal(Goal goal, Transaction transaction) {
             if (transaction.getApproval()) {
                 goal.setSaved(goal.getSaved() + transaction.getAmount());
-                Toast.makeText(context, "Money Transferred",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(context, "Money Transferred",
+                        Toast.LENGTH_SHORT).show();*/
             } else {
-                Toast.makeText(context, "Parent notified for approval",
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(context, "Parent notified for approval",
+                        Toast.LENGTH_SHORT).show();*/
             }
 
             user.removeInProgressGoal(cancelled);

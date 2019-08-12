@@ -121,7 +121,7 @@ public class BarcodeLookup {
         client.post(getApplicationContext(), url, body, "application/json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Toast.makeText(getApplicationContext(), "Parent notified for approval", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Parent notified for approval", Toast.LENGTH_LONG).show();
             }
 
             @Override
