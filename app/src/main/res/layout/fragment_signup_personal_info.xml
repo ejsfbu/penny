@@ -108,7 +108,7 @@
 
     <TextView
         android:id="@+id/tvSignUpPersonalInfoInviterInfo"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -123,7 +123,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/sign_up_personal_info_inviter_code_layout"
-        android:layout_width="395dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"

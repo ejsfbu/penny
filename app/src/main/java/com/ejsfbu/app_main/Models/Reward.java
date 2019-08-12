@@ -134,7 +134,6 @@ public class Reward extends ParseObject {
         return earnedRewards;
     }
 
-    // check to see if they have completed enough goals for a reward.
     public static Reward checkCompletedGoals(User user) {
         int numberCompleted = user.getNumberGoalsCompleted();
         List<Reward> rewards = getGoalGroupBadges();
@@ -551,7 +550,7 @@ public class Reward extends ParseObject {
     public static Reward checkSmallGoals(User user) {
         ArrayList<Reward> smallGoalBadges = new Reward().getSmallGoalsBadges();
         Reward earnedBadge = null;
-        if (user.getSmallGoals() >= 20) {
+        if (user.getSmallGoals() >= 50) {
             if (userHasBadge(user, smallGoalBadges.get(4).getObjectId())) {
                 earnedBadge = null;
             } else {
@@ -569,7 +568,7 @@ public class Reward extends ParseObject {
                 });
                 earnedBadge = smallGoalBadges.get(4);
             }
-        } else if (user.getSmallGoals() >= 15) {
+        } else if (user.getSmallGoals() >= 25) {
             if (userHasBadge(user, smallGoalBadges.get(3).getObjectId())) {
                 earnedBadge = null;
             } else {
@@ -671,7 +670,7 @@ public class Reward extends ParseObject {
     public static Reward checkMediumGoals(User user) {
         ArrayList<Reward> mediumGoalBadges = new Reward().getMediumGoalsBadges();
         Reward earnedBadge = null;
-        if (user.getMediumGoals() >= 20) {
+        if (user.getMediumGoals() >= 50) {
             if (userHasBadge(user, mediumGoalBadges.get(4).getObjectId())) {
                 earnedBadge = null;
             } else {
@@ -689,7 +688,7 @@ public class Reward extends ParseObject {
                 });
                 earnedBadge = mediumGoalBadges.get(4);
             }
-        } else if (user.getMediumGoals() >= 15) {
+        } else if (user.getMediumGoals() >= 25) {
             if (userHasBadge(user, mediumGoalBadges.get(3).getObjectId())) {
                 earnedBadge = null;
             } else {
@@ -792,7 +791,7 @@ public class Reward extends ParseObject {
     public static Reward checkBigGoals(User user) {
         ArrayList<Reward> bigGoalBadges = new Reward().getBigGoalsBadges();
         Reward earnedBadge = null;
-        if (user.getBigGoals() >= 20) {
+        if (user.getBigGoals() >= 50) {
             if (userHasBadge(user, bigGoalBadges.get(4).getObjectId())) {
                 earnedBadge = null;
             } else {
@@ -810,7 +809,7 @@ public class Reward extends ParseObject {
                 });
                 earnedBadge = bigGoalBadges.get(4);
             }
-        } else if (user.getBigGoals() >= 15) {
+        } else if (user.getBigGoals() >= 25) {
             if (userHasBadge(user, bigGoalBadges.get(3).getObjectId())) {
                 earnedBadge = null;
             } else {

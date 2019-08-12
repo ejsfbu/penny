@@ -6,6 +6,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -334,14 +335,14 @@ public class User extends ParseUser {
         final List<Goal> completedGoals = getCompletedGoals();
         if (completedGoals != null) {
             removeAll(KEY_COMPLETED_GOALS, completedGoals);
-            try {
-                save();
-                completedGoals.add(0, goal);
-                Collections.sort(completedGoals);
-                addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    completedGoals.add(0, goal);
+                    Collections.sort(completedGoals);
+                    addAllUnique(KEY_COMPLETED_GOALS, completedGoals);
+                }
+            });
         } else {
             addAll(KEY_COMPLETED_GOALS, Collections.singleton(goal));
         }
@@ -419,7 +420,7 @@ public class User extends ParseUser {
                         if (goal.getCost() <= 10.00) {
                             setSmallGoals(getSmallGoals() + 1);
                         }
-                        if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00)) {
+                        if ((goal.getCost() >= 25.00) && (goal.getCost() <= 50.00)) {
                             setMediumGoals(getMediumGoals() + 1);
                         }
                         if (goal.getCost() >= 100.00) {

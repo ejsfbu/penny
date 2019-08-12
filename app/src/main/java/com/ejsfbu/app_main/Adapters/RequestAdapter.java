@@ -94,11 +94,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                 transaction.getBank().withdraw(transaction.getAmount());
                                 Goal goal = transaction.getGoal();
                                 goal.addSaved(transaction.getAmount());
+                                Double saved = goal.getSaved();
+                                Double cost = goal.getCost();
+                                Date endDate = goal.getEndDate();
+
                                 goal.setDailySavings(Goal.calculateDailySaving(goal));
                                 goal.setUpdatesMade(true);
-                                if (goal.getSaved() >= goal.getCost()) {
+                                if (saved >= cost) {
                                     goal.setCompleted(true);
-                                    Date endDate = goal.getEndDate();
                                     Date currentTime = Calendar.getInstance().getTime();
                                     if (endDate.compareTo(currentTime) > 0) {
                                         goal.setCompletedEarly(true);
@@ -107,16 +110,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                     }
                                     goal.setDateCompleted(currentTime);
                                     goal.setEndDate(currentTime);
-                                    goal.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (e != null) {
-                                                e.printStackTrace();
-                                                Toast.makeText(context, e.getMessage(),
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
                                 }
                                 goal.saveInBackground(new SaveCallback() {
                                     @Override

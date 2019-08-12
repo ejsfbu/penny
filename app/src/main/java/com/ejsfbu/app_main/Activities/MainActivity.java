@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         ibBankDetailsBack.setVisibility(View.GONE);
 
         fragmentManager = getSupportFragmentManager();
-        setNavigationClick();
 
         ibGoalDetailsBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(intent);
             finish();
         }
+        setNavigationClick();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("MyNotifications", "MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);

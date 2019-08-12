@@ -578,7 +578,7 @@ public class GoalDetailsFragment extends Fragment implements
                         if (goal.getCost() <= 10.00) {
                             user.setSmallGoals(user.getSmallGoals() + 1);
                         }
-                        if ((goal.getCost() >= 20.00) && (goal.getCost() <= 40.00)) {
+                        if ((goal.getCost() >= 25.00) && (goal.getCost() <= 50.00)) {
                             user.setMediumGoals(user.getMediumGoals() + 1);
                         }
                         if (goal.getCost() >= 100.00) {
